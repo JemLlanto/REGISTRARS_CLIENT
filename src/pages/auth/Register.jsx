@@ -1,0 +1,74 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const Login = ({ setActivePage }) => {
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:5000/api/auth/login", { inputs })
+      .then((result) => {
+        console.log(result);
+        alert("Login successful!");
+        navigate("/Home");
+      })
+      .catch((errors) => console.log(errors));
+  };
+  return (
+    <>
+      <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+        <div className="card p-4 shadow-sm" style={{ width: "25rem" }}>
+          <h2 className="text-center mb-4">Login Page</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={inputs.email}
+                onChange={handleChange}
+                className="form-control"
+              />
+              {errors.firstName && (
+                <div className="text-danger small">{errors.email}</div>
+              )}
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Password</label>
+              <input
+                type="password"
+                name="password"
+                value={inputs.password}
+                onChange={handleChange}
+                className="form-control"
+              />
+              {errors.email && (
+                <div className="text-danger small">{errors.password}</div>
+              )}
+            </div>
+            <button type="submit" className="btn btn-primary w-100">
+              Login
+            </button>
+            <p>
+              Register{" "}
+              <span onClick={() => setActivePage("register")}>here</span>.
+            </p>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Login;

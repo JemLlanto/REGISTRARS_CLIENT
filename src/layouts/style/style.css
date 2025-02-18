@@ -1,0 +1,13 @@
+.SideBar {
+  background-color: rgb(62, 112, 219);
+  width: 5rem;
+  height: 100dvh;
+  color: white;
+  transition: 0.3s;
+}
+.SideBar.toggled {
+  background-color: rgb(13, 92, 228);
+  width: 15rem;
+  color: white;
+  transition: 0.3s;
+}
