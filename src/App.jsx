@@ -3,11 +3,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap";
 import "react-bootstrap";
 import "./layouts/style/style.css";
+<<<<<<< Updated upstream
 import "./App.css";
+=======
+import "@fontsource/poppins"; // Defaults to 400 weight
+>>>>>>> Stashed changes
 
 // USER ROUTES
 import Index from "./pages/auth/Index";
 import Home from "./pages/user/Home";
+import RequestDocuments from "./pages/user/RequestDocument";
+import Settings from "./pages/user/Settings";
+import About from "./pages/user/About";
 // ADMIN ROUTES
 
 const App = () => {
@@ -15,7 +22,10 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/RequestDocuments" element={<RequestDocuments />} />
         <Route path="/Home" element={<Home />} />
+        <Route path="/Setting" element={<Settings />} />
+        <Route path="/About" element={<About />} />
       </Routes>
     </BrowserRouter>
   );

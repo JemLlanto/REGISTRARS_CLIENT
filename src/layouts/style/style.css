@@ -1,13 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+:root {
+  --primary-color: #007bff; /* Bootstrap Blue */
+  --secondary-color: #6c757d; /* Optional */
+  --background-color: #ffffff; /* Light Background */
+}
+* {
+  font-family: "Poppins", sans-serif;
+}
+body {
+  letter-spacing: 1.5px; /* Adds spacing */
+}
+
+/* .SideBar img {
+  opacity: 1;
+}
+
+.SideBar.toggled img {
+  opacity: 1;
+} */
+/*  */
 .SideBar {
-  background-color: rgb(62, 112, 219);
-  width: 5rem;
-  height: 100dvh;
-  color: white;
+  background-color: var(--background-color);
+  width: 3rem;
+  height: 100vh;
+  color: var(--secondary-color);
   transition: 0.3s;
 }
+
 .SideBar.toggled {
-  background-color: rgb(13, 92, 228);
-  width: 15rem;
-  color: white;
+  background-color: var(--background-color);
+  width: 20rem;
+  color: rgb(255, 255, 255);
   transition: 0.3s;
+}
+.SideBar.toggled h3 {
+  opacity: 1;
+}
+.SideBar h3 {
+  opacity: 0;
+}
+
+.sideBar-list li a {
+  text-decoration: none;
+  color: var(--background-color);
+  font-size: 13px;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+}
+
+.SideBar.toggled .listGroup li a {
+  opacity: 1;
+  display: flex;
+  align-items: center;
+}
+.listGroup li a p {
+  opacity: 0;
+}
+
+.SideBar.toggled li a p {
+  opacity: 1;
+  color: var(--secondary-color);
+  padding-left: 15px;
+}
+.listGroup li a i {
+  opacity: 1;
+  margin: 0;
+}
+
+.list-group-items {
+  margin-bottom: 20px;
+  padding: 5px;
+  background-color: var(--background-color);
+}
+
+.SideBar .list-group-items.active {
+  border-left: 4px rgb(16, 72, 255);
+  font-weight: bold;
+}
+.SideBar i {
+  font-size: 25px;
+  transition: 0.3s;
+  color: var(--secondary-color);
+  opacity: 1;
+}
+
+.SideBar.toggled i {
+  opacity: 1;
+}
+.SideBar .list-group-items:hover {
+  background-color: rgb(244, 244, 244);
+}
+
+/* RequestDocument */
+.form-label label {
+  font-weight: bold;
+}
+
+.form-check {
+  padding: 15px;
+}
+
+.Steps button {
+  padding: 10px;
 }

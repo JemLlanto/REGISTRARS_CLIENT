@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
 import SideBar from "../../layouts/SideBar/SideBar";
-import NavBar from "../../layouts/SideBar/NavBar";
 import MainLayout from "../../layouts/MainLayout";
 
 export default function Sidebar() {

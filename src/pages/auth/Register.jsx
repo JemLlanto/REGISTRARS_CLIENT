@@ -1,9 +1,16 @@
 import React, { useState } from "react";
+<<<<<<< Updated upstream
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Register = ({ setActivePage }) => {
   const [inputs, setInputs] = useState({
+=======
+import "bootstrap/dist/css/bootstrap.min.css";
+
+const Register = ({ setActivePage }) => {
+  const [formData, setFormData] = useState({
+>>>>>>> Stashed changes
     firstName: "",
     lastName: "",
     email: "",
@@ -14,11 +21,60 @@ const Register = ({ setActivePage }) => {
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+<<<<<<< Updated upstream
+=======
+    let validationErrors = {};
+
+    // Validate input fields
+    if (!formData.firstName.trim())
+      validationErrors.firstName = "First name is required";
+    if (!formData.lastName.trim())
+      validationErrors.lastName = "Last name is required";
+    if (!formData.email.trim()) validationErrors.email = "Email is required";
+    if (!formData.password.trim())
+      validationErrors.password = "Password is required";
+    if (!formData.conPassword.trim())
+      validationErrors.conPassword = "Confirm password is required";
+    if (formData.password !== formData.conPassword) {
+      validationErrors.conPassword = "Passwords do not match";
+    }
+
+    setErrors(validationErrors);
+
+    // If there are validation errors, return early
+    if (Object.keys(validationErrors).length > 0) return;
+
+    try {
+      // Send data to backend
+      const response = await fetch("http://localhost:5000/registration", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+          confirmPassword: formData.conPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Registration failed");
+      }
+
+      alert("Registration successful!");
+      setActivePage("login"); // Redirect to login page after success
+    } catch (error) {
+      setErrors({ general: error.message });
+    }
+>>>>>>> Stashed changes
   };
 
   return (
@@ -32,7 +88,11 @@ const Register = ({ setActivePage }) => {
               <input
                 type="text"
                 name="firstName"
+<<<<<<< Updated upstream
                 value={inputs.firstName}
+=======
+                value={formData.firstName}
+>>>>>>> Stashed changes
                 onChange={handleChange}
                 className="form-control"
               />
@@ -45,7 +105,11 @@ const Register = ({ setActivePage }) => {
               <input
                 type="text"
                 name="lastName"
+<<<<<<< Updated upstream
                 value={inputs.lastName}
+=======
+                value={formData.lastName}
+>>>>>>> Stashed changes
                 onChange={handleChange}
                 className="form-control"
               />
@@ -58,7 +122,7 @@ const Register = ({ setActivePage }) => {
               <input
                 type="email"
                 name="email"
-                value={inputs.email}
+                value={formData.email}
                 onChange={handleChange}
                 className="form-control"
               />
@@ -71,7 +135,20 @@ const Register = ({ setActivePage }) => {
               <input
                 type="password"
                 name="password"
-                value={inputs.password}
+                value={formData.password}
+                onChange={handleChange}
+                className="form-control"
+              />
+              {errors.email && (
+                <div className="text-danger small">{errors.password}</div>
+              )}
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Confirm Password</label>
+              <input
+                type="password"
+                name="conPassword"
+                value={formData.conPassword}
                 onChange={handleChange}
                 className="form-control"
               />

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const Login = ({ setActivePage }) => {
-  const [inputs, setInputs] = useState({
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
@@ -11,11 +10,51 @@ const Login = ({ setActivePage }) => {
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+<<<<<<< Updated upstream
+=======
+    let validationErrors = {};
+
+    if (!formData.email.trim()) {
+      validationErrors.email = "Email is required";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
+    ) {
+      validationErrors.email = "Invalid email address";
+    }
+    if (!formData.password) {
+      validationErrors.password = "Password is required";
+    }
+
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      try {
+        const response = await fetch("http://localhost:5000/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          localStorage.setItem("token", data.token); // ✅ Store token
+          alert("Login successful!");
+          navigate("/Home"); // ✅ Redirect to Home
+        } else {
+          setErrors({ general: data.error });
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        setErrors({ general: "Something went wrong. Please try again." });
+      }
+    }
+>>>>>>> Stashed changes
   };
   return (
     <>
@@ -28,7 +67,7 @@ const Login = ({ setActivePage }) => {
               <input
                 type="email"
                 name="email"
-                value={inputs.email}
+                value={formData.email}
                 onChange={handleChange}
                 className="form-control"
               />
@@ -41,7 +80,7 @@ const Login = ({ setActivePage }) => {
               <input
                 type="password"
                 name="password"
-                value={inputs.password}
+                value={formData.password}
                 onChange={handleChange}
                 className="form-control"
               />
