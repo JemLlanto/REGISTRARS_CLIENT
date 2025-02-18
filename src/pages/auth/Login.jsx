@@ -16,18 +16,10 @@ const Login = ({ setActivePage }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:5000/api/auth/login", { inputs })
-      .then((result) => {
-        console.log(result);
-        alert("Login successful!");
-        navigate("/Home");
-      })
-      .catch((errors) => console.log(errors));
   };
   return (
     <>
-      <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+      <div className="w-100 d-flex justify-content-center align-items-center vh-100 bg-light">
         <div className="card p-4 shadow-sm" style={{ width: "25rem" }}>
           <h2 className="text-center mb-4">Login Page</h2>
           <form onSubmit={handleSubmit}>

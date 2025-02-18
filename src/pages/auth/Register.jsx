@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const Login = ({ setActivePage }) => {
+const Register = ({ setActivePage }) => {
   const [inputs, setInputs] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
+    conPassword: "",
   });
-  const navigate = useNavigate();
+
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -16,21 +19,40 @@ const Login = ({ setActivePage }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:5000/api/auth/login", { inputs })
-      .then((result) => {
-        console.log(result);
-        alert("Login successful!");
-        navigate("/Home");
-      })
-      .catch((errors) => console.log(errors));
   };
+
   return (
     <>
       <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
         <div className="card p-4 shadow-sm" style={{ width: "25rem" }}>
-          <h2 className="text-center mb-4">Login Page</h2>
+          <h2 className="text-center mb-4">Register</h2>
           <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label">First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                value={inputs.firstName}
+                onChange={handleChange}
+                className="form-control"
+              />
+              {errors.firstName && (
+                <div className="text-danger small">{errors.firstName}</div>
+              )}
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                value={inputs.lastName}
+                onChange={handleChange}
+                className="form-control"
+              />
+              {errors.lastName && (
+                <div className="text-danger small">{errors.lastName}</div>
+              )}
+            </div>
             <div className="mb-3">
               <label className="form-label">Email</label>
               <input
@@ -40,7 +62,7 @@ const Login = ({ setActivePage }) => {
                 onChange={handleChange}
                 className="form-control"
               />
-              {errors.firstName && (
+              {errors.email && (
                 <div className="text-danger small">{errors.email}</div>
               )}
             </div>
@@ -57,12 +79,25 @@ const Login = ({ setActivePage }) => {
                 <div className="text-danger small">{errors.password}</div>
               )}
             </div>
+            <div className="mb-3">
+              <label className="form-label">Confirm Password</label>
+              <input
+                type="password"
+                name="conPassword"
+                value={inputs.conPassword}
+                onChange={handleChange}
+                className="form-control"
+              />
+              {errors.email && (
+                <div className="text-danger small">{errors.conPassword}</div>
+              )}
+            </div>
             <button type="submit" className="btn btn-primary w-100">
-              Login
+              Register
             </button>
             <p>
-              Register{" "}
-              <span onClick={() => setActivePage("register")}>here</span>.
+              Already have an acoount? Login{" "}
+              <span onClick={() => setActivePage("login")}>Here</span>.
             </p>
           </form>
         </div>
@@ -71,4 +106,4 @@ const Login = ({ setActivePage }) => {
   );
 };
 
-export default Login;
+export default Register;
