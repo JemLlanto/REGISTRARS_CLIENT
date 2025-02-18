@@ -1,16 +1,8 @@
 import React, { useState } from "react";
-<<<<<<< Updated upstream
-import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Register = ({ setActivePage }) => {
   const [inputs, setInputs] = useState({
-=======
-import "bootstrap/dist/css/bootstrap.min.css";
-
-const Register = ({ setActivePage }) => {
-  const [formData, setFormData] = useState({
->>>>>>> Stashed changes
     firstName: "",
     lastName: "",
     email: "",
@@ -21,27 +13,25 @@ const Register = ({ setActivePage }) => {
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
+
     let validationErrors = {};
 
     // Validate input fields
-    if (!formData.firstName.trim())
+    if (!inputs.firstName.trim())
       validationErrors.firstName = "First name is required";
-    if (!formData.lastName.trim())
+    if (!inputs.lastName.trim())
       validationErrors.lastName = "Last name is required";
-    if (!formData.email.trim()) validationErrors.email = "Email is required";
-    if (!formData.password.trim())
+    if (!inputs.email.trim()) validationErrors.email = "Email is required";
+    if (!inputs.password.trim())
       validationErrors.password = "Password is required";
-    if (!formData.conPassword.trim())
+    if (!inputs.conPassword.trim())
       validationErrors.conPassword = "Confirm password is required";
-    if (formData.password !== formData.conPassword) {
+    if (inputs.password !== inputs.conPassword) {
       validationErrors.conPassword = "Passwords do not match";
     }
 
@@ -56,11 +46,11 @@ const Register = ({ setActivePage }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          password: formData.password,
-          confirmPassword: formData.conPassword,
+          firstName: inputs.firstName,
+          lastName: inputs.lastName,
+          email: inputs.email,
+          password: inputs.password,
+          confirmPassword: inputs.conPassword,
         }),
       });
 
@@ -75,13 +65,11 @@ const Register = ({ setActivePage }) => {
     } catch (error) {
       setErrors({ general: error.message });
     }
->>>>>>> Stashed changes
-=======
+
     axios
       .post("http://localhost/api/auth/register", inputs)
       .then(console.log(res))
       .then(console.log(err));
->>>>>>> Stashed changes
   };
 
   return (
@@ -95,11 +83,7 @@ const Register = ({ setActivePage }) => {
               <input
                 type="text"
                 name="firstName"
-<<<<<<< Updated upstream
                 value={inputs.firstName}
-=======
-                value={formData.firstName}
->>>>>>> Stashed changes
                 onChange={handleChange}
                 className="form-control"
               />
@@ -112,11 +96,7 @@ const Register = ({ setActivePage }) => {
               <input
                 type="text"
                 name="lastName"
-<<<<<<< Updated upstream
                 value={inputs.lastName}
-=======
-                value={formData.lastName}
->>>>>>> Stashed changes
                 onChange={handleChange}
                 className="form-control"
               />
@@ -129,7 +109,7 @@ const Register = ({ setActivePage }) => {
               <input
                 type="email"
                 name="email"
-                value={formData.email}
+                value={inputs.email}
                 onChange={handleChange}
                 className="form-control"
               />
@@ -142,7 +122,7 @@ const Register = ({ setActivePage }) => {
               <input
                 type="password"
                 name="password"
-                value={formData.password}
+                value={inputs.password}
                 onChange={handleChange}
                 className="form-control"
               />
@@ -155,7 +135,7 @@ const Register = ({ setActivePage }) => {
               <input
                 type="password"
                 name="conPassword"
-                value={formData.conPassword}
+                value={inputs.conPassword}
                 onChange={handleChange}
                 className="form-control"
               />

@@ -3,11 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap";
 import "react-bootstrap";
 import "./layouts/style/style.css";
-<<<<<<< Updated upstream
 import "./App.css";
-=======
-import "@fontsource/poppins"; // Defaults to 400 weight
->>>>>>> Stashed changes
 
 // USER ROUTES
 import Index from "./pages/auth/Index";
