@@ -24,8 +24,9 @@ const Register = ({ setActivePage }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 =======
     let validationErrors = {};
@@ -75,6 +76,12 @@ const Register = ({ setActivePage }) => {
       setErrors({ general: error.message });
     }
 >>>>>>> Stashed changes
+=======
+    axios
+      .post("http://localhost/api/auth/register", inputs)
+      .then(console.log(res))
+      .then(console.log(err));
+>>>>>>> Stashed changes
   };
 
   return (
@@ -82,7 +89,7 @@ const Register = ({ setActivePage }) => {
       <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
         <div className="card p-4 shadow-sm" style={{ width: "25rem" }}>
           <h2 className="text-center mb-4">Register</h2>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleRegister}>
             <div className="mb-3">
               <label className="form-label">First Name</label>
               <input
