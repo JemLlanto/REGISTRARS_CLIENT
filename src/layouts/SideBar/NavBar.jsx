@@ -11,7 +11,7 @@ const NavBar = () => {
             backgroundColor: "rgb(0, 61, 192);",
           }}
         >
-          <p className="m-0 fs-6"> Username</p>
+          <p className="m-0 fs-6"> John Mark</p>
         </Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
