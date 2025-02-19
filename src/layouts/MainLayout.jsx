@@ -49,6 +49,13 @@ const MainLayout = ({ children }) => {
       navigate("/");
     }
   }, [auth, isLoading, navigate]);
+
+  const childrenWithProps = React.Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, { user });
+    }
+    return child;
+  });
   return (
     <>
       <div
@@ -63,7 +70,7 @@ const MainLayout = ({ children }) => {
           <div className="w-100">
             <NavBar user={user}></NavBar>
             <div className="d-flex justify-content-center align-items-center">
-              {children}
+              {childrenWithProps}
             </div>
           </div>
         </div>

@@ -21,7 +21,7 @@ export default function Home({ user }) {
             <p>Pending</p>
           </div>
           <div className="d-flex align-items-center justify-content-around">
-            <p>firstName</p>
+            <p>{user?.firstName || "Loading..."}</p>
             <p>Feb 19, 2025</p>
             <p></p>
           </div>
