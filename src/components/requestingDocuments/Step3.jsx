@@ -5,17 +5,15 @@ const Step5 = () => {
   // Separate state for Step 5 options
   const [selectedOption, setSelectedOption] = useState("");
 
-  // Separate state for Data Privacy Consent
-  const [privacyConsent, setPrivacyConsent] = useState("");
-
   const handleOptionChange = (value) => {
     setSelectedOption(value);
   };
 
-  const handlePrivacyChange = (value) => {
-    setPrivacyConsent(value);
-  };
+  const [privacyConsent, setPrivacyConsent] = useState(false);
 
+  const handlePrivacyChange = () => {
+    setPrivacyConsent((prev) => !prev); // Toggle state
+  };
   const options = [
     {
       name: "Transcript of Records (For Employment Abroad)",
@@ -81,15 +79,13 @@ const Step5 = () => {
 
       <ButtonGroup className="mb-3">
         <ToggleButton
-          id="privacy-yes"
-          type="radio"
-          variant={privacyConsent === "Yes" ? "success" : "outline-success"}
-          name="privacyConsent"
-          value="Yes"
-          checked={privacyConsent === "Yes"}
-          onClick={handlePrivacyChange}
+          id="privacy-consent"
+          type="checkbox" // Acts as a checkbox
+          variant={privacyConsent ? "success" : "outline-success"} // Green when selected
+          checked={privacyConsent}
+          onChange={handlePrivacyChange}
         >
-          Yes, I agree
+          {privacyConsent ? "Agreed " : "Yes, I agree"}
         </ToggleButton>
       </ButtonGroup>
     </div>
