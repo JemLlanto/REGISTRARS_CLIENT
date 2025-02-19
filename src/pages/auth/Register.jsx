@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { FloatingLabel, Form, Row, Col } from "react-bootstrap";
 
 const Register = ({ setActivePage }) => {
   const [inputs, setInputs] = useState({
@@ -55,40 +56,103 @@ const Register = ({ setActivePage }) => {
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <div className="card p-4 shadow-sm" style={{ width: "25rem" }}>
-        <h2 className="text-center mb-4">Register</h2>
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 0,
+          width: "100dvw",
+          height: "100dvh",
+        }}
+      >
+        <img
+          src="/2.png"
+          alt="Logo"
+          style={{ width: "100%", height: "100%", objectFit: "" }}
+        />
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 0,
+          width: "100dvw",
+          height: "100dvh",
+        }}
+      >
+        <img
+          src="/1.png"
+          alt="Logo"
+          style={{ width: "100%", height: "100%", objectFit: "" }}
+        />
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 0,
+          width: "100dvw",
+          height: "100dvh",
+        }}
+      >
+        <img
+          src="/3.png"
+          alt="Logo"
+          style={{ height: "100%", objectFit: "" }}
+        />
+      </div>
+      <div
+        className="card p-4 shadow-sm rounded-4"
+        style={{ width: "35rem", backgroundColor: "#001957f7" }}
+      >
+        <div className="d-flex justify-content-center">
+          <img src="/cvsu-logo.png" alt="cvsu-logo" style={{ width: "5rem" }} />
+        </div>
+        <h4 className="text-center fw-bold text-white">
+          CAVITE STATE UNIVERSITY
+        </h4>
+        <h5
+          className="text-center mb-4 fw-bold text-white"
+          style={{ color: "#e4b703fb" }}
+        >
+          REGISTRAR
+        </h5>
         {errors.general && (
           <div className="alert alert-danger">{errors.general}</div>
         )}
         <form onSubmit={handleRegister}>
+          <Row>
+            <Col md={6}>
+              <div className="mb-3">
+                <label className="form-label text-white">First Name:</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={inputs.firstName}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+                {errors.firstName && (
+                  <div className="text-danger small">{errors.firstName}</div>
+                )}
+              </div>
+            </Col>
+            <Col md={6}>
+              <div className="mb-3">
+                <label className="form-label text-white">Last Name:</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={inputs.lastName}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+                {errors.lastName && (
+                  <div className="text-danger small">{errors.lastName}</div>
+                )}
+              </div>
+            </Col>
+          </Row>
+
           <div className="mb-3">
-            <label className="form-label">First Name</label>
-            <input
-              type="text"
-              name="firstName"
-              value={inputs.firstName}
-              onChange={handleChange}
-              className="form-control"
-            />
-            {errors.firstName && (
-              <div className="text-danger small">{errors.firstName}</div>
-            )}
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              value={inputs.lastName}
-              onChange={handleChange}
-              className="form-control"
-            />
-            {errors.lastName && (
-              <div className="text-danger small">{errors.lastName}</div>
-            )}
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Email</label>
+            <label className="form-label text-white">Email:</label>
             <input
               type="email"
               name="email"
@@ -100,40 +164,54 @@ const Register = ({ setActivePage }) => {
               <div className="text-danger small">{errors.email}</div>
             )}
           </div>
-          <div className="mb-3">
-            <label className="form-label">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={inputs.password}
-              onChange={handleChange}
-              className="form-control"
-            />
-            {errors.password && (
-              <div className="text-danger small">{errors.password}</div>
-            )}
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Confirm Password</label>
-            <input
-              type="password"
-              name="conPassword"
-              value={inputs.conPassword}
-              onChange={handleChange}
-              className="form-control"
-            />
-            {errors.conPassword && (
-              <div className="text-danger small">{errors.conPassword}</div>
-            )}
-          </div>
-          <button type="submit" className="btn btn-primary w-100">
+
+          <Row>
+            <Col>
+              <div className="mb-3">
+                <label className="form-label text-white">Password:</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={inputs.password}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+                {errors.password && (
+                  <div className="text-danger small">{errors.password}</div>
+                )}
+              </div>
+            </Col>
+            <Col>
+              <div className="mb-3">
+                <label className="form-label text-white">
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  name="conPassword"
+                  value={inputs.conPassword}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+                {errors.conPassword && (
+                  <div className="text-danger small">{errors.conPassword}</div>
+                )}
+              </div>
+            </Col>
+          </Row>
+
+          <button type="submit" className="btn btn-primary w-100 ">
             Register
           </button>
-          <p className="mt-3 text-center">
+          <p className="mt-3 text-white text-center">
             Already have an account?{" "}
             <span
-              className="text-primary"
-              style={{ cursor: "pointer" }}
+              className=""
+              style={{
+                cursor: "pointer",
+                color: "#e4b703fb",
+                fontWeight: "bold",
+              }}
               onClick={() => setActivePage("login")}
             >
               Login Here
