@@ -113,16 +113,3 @@ body {
 .footer.toggled p {
   display: block;
 }
-
-/* RequestDocument */
-.form-label label {
-  font-weight: bold;
-}
-
-.form-check {
-  padding: 15px;
-}
-
-.Steps button {
-  padding: 10px;
-}

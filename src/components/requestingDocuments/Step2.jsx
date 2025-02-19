@@ -1,57 +1,67 @@
 import React from "react";
+import { FloatingLabel, Form } from "react-bootstrap";
 
 const Step2 = () => {
   return (
-    // Step 2
     <div className="p-3">
+      {/* Step 2: Address Information */}
       <h3>Step 2: Address Information</h3>
-      <label htmlFor="dropdown" className="form-label">
-        Program/Course & Major:
-      </label>
-      <select id="dropdown" className="form-select mb-5 ">
-        <option value="">
-          <span className="text-light">Choose</span>
-        </option>
-        <option value="option1">Undergraduate</option>
-        <option value="option2">Graduated</option>
-      </select>
+      <FloatingLabel
+        controlId="floatingProgram"
+        label="Program/Course & Major"
+        className="mb-3"
+      >
+        <Form.Select>
+          <option value="">Choose</option>
+          <option value="undergraduate">Undergraduate</option>
+          <option value="graduated">Graduated</option>
+        </Form.Select>
+      </FloatingLabel>
 
-      {/* step 3 */}
-      <h3>Step 3: Year Level:</h3>
-      <label htmlFor="dropdown" className="form-label ">
-        Program/Course & Major:
-      </label>
-      <select id="dropdown" className="form-select mb-5 ">
-        <option value="">
-          <span className="text-light">Choose</span>
-        </option>
-        <option value="option1">First Year</option>
-        <option value="option1">Second Year</option>
-        <option value="option1">Third Year</option>
-        <option value="option1">Fourth Year</option>
-        <option value="option1">Fifth Year</option>
-      </select>
+      {/* Step 3: Year Level */}
+      <h3>Step 3: Year Level</h3>
+      <FloatingLabel
+        controlId="floatingYearLevel"
+        label="Year Level"
+        className="mb-3"
+      >
+        <Form.Select>
+          <option value="">Choose</option>
+          <option value="first-year">First Year</option>
+          <option value="second-year">Second Year</option>
+          <option value="third-year">Third Year</option>
+          <option value="fourth-year">Fourth Year</option>
+          <option value="fifth-year">Fifth Year</option>
+        </Form.Select>
+      </FloatingLabel>
 
-      {/* step 4 */}
-      <h3>Step 4: Purpose Section:</h3>
-      <label htmlFor="my-input" className="form-label mt-3">
-        Last School Year Attended:
-      </label>
-      <input type="number" id="my-input" className="form-control" />
+      {/* Step 4: Purpose Section */}
+      <h3>Step 4: Purpose Section</h3>
+      <FloatingLabel
+        controlId="floatingLastSchoolYear"
+        label="Last School Year Attended"
+        className="mb-3"
+      >
+        <Form.Control
+          type="number"
+          placeholder="Enter last school year attended"
+        />
+      </FloatingLabel>
 
-      <label htmlFor="dropdown" className="form-label ">
-        Purpose :
-      </label>
-      <select id="dropdown" className="form-select mb-5 ">
-        <option value="">
-          <span className="text-light">Choose</span>
-        </option>
-        <option value="option1">First Year</option>
-        <option value="option1">Second Year</option>
-        <option value="option1">Third Year</option>
-        <option value="option1">Fourth Year</option>
-        <option value="option1">Fifth Year</option>
-      </select>
+      <FloatingLabel
+        controlId="floatingPurpose"
+        label="Purpose"
+        className="mb-3"
+      >
+        <Form.Select>
+          <option value="">Choose</option>
+          <option value="purpose1">First Year</option>
+          <option value="purpose2">Second Year</option>
+          <option value="purpose3">Third Year</option>
+          <option value="purpose4">Fourth Year</option>
+          <option value="purpose5">Fifth Year</option>
+        </Form.Select>
+      </FloatingLabel>
     </div>
   );
 };

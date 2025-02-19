@@ -31,7 +31,14 @@ export default function Sidebar() {
   return (
     <MainLayout>
       <div className="p-4 w-100 overflow-auto" style={{ maxHeight: "650px" }}>
-        <h2 className="m-0 p-2">Request Form</h2>
+        <div
+          className="rounded-2 shadow-sm"
+          style={{ backgroundColor: " #007bff" }}
+        >
+          <h5 className="m-0 p-2  " style={{ color: "white" }}>
+            Request Form:
+          </h5>
+        </div>
         <div className="w-100 h-50">
           <div className="d-flex align-items-center justify-content-around mt-2">
             <div className="Steps bg-light w-100 p-2 shadow-sm rounded-3">

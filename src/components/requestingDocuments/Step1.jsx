@@ -1,81 +1,101 @@
 import React from "react";
+import { FloatingLabel, Form, Row, Col } from "react-bootstrap";
 
 const Step1 = ({ isAgreed, handleChange }) => {
   return (
     <div className="form-label mb-3 p-3">
-      <label htmlFor="my-input" className="form-label">
-        Email:
-      </label>
-      <input type="text" id="my-input" className="form-control" />
+      {/* Email and Student ID */}
+      <Row className="mb-3">
+        <Col md={6}>
+          <FloatingLabel controlId="floatingEmail" label="Email address">
+            <Form.Control type="email" placeholder="name@example.com" />
+          </FloatingLabel>
+        </Col>
+        <Col md={6}>
+          <FloatingLabel controlId="floatingStudentID" label="Student ID No">
+            <Form.Control type="number" placeholder="Student ID" />
+          </FloatingLabel>
+        </Col>
+      </Row>
 
-      <br />
-      <label htmlFor="my-input" className="form-label mt-3">
-        Student ID No:
-      </label>
-      <input type="number" id="my-input" className="form-control" />
-      <label htmlFor="my-input" className="form-label mt-3">
-        Student Surname:
-      </label>
-      <input type="text" id="my-input" className="form-control" />
-      <label htmlFor="my-input" className="form-label mt-3">
-        Student Firstname:
-      </label>
-      <input type="text" id="my-input" className="form-control" />
-      <label htmlFor="my-input" className="form-label mt-3">
-        Student Lastname:
-      </label>
-      <input type="text" id="my-input" className="form-control" />
-      <label htmlFor="my-input" className="form-label mt-3">
-        Student Middlename:
-      </label>
-      <input type="text" id="my-input" className="form-control" />
+      {/* Name Fields in a Row */}
+      <Row className="mb-3">
+        <Col md={3}>
+          <FloatingLabel controlId="floatingSurname" label="Surname">
+            <Form.Control type="text" placeholder="Surname" />
+          </FloatingLabel>
+        </Col>
+        <Col md={3}>
+          <FloatingLabel controlId="floatingFirstname" label="Firstname">
+            <Form.Control type="text" placeholder="Firstname" />
+          </FloatingLabel>
+        </Col>
+        <Col md={3}>
+          <FloatingLabel controlId="floatingMiddlename" label="Middlename">
+            <Form.Control type="text" placeholder="Middlename" />
+          </FloatingLabel>
+        </Col>
+        <Col md={3}>
+          <FloatingLabel controlId="floatingLastname" label="Lastname">
+            <Form.Control type="text" placeholder="Lastname" />
+          </FloatingLabel>
+        </Col>
+      </Row>
 
-      <label htmlFor="my-input" className="form-label mt-3">
-        Date of Birth:
-      </label>
-      <input type="date" id="my-input" className="form-control" />
-      <h6 className="mt-3 fw-bold">Sex:</h6>
-      <label>
-        <input
-          className="ms-2"
-          type="radio"
-          value="Yes"
-          checked={isAgreed} // Controlled by the parent's state
-          onChange={handleChange} // Calls the parent's function to update the state
-        />
-        Male
-      </label>
-      <br />
-      <label>
-        <input
-          className="ms-2"
-          type="radio"
-          value="Yes"
-          checked={isAgreed} // Controlled by the parent's state
-          onChange={handleChange} // Calls the parent's function to update the state
-        />
-        Female
-      </label>
-      <br />
-      <label htmlFor="my-input" className="form-label mt-3">
-        Mobile No.:
-      </label>
-      <input type="number" id="my-input" className="form-control" />
-      <label htmlFor="dropdown" className="form-label mt-3">
-        Program/Course & Major:
-      </label>
-      <select
-        id="dropdown"
-        className="form-select"
-        onChange={handleChange} // Handle change event
+      {/* Date of Birth */}
+      <FloatingLabel
+        controlId="floatingDOB"
+        label="Date of Birth"
+        className="mb-3"
       >
-        <option value="">
-          <span className="text-light">Choose</span>
-        </option>
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
-      </select>
+        <Form.Control type="date" placeholder="Date of Birth" />
+      </FloatingLabel>
+
+      {/* Sex Selection */}
+      <h6 className="mt-3 fw-bold">Sex:</h6>
+      <div>
+        <Form.Check
+          type="radio"
+          id="male"
+          label="Male"
+          name="gender"
+          value="Male"
+          checked={isAgreed}
+          onChange={handleChange}
+        />
+        <Form.Check
+          type="radio"
+          id="female"
+          label="Female"
+          name="gender"
+          value="Female"
+          checked={isAgreed}
+          onChange={handleChange}
+        />
+      </div>
+
+      {/* Mobile Number */}
+      <FloatingLabel
+        controlId="floatingMobile"
+        label="Mobile No."
+        className="mt-3"
+      >
+        <Form.Control type="number" placeholder="Mobile No." />
+      </FloatingLabel>
+
+      {/* Program/Course & Major Dropdown */}
+      <FloatingLabel
+        controlId="floatingProgram"
+        label="Program/Course & Major"
+        className="mt-3"
+      >
+        <Form.Select onChange={handleChange}>
+          <option value="">Choose</option>
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
+          <option value="option3">Option 3</option>
+        </Form.Select>
+      </FloatingLabel>
     </div>
   );
 };

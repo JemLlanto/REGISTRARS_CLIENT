@@ -5,13 +5,15 @@ const Footer = ({ showSidebar }) => {
     <footer
       className={`footer ${
         showSidebar ? "toggled" : ""
-      } bg-light text-dark text-center  py-1 `}
+      } bg-white text-dark text-center  py-1 `}
       style={{ width: "20rem" }}
     >
-      <p className="mb-0 ">
+      <p className="mb-0" style={{ fontSize: "10px" }}>
         &copy; {new Date().getFullYear()} CVSU-CCAT Registrar's Office
       </p>
-      <p className="mb-0">All rights reserved.</p>
+      <p className="mb-0" style={{ fontSize: "10px" }}>
+        All rights reserved.
+      </p>
     </footer>
   );
 };

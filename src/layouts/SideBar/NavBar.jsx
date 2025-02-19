@@ -1,5 +1,7 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Dropdown, DropdownButton } from "react-bootstrap";
+
 const NavBar = () => {
   return (
     <div className="p-2 w-100 d-flex  justify-content-end bg-white ">
@@ -14,7 +16,11 @@ const NavBar = () => {
           <p className="m-0 fs-6"> John Mark</p>
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
+          <Dropdown.Item>
+            <Link to="/ProfileSetup" className="text-decoration-none text-dark">
+              Profile
+            </Link>
+          </Dropdown.Item>
           <Dropdown.Item href="#/action-2">Logout</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>

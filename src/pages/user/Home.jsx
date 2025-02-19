@@ -16,7 +16,7 @@ export default function Sidebar() {
           style={{ backgroundColor: " #007bff" }}
         >
           <h5 className="m-0 p-2  " style={{ color: "white" }}>
-            Pending Request
+            Pending Request:
           </h5>
         </div>
         <div className="w-100 h-50 bg-light shadow-sm rounded-2">

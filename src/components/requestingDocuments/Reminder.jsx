@@ -3,7 +3,14 @@ import React from "react";
 const Reminder = ({ isAgreed, handleChange }) => {
   return (
     <div className="p-4 rounded-1">
-      <label htmlFor="my-input" className="form-label">
+      <div className="">
+        <img
+          src="/OfficeLogo.png"
+          alt="Registrar Logo"
+          style={{ width: "20rem" }}
+        />
+      </div>
+      <label htmlFor="my-input" className="form-label mt-4">
         <span className="fw-bold">Reminder:</span>
       </label>
       <p>

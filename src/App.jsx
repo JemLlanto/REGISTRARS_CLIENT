@@ -11,6 +11,7 @@ import Index from "./pages/auth/Index";
 import Home from "./pages/user/Home";
 import RequestDocuments from "./pages/user/RequestDocument";
 import About from "./pages/user/About";
+import ProfileSetup from "./pages/user/ProfileSetup";
 // ADMIN ROUTES
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/Home" element={<Home />} />
         <Route path="/RequestDocuments" element={<RequestDocuments />} />
         <Route path="/About" element={<About />} />
+        <Route path="/ProfileSetup" element={<ProfileSetup />} />
       </Routes>
     </BrowserRouter>
   );

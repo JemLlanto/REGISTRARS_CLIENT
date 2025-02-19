@@ -10,7 +10,14 @@ export default function Sidebar() {
   return (
     <MainLayout>
       <div className="p-4 w-100">
-        <h2 className="m-0 p-2">Pending Request</h2>
+        <div
+          className="rounded-2 shadow-sm"
+          style={{ backgroundColor: " #007bff" }}
+        >
+          <h5 className="m-0 p-2  " style={{ color: "white" }}>
+            About Us
+          </h5>
+        </div>
         <div className="w-100 h-50">
           <div className="d-flex align-items-center justify-content-around mt-5">
             <p>Username</p>
