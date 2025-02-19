@@ -4,8 +4,9 @@ import SideBar from "./SideBar/SideBar";
 import NavBar from "./SideBar/NavBar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Home from "../pages/userPageComponents/Home";
 
-const MainLayout = ({ children }) => {
+const PagesMainLayout = () => {
   const [auth, setAuth] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState("");
@@ -55,7 +56,6 @@ const MainLayout = ({ children }) => {
         className="w-100 d-flex flex-column"
         style={{ backgroundColor: "#f2f2f2" }}
       >
-        {user.firstName}
         <div className="d-flex">
           <div>
             <SideBar></SideBar>
@@ -63,7 +63,7 @@ const MainLayout = ({ children }) => {
           <div className="w-100">
             <NavBar user={user}></NavBar>
             <div className="d-flex justify-content-center align-items-center">
-              {children}
+              <Home user={user}></Home>
             </div>
           </div>
         </div>
@@ -72,4 +72,4 @@ const MainLayout = ({ children }) => {
   );
 };
 
-export default MainLayout;
+export default PagesMainLayout;

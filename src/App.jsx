@@ -12,6 +12,8 @@ import Home from "./pages/user/Home";
 import RequestDocuments from "./pages/user/RequestDocument";
 import About from "./pages/user/About";
 import ProfileSetup from "./pages/user/ProfileSetup";
+import PagesMainLayout from "./layouts/PagesMainLayout";
+// import MainLayout from "./layouts/MainLayout";
 // ADMIN ROUTES
 
 const App = () => {
@@ -19,7 +21,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/Home" element={<Home />} />
+        <Route path="/Home" element={<PagesMainLayout />} />
         <Route path="/RequestDocuments" element={<RequestDocuments />} />
         <Route path="/About" element={<About />} />
         <Route path="/ProfileSetup" element={<ProfileSetup />} />
