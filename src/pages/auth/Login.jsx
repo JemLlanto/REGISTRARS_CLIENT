@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = ({ setActivePage }) => {
-  const [formData, setFormData] = useState({
+  const [inputs, setInputs] = useState({
     email: "",
     password: "",
   });
@@ -10,28 +11,54 @@ const Login = ({ setActivePage }) => {
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  axios.defaults.withCredentials = true;
+  const handleLogin = (e) => {
     e.preventDefault();
+
+    let validationErrors = {};
+
+    // Validate input fields
+    if (!inputs.email.trim()) validationErrors.email = "Email is required";
+    if (!inputs.password.trim())
+      validationErrors.password = "Password is required";
+
+    setErrors(validationErrors);
+
+    // Stop if there are validation errors
+    if (Object.keys(validationErrors).length > 0) return;
+
+    axios
+      .post("http://localhost:5000/api/auth/login", inputs)
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          alert("Login successful!");
+          navigate("/Home");
+        } else {
+          alert(res.data.Error);
+        }
+      })
+      .then((err) => console.log(err));
   };
+
   return (
     <>
       <div className="w-100 d-flex justify-content-center align-items-center vh-100 bg-light">
         <div className="card p-4 shadow-sm" style={{ width: "25rem" }}>
           <h2 className="text-center mb-4">Login Page</h2>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleLogin}>
             <div className="mb-3">
               <label className="form-label">Email</label>
               <input
                 type="email"
                 name="email"
-                value={formData.email}
+                value={inputs.email}
                 onChange={handleChange}
                 className="form-control"
               />
-              {errors.firstName && (
+              {errors.email && (
                 <div className="text-danger small">{errors.email}</div>
               )}
             </div>
@@ -40,7 +67,7 @@ const Login = ({ setActivePage }) => {
               <input
                 type="password"
                 name="password"
-                value={formData.password}
+                value={inputs.password}
                 onChange={handleChange}
                 className="form-control"
               />
