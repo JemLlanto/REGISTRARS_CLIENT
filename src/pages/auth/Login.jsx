@@ -7,6 +7,7 @@ const Login = ({ setActivePage }) => {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
@@ -122,16 +123,29 @@ const Login = ({ setActivePage }) => {
                 <div className="text-danger small">{errors.email}</div>
               )}
             </div>
-            <div className="mb-3">
+            <div className="mb-3 position-relative">
               <label className="form-label text-white">Password:</label>
-              <input
-                type="password"
-                name="password"
-                value={inputs.password}
-                onChange={handleChange}
-                className="form-control"
-              />
-              {errors.email && (
+              <div className="input-group">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={inputs.password}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+                <span
+                  className="input-group-text"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    cursor: "pointer",
+                    background: "white",
+                    border: "none",
+                  }}
+                >
+                  <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
+                </span>
+              </div>
+              {errors.password && (
                 <div className="text-danger small">{errors.password}</div>
               )}
             </div>
