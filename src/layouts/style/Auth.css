@@ -1,0 +1,9 @@
+.login-container {
+  background: url("/login-bg.png") no-repeat center center fixed;
+  background-size: cover; /* Ensures full coverage */
+  height: 100vh; /* Fills full screen */
+  width: 100vw; /* Fills full width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

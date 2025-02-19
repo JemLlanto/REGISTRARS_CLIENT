@@ -45,12 +45,72 @@ const Login = ({ setActivePage }) => {
 
   return (
     <>
-      <div className="w-100 d-flex justify-content-center align-items-center vh-100 bg-light">
-        <div className="card p-4 shadow-sm" style={{ width: "25rem" }}>
-          <h2 className="text-center mb-4">Login Page</h2>
+      <div className="login-container w-100 d-flex justify-content-center align-items-center">
+        <div
+          style={{
+            position: "absolute",
+            zIndex: 0,
+            width: "100dvw",
+            height: "100dvh",
+          }}
+        >
+          <img
+            src="/2.png"
+            alt="Logo"
+            style={{ width: "100%", height: "100%", objectFit: "" }}
+          />
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            zIndex: 0,
+            width: "100dvw",
+            height: "100dvh",
+          }}
+        >
+          <img
+            src="/1.png"
+            alt="Logo"
+            style={{ width: "100%", height: "100%", objectFit: "" }}
+          />
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            zIndex: 0,
+            width: "100dvw",
+            height: "100dvh",
+          }}
+        >
+          <img
+            src="/3.png"
+            alt="Logo"
+            style={{ height: "100%", objectFit: "" }}
+          />
+        </div>
+        <div
+          className="card p-4 shadow-sm rounded-4"
+          style={{ width: "25rem", backgroundColor: "#001957f7" }}
+        >
+          <div className="d-flex justify-content-center">
+            <img
+              src="/cvsu-logo.png"
+              alt="cvsu-logo"
+              style={{ width: "5rem" }}
+            />
+          </div>
+          <h4 className="text-center fw-bold text-white">
+            CAVITE STATE UNIVERSITY
+          </h4>
+          <h5
+            className="text-center mb-4 fw-bold "
+            style={{ color: "#e4b703fb" }}
+          >
+            REGISTRAR
+          </h5>
           <form onSubmit={handleLogin}>
             <div className="mb-3">
-              <label className="form-label">Email</label>
+              <label className="form-label text-white">Email:</label>
               <input
                 type="email"
                 name="email"
@@ -63,7 +123,7 @@ const Login = ({ setActivePage }) => {
               )}
             </div>
             <div className="mb-3">
-              <label className="form-label">Password</label>
+              <label className="form-label text-white">Password:</label>
               <input
                 type="password"
                 name="password"
@@ -78,9 +138,19 @@ const Login = ({ setActivePage }) => {
             <button type="submit" className="btn btn-primary w-100">
               Login
             </button>
-            <p>
-              Register{" "}
-              <span onClick={() => setActivePage("register")}>here</span>.
+            <p className="text-white mt-2 text-center">
+              Don't have account?{" "}
+              <span
+                onClick={() => setActivePage("register")}
+                style={{
+                  cursor: "pointer",
+                  color: "#e4b703fb",
+                  fontWeight: "bold",
+                }}
+              >
+                Register here
+              </span>
+              .
             </p>
           </form>
         </div>

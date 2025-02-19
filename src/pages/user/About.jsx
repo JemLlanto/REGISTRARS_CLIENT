@@ -49,8 +49,8 @@ export default function Sidebar() {
             <h4>MANAGEMENT INFORMATION SYSTEMS</h4>
           </div>
           <div className="mt-3 m-0">
-            <p className="text-center">SCHEDULE:</p>
             <h1>ADDING, CHANGING, AND DROPPING OF SUBJECTS</h1>
+            <p className="text-center">SCHEDULE:</p>
           </div>
           <div className="mb-2">
             <h5>CUT-OFF TIME: 4:00 PM</h5>

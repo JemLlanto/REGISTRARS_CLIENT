@@ -5,6 +5,7 @@ import "react-bootstrap";
 import "./layouts/style/style.css";
 import "./layouts/style/Side&NavBar.css";
 import "./App.css";
+import "./layouts/style/Auth.css";
 
 // USER ROUTES
 import Index from "./pages/auth/Index";
