@@ -18,11 +18,15 @@ body {
 .step.active {
   transform: scale(110%);
   border: none !important;
-  box-shadow: 0 0 15px rgba(0, 187, 255, 0.979) !important;
+  box-shadow: 0 0 15px rgba(0, 88, 183, 0.979) !important;
 }
-.step.done {
-  background-color: lightskyblue;
+.step.current {
+  background-color: var(--main-color);
   color: #ffff;
 }
 
 /* RequestDocument */
+
+.custom-dropdown-toggle::after {
+  display: none !important;
+}

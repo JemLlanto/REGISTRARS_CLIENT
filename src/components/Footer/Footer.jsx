@@ -8,10 +8,10 @@ const Footer = ({ showSidebar }) => {
       } bg-white text-dark text-center  py-1 `}
       style={{ width: "15rem" }}
     >
-      <p className="mb-0" style={{ fontSize: "8px" }}>
+      <p className="mb-0" style={{ fontSize: "10px" }}>
         &copy; {new Date().getFullYear()} CVSU-CCAT Registrar's Office
       </p>
-      <p className="mb-0" style={{ fontSize: "8px" }}>
+      <p className="mb-0" style={{ fontSize: "9px" }}>
         All rights reserved.
       </p>
     </footer>

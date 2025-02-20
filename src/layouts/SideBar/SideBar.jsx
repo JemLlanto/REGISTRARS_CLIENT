@@ -20,8 +20,8 @@ const SideBar = ({ user }) => {
       <div>
         {/* Navbar/Header */}
         <div
-          className="d-flex align-items-center justify-content-between bg-light p-1"
-          style={{ height: "3rem" }}
+          className="d-flex align-items-center justify-content-between bg-light p-2"
+          style={{ height: "4rem" }}
         >
           {/* Toggle Button - Moved to Left */}
           <div className={`${showSidebar ? "fade-in" : "fade-out"}`}>
@@ -57,7 +57,7 @@ const SideBar = ({ user }) => {
         <div className=" listGroup">
           {user.isAdmin ? (
             <>
-              <ul className="sideBar-list list-unstyled">
+              <ul className="sideBar-list list-unstyled mt-3">
                 <li
                   className={`list-group-items ${
                     location.pathname === "/Home" ? "active" : ""

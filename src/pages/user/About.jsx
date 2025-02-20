@@ -10,10 +10,10 @@ export default function Sidebar() {
   return (
     <div className="p-4 w-100 overflow-auto" style={{ maxHeight: "650px" }}>
       <div
-        className="rounded-2 shadow-sm"
-        style={{ backgroundColor: " #007bff" }}
+        className="rounded-2 shadow-sm p-2"
+        style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="m-0 p-2  " style={{ color: "white" }}>
+        <h5 className="m-0 p-2  " style={{ color: "var(--secondMain-color)" }}>
           About Us:
         </h5>
       </div>

@@ -32,9 +32,9 @@ export default function Sidebar() {
       <div className="col">
         <div
           className="rounded shadow-sm d-flex align-items-center p-3"
-          style={{ backgroundColor: "#007bff" }}
+          style={{ backgroundColor: "var(--main-color)" }}
         >
-          <h5 className="m-0" style={{ color: "white" }}>
+          <h5 className="m-0 px-2" style={{ color: "var(--secondMain-color)" }}>
             Request Submission
           </h5>
           <p className="m-0 text-light">
@@ -79,8 +79,12 @@ export default function Sidebar() {
               ) : (
                 <Button
                   type="button"
-                  className="btn btn-primary"
+                  className="btn "
                   onClick={nextStep}
+                  style={{
+                    backgroundColor: "var(--main-color)",
+                    color: "var(--secondMain-color)",
+                  }}
                 >
                   Next Step
                 </Button>
@@ -104,7 +108,7 @@ export default function Sidebar() {
           >
             <ProgressBar
               className="shadow-sm border"
-              variant="info"
+              variant="primary"
               now={
                 currentStep === 1
                   ? 0

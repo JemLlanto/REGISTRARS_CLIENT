@@ -10,7 +10,7 @@ function ProgressBarSteps({ currentStep }) {
         <div
           key={step}
           className={`step ${currentStep === step ? "active" : ""} ${
-            currentStep >= step ? "bg-info text-light border" : ""
+            currentStep >= step ? "current text-light border" : ""
           }`}
         >
           {step}
