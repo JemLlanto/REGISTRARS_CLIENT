@@ -1,7 +1,25 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { FloatingLabel, Form } from "react-bootstrap";
 
 const Step2 = () => {
+  const [purposes, setPurposes] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/documents/fetchPurposes")
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          console.log(res.data.data);
+          setPurposes(res.data.data);
+        } else if (res.data.Message) {
+          console.log("Error: ", res.data.Message);
+        }
+      })
+      .catch((err) => {
+        console.log("Error fetching purposes:", err);
+      });
+  });
   return (
     <div className="p-3">
       {/* Step 2: Address Information */}
@@ -53,11 +71,11 @@ const Step2 = () => {
       >
         <Form.Select>
           <option value="">Choose</option>
-          <option value="purpose1">First Year</option>
-          <option value="purpose2">Second Year</option>
-          <option value="purpose3">Third Year</option>
-          <option value="purpose4">Fourth Year</option>
-          <option value="purpose5">Fifth Year</option>
+          {purposes.map((purpose) => (
+            <option key={purpose.purposeID} value={purpose.purposeName}>
+              {purpose.purposeName}
+            </option>
+          ))}
         </Form.Select>
       </FloatingLabel>
     </div>
