@@ -13,7 +13,7 @@ const NavBar = ({ user }) => {
       .catch((err) => console.log(err));
   };
   return (
-    <div className="p-2 w-100 d-flex  justify-content-end bg-white ">
+    <div className="p-1 w-100 d-flex  justify-content-end bg-white ">
       <Dropdown>
         <Dropdown.Toggle
           className="w-100 py-2 px-4 d-flex justify-content-center align-items-center "

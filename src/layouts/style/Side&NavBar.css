@@ -1,11 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
-
-:root {
-  --primary-color: #007bff; /* Bootstrap Blue */
-  --secondary-color: #6c757d; /* Optional */
-  --background-color: #d9d9d9; /* Light Background */
-  --white-color: #ffffff;
-}
+@import url("./Imports.css");
 * {
   font-family: "Poppins", sans-serif;
 }
@@ -18,24 +11,54 @@ body {
   width: 3rem;
   height: 100vh;
   color: var(--secondary-color);
-  transition: 0.3s;
+  transition: width 0.3s ease-in-out;
 }
-/* .SideBar img {
-  display: none;
+.SideBar img {
+  transition: 0.5s;
 }
 .SideBar.toggled img {
-  display: block;
-} */
-
-.SideBar img {
-  margin-right: 40px;
+  transition: 0.5s;
 }
+
+/* Apply animation to an element */
+.fade-out {
+  animation: fadeOut 0.3s ease-in-out;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Apply animation to an element */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.transition-icon {
+  transition: transform 0.3s ease-in-out;
+}
+
 .SideBar.toggled {
   background-color: #ffff;
-  width: 20rem;
+  width: 15rem;
   color: rgb(255, 255, 255);
   transition: 0.3s;
 }
+
 .SideBar.toggled h3 {
   display: block;
 }

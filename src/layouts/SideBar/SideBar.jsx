@@ -18,20 +18,45 @@ const SideBar = () => {
       }`}
     >
       <div>
-        <div className="d-flex align-items-center mb-3  bg-white border position-relative">
-          <img
-            src="/Registrar.png"
-            alt="Registrar Logo"
-            style={{ width: "70%" }}
-          />
-          <button className="btn m-0 p-2" onClick={toggleSidebar}>
+        {/* Navbar/Header */}
+        <div
+          className="d-flex align-items-center justify-content-between bg-light p-1"
+          style={{ height: "3rem" }}
+        >
+          {/* Toggle Button - Moved to Left */}
+          <div className={`${showSidebar ? "fade-in" : "fade-out"}`}>
+            <img
+              src="/Registrar.png"
+              alt="Registrar Logo"
+              className="logo-img"
+              style={{
+                height: "80%",
+                width: "10rem",
+                objectFit: "cover",
+                display: showSidebar ? "block" : "none",
+                opacity: showSidebar ? "1" : "0",
+              }}
+            />
+          </div>
+
+          <button
+            className="btn m-0 p-2 d-flex align-items-center justify-content-center"
+            onClick={toggleSidebar}
+            style={{ marginRight: "auto" }}
+          >
             <i
-              className={showSidebar ? "bx bx-menu " : "bx bx-x"}
+              className={`bx ${
+                showSidebar ? "bx-x" : "bx-menu "
+              } transition-icon`}
               style={{ color: "black" }}
             ></i>
           </button>
+
+          {/* Show logo only when sidebar is open */}
         </div>
-        <div className=" listGroup">
+
+        {/* Sidebar Links */}
+        <div className="listGroup">
           <ul className="sideBar-list list-unstyled">
             <li
               className={`list-group-items ${
@@ -53,7 +78,6 @@ const SideBar = () => {
                 <p className="m-0"> Request Documents</p>
               </Link>
             </li>
-
             <li
               className={`list-group-items ${
                 location.pathname === "/About" ? "active" : ""
@@ -67,6 +91,8 @@ const SideBar = () => {
           </ul>
         </div>
       </div>
+
+      {/* Footer */}
       <div className="">
         <Footer showSidebar={showSidebar}></Footer>
       </div>

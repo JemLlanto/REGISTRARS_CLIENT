@@ -1,10 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
-
-:root {
-  --primary-color: #007bff; /* Bootstrap Blue */
-  --secondary-color: #6c757d; /* Optional */
-  --background-color: #ffffff; /* Light Background */
-}
+@import url("./Imports.css");
 * {
   font-family: "Poppins", sans-serif;
 }
