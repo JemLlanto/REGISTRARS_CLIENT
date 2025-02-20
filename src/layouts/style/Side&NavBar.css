@@ -102,22 +102,22 @@ body {
 }
 
 .SideBar .list-group-items.active p {
-  color: #007bff;
+  color: var(--main-color);
   font-weight: bold;
 }
 
 .SideBar .list-group-items:hover p {
-  color: #007bff;
+  color: var(--main-color);
   font-weight: bold;
 }
 
 .SideBar .list-group-items.active i {
-  color: #007bff;
+  color: var(--main-color);
   font-weight: bold;
 }
 
 .SideBar .list-group-items:hover i {
-  color: #007bff;
+  color: var(--main-color);
   font-weight: bold;
 }
 .SideBar i {

@@ -65,7 +65,7 @@ const SideBar = ({ user }) => {
                 >
                   <Link to="/Home" className="d-flex">
                     <i className="bx bx-home"></i>
-                    <p className="m-0"> Dashboard</p>
+                    <p className="m-0"> Homepage</p>
                   </Link>
                 </li>
                 <li
@@ -101,7 +101,7 @@ const SideBar = ({ user }) => {
                 >
                   <Link to="/Home" className="d-flex">
                     <i className="bx bx-home"></i>
-                    <p className="m-0"> Homepage</p>
+                    <p className="m-0">Dashboard</p>
                   </Link>
                 </li>
                 <li

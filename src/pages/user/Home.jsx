@@ -9,22 +9,17 @@ export default function Home() {
     <div className="p-4 w-100">
       <div
         className="rounded-2 shadow-sm"
-        style={{ backgroundColor: " #007bff" }}
+        style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="m-0 p-2" style={{ color: "white" }}>
+        <h5 className="m-0 p-3" style={{ color: "var(--secondMain-color)" }}>
           Pending Request:
         </h5>
       </div>
       <div className="w-100 h-50 bg-light shadow-sm rounded-2">
-        <div className="d-flex align-items-center justify-content-around mt-5">
-          <p>Username</p>
-          <p>Date</p>
-          <p>Pending</p>
-        </div>
-        <div className="d-flex align-items-center justify-content-around">
+        <div className="d-flex align-items-center justify-content-around mt-5 p-3">
           <p>{user?.firstName || "Loading..."}</p>
           <p>Feb 19, 2025</p>
-          <p></p>
+          <p>Pending</p>
         </div>
       </div>
       <div className="w-100 h-50 bg-light shadow-sm rounded-2 p-5 mt-5">
