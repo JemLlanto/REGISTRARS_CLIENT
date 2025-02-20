@@ -12,14 +12,6 @@ body {
   letter-spacing: 1.5px; /* Adds spacing */
 }
 
-/* .SideBar img {
-  opacity: 1;
-}
-
-.SideBar.toggled img {
-  opacity: 1;
-} */
-/*  */
 .SideBar {
   background-color: var(--background-color);
   width: 3rem;

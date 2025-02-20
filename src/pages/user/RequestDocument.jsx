@@ -29,105 +29,76 @@ export default function Sidebar() {
   };
 
   return (
-    <MainLayout>
-      <div className="p-4 w-100 overflow-auto" style={{ maxHeight: "650px" }}>
-        <div
-          className="rounded-2 shadow-sm"
-          style={{ backgroundColor: " #007bff" }}
-        >
-          <h5 className="m-0 p-2  " style={{ color: "white" }}>
-            Request Form:
-          </h5>
-        </div>
-        <div className="w-100 h-50">
-          <div className="d-flex align-items-center justify-content-around mt-2">
-            <div className="Steps bg-light w-100 p-2 shadow-sm rounded-3">
-              <form onSubmit={handleSubmit}>
-                {/* Step 1 */}
-                {currentStep === 1 && (
-                  <>
-                    <Reminder inputValue={inputValue}></Reminder>
-                    <Button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={nextStep}
-                    >
-                      Next Step
-                    </Button>
-                  </>
-                )}
-
-                {/* Step 1 */}
-                {currentStep === 2 && (
-                  <div className="step1">
-                    <Step1 inputValue={inputValue}></Step1>
-
-                    <div className="d-flex justify-content-between">
-                      <Button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={prevStep}
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={nextStep}
-                      >
-                        Next Step
-                      </Button>
-                    </div>
-                  </div>
-                )}
-
-                {/* Step 3 */}
-                {currentStep === 3 && (
-                  <div className="step2">
-                    <Step2 inputValue={inputValue}></Step2>
-
-                    <div className="d-flex justify-content-between">
-                      <Button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={prevStep}
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={nextStep}
-                      >
-                        Next Step
-                      </Button>
-                    </div>
-                  </div>
-                )}
-
-                {/* Step 5 */}
-                {currentStep === 4 && (
-                  <div className="step3">
-                    <Step3 inputValue={inputValue}></Step3>
-                    <div className="d-flex justify-content-between">
-                      <Button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={prevStep}
-                      >
-                        Back
-                      </Button>
-                      <Button type="button" className="btn btn-success">
-                        Submit
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </form>
-            </div>
-          </div>
-        </div>
+    <div className="p-4 w-100 overflow-auto">
+      <div
+        className="rounded-2 shadow-sm"
+        style={{ backgroundColor: " #007bff" }}
+      >
+        <h5 className="m-0 p-2  " style={{ color: "white" }}>
+          Request Form:
+        </h5>
       </div>
-    </MainLayout>
+      <div className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded-3 p-3 position-relative">
+        <form className="w-100" onSubmit={handleSubmit}>
+          <div className="overflow-y-scroll" style={{ height: "65dvh" }}>
+            {/* Step 1 */}
+            {currentStep === 1 && (
+              <>
+                <Reminder inputValue={inputValue}></Reminder>
+              </>
+            )}
+
+            {/* Step 1 */}
+            {currentStep === 2 && (
+              <div className="step1">
+                <Step1 inputValue={inputValue}></Step1>
+              </div>
+            )}
+
+            {/* Step 3 */}
+            {currentStep === 3 && (
+              <div className="step2">
+                <Step2 inputValue={inputValue}></Step2>
+
+                <div className="d-flex justify-content-between"></div>
+              </div>
+            )}
+
+            {/* Step 5 */}
+            {currentStep === 4 && (
+              <div className="step3">
+                <Step3 inputValue={inputValue}></Step3>
+                <div className="d-flex justify-content-between"></div>
+              </div>
+            )}
+          </div>
+
+          <div className="d-flex justify-content-between mt-2">
+            <Button
+              type="button"
+              className="btn btn-secondary"
+              onClick={prevStep}
+              disabled={currentStep === 1}
+              style={{ opacity: currentStep === 1 ? 0 : 1 }}
+            >
+              Back
+            </Button>
+            {currentStep === 4 ? (
+              <Button type="button" className="btn btn-success">
+                Submit
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                className="btn btn-primary"
+                onClick={nextStep}
+              >
+                Next Step
+              </Button>
+            )}
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }

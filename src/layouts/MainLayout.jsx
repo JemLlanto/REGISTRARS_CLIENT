@@ -1,11 +1,11 @@
-import React, { Children, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SideBar from "./SideBar/SideBar";
 import NavBar from "./SideBar/NavBar";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 
-const MainLayout = ({ children }) => {
+const MainLayout = () => {
   const [auth, setAuth] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState("");
@@ -50,32 +50,23 @@ const MainLayout = ({ children }) => {
     }
   }, [auth, isLoading, navigate]);
 
-  const childrenWithProps = React.Children.map(children, (child) => {
-    if (React.isValidElement(child)) {
-      return React.cloneElement(child, { user });
-    }
-    return child;
-  });
   return (
-    <>
-      <div
-        className="w-100 d-flex flex-column"
-        style={{ backgroundColor: "#f2f2f2" }}
-      >
-        {user.firstName}
-        <div className="d-flex">
-          <div>
-            <SideBar></SideBar>
-          </div>
-          <div className="w-100">
-            <NavBar user={user}></NavBar>
-            <div className="d-flex justify-content-center align-items-center">
-              {childrenWithProps}
-            </div>
+    <div
+      className="w-100 d-flex flex-column"
+      style={{ backgroundColor: "#f2f2f2" }}
+    >
+      <div className="d-flex">
+        <div>
+          <SideBar />
+        </div>
+        <div className="w-100">
+          <NavBar user={user} />
+          <div className="d-flex justify-content-center align-items-center">
+            <Outlet context={{ user }} />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
