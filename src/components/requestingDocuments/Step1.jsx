@@ -51,27 +51,13 @@ const Step1 = ({ isAgreed, handleChange }) => {
       </FloatingLabel>
 
       {/* Sex Selection */}
-      <h6 className="mt-3 fw-bold">Sex:</h6>
-      <div>
-        <Form.Check
-          type="radio"
-          id="male"
-          label="Male"
-          name="gender"
-          value="Male"
-          checked={isAgreed}
-          onChange={handleChange}
-        />
-        <Form.Check
-          type="radio"
-          id="female"
-          label="Female"
-          name="gender"
-          value="Female"
-          checked={isAgreed}
-          onChange={handleChange}
-        />
-      </div>
+      <FloatingLabel controlId="floatingSelect" label="Sex">
+        <Form.Select aria-label="Floating label select example">
+          <option>Choose...</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </Form.Select>
+      </FloatingLabel>
 
       {/* Mobile Number */}
       <FloatingLabel

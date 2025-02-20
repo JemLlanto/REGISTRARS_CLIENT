@@ -31,14 +31,14 @@ export default function Sidebar() {
   return (
     <div className="p-4 w-100 overflow-auto">
       <div
-        className="rounded-2 shadow-sm"
+        className="rounded shadow-sm"
         style={{ backgroundColor: " #007bff" }}
       >
         <h5 className="m-0 p-2  " style={{ color: "white" }}>
           Request Form:
         </h5>
       </div>
-      <div className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded-3 p-3 position-relative">
+      <div className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded p-3 position-relative">
         <form className="w-100" onSubmit={handleSubmit}>
           <div className="overflow-y-scroll" style={{ height: "65dvh" }}>
             {/* Step 1 */}

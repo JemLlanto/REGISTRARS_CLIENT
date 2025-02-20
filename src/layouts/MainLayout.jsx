@@ -53,7 +53,7 @@ const MainLayout = () => {
   return (
     <div
       className="w-100 d-flex flex-column"
-      style={{ backgroundColor: "#f2f2f2" }}
+      style={{ backgroundColor: "var(--background-color)" }}
     >
       <div className="d-flex">
         <div>
