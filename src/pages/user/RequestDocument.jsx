@@ -5,6 +5,7 @@ import Step1 from "../../components/requestingDocuments/Step1";
 import Step2 from "../../components/requestingDocuments/Step2";
 import Step3 from "../../components/requestingDocuments/Step3";
 import Reminder from "../../components/requestingDocuments/Reminder";
+import ProgressBarSteps from "../../components/requestingDocuments/ProgressBarSteps";
 
 export default function Sidebar() {
   const [inputValues, setInputValues] = useState(""); // State to store input value
@@ -96,15 +97,7 @@ export default function Sidebar() {
           className="d-flex justify-content-center align-items-center position-relative"
           style={{ width: "5rem", height: "100%" }}
         >
-          <div
-            className="d-flex flex-column justify-content-between"
-            style={{ height: "37rem", zIndex: "10" }}
-          >
-            <div className={`step ${currentStep === 1 ? "active" : ""}`}>1</div>
-            <div className={`step ${currentStep === 2 ? "active" : ""}`}>2</div>
-            <div className={`step ${currentStep === 3 ? "active" : ""}`}>3</div>
-            <div className={`step ${currentStep === 4 ? "active" : ""}`}>4</div>
-          </div>
+          <ProgressBarSteps currentStep={currentStep}></ProgressBarSteps>
           <div
             className="position-absolute"
             style={{ transform: "rotate(90deg)", width: "37rem" }}

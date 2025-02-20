@@ -116,7 +116,7 @@ const Login = ({ setActivePage }) => {
               <div className="text-danger small">{errors.password}</div>
             )}
           </div>
-          <button type="submit" className="btn btn-primary w-100">
+          <button type="submit" className="btn btn-warning w-100">
             Login
           </button>
           <p className="text-white mt-2 text-center">
