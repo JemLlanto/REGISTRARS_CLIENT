@@ -17,7 +17,6 @@ const Step1 = ({ isAgreed, handleChange }) => {
           </FloatingLabel>
         </Col>
       </Row>
-
       {/* Name Fields in a Row */}
       <Row className="mb-3">
         <Col md={3}>
