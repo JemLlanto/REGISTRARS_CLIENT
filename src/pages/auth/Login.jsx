@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
 
 const Login = ({ setActivePage }) => {
   const [inputs, setInputs] = useState({
@@ -21,14 +22,12 @@ const Login = ({ setActivePage }) => {
 
     let validationErrors = {};
 
-    // Validate input fields
     if (!inputs.email.trim()) validationErrors.email = "Email is required";
     if (!inputs.password.trim())
       validationErrors.password = "Password is required";
 
     setErrors(validationErrors);
 
-    // Stop if there are validation errors
     if (Object.keys(validationErrors).length > 0) return;
 
     axios
@@ -41,135 +40,102 @@ const Login = ({ setActivePage }) => {
           alert(res.data.Error);
         }
       })
-      .then((err) => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   return (
-    <>
-      <div className="login-container w-100 d-flex justify-content-center align-items-center">
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 0,
-            width: "100dvw",
-            height: "100dvh",
-          }}
-        >
-          <img
-            src="/2.png"
-            alt="Logo"
-            style={{ width: "100%", height: "100%", objectFit: "" }}
-          />
+    <div className="container-fluid vh-100 d-flex justify-content-center align-items-center position-relative">
+      <div className="position-absolute top-0 start-0 w-100 h-100">
+        <img
+          src="/1.png"
+          alt="Background 1"
+          className="img-fluid position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
+        />
+      </div>
+      <div className="position-absolute top-0 start-0 w-100 h-100">
+        <img
+          src="/2.png"
+          alt="Background 2"
+          className="img-fluid position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
+        />
+      </div>
+      <div className="position-absolute top-0 start-0 w-100 h-100">
+        <img
+          src="/3.png"
+          alt="Background 3"
+          className="img-fluid position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
+        />
+      </div>
+
+      <div
+        className="card p-4 shadow-lg rounded-4"
+        style={{ width: "30rem", backgroundColor: "#001957f7", zIndex: 2 }}
+      >
+        <div className="d-flex justify-content-center">
+          <img src="/cvsu-logo.png" alt="cvsu-logo" className="w-25" />
         </div>
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 0,
-            width: "100dvw",
-            height: "100dvh",
-          }}
-        >
-          <img
-            src="/1.png"
-            alt="Logo"
-            style={{ width: "100%", height: "100%", objectFit: "" }}
-          />
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 0,
-            width: "100dvw",
-            height: "100dvh",
-          }}
-        >
-          <img
-            src="/3.png"
-            alt="Logo"
-            style={{ height: "100%", objectFit: "" }}
-          />
-        </div>
-        <div
-          className="card p-4 shadow-sm rounded-4"
-          style={{ width: "25rem", backgroundColor: "#001957f7" }}
-        >
-          <div className="d-flex justify-content-center">
-            <img
-              src="/cvsu-logo.png"
-              alt="cvsu-logo"
-              style={{ width: "5rem" }}
+        <h4 className="text-center fw-bold text-white">
+          CAVITE STATE UNIVERSITY
+        </h4>
+        <h5 className="text-center mb-4 fw-bold" style={{ color: "#e4b703fb" }}>
+          REGISTRAR'S ONLINE REQUEST
+        </h5>
+        <form onSubmit={handleLogin}>
+          <div className="mb-3">
+            <label className="form-label text-white">Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={inputs.email}
+              onChange={handleChange}
+              className="form-control"
             />
+            {errors.email && (
+              <div className="text-danger small">{errors.email}</div>
+            )}
           </div>
-          <h4 className="text-center fw-bold text-white">
-            CAVITE STATE UNIVERSITY
-          </h4>
-          <h5
-            className="text-center mb-4 fw-bold "
-            style={{ color: "#e4b703fb" }}
-          >
-            REGISTRAR
-          </h5>
-          <form onSubmit={handleLogin}>
-            <div className="mb-3">
-              <label className="form-label text-white">Email:</label>
+          <div className="mb-3 position-relative">
+            <label className="form-label text-white">Password:</label>
+            <div className="input-group">
               <input
-                type="email"
-                name="email"
-                value={inputs.email}
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={inputs.password}
                 onChange={handleChange}
                 className="form-control"
               />
-              {errors.email && (
-                <div className="text-danger small">{errors.email}</div>
-              )}
-            </div>
-            <div className="mb-3 position-relative">
-              <label className="form-label text-white">Password:</label>
-              <div className="input-group">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={inputs.password}
-                  onChange={handleChange}
-                  className="form-control"
-                />
-                <span
-                  className="input-group-text"
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{
-                    cursor: "pointer",
-                    background: "white",
-                    border: "none",
-                  }}
-                >
-                  <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
-                </span>
-              </div>
-              {errors.password && (
-                <div className="text-danger small">{errors.password}</div>
-              )}
-            </div>
-            <button type="submit" className="btn btn-primary w-100">
-              Login
-            </button>
-            <p className="text-white mt-2 text-center">
-              Don't have account?{" "}
               <span
-                onClick={() => setActivePage("register")}
-                style={{
-                  cursor: "pointer",
-                  color: "#e4b703fb",
-                  fontWeight: "bold",
-                }}
+                className="input-group-text bg-white border-0"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ cursor: "pointer" }}
               >
-                Register here
+                <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
               </span>
-              .
-            </p>
-          </form>
-        </div>
+            </div>
+            {errors.password && (
+              <div className="text-danger small">{errors.password}</div>
+            )}
+          </div>
+          <button type="submit" className="btn btn-primary w-100">
+            Login
+          </button>
+          <p className="text-white mt-2 text-center">
+            Don't have an account?{" "}
+            <span
+              onClick={() => setActivePage("register")}
+              style={{
+                cursor: "pointer",
+                color: "#e4b703fb",
+                fontWeight: "bold",
+              }}
+            >
+              Register here
+            </span>
+            .
+          </p>
+        </form>
       </div>
-    </>
+    </div>
   );
 };
 
