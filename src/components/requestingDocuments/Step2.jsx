@@ -5,10 +5,10 @@ const Step2 = () => {
   return (
     <div className="p-3">
       {/* Step 2: Address Information */}
-      <h3>Step 2: Address Information</h3>
+
       <FloatingLabel
         controlId="floatingProgram"
-        label="Program/Course & Major"
+        label="Classification"
         className="mb-3"
       >
         <Form.Select>
@@ -19,7 +19,6 @@ const Step2 = () => {
       </FloatingLabel>
 
       {/* Step 3: Year Level */}
-      <h3>Step 3: Year Level</h3>
       <FloatingLabel
         controlId="floatingYearLevel"
         label="Year Level"
@@ -36,7 +35,6 @@ const Step2 = () => {
       </FloatingLabel>
 
       {/* Step 4: Purpose Section */}
-      <h3>Step 4: Purpose Section</h3>
       <FloatingLabel
         controlId="floatingLastSchoolYear"
         label="Last School Year Attended"
