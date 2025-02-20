@@ -5,5 +5,18 @@
 body {
   letter-spacing: 1.5px; /* Adds spacing */
 }
+.step {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s;
+}
+.step.active {
+  transform: scale(110%);
+}
 
 /* RequestDocument */

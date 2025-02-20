@@ -1,7 +1,26 @@
-import React from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { FloatingLabel, Form, Row, Col } from "react-bootstrap";
 
 const Step1 = ({ isAgreed, handleChange }) => {
+  const [programs, setPrograms] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/documents/fetchPrograms")
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          console.log(res.data.data);
+          setPrograms(res.data.data);
+        } else if (res.data.Message) {
+          console.log("Error:", res.data.Message);
+        }
+      })
+      .catch((err) => {
+        console.log("Error fetching Programs: ", err);
+      });
+  }, []);
+
   return (
     <div className="form-label mb-3 p-3">
       {/* Email and Student ID */}
@@ -19,22 +38,17 @@ const Step1 = ({ isAgreed, handleChange }) => {
       </Row>
       {/* Name Fields in a Row */}
       <Row className="mb-3">
-        <Col md={3}>
-          <FloatingLabel controlId="floatingSurname" label="Surname">
-            <Form.Control type="text" placeholder="Surname" />
-          </FloatingLabel>
-        </Col>
-        <Col md={3}>
+        <Col md={""}>
           <FloatingLabel controlId="floatingFirstname" label="Firstname">
             <Form.Control type="text" placeholder="Firstname" />
           </FloatingLabel>
         </Col>
-        <Col md={3}>
+        <Col md={""}>
           <FloatingLabel controlId="floatingMiddlename" label="Middlename">
             <Form.Control type="text" placeholder="Middlename" />
           </FloatingLabel>
         </Col>
-        <Col md={3}>
+        <Col md={""}>
           <FloatingLabel controlId="floatingLastname" label="Lastname">
             <Form.Control type="text" placeholder="Lastname" />
           </FloatingLabel>
@@ -76,9 +90,11 @@ const Step1 = ({ isAgreed, handleChange }) => {
       >
         <Form.Select onChange={handleChange}>
           <option value="">Choose</option>
-          <option value="option1">Option 1</option>
-          <option value="option2">Option 2</option>
-          <option value="option3">Option 3</option>
+          {programs.map((program) => (
+            <option key={program.programID} value={program.programName}>
+              {program.programName}
+            </option>
+          ))}
         </Form.Select>
       </FloatingLabel>
     </div>
