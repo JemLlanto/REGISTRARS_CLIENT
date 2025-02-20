@@ -57,7 +57,7 @@ const MainLayout = () => {
     >
       <div className="d-flex">
         <div>
-          <SideBar />
+          <SideBar user={user} />
         </div>
         <div className="w-100">
           <NavBar user={user} />

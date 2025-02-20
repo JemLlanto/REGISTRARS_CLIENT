@@ -49,28 +49,13 @@ export default function Sidebar() {
             )}
 
             {/* Step 1 */}
-            {currentStep === 2 && (
-              <div className="step1">
-                <Step1 inputValue={inputValue}></Step1>
-              </div>
-            )}
+            {currentStep === 2 && <Step1 inputValue={inputValue}></Step1>}
 
             {/* Step 3 */}
-            {currentStep === 3 && (
-              <div className="step2">
-                <Step2 inputValue={inputValue}></Step2>
-
-                <div className="d-flex justify-content-between"></div>
-              </div>
-            )}
+            {currentStep === 3 && <Step2 inputValue={inputValue}></Step2>}
 
             {/* Step 5 */}
-            {currentStep === 4 && (
-              <div className="step3">
-                <Step3 inputValue={inputValue}></Step3>
-                <div className="d-flex justify-content-between"></div>
-              </div>
-            )}
+            {currentStep === 4 && <Step3 inputValue={inputValue}></Step3>}
           </div>
 
           <div className="d-flex justify-content-between mt-2">
