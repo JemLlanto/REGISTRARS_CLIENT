@@ -18,18 +18,18 @@ const SideBar = () => {
       }`}
     >
       <div>
-        <div className="d-flex align-items-center mb-3  bg-white border">
-          <button className="btn m-0 p-2" onClick={toggleSidebar}>
-            <i
-              className={showSidebar ? "bx bx-menu" : "bx bx-x"}
-              style={{ color: "black" }}
-            ></i>
-          </button>
+        <div className="d-flex align-items-center mb-3  bg-white border position-relative">
           <img
             src="/Registrar.png"
             alt="Registrar Logo"
-            style={{ width: "15rem" }}
+            style={{ width: "70%" }}
           />
+          <button className="btn m-0 p-2" onClick={toggleSidebar}>
+            <i
+              className={showSidebar ? "bx bx-menu " : "bx bx-x"}
+              style={{ color: "black" }}
+            ></i>
+          </button>
         </div>
         <div className=" listGroup">
           <ul className="sideBar-list list-unstyled">
