@@ -16,12 +16,13 @@ const SideBar = ({ user }) => {
       className={`SideBar d-flex flex-column justify-content-between ${
         showSidebar ? "toggled" : ""
       }`}
+      style={{ backgroundColor: "var(--main-color)" }}
     >
       <div>
         {/* Navbar/Header */}
         <div
-          className="d-flex align-items-center justify-content-between bg-light border p-2"
-          style={{ height: "4rem" }}
+          className="d-flex align-items-center justify-content-center "
+          style={{ height: "5rem" }}
         >
           {/* Toggle Button - Moved to Left */}
           <div className={`${showSidebar ? "fade-in" : "fade-out"}`}>
@@ -31,7 +32,7 @@ const SideBar = ({ user }) => {
               className="logo-img"
               style={{
                 height: "80%",
-                width: "10rem",
+                width: "12rem",
                 objectFit: "cover",
                 display: showSidebar ? "block" : "none",
                 opacity: showSidebar ? "1" : "0",
@@ -40,7 +41,7 @@ const SideBar = ({ user }) => {
           </div>
 
           <button
-            className="btn m-0 p-2 d-flex align-items-center justify-content-center"
+            className="btn m-0  d-flex align-items-center justify-content-center"
             onClick={toggleSidebar}
             style={{ marginRight: "auto" }}
           >
@@ -48,13 +49,14 @@ const SideBar = ({ user }) => {
               className={`bx ${
                 showSidebar ? "bx-x" : "bx-menu "
               } transition-icon`}
-              style={{ color: "black" }}
+              style={{ color: "white" }}
             ></i>
           </button>
 
           {/* Show logo only when sidebar is open */}
         </div>
-        <div className=" listGroup">
+
+        <div className=" listGroup d-flex justify-content-center">
           {user?.isAdmin ? (
             <>
               <ul className="sideBar-list list-unstyled">
@@ -70,10 +72,10 @@ const SideBar = ({ user }) => {
                 </li>
                 <li
                   className={`list-group-items ${
-                    location.pathname === "/RequestDocuments" ? "active" : ""
+                    location.pathname === "/admin/Reports" ? "active" : ""
                   }`}
                 >
-                  <Link to="/RequestDocuments">
+                  <Link to="/admin/Reports">
                     <i className="bx bx-file"></i>
                     <p className="m-0"> Reports</p>
                   </Link>
