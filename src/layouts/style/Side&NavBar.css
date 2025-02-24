@@ -4,7 +4,6 @@
   background-color: #ffff;
   width: 4rem;
   height: 100vh;
-  color: var(--secondary-color);
   transition: width 0.3s ease-in-out;
 }
 .SideBar img {
@@ -39,12 +38,10 @@
 
 .sideBar-list li a {
   text-decoration: none;
-  color: #ffff;
   font-size: 13px;
   display: flex;
   align-items: start;
   justify-content: start;
-  padding-left: 10px;
 }
 
 .SideBar.toggled .listGroup li a {
@@ -58,7 +55,7 @@
 
 .SideBar.toggled li a p {
   display: block;
-  color: var(--secondary-color);
+  color: var(--background-color);
   padding-left: 15px;
 }
 .listGroup li a i {
@@ -67,8 +64,25 @@
 }
 
 .list-group-items {
+  padding: 7px;
+  margin-top: 5px;
+  border-radius: 10px;
+}
+
+/* active button */
+.SideBar i {
+  font-size: 1.5rem;
+  transition: 0.3s;
+  color: var(--background-color);
+  opacity: 1;
   padding: 5px;
-  background-color: #ffff;
+}
+
+.SideBar.toggled i {
+  opacity: 1;
+}
+.SideBar .list-group-items.active {
+  background-color: white;
 }
 
 .SideBar .list-group-items.active p {
@@ -77,8 +91,7 @@
 }
 
 .SideBar .list-group-items:hover p {
-  color: var(--main-color);
-  font-weight: bold;
+  color: var(--background-color);
 }
 
 .SideBar .list-group-items.active i {
@@ -87,20 +100,20 @@
 }
 
 .SideBar .list-group-items:hover i {
+  color: var(--background-color);
+  font-weight: bold;
+}
+
+/* active icon*/
+.SideBar .list-group-items.active:hover p {
   color: var(--main-color);
   font-weight: bold;
 }
-.SideBar i {
-  font-size: 25px;
-  transition: 0.3s;
-  color: var(--secondary-color);
-  opacity: 1;
-}
 
-.SideBar.toggled i {
-  opacity: 1;
+.SideBar .list-group-items.active:hover i {
+  color: var(--main-color);
+  font-weight: bold;
 }
-
 /* Footer */
 .footer p {
   display: none;

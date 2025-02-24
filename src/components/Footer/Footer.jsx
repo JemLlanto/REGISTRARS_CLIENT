@@ -5,8 +5,8 @@ const Footer = ({ showSidebar }) => {
     <footer
       className={`footer ${
         showSidebar ? "toggled" : ""
-      } bg-white text-dark text-center  py-1 `}
-      style={{ width: "15rem" }}
+      }  text-white text-center  py-1 `}
+      style={{ width: "17rem" }}
     >
       <p className="mb-0" style={{ fontSize: "10px" }}>
         &copy; {new Date().getFullYear()} CVSU-CCAT Registrar's Office

@@ -14,7 +14,7 @@ const NavBar = ({ user }) => {
   };
   return (
     <div
-      className="px-4 p-1 w-100 d-flex  justify-content-end bg-white border"
+      className="px-4 p-1 w-100 d-flex  justify-content-end bg-white"
       style={{ height: "4rem" }}
     >
       <>
