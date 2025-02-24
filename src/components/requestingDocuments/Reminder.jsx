@@ -1,49 +1,51 @@
 import React, { useState } from "react";
-import { ButtonGroup, ToggleButton } from "react-bootstrap";
+import { ButtonGroup, ToggleButton, Spinner } from "react-bootstrap";
 
-const Reminder = ({ isAgreed, handleChange }) => {
-  const [privacyConsent, setPrivacyConsent] = useState(false);
-
+const Reminder = ({
+  isLoading,
+  setIsLoading,
+  privacyConsent,
+  setPrivacyConsent,
+  inputValues,
+}) => {
   const handlePrivacyChange = () => {
-    setPrivacyConsent((prev) => !prev); // Toggle state
+    setIsLoading(true); // Show loading spinner
+
+    setTimeout(() => {
+      setPrivacyConsent((prev) => !prev); // Toggle state after delay
+      setIsLoading(false); // Hide spinner after change
+    }, 500); // Simulate a delay (adjust as needed)
   };
   return (
-    <div className="p-4 rounded-1">
-      <div className="">
-        <img
-          src="/OfficeLogo.png"
-          alt="Registrar Logo"
-          style={{ width: "20rem" }}
-        />
+    <div className="p-1 rounded-1">
+      <h3 className="fw-bold" style={{ color: "var(--main-color)" }}>
+        Reminder
+      </h3>
+      <div>
+        <p>
+          Processing of documents is{" "}
+          <span className="fw-bold">ten(10) working days</span> upon request.
+          Details about payment, schedule of release & other pertinent
+          information regarding the requested document/s will be sent via
+          registered e-mail address.
+        </p>
+        <p>
+          <span className="fw-bold">Working days:</span> Monday to Thursday only
+        </p>
+        <p>
+          <span className="fw-bold">Excluded days:</span> Friday, Saturday,
+          Sunday, Holiday (local and national) and Campus/University-wide
+          activities
+        </p>
+        <p className="text-danger fw-bold">--NO EXPEDITE REQUEST--</p>
+        <p>Thank you.</p>
       </div>
-      <label htmlFor="my-input" className="form-label mt-4">
-        <span className="fw-bold">Reminder:</span>
-      </label>
-      <p>
-        Processing of documents is{" "}
-        <span className="fw-bold">ten(10) working days</span> upon request.
-        Details about payment, schedule of release & other pertinent information
-        regarding the requested document/s will be sent via registered e-mail
-        address.
-        <br />
-        <br />
-        <span className="fw-bold">Working days:</span> Monday to Thursday only
-        <br />
-        <span className="fw-bold">Excluded days:</span> Friday, Saturday,
-        Sunday, Holiday (local and national) and Campus/University-wide
-        activities
-        <br />
-        <br />
-        <span className="fw-bold">--NO EXPEDITE REQUEST--</span>
-        <br />
-        <br />
-        Thank you.
-      </p>
 
       <div>
-        <p className="mt-4">
-          <strong>Data Privacy Consent</strong>
-        </p>
+        <h3 className="fw-bold" style={{ color: "var(--main-color)" }}>
+          Data Privacy Consent
+        </h3>
+
         <p>
           In compliance with the requirements of the Data Privacy Act of 2012,
           the Cavite State University – CCAT Campus Office of the Registrar
@@ -68,7 +70,23 @@ const Reminder = ({ isAgreed, handleChange }) => {
             checked={privacyConsent}
             onChange={handlePrivacyChange}
           >
-            {privacyConsent ? "Agreed " : "Yes, I agree"}
+            {privacyConsent ? (
+              <>
+                {isLoading ? (
+                  <Spinner animation="border" variant="light" size="sm" />
+                ) : (
+                  "Yes, I agree"
+                )}
+              </>
+            ) : (
+              <>
+                {isLoading ? (
+                  <Spinner animation="border" variant="success" size="sm" />
+                ) : (
+                  "Agreed "
+                )}
+              </>
+            )}
           </ToggleButton>
         </ButtonGroup>
       </div>
