@@ -2,10 +2,14 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "bootstrap";
 import "react-bootstrap";
+
+// STYLES
 import "./layouts/style/style.css";
+import "./layouts/style/animations.css";
 import "./layouts/style/Side&NavBar.css";
 import "./App.css";
 import "./layouts/style/Imports.css";
+
 // USER ROUTES
 import Index from "./pages/auth/Index";
 import Home from "./pages/user/Home";

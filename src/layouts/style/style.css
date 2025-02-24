@@ -1,10 +1,4 @@
 @import url("./Imports.css");
-* {
-  font-family: "Poppins", sans-serif;
-}
-body {
-  letter-spacing: 1.5px; /* Adds spacing */
-}
 .step {
   width: 2.5rem;
   height: 2.5rem;
