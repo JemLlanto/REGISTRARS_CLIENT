@@ -20,7 +20,7 @@ const SideBar = ({ user }) => {
       <div>
         {/* Navbar/Header */}
         <div
-          className="d-flex align-items-center justify-content-between bg-light p-2"
+          className="d-flex align-items-center justify-content-between bg-light border p-2"
           style={{ height: "4rem" }}
         >
           {/* Toggle Button - Moved to Left */}
