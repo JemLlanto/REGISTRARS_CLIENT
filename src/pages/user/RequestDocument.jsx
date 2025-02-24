@@ -17,12 +17,12 @@ export default function RequestDocument() {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     agree: privacyConsent ? "Yes" : "No",
-    userID: user.userID || "",
-    firstName: user.firstName || "",
-    middleName: user.middleName || "",
-    lastName: user.lastName || "",
-    studentID: user.studentID || "",
-    email: user.email || "",
+    userID: user?.userID || "",
+    firstName: user?.firstName || "",
+    middleName: user?.middleName || "",
+    lastName: user?.lastName || "",
+    studentID: user?.studentID || "",
+    email: user?.email || "",
   }); // State to store input value
 
   const handleChange = (e) => {
