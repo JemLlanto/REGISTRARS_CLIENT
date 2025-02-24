@@ -55,7 +55,32 @@ const SideBar = ({ user }) => {
           {/* Show logo only when sidebar is open */}
         </div>
         <div className=" listGroup">
-          {user.isAdmin ? (
+          {user?.isAdmin ? (
+            <>
+              <ul className="sideBar-list list-unstyled">
+                <li
+                  className={`list-group-items ${
+                    location.pathname === "/admin/Home" ? "active" : ""
+                  }`}
+                >
+                  <Link to="/admin/Home" className="d-flex">
+                    <i className="bx bx-home"></i>
+                    <p className="m-0">Dashboard</p>
+                  </Link>
+                </li>
+                <li
+                  className={`list-group-items ${
+                    location.pathname === "/RequestDocuments" ? "active" : ""
+                  }`}
+                >
+                  <Link to="/RequestDocuments">
+                    <i className="bx bx-file"></i>
+                    <p className="m-0"> Reports</p>
+                  </Link>
+                </li>
+              </ul>
+            </>
+          ) : (
             <>
               <ul className="sideBar-list list-unstyled mt-3">
                 <li
@@ -66,42 +91,6 @@ const SideBar = ({ user }) => {
                   <Link to="/Home" className="d-flex">
                     <i className="bx bx-home"></i>
                     <p className="m-0"> Homepage</p>
-                  </Link>
-                </li>
-                <li
-                  className={`list-group-items ${
-                    location.pathname === "/RequestDocuments" ? "active" : ""
-                  }`}
-                >
-                  <Link to="/RequestDocuments">
-                    <i className="bx bx-file"></i>
-                    <p className="m-0"> Request Documents</p>
-                  </Link>
-                </li>
-
-                <li
-                  className={`list-group-items ${
-                    location.pathname === "/About" ? "active" : ""
-                  }`}
-                >
-                  <Link to="/About">
-                    <i className="bx bx-info-circle"></i>
-                    <p className="m-0"> About Us</p>
-                  </Link>
-                </li>
-              </ul>
-            </>
-          ) : (
-            <>
-              <ul className="sideBar-list list-unstyled">
-                <li
-                  className={`list-group-items ${
-                    location.pathname === "/Home" ? "active" : ""
-                  }`}
-                >
-                  <Link to="/Home" className="d-flex">
-                    <i className="bx bx-home"></i>
-                    <p className="m-0">Dashboard</p>
                   </Link>
                 </li>
                 <li
