@@ -25,11 +25,12 @@
   display: none !important;
 }
 
-.box i {
+.container i {
   border-radius: 20px;
-  background-color: antiquewhite;
-  font-size: 70px;
+  background-color: var(--main-color);
+  font-size: 50px;
   padding: 10px;
+  color: var(--background-color);
 }
 .requestForm h6 {
   font-size: 0.7rem;
