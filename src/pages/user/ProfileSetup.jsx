@@ -19,10 +19,12 @@ export default function ProfileSetup() {
   return (
     <div className="p-4 w-100">
       <div
-        className="rounded-2 shadow-sm"
-        style={{ backgroundColor: "#007bff" }}
+        className="rounded-2 shadow-sm p-2"
+        style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="m-0 p-2 text-white">Account Settings</h5>
+        <h5 className="m-0 p-2 " style={{ color: "var(--secondMain-color)" }}>
+          Account Settings
+        </h5>
       </div>
 
       <div className="w-100 bg-light shadow-sm rounded-2 p-4 mt-3">
@@ -93,7 +95,15 @@ export default function ProfileSetup() {
           </Row>
 
           {/* Update Button */}
-          <Button variant="primary" onClick={handleUpdate}>
+          <Button
+            variant="primary"
+            onClick={handleUpdate}
+            style={{
+              color: "var(--secondMain-color)",
+              backgroundColor: "var(--main-color)",
+            }}
+            className="p-2"
+          >
             Update Account
           </Button>
         </Form>
