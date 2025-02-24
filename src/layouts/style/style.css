@@ -24,3 +24,10 @@
 .custom-dropdown-toggle::after {
   display: none !important;
 }
+
+.box i {
+  border-radius: 20px;
+  background-color: antiquewhite;
+  font-size: 70px;
+  padding: 10px;
+}

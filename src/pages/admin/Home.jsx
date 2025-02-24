@@ -18,10 +18,14 @@ export default function Home() {
       </div>
 
       {/* Responsive Boxes */}
-      <Row className="w-100 mt-4 g-3">
+      <Row className="box w-100 mt-4 g-3">
         <Col xs={12} sm={6} md={3}>
-          <Link to="/admin/dashboard/new-request">
+          <Link
+            to="/admin/dashboard/new-request"
+            className="text-decoration-none"
+          >
             <div className="shadow-sm rounded p-3 bg-white text-center">
+              <i class="bx bx-user-plus"></i>
               <h3 className="text-success">123</h3>
               <h4>New Request</h4>
               <div className="w-100"></div>
@@ -29,24 +33,33 @@ export default function Home() {
           </Link>
         </Col>
         <Col xs={12} sm={6} md={3}>
-          <Link to="/admin/dashboard/pendings">
+          <Link to="/admin/dashboard/pendings" className="text-decoration-none">
             <div className="shadow-sm rounded p-3 bg-light text-center">
+              <i class="bx bxs-timer"></i>
               <h3 className="text-success">2133</h3>
               <h4>Pendings</h4>
             </div>
           </Link>
         </Col>
         <Col xs={12} sm={6} md={3}>
-          <Link to="/admin/dashboard/completed">
+          <Link
+            to="/admin/dashboard/completed"
+            className="text-decoration-none"
+          >
             <div className="shadow-sm rounded p-3 bg-light text-center">
+              <i class="bx bxs-user-check"></i>
               <h3 className="text-success">923</h3>
               <h4>Completed</h4>
             </div>
           </Link>
         </Col>
         <Col xs={12} sm={6} md={3}>
-          <Link to="/admin/dashboard/new-request">
+          <Link
+            to="/admin/dashboard/total-request"
+            className="text-decoration-none"
+          >
             <div className="shadow-sm rounded p-3 bg-light text-center">
+              <i class="bx bx-list-check"></i>
               <h3 className="text-success">0928</h3>
               <h4>Total Request</h4>
             </div>

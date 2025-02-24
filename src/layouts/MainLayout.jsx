@@ -4,6 +4,7 @@ import SideBar from "./SideBar/SideBar";
 import NavBar from "./SideBar/NavBar";
 import axios from "axios";
 import { useNavigate, Outlet } from "react-router-dom";
+import "boxicons";
 
 const MainLayout = () => {
   const [auth, setAuth] = useState(false);
