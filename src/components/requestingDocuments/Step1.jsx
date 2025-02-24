@@ -3,28 +3,10 @@ import React, { useState, useEffect } from "react";
 import { FloatingLabel, Form, Row, Col } from "react-bootstrap";
 
 const Step1 = ({ isAgreed, handleChange }) => {
-  const [programs, setPrograms] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/documents/fetchPrograms")
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          console.log(res.data.data);
-          setPrograms(res.data.data);
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
-        }
-      })
-      .catch((err) => {
-        console.log("Error fetching Programs: ", err);
-      });
-  }, []);
-
   return (
-    <div className="form-label mb-3 p-3">
+    <div className="requestForm form-label mb-3 p-3">
       {/* Email and Student ID */}
-      <Row className="mb-3">
+      <Row className="mb-1">
         <Col md={6}>
           <FloatingLabel controlId="floatingEmail" label="Email address">
             <Form.Control type="email" placeholder="name@example.com" />
@@ -34,10 +16,15 @@ const Step1 = ({ isAgreed, handleChange }) => {
           <FloatingLabel controlId="floatingStudentID" label="Student ID No">
             <Form.Control type="number" placeholder="Student ID" />
           </FloatingLabel>
+          <h6 className=" text-secondary mt-1">
+            <span className="fw-bold">Note:</span> If your student number is not
+            available, kindly indicate the last school year attended/graduated
+            in the University.
+          </h6>
         </Col>
       </Row>
       {/* Name Fields in a Row */}
-      <Row className="mb-3">
+      <Row className="mb-1">
         <Col md={""}>
           <FloatingLabel controlId="floatingFirstname" label="Firstname">
             <Form.Control type="text" placeholder="Firstname" />
@@ -52,6 +39,10 @@ const Step1 = ({ isAgreed, handleChange }) => {
           <FloatingLabel controlId="floatingLastname" label="Lastname">
             <Form.Control type="text" placeholder="Lastname" />
           </FloatingLabel>
+          <h6 className=" text-secondary mt-1">
+            <span className="fw-bold">Note:</span> For married woman, kindly use
+            the name you used in the University.
+          </h6>
         </Col>
       </Row>
 
@@ -73,30 +64,16 @@ const Step1 = ({ isAgreed, handleChange }) => {
         </Form.Select>
       </FloatingLabel>
 
-      {/* Mobile Number */}
-      <FloatingLabel
-        controlId="floatingMobile"
-        label="Mobile No."
-        className="mt-3"
-      >
-        <Form.Control type="number" placeholder="Mobile No." />
-      </FloatingLabel>
-
-      {/* Program/Course & Major Dropdown */}
-      <FloatingLabel
-        controlId="floatingProgram"
-        label="Program/Course & Major"
-        className="mt-3"
-      >
-        <Form.Select onChange={handleChange}>
-          <option value="">Choose</option>
-          {programs.map((program) => (
-            <option key={program.programID} value={program.programName}>
-              {program.programName}
-            </option>
-          ))}
-        </Form.Select>
-      </FloatingLabel>
+      <div>
+        {/* Mobile Number */}
+        <FloatingLabel
+          controlId="floatingMobile"
+          label="Mobile No."
+          className="mt-3"
+        >
+          <Form.Control type="number" placeholder="Mobile No." />
+        </FloatingLabel>
+      </div>
     </div>
   );
 };

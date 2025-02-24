@@ -9,11 +9,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import ReqProgressBar from "../../components/requestingDocuments/ReqProgressBar";
 
 export default function Sidebar() {
-  const [inputValues, setInputValues] = useState(""); // State to store input value
   const [currentStep, setCurrentStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [inputValues, setInputValues] = useState({
+    agree: privacyConsent ? "Yes" : "No",
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    conPassword: "",
+    email,
+  }); // State to store input value
 
   // Function to go to the next step
   const nextStep = () => {
@@ -30,7 +38,7 @@ export default function Sidebar() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("You have agreed to the terms and conditions.");
+    alert("agreed");
   };
 
   // FOR ANIMATIONS
@@ -151,20 +159,17 @@ export default function Sidebar() {
                   </p>
                 </Button>
               ) : (
-                <Button
+                <button
                   type="button"
-                  className="btn border-0"
+                  className="primaryButton"
                   onClick={nextStep}
-                  style={{
-                    backgroundColor: "var(--main-color)",
-                    color: "#ffff",
-                    width: "10rem",
-                  }}
+                  style={{}}
+                  disabled={!privacyConsent}
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
                     Next Step <i class="bx bx-chevrons-right"></i>
                   </p>
-                </Button>
+                </button>
               )}
             </div>
           </form>

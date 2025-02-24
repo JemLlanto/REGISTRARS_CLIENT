@@ -2,8 +2,25 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FloatingLabel, Form } from "react-bootstrap";
 
-const Step2 = () => {
+const Step2 = ({ handleChange }) => {
   const [purposes, setPurposes] = useState([]);
+  const [programs, setPrograms] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/documents/fetchPrograms")
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          console.log(res.data.data);
+          setPrograms(res.data.data);
+        } else if (res.data.Message) {
+          console.log("Error:", res.data.Message);
+        }
+      })
+      .catch((err) => {
+        console.log("Error fetching Programs: ", err);
+      });
+  }, []);
 
   useEffect(() => {
     axios
@@ -74,6 +91,21 @@ const Step2 = () => {
           {purposes.map((purpose) => (
             <option key={purpose.purposeID} value={purpose.purposeName}>
               {purpose.purposeName}
+            </option>
+          ))}
+        </Form.Select>
+      </FloatingLabel>
+      {/* Program/Course & Major Dropdown */}
+      <FloatingLabel
+        controlId="floatingProgram"
+        label="Program/Course & Major"
+        className="mt-3"
+      >
+        <Form.Select onChange={handleChange}>
+          <option value="">Choose</option>
+          {programs.map((program) => (
+            <option key={program.programID} value={program.programName}>
+              {program.programName}
             </option>
           ))}
         </Form.Select>

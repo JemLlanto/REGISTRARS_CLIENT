@@ -57,7 +57,6 @@ const Reminder = ({
           without consent unless the disclosure is required by, or in compliance
           with, applicable laws and regulations.
         </p>
-
         <p>
           <strong>Do you agree to the Data Privacy Consent?</strong>
         </p>

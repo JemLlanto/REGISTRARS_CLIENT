@@ -24,3 +24,22 @@
 .custom-dropdown-toggle::after {
   display: none !important;
 }
+.requestForm h6 {
+  font-size: 0.7rem;
+}
+
+/* CUSTOM BUTTON */
+.primaryButton {
+  background-color: var(--main-color);
+  border-radius: 0.4rem;
+  color: #ffff;
+  width: 10rem;
+  transition: 0.3s;
+}
+.primaryButton:hover {
+  background-color: var(--main-color-hover);
+}
+.primaryButton:disabled {
+  background-color: var(--main-color-disabled);
+  cursor: not-allowed;
+}
