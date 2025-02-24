@@ -19,6 +19,7 @@ import ProfileSetup from "./pages/user/ProfileSetup";
 import PagesMainLayout from "./layouts/PagesMainLayout";
 import MainLayout from "./layouts/MainLayout";
 import AdminHome from "./pages/admin/Home";
+import Reports from "./pages/admin/Reports";
 import NewRequest from "./pages/admin/Dashboard/NewRequest";
 import Completed from "./pages/admin/Dashboard/Completed";
 import Pendings from "./pages/admin/Dashboard/Pendings";
@@ -31,12 +32,16 @@ const App = () => {
         <Route path="/" element={<Index />} />
         {/* Routes that need MainLayout */}
         <Route element={<MainLayout />}>
+          {/* user */}
+          <Route path="*" element={<Navigate to="/home" replace />} />
           <Route path="/home" element={<Home />} />
           <Route path="/requestdocuments" element={<RequestDocuments />} />
           <Route path="/about" element={<About />} />
           <Route path="/profilesetup" element={<ProfileSetup />} />
+          {/* admin */}
           <Route path="/admin/home" element={<AdminHome />} />
-          <Route path="*" element={<Navigate to="/home" replace />} />
+          <Route path="/admin/reports" element={<Reports />} />
+          {/* pages */}
           <Route path="/admin/dashboard/new-request" element={<NewRequest />} />
           <Route path="/admin/dashboard/completed" element={<Completed />} />
           <Route path="/admin/dashboard/pendings" element={<Pendings />} />
