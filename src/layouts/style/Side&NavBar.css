@@ -2,7 +2,7 @@
 
 .SideBar {
   background-color: #ffff;
-  width: 3rem;
+  width: 4rem;
   height: 100vh;
   color: var(--secondary-color);
   transition: width 0.3s ease-in-out;
@@ -25,7 +25,7 @@
 
 .SideBar.toggled {
   background-color: #ffff;
-  width: 15rem;
+  width: 17rem;
   color: rgb(255, 255, 255);
   transition: 0.3s;
 }

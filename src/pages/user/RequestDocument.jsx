@@ -5,7 +5,6 @@ import Step1 from "../../components/requestingDocuments/Step1";
 import Step2 from "../../components/requestingDocuments/Step2";
 import Step3 from "../../components/requestingDocuments/Step3";
 import Reminder from "../../components/requestingDocuments/Reminder";
-import ProgressBarSteps from "../../components/requestingDocuments/ProgressBarSteps";
 import { motion, AnimatePresence } from "framer-motion";
 import ReqProgressBar from "../../components/requestingDocuments/ReqProgressBar";
 
@@ -13,6 +12,8 @@ export default function Sidebar() {
   const [inputValues, setInputValues] = useState(""); // State to store input value
   const [currentStep, setCurrentStep] = useState(1);
   const [direction, setDirection] = useState(1);
+  const [privacyConsent, setPrivacyConsent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Function to go to the next step
   const nextStep = () => {
@@ -77,7 +78,13 @@ export default function Sidebar() {
                     exit="exit"
                     custom={direction}
                   >
-                    <Reminder inputValues={inputValues} />
+                    <Reminder
+                      isLoading={isLoading}
+                      setIsLoading={setIsLoading}
+                      privacyConsent={privacyConsent}
+                      setPrivacyConsent={setPrivacyConsent}
+                      inputValues={inputValues}
+                    />
                   </motion.div>
                 )}
                 {currentStep === 2 && (
@@ -125,25 +132,38 @@ export default function Sidebar() {
                 className="btn btn-secondary"
                 onClick={prevStep}
                 disabled={currentStep === 1}
-                style={{ opacity: currentStep === 1 ? 0 : 1 }}
+                style={{ opacity: currentStep === 1 ? 0 : 1, width: "10rem" }}
               >
-                Back
+                <p className="m-0 d-flex align-items-center justify-content-center">
+                  <i class="bx bx-chevrons-left"></i> Back
+                </p>
               </Button>
               {currentStep === 4 ? (
-                <Button type="button" className="btn btn-success">
-                  Submit
+                <Button
+                  type="button"
+                  className="btn btn-success"
+                  style={{
+                    width: "10rem",
+                  }}
+                >
+                  <p className="m-0 d-flex align-items-center justify-content-center">
+                    Submit
+                  </p>
                 </Button>
               ) : (
                 <Button
                   type="button"
-                  className="btn "
+                  className="btn border-0"
                   onClick={nextStep}
                   style={{
                     backgroundColor: "var(--main-color)",
-                    color: "var(--secondMain-color)",
+                    color: "#ffff",
+                    width: "10rem",
                   }}
                 >
-                  Next Step
+                  <p className="m-0 d-flex align-items-center justify-content-center">
+                    Next Step <i class="bx bx-chevrons-right"></i>
+                  </p>
                 </Button>
               )}
             </div>
