@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button } from "react-bootstrap";
-import SideBar from "../../layouts/SideBar/SideBar";
-import MainLayout from "../../layouts/MainLayout";
 
-export default function Sidebar() {
+export default function About() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

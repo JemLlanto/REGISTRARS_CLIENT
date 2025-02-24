@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import MainLayout from "../../layouts/MainLayout";
 import { Button, Form, Row, Col } from "react-bootstrap";
 
-export default function Sidebar() {
+export default function ProfileSetup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

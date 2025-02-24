@@ -7,21 +7,31 @@ import Step3 from "../../components/requestingDocuments/Step3";
 import Reminder from "../../components/requestingDocuments/Reminder";
 import { motion, AnimatePresence } from "framer-motion";
 import ReqProgressBar from "../../components/requestingDocuments/ReqProgressBar";
+import { useOutletContext } from "react-router-dom";
 
-export default function Sidebar() {
+export default function RequestDocument() {
+  const { user } = useOutletContext();
   const [currentStep, setCurrentStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [inputValues, setInputValues] = useState({
+  const [formData, setFormData] = useState({
     agree: privacyConsent ? "Yes" : "No",
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    conPassword: "",
-    email,
+    userID: user.userID || "",
+    firstName: user.firstName || "",
+    middleName: user.middleName || "",
+    lastName: user.lastName || "",
+    studentID: user.studentID || "",
+    email: user.email || "",
   }); // State to store input value
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   // Function to go to the next step
   const nextStep = () => {
@@ -47,11 +57,15 @@ export default function Sidebar() {
       x: direction > 0 ? "100%" : "-100%",
       opacity: 0,
     }),
-    visible: { x: 0, opacity: 1, transition: { duration: 0.3 } },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: { duration: 0.3, ease: "easeOut" },
+    },
     exit: (direction) => ({
       x: direction > 0 ? "-100%" : "100%",
       opacity: 0,
-      transition: { duration: 0.4 },
+      transition: { duration: 0.4, ease: "easeIn" },
     }),
   };
 
@@ -91,7 +105,8 @@ export default function Sidebar() {
                       setIsLoading={setIsLoading}
                       privacyConsent={privacyConsent}
                       setPrivacyConsent={setPrivacyConsent}
-                      inputValues={inputValues}
+                      formData={formData}
+                      handleChange={handleChange}
                     />
                   </motion.div>
                 )}
@@ -104,7 +119,11 @@ export default function Sidebar() {
                     exit="exit"
                     custom={direction}
                   >
-                    <Step1 inputValues={inputValues} />
+                    <Step1
+                      formData={formData}
+                      handleChange={handleChange}
+                      user={user}
+                    />
                   </motion.div>
                 )}
                 {currentStep === 3 && (
@@ -116,7 +135,7 @@ export default function Sidebar() {
                     exit="exit"
                     custom={direction}
                   >
-                    <Step2 inputValues={inputValues} />
+                    <Step2 formData={formData} />
                   </motion.div>
                 )}
                 {currentStep === 4 && (
@@ -128,7 +147,7 @@ export default function Sidebar() {
                     exit="exit"
                     custom={direction}
                   >
-                    <Step3 inputValues={inputValues} />
+                    <Step3 formData={formData} />
                   </motion.div>
                 )}
               </AnimatePresence>
