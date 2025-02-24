@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
 import Step1 from "../../components/requestingDocuments/Step1";
@@ -17,13 +17,40 @@ export default function RequestDocument() {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     agree: privacyConsent ? "Yes" : "No",
-    userID: user?.userID || "",
-    firstName: user?.firstName || "",
-    middleName: user?.middleName || "",
-    lastName: user?.lastName || "",
-    studentID: user?.studentID || "",
-    email: user?.email || "",
+    email: user.email || "",
+    userID: user.userID || "",
+    firstName: user.firstName || "",
+    middleName: user.middleName || "",
+    lastName: user.lastName || "",
+    studentID: user.studentID || "",
+    dateOfBirth: user.dateOfBirth || "",
+    sex: user.sex || "",
+    mobileNum: user.mobileNum || "",
+    classification: user.classification || "",
+    schoolYearAttended: user.schoolYearAttended || "",
+    yearGraduated: user.yearGraduated || "",
+    yearLevel: user.yearLevel || "",
+    purpose: user.purpose || "",
+    program: user.program || "",
   }); // State to store input value
+
+  useEffect(() => {
+    if (user) {
+      setFormData((prevData) => ({
+        ...prevData,
+        email: user.email || "",
+        userID: user.userID || "",
+        firstName: user.firstName || "",
+        middleName: user.middleName || "",
+        lastName: user.lastName || "",
+        studentID: user.studentID || "",
+        dateOfBirth: user.dateOfBirth || "",
+        sex: user.sex || "",
+        mobileNum: user.mobileNum || "",
+        // Add any other user fields you want to pre-populate
+      }));
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -77,7 +104,7 @@ export default function RequestDocument() {
           style={{ backgroundColor: "var(--main-color)" }}
         >
           <h5 className="m-0 px-2" style={{ color: "var(--secondMain-color)" }}>
-            Request Submission
+            Request Submission {formData.firstName}
           </h5>
           <p className="m-0 text-light">
             (Please ensure all required fields are completed before submission.)
@@ -119,11 +146,7 @@ export default function RequestDocument() {
                     exit="exit"
                     custom={direction}
                   >
-                    <Step1
-                      formData={formData}
-                      handleChange={handleChange}
-                      user={user}
-                    />
+                    <Step1 formData={formData} handleChange={handleChange} />
                   </motion.div>
                 )}
                 {currentStep === 3 && (
@@ -135,7 +158,7 @@ export default function RequestDocument() {
                     exit="exit"
                     custom={direction}
                   >
-                    <Step2 formData={formData} />
+                    <Step2 formData={formData} handleChange={handleChange} />
                   </motion.div>
                 )}
                 {currentStep === 4 && (

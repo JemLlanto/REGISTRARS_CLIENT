@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FloatingLabel, Form, Row, Col } from "react-bootstrap";
 
-const Step1 = ({ formData, handleChange, user }) => {
+const Step1 = ({ formData, handleChange }) => {
   return (
     <div className="requestForm form-label mb-3 p-3">
       {/* Email and Student ID */}
@@ -82,12 +82,23 @@ const Step1 = ({ formData, handleChange, user }) => {
         label="Date of Birth"
         className="mb-3"
       >
-        <Form.Control type="date" placeholder="Date of Birth" />
+        <Form.Control
+          type="date"
+          placeholder="Date of Birth"
+          name="dateOfBirth"
+          value={formData.dateOfBirth}
+          onChange={handleChange}
+        />
       </FloatingLabel>
 
       {/* Sex Selection */}
       <FloatingLabel controlId="floatingSelect" label="Sex">
-        <Form.Select aria-label="Floating label select example">
+        <Form.Select
+          aria-label="Floating label select example"
+          name="sex"
+          value={formData.sex}
+          onChange={handleChange}
+        >
           <option>Choose...</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>

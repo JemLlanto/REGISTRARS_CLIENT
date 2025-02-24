@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { ButtonGroup, ToggleButton } from "react-bootstrap";
 
 const Step5 = () => {
-  // Separate state for Step 5 options
   const [selectedOption, setSelectedOption] = useState("");
 
   const handleOptionChange = (value) => {
