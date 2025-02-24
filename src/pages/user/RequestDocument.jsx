@@ -1,23 +1,28 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, ProgressBar } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Step1 from "../../components/requestingDocuments/Step1";
 import Step2 from "../../components/requestingDocuments/Step2";
 import Step3 from "../../components/requestingDocuments/Step3";
 import Reminder from "../../components/requestingDocuments/Reminder";
 import ProgressBarSteps from "../../components/requestingDocuments/ProgressBarSteps";
+import { motion, AnimatePresence } from "framer-motion";
+import ReqProgressBar from "../../components/requestingDocuments/ReqProgressBar";
 
 export default function Sidebar() {
   const [inputValues, setInputValues] = useState(""); // State to store input value
   const [currentStep, setCurrentStep] = useState(1);
+  const [direction, setDirection] = useState(1);
 
   // Function to go to the next step
   const nextStep = () => {
+    setDirection(1);
     setCurrentStep((prevStep) => prevStep + 1);
   };
 
   // Function to go to the previous step
   const prevStep = () => {
+    setDirection(-1);
     setCurrentStep((prevStep) => (prevStep > 1 ? prevStep - 1 : prevStep));
   };
 
@@ -25,6 +30,20 @@ export default function Sidebar() {
   const handleSubmit = (e) => {
     e.preventDefault();
     alert("You have agreed to the terms and conditions.");
+  };
+
+  // FOR ANIMATIONS
+  const stepVariants = {
+    hidden: (direction) => ({
+      x: direction > 0 ? "100%" : "-100%",
+      opacity: 0,
+    }),
+    visible: { x: 0, opacity: 1, transition: { duration: 0.3 } },
+    exit: (direction) => ({
+      x: direction > 0 ? "-100%" : "100%",
+      opacity: 0,
+      transition: { duration: 0.4 },
+    }),
   };
 
   return (
@@ -44,22 +63,60 @@ export default function Sidebar() {
 
         <div className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded p-3 position-relative">
           <form className="w-100" onSubmit={handleSubmit}>
-            <div className="overflow-y-scroll" style={{ height: "65dvh" }}>
-              {/* Step 1 */}
-              {currentStep === 1 && (
-                <>
-                  <Reminder inputValues={inputValues}></Reminder>
-                </>
-              )}
-
-              {/* Step 1 */}
-              {currentStep === 2 && <Step1 inputValues={inputValues}></Step1>}
-
-              {/* Step 3 */}
-              {currentStep === 3 && <Step2 inputValues={inputValues}></Step2>}
-
-              {/* Step 5 */}
-              {currentStep === 4 && <Step3 inputValues={inputValues}></Step3>}
+            <div
+              className="overflow-y-scroll overflow-x-hidden"
+              style={{ height: "65dvh" }}
+            >
+              <AnimatePresence mode="wait" custom={direction}>
+                {currentStep === 1 && (
+                  <motion.div
+                    key="step1"
+                    variants={stepVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    custom={direction}
+                  >
+                    <Reminder inputValues={inputValues} />
+                  </motion.div>
+                )}
+                {currentStep === 2 && (
+                  <motion.div
+                    key="step2"
+                    variants={stepVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    custom={direction}
+                  >
+                    <Step1 inputValues={inputValues} />
+                  </motion.div>
+                )}
+                {currentStep === 3 && (
+                  <motion.div
+                    key="step3"
+                    variants={stepVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    custom={direction}
+                  >
+                    <Step2 inputValues={inputValues} />
+                  </motion.div>
+                )}
+                {currentStep === 4 && (
+                  <motion.div
+                    key="step4"
+                    variants={stepVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    custom={direction}
+                  >
+                    <Step3 inputValues={inputValues} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             <div className="d-flex justify-content-between mt-2">
@@ -97,30 +154,7 @@ export default function Sidebar() {
         className="d-flex justify-content-center align-items-center col-1"
         style={{}}
       >
-        <div
-          className="d-flex justify-content-center align-items-center position-relative"
-          style={{ width: "5rem", height: "100%" }}
-        >
-          <ProgressBarSteps currentStep={currentStep}></ProgressBarSteps>
-          <div
-            className="position-absolute"
-            style={{ transform: "rotate(90deg)", width: "37rem" }}
-          >
-            <ProgressBar
-              className="shadow-sm border"
-              variant="primary"
-              now={
-                currentStep === 1
-                  ? 0
-                  : currentStep === 2
-                  ? 35
-                  : currentStep === 3
-                  ? 65
-                  : currentStep === 4 && 100
-              }
-            />
-          </div>
-        </div>
+        <ReqProgressBar currentStep={currentStep} />
       </div>
     </div>
   );

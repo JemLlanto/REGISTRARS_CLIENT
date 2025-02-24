@@ -1,10 +1,4 @@
 @import url("./Imports.css");
-* {
-  font-family: "Poppins", sans-serif;
-}
-body {
-  letter-spacing: 1.5px; /* Adds spacing */
-}
 
 .SideBar {
   background-color: #ffff;
@@ -23,29 +17,6 @@ body {
 /* Apply animation to an element */
 .fade-out {
   animation: fadeOut 0.3s ease-in-out;
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-/* Apply animation to an element */
-.fade-in {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 .transition-icon {

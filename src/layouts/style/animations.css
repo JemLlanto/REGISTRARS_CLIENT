@@ -1,0 +1,57 @@
+@import url("./Imports.css");
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Apply animation to an element */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.slide-right {
+  animation: slideRight 0.5s ease-in-out;
+}
+
+@keyframes slideRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-50rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-left {
+  animation: slideLeft 0.5s ease-in-out;
+}
+
+@keyframes slideLeft {
+  0% {
+    opacity: 0;
+
+    transform: translateX(50rem);
+  }
+  100% {
+    opacity: 1;
+
+    transform: translateX(0);
+    display: none;
+  }
+}

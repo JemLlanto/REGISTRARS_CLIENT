@@ -8,3 +8,9 @@
   --background-color: #ebebeb; /* Light Background */
   --white-color: #ffffff;
 }
+* {
+  font-family: "Poppins", sans-serif;
+}
+body {
+  /* letter-spacing: 1px;  */
+}
