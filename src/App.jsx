@@ -20,8 +20,9 @@ import PagesMainLayout from "./layouts/PagesMainLayout";
 import MainLayout from "./layouts/MainLayout";
 import AdminHome from "./pages/admin/Home";
 import NewRequest from "./pages/admin/Dashboard/NewRequest";
-import NewRequest from "./pages/admin/Dashboard/Completed";
-import NewRequest from "./pages/admin/Dashboard/Pendings";
+import Completed from "./pages/admin/Dashboard/Completed";
+import Pendings from "./pages/admin/Dashboard/Pendings";
+import TotalRequest from "./pages/admin/Dashboard/TotalRequest";
 
 const App = () => {
   return (
@@ -38,8 +39,10 @@ const App = () => {
           <Route path="*" element={<Navigate to="/home" replace />} />
           <Route path="/admin/dashboard/new-request" element={<NewRequest />} />
           <Route path="/admin/dashboard/completed" element={<Completed />} />
-          <Route path="/admin/dashboard/pendings" element={<Pendings />} />{" "}
-          path="/admin/dashboard/total-request" element={<TotalRequest />}
+          <Route path="/admin/dashboard/pendings" element={<Pendings />} />
+          <Route
+            path="/admin/dashboard/total-request"
+            element={<TotalRequest />}
           />
         </Route>
       </Routes>
