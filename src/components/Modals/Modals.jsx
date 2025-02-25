@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "react-bootstrap/Button";
+import { Button, Table } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 
 function AdminModal() {
@@ -16,11 +16,70 @@ function AdminModal() {
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>View More</Modal.Title>
+          <Modal.Title>Edit</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
-            <h3>View</h3>
+            {/* <table className="">
+              <div className="d-flex  justify-content-between gap-3">
+                <div>
+                  <p> Project/course</p>
+                </div>
+                <div>
+                  <tr className="">BS Electrical Engineering</tr>
+                </div>
+                <div className="d-flex align-items-center gap-2">
+                  <button className="btn btn-success text-white ">Edit</button>
+                  <button className="btn btn-danger text-white ">Delete</button>
+                </div>
+              </div>
+            </table> */}
+            <Table striped bordered hover variant="white">
+              <thead>
+                <tr>
+                  <th>Program/Course</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td> BS Electrical Engineering</td>
+                  <td className="d-flex justify-content-end gap-2">
+                    {" "}
+                    <button className="btn btn-success text-white ">
+                      Edit
+                    </button>
+                    <button className="btn btn-danger text-white ">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>BS Computer Engineering</td>
+                  <td className="d-flex justify-content-end gap-2">
+                    {" "}
+                    <button className="btn btn-success text-white ">
+                      Edit
+                    </button>
+                    <button className="btn btn-danger text-white ">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>BS Computer Science</td>
+                  <td className="d-flex justify-content-end gap-2">
+                    {" "}
+                    <button className="btn btn-success text-white ">
+                      Edit
+                    </button>
+                    <button className="btn btn-danger text-white ">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
           </div>
         </Modal.Body>
         <Modal.Footer>
