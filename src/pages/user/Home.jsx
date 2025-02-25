@@ -41,7 +41,7 @@ export default function Home() {
           <div className="w-100 h-50 bg-light shadow-sm rounded-2">
             <div className="d-flex align-items-center justify-content-around mt-5 p-3">
               <p>{request.firstName}</p>
-              <p>Feb 19, 2025</p>
+              <p>{request.created}</p>
               <p>Pending</p>
             </div>
           </div>
