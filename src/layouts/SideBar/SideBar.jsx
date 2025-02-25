@@ -56,7 +56,7 @@ const SideBar = ({ user }) => {
           {/* Show logo only when sidebar is open */}
         </div>
 
-        <div className=" listGroup d-flex justify-content-center">
+        <div className=" listGroup d-flex justify-content-center ">
           {user?.isAdmin ? (
             <>
               <ul className="sideBar-list list-unstyled">
@@ -65,9 +65,21 @@ const SideBar = ({ user }) => {
                     location.pathname === "/admin/Home" ? "active" : ""
                   }`}
                 >
-                  <Link to="/admin/Home" className="d-flex">
+                  <Link to="/admin/Home">
                     <i className="bx bx-home"></i>
                     <p className="m-0">Dashboard</p>
+                  </Link>
+                </li>
+                <li
+                  className={`list-group-items ${
+                    location.pathname === "/admin/ManageRequestForm"
+                      ? "active"
+                      : ""
+                  }`}
+                >
+                  <Link to="/admin/ManageRequestForm">
+                    <i className="bx bx-file"></i>
+                    <p className="m-0">Request Form</p>
                   </Link>
                 </li>
                 <li
@@ -84,13 +96,13 @@ const SideBar = ({ user }) => {
             </>
           ) : (
             <>
-              <ul className="sideBar-list list-unstyled mt-3">
+              <ul className="sideBar-list list-unstyled mt-3 ">
                 <li
                   className={`list-group-items ${
                     location.pathname === "/Home" ? "active" : ""
                   }`}
                 >
-                  <Link to="/Home" className="d-flex">
+                  <Link to="/Home">
                     <i className="bx bx-home"></i>
                     <p className="m-0"> Homepage</p>
                   </Link>
@@ -101,11 +113,10 @@ const SideBar = ({ user }) => {
                   }`}
                 >
                   <Link to="/RequestDocuments">
-                    <i className="bx bx-file"></i>
-                    <p className="m-0"> Request Documents</p>
+                    <i className="bx bx-file "></i>
+                    <p className="m-0"> Request Form</p>
                   </Link>
                 </li>
-
                 <li
                   className={`list-group-items ${
                     location.pathname === "/About" ? "active" : ""
