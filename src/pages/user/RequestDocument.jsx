@@ -8,6 +8,7 @@ import Reminder from "../../components/requestingDocuments/Reminder";
 import { motion, AnimatePresence } from "framer-motion";
 import ReqProgressBar from "../../components/requestingDocuments/ReqProgressBar";
 import { useOutletContext } from "react-router-dom";
+import axios from "axios";
 
 export default function RequestDocument() {
   const { user } = useOutletContext();
@@ -15,8 +16,12 @@ export default function RequestDocument() {
   const [direction, setDirection] = useState(1);
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const requestID =
+    Date.now().toString() + Math.floor(Math.random() * 1000).toString();
+  console.log(requestID);
   const [formData, setFormData] = useState({
-    agree: privacyConsent ? "Yes" : "No",
+    requestID: requestID,
+    agree: "Yes",
     email: user.email || "",
     userID: user.userID || "",
     firstName: user.firstName || "",
@@ -26,12 +31,15 @@ export default function RequestDocument() {
     dateOfBirth: user.dateOfBirth || "",
     sex: user.sex || "",
     mobileNum: user.mobileNum || "",
-    classification: user.classification || "",
-    schoolYearAttended: user.schoolYearAttended || "",
-    yearGraduated: user.yearGraduated || "",
-    yearLevel: user.yearLevel || "",
-    purpose: user.purpose || "",
+    classification: "",
+    schoolYearAttended: "",
+    yearGraduated: "",
+    yearLevel: "",
     program: user.program || "",
+    purpose: "",
+    selection: "",
+
+    inputs: {},
   }); // State to store input value
 
   useEffect(() => {
@@ -57,6 +65,10 @@ export default function RequestDocument() {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+      inputs: {
+        ...prev.inputs,
+        [name]: value,
+      },
     }));
   };
 
@@ -73,9 +85,18 @@ export default function RequestDocument() {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("agreed");
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/documents/sendRequest",
+        formData
+      );
+      alert("Document Requested");
+      console.log(response.data); // Handle success response
+    } catch (error) {
+      console.error("Error sending request:", error);
+    }
   };
 
   // FOR ANIMATIONS
@@ -104,7 +125,7 @@ export default function RequestDocument() {
           style={{ backgroundColor: "var(--main-color)" }}
         >
           <h5 className="m-0 px-2" style={{ color: "var(--secondMain-color)" }}>
-            Request Submission {formData.firstName}
+            Request Submission {currentStep}
           </h5>
           <p className="m-0 text-light">
             (Please ensure all required fields are completed before submission.)
@@ -170,7 +191,7 @@ export default function RequestDocument() {
                     exit="exit"
                     custom={direction}
                   >
-                    <Step3 formData={formData} />
+                    <Step3 formData={formData} handleChange={handleChange} />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -195,6 +216,7 @@ export default function RequestDocument() {
                   style={{
                     width: "10rem",
                   }}
+                  onClick={handleSubmit}
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
                     Submit
@@ -206,7 +228,28 @@ export default function RequestDocument() {
                   className="primaryButton"
                   onClick={nextStep}
                   style={{}}
-                  disabled={!privacyConsent}
+                  disabled={
+                    currentStep === 1
+                      ? !privacyConsent
+                      : currentStep === 2
+                      ? !formData.email ||
+                        !formData.studentID ||
+                        !formData.firstName ||
+                        !formData.lastName ||
+                        !formData.dateOfBirth ||
+                        !formData.sex ||
+                        !formData.mobileNum
+                      : currentStep === 3
+                      ? !formData.program ||
+                        !formData.classification ||
+                        (formData.classification === "graduated" &&
+                          !formData.yearGraduated) ||
+                        (formData.classification === "undergraduate" &&
+                          !formData.yearLevel) ||
+                        !formData.schoolYearAttended ||
+                        !formData.purpose
+                      : false
+                  }
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
                     Next Step <i class="bx bx-chevrons-right"></i>

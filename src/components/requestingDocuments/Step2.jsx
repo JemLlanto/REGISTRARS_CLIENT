@@ -55,6 +55,12 @@ const Step2 = ({ formData, handleChange }) => {
       });
   }, []);
 
+  if (formData.classification === "graduated") {
+    formData.yearLevel = null;
+  } else {
+    formData.yearGraduated = null;
+  }
+
   return (
     <div className="p-2 d-flex flex-column gap-2">
       {/* Program/Course & Major Dropdown */}
@@ -76,7 +82,6 @@ const Step2 = ({ formData, handleChange }) => {
           ))}
         </Form.Select>
       </FloatingLabel>
-
       {/* Step 2: Classification */}
       <FloatingLabel
         controlId="floatingProgram"
@@ -93,7 +98,6 @@ const Step2 = ({ formData, handleChange }) => {
           <option value="graduated">Graduated</option>
         </Form.Select>
       </FloatingLabel>
-
       {formData.classification === "graduated" ? (
         <FloatingLabel
           controlId="floatingProgram"
@@ -133,19 +137,20 @@ const Step2 = ({ formData, handleChange }) => {
           </Form.Select>
         </FloatingLabel>
       )}
-
       {/* Step 4: Purpose Section */}
       <FloatingLabel
         controlId="floatingLastSchoolYear"
-        label="Last School Year Attended (eg. 2025)"
-        className=""
+        label="Last School Year Attended (e.g., 2025)"
       >
         <Form.Control
           type="number"
           placeholder="Enter last school year attended"
-          name="schoolYear"
+          name="schoolYearAttended"
           value={formData.schoolYearAttended}
           onChange={handleChange}
+          min="1900" // Set a reasonable minimum
+          max={new Date().getFullYear()} // Restrict to the current year
+          step="1" // Ensure whole numbers only
         />
       </FloatingLabel>
       <FloatingLabel controlId="floatingPurpose" label="Purpose" className="">

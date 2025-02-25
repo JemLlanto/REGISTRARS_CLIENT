@@ -112,7 +112,13 @@ const Step1 = ({ formData, handleChange }) => {
           label="Mobile No."
           className="mt-3"
         >
-          <Form.Control type="number" placeholder="Mobile No." />
+          <Form.Control
+            type="number"
+            name="mobileNum"
+            value={formData.mobileNum}
+            onChange={handleChange}
+            placeholder="Mobile No."
+          />
         </FloatingLabel>
       </div>
     </div>
