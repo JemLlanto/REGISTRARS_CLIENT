@@ -24,6 +24,8 @@ import NewRequest from "./pages/admin/Dashboard/NewRequest";
 import Completed from "./pages/admin/Dashboard/Completed";
 import Pendings from "./pages/admin/Dashboard/Pendings";
 import TotalRequest from "./pages/admin/Dashboard/TotalRequest";
+import RequestDetails from "./pages/user/UserDetails/RequestDetails";
+import ManageRequestForm from "./pages/admin/ManageRequestForm";
 
 const App = () => {
   return (
@@ -32,15 +34,20 @@ const App = () => {
         <Route path="/" element={<Index />} />
         {/* Routes that need MainLayout */}
         <Route element={<MainLayout />}>
+          <Route path="/profilesetup" element={<ProfileSetup />} />
           {/* user */}
           <Route path="*" element={<Navigate to="/home" replace />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/requestdocuments" element={<RequestDocuments />} />
+          <Route path="/request-documents" element={<RequestDocuments />} />
           <Route path="/about" element={<About />} />
-          <Route path="/profilesetup" element={<ProfileSetup />} />
+          <Route path="/request-details" element={<RequestDetails />} />
           {/* admin */}
           <Route path="/admin/home" element={<AdminHome />} />
           <Route path="/admin/reports" element={<Reports />} />
+          <Route
+            path="/admin/manage-request-form"
+            element={<ManageRequestForm />}
+          />
           {/* pages */}
           <Route path="/admin/dashboard/new-request" element={<NewRequest />} />
           <Route path="/admin/dashboard/completed" element={<Completed />} />

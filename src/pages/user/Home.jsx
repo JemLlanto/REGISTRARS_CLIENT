@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, Link } from "react-router-dom";
 
 export default function Home() {
   const { user } = useOutletContext();
@@ -15,13 +15,16 @@ export default function Home() {
           Pending Request:
         </h5>
       </div>
-      <div className="w-100 h-50 bg-light shadow-sm rounded-2">
-        <div className="d-flex align-items-center justify-content-around mt-5 p-3">
-          <p>{user?.firstName || "Loading..."}</p>
-          <p>Feb 19, 2025</p>
-          <p>Pending</p>
+      <Link className="text-decoration-none text-dark" to="/requestretails">
+        <div className="w-100 h-50 bg-light shadow-sm rounded-2">
+          <div className="d-flex align-items-center justify-content-around mt-5 p-3">
+            <p>{user?.firstName || "Loading..."}</p>
+            <p>Feb 19, 2025</p>
+            <p>Pending</p>
+          </div>
         </div>
-      </div>
+      </Link>
+
       <div className="w-100 h-50 bg-light shadow-sm rounded-2 p-5 mt-5">
         <div className="d-flex align-items-center justify-content-around mt-5">
           Free space
