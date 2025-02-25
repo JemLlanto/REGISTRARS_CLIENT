@@ -91,11 +91,13 @@ export default function Home() {
         </Row>
 
         {/* Free Space Section */}
-        <div className="w-100 shadow-sm rounded-2 p-1 mt-5 text-center">
-          <div className=" d-flex align-items-center justify-content-evenly">
-            <div>
+        <div className="w-100 rounded-2 p-1 mt-5 text-center">
+          <div className=" d-flex  justify-content-evenly gap-3">
+            <div className="w-100 bg-white shadow-sm">
               <img src="/Graph.png" alt="cvsu-logo" className="w-50" />
-              <img src="/chart.png" alt="cvsu-logo" className="w-25" />
+            </div>
+            <div className="w-100 bg-white shadow-sm">
+              <img src="/chart.png" alt="cvsu-logo" className="w-50" />
             </div>
           </div>
         </div>
