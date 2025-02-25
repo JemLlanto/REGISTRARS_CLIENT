@@ -54,7 +54,7 @@ const MainLayout = () => {
   return (
     <div
       className="w-100 d-flex flex-column"
-      style={{ backgroundColor: "white" }}
+      style={{ backgroundColor: "rgb(245, 245, 245)" }}
     >
       <div className="d-flex">
         <div>

@@ -38,14 +38,14 @@ const App = () => {
           {/* user */}
           <Route path="*" element={<Navigate to="/home" replace />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/requestdocuments" element={<RequestDocuments />} />
+          <Route path="/request-documents" element={<RequestDocuments />} />
           <Route path="/about" element={<About />} />
-          <Route path="/requestretails" element={<RequestDetails />} />
+          <Route path="/request-details" element={<RequestDetails />} />
           {/* admin */}
           <Route path="/admin/home" element={<AdminHome />} />
           <Route path="/admin/reports" element={<Reports />} />
           <Route
-            path="/admin/managerequestform"
+            path="/admin/manage-request-form"
             element={<ManageRequestForm />}
           />
           {/* pages */}

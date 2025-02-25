@@ -65,7 +65,7 @@ const SideBar = ({ user }) => {
                     location.pathname === "/admin/Home" ? "active" : ""
                   }`}
                 >
-                  <Link to="/admin/Home">
+                  <Link to="/admin/home">
                     <i className="bx bx-home"></i>
                     <p className="m-0">Dashboard</p>
                   </Link>
@@ -77,7 +77,7 @@ const SideBar = ({ user }) => {
                       : ""
                   }`}
                 >
-                  <Link to="/admin/ManageRequestForm">
+                  <Link to="/admin/manage-request-form">
                     <i className="bx bx-file"></i>
                     <p className="m-0">Request Form</p>
                   </Link>
@@ -87,7 +87,7 @@ const SideBar = ({ user }) => {
                     location.pathname === "/admin/Reports" ? "active" : ""
                   }`}
                 >
-                  <Link to="/admin/Reports">
+                  <Link to="/admin/reports">
                     <i className="bx bx-file"></i>
                     <p className="m-0"> Reports</p>
                   </Link>
@@ -109,10 +109,10 @@ const SideBar = ({ user }) => {
                 </li>
                 <li
                   className={`list-group-items ${
-                    location.pathname === "/RequestDocuments" ? "active" : ""
+                    location.pathname === "/request-documents" ? "active" : ""
                   }`}
                 >
-                  <Link to="/RequestDocuments">
+                  <Link to="/request-documents">
                     <i className="bx bx-file "></i>
                     <p className="m-0"> Request Form</p>
                   </Link>
