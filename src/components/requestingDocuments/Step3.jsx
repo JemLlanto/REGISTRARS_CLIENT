@@ -2,7 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FloatingLabel, ToggleButton, Form } from "react-bootstrap";
 
-const Step3 = ({ formData, handleChange }) => {
+const Step3 = ({
+  setFile,
+  setInputsLength,
+  inputsLength,
+  formData,
+  handleChange,
+}) => {
   const [selectedOption, setSelectedOption] = useState(
     formData.selection || ""
   );
@@ -21,6 +27,7 @@ const Step3 = ({ formData, handleChange }) => {
       },
     });
   };
+  setInputsLength(inputs?.length);
 
   useEffect(() => {
     axios
@@ -82,10 +89,14 @@ const Step3 = ({ formData, handleChange }) => {
     };
   }, [purposeID]);
 
+  useEffect(() => {
+    console.log("formData updated:", formData);
+  }, [formData]);
+
   return (
     <div className="mb-3 p-3">
       <h3 className="fw-bold" style={{ color: "var(--main-color)" }}>
-        {formData.purpose}
+        {formData.purpose} {inputsLength}
       </h3>
       <div className="d-flex flex-column gap-3">
         {selection?.length > 0 ? (
@@ -109,47 +120,53 @@ const Step3 = ({ formData, handleChange }) => {
           </>
         ) : null}
 
-        {inputs?.length > 0 ? (
-          <>
-            <div className="d-flex  flex-column gap-2">
-              <h5 className="m-0">Complete all fields:</h5>
-              {inputs.map((input) => (
-                <>
-                  <FloatingLabel
-                    key={input.inputID}
-                    controlId={`floatinginput${input.inputID}`}
-                    label={input.inputDescription}
-                  >
-                    <Form.Control
-                      type="text"
-                      placeholder={input.inputDescription}
-                      name={input.inputID}
-                      value={formData.inputs[input.inputID] || ""}
-                      onChange={handleChange}
-                    />
-                  </FloatingLabel>
-                </>
-              ))}
-            </div>
-          </>
-        ) : null}
+        {inputsLength > 0 && (
+          <div className="d-flex flex-column gap-2">
+            <h5 className="m-0">Complete all fields:</h5>
+            {inputs.map((input, index) => {
+              return (
+                <FloatingLabel
+                  key={input.inputID}
+                  controlId={`floatinginput${input.inputID}`}
+                  label={input.inputDescription}
+                >
+                  <Form.Control
+                    type="text"
+                    placeholder={input.inputDescription}
+                    name={`inputValue${index + 1}`}
+                    value={formData[`inputValue${index + 1}`] || ""} // Correctly reference formData
+                    onChange={handleChange}
+                  />
+                </FloatingLabel>
+              );
+            })}
+          </div>
+        )}
 
-        {/* <div className="d-flex  flex-column gap-2">
-          <h5 className="m-0">Upload necessary files:</h5>
-          {selection.map((select) => (
-            <ToggleButton
-              key={select.selectionID}
-              id={`radio-${select.selectionID}`}
-              type="radio"
-              name="employmentOptions"
-              value={select.selectionName}
-              checked={selectedOption === select.selectionName}
-              onChange={(e) => handleSelectionChange(e.currentTarget.value)}
-            >
-              {select.selectionName}
-            </ToggleButton>
-          ))}
-        </div> */}
+        {uploads.length > 0 && (
+          <div className="d-flex  flex-column gap-2">
+            <h5 className="m-0">Upload necessary files:</h5>
+            {uploads.map((upload) => (
+              <div key={upload.fileID} class="input-group mb-3">
+                <label
+                  class="w-100 border rounded p-3"
+                  htmlFor={`inputGroupFile${upload.uploadID}`}
+                >
+                  <div className="">
+                    <h5 className="m-0">{upload.uploadDescription}</h5>
+                  </div>
+                </label>
+                <input
+                  hidden
+                  type="file"
+                  class="form-control"
+                  id={`inputGroupFile${upload.uploadID}`}
+                  onChange={(e) => setFile(e.target.files[0])}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

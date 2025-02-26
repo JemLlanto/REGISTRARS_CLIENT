@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
 import Step1 from "../../components/requestingDocuments/Step1";
@@ -16,11 +16,45 @@ export default function RequestDocument() {
   const [direction, setDirection] = useState(1);
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const requestID =
-    Date.now().toString() + Math.floor(Math.random() * 1000).toString();
-  console.log(requestID);
+  const [inputsLength, setInputsLength] = useState(0);
+  const [file, setFile] = useState(null);
+
+  const requestID = useRef(
+    Date.now().toString() + Math.floor(Math.random() * 1000).toString()
+  ).current;
+
+  console.log("requestID", requestID);
+
+  useEffect(() => {
+    // Create new input value fields when inputsLength changes
+    const inputValue = {};
+    for (let i = 1; i <= inputsLength; i++) {
+      // Preserve existing values if they exist
+      inputValue[`inputValue${i}`] = formData[`inputValue${i}`] || "";
+    }
+
+    setFormData((prevData) => ({
+      ...prevData,
+      ...inputValue,
+    }));
+    console.log(inputValue);
+  }, [inputsLength]);
+
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      inputsLength: inputsLength, // Add this line to include inputsLength in formData
+    }));
+  }, [inputsLength]);
+
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      requestID: requestID, // Add this line to include inputsLength in formData
+    }));
+  }, [requestID]);
+
   const [formData, setFormData] = useState({
-    requestID: requestID,
     agree: "Yes",
     email: user.email || "",
     userID: user.userID || "",
@@ -38,8 +72,7 @@ export default function RequestDocument() {
     program: user.program || "",
     purpose: "",
     selection: "",
-
-    inputs: {},
+    upload: "",
   }); // State to store input value
 
   useEffect(() => {
@@ -55,6 +88,8 @@ export default function RequestDocument() {
         dateOfBirth: user.dateOfBirth || "",
         sex: user.sex || "",
         mobileNum: user.mobileNum || "",
+        program: user.program || "",
+
         // Add any other user fields you want to pre-populate
       }));
     }
@@ -62,13 +97,9 @@ export default function RequestDocument() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
-      inputs: {
-        ...prev.inputs,
-        [name]: value,
-      },
     }));
   };
 
@@ -84,7 +115,35 @@ export default function RequestDocument() {
     setCurrentStep((prevStep) => (prevStep > 1 ? prevStep - 1 : prevStep));
   };
 
+  const upload = async () => {
+    const data = new FormData();
+    data.append("file", file);
+    axios
+      .post("http://localhost:5000/api/documents/uploadDocuments", data)
+      .then((res) => {
+        alert("uploaded");
+      })
+      .catch((err) => console.log.err);
+  };
+
+  // const upload = async () => {
+  //   const data = new FormData();
+  //   data.append("requestID", formData.requestID);
+  //   data.append("file", file);
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:5000/api/documents/uploadDocuments",
+  //       data
+  //     );
+  //     alert("uploaded");
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error("Error sending request:", error);
+  //   }
+  // };
+
   // Handle form submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -92,6 +151,17 @@ export default function RequestDocument() {
         "http://localhost:5000/api/documents/sendRequest",
         formData
       );
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/documents/insertInputs",
+          formData
+        );
+        alert("Inserted");
+        console.log(response.data); // Handle success response
+      } catch (error) {
+        console.error("Error sending request:", error);
+      }
+      await upload();
       alert("Document Requested");
       console.log(response.data); // Handle success response
     } catch (error) {
@@ -125,7 +195,7 @@ export default function RequestDocument() {
           style={{ backgroundColor: "var(--main-color)" }}
         >
           <h5 className="m-0 px-2" style={{ color: "var(--secondMain-color)" }}>
-            Request Submission {currentStep}
+            Request Submission {currentStep} {file}
           </h5>
           <p className="m-0 text-light">
             (Please ensure all required fields are completed before submission.)
@@ -191,7 +261,13 @@ export default function RequestDocument() {
                     exit="exit"
                     custom={direction}
                   >
-                    <Step3 formData={formData} handleChange={handleChange} />
+                    <Step3
+                      setFile={setFile}
+                      setInputsLength={setInputsLength}
+                      inputsLength={inputsLength}
+                      formData={formData}
+                      handleChange={handleChange}
+                    />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -228,28 +304,28 @@ export default function RequestDocument() {
                   className="primaryButton"
                   onClick={nextStep}
                   style={{}}
-                  disabled={
-                    currentStep === 1
-                      ? !privacyConsent
-                      : currentStep === 2
-                      ? !formData.email ||
-                        !formData.studentID ||
-                        !formData.firstName ||
-                        !formData.lastName ||
-                        !formData.dateOfBirth ||
-                        !formData.sex ||
-                        !formData.mobileNum
-                      : currentStep === 3
-                      ? !formData.program ||
-                        !formData.classification ||
-                        (formData.classification === "graduated" &&
-                          !formData.yearGraduated) ||
-                        (formData.classification === "undergraduate" &&
-                          !formData.yearLevel) ||
-                        !formData.schoolYearAttended ||
-                        !formData.purpose
-                      : false
-                  }
+                  // disabled={
+                  //   currentStep === 1
+                  //     ? !privacyConsent
+                  //     : currentStep === 2
+                  //     ? !formData.email ||
+                  //       !formData.studentID ||
+                  //       !formData.firstName ||
+                  //       !formData.lastName ||
+                  //       !formData.dateOfBirth ||
+                  //       !formData.sex ||
+                  //       !formData.mobileNum
+                  //     : currentStep === 3
+                  //     ? !formData.program ||
+                  //       !formData.classification ||
+                  //       (formData.classification === "graduated" &&
+                  //         !formData.yearGraduated) ||
+                  //       (formData.classification === "undergraduate" &&
+                  //         !formData.yearLevel) ||
+                  //       !formData.schoolYearAttended ||
+                  //       !formData.purpose
+                  //     : false
+                  // }
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
                     Next Step <i class="bx bx-chevrons-right"></i>
