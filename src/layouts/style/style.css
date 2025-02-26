@@ -148,3 +148,7 @@
   margin: 0;
   font-size: 13px;
 }
+
+.core {
+  color: var(--secondMain-color);
+}
