@@ -133,3 +133,18 @@
     transform: scale(1);
   }
 }
+
+/* requested details */
+.information h6 {
+  margin: 0;
+  font-weight: bold;
+}
+
+.information i {
+  margin: 0;
+}
+
+.information p {
+  margin: 0;
+  font-size: 13px;
+}

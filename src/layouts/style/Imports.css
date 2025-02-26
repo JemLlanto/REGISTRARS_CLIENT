@@ -9,6 +9,7 @@
   --secondary-color: #6c757d; /* Optional */
   --background-color: #ebebeb; /* Light Background */
   --white-color: #ffffff;
+  --thirdMain-color: #2e8a00;
 }
 * {
   font-family: "Poppins", sans-serif;
