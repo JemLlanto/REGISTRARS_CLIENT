@@ -1,9 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useOutletContext, Link } from "react-router-dom";
-
 import { Row, Col, Container } from "react-bootstrap";
-import AdminModal from "../../components/Modals/Modals";
 
 export default function Home() {
   const { user } = useOutletContext();
@@ -93,11 +91,29 @@ export default function Home() {
         {/* Free Space Section */}
         <div className="w-100 rounded-2 p-1 mt-5 text-center">
           <div className=" d-flex  justify-content-evenly gap-3">
-            <div className="w-100 bg-white shadow-sm">
-              <img src="/Graph.png" alt="cvsu-logo" className="w-50" />
+            <div className="w-100  bg-white shadow-sm d-flex justify-content-center align-items-center">
+              <img
+                src="/Graph.png"
+                alt="cvsu-logo"
+                className="w-100 img-fluid"
+                style={{ objectFit: "cover", height: "300px" }}
+              />
             </div>
-            <div className="w-100 bg-white shadow-sm">
-              <img src="/chart.png" alt="cvsu-logo" className="w-50" />
+
+            <div className="w-100  bg-white shadow-sm d-flex justify-content-between">
+              <div className="w-50">
+                <img
+                  src="/chart.png"
+                  alt="cvsu-logo"
+                  className="w-100 img-fluid"
+                  style={{ objectFit: "cover", height: "300px" }}
+                />
+              </div>
+              <div className="w-50 m-0 d-flex align-content-center justify-content-center flex-column">
+                <h3 className="m-0">50%</h3>
+                <h3 className="m-0">25%</h3>
+                <h3 className="m-0">25%</h3>
+              </div>
             </div>
           </div>
         </div>
