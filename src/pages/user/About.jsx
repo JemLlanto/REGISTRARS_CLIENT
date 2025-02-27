@@ -37,10 +37,10 @@ export default function About() {
         </div>
       </div>
       <div
-        className="d-flex justify-content-between gap-3"
+        className="d-flex justify-content-between gap-2 mt-2 row mx-auto"
         style={{ maxHeight: "650px" }}
       >
-        <div className="policy d-flex align-items-center justify-content-start w-100  shadow-sm rounded-2 flex-column mt-5 p-5">
+        <div className="policy col-lg d-flex align-items-center justify-content-start w-100  shadow-sm rounded-2 flex-column  p-5">
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">QUALITY POLICY</h3>
           </div>
@@ -54,7 +54,7 @@ export default function About() {
             </p>
           </div>
         </div>
-        <div className=" policy d-flex align-items-center justify-content-start w-100  bg-success shadow-sm rounded-2 flex-column mt-5 p-5">
+        <div className=" policy col-lg d-flex align-items-center justify-content-start w-100  bg-success shadow-sm rounded-2 flex-column  p-5">
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">VISION</h3>
           </div>
@@ -66,7 +66,7 @@ export default function About() {
             </p>
           </div>
         </div>
-        <div className=" policy d-flex align-items-center justify-content-start w-100  bg-success shadow-sm rounded-2 flex-column mt-5 p-5">
+        <div className=" policy col-lg d-flex align-items-center justify-content-start w-100  bg-success shadow-sm rounded-2 flex-column p-5">
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">MISSION</h3>
           </div>

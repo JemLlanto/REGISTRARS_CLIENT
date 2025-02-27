@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
 
+#root {
+  height: 100dvh;
+}
+
 :root {
   --main-color: #001957f7;
   --main-color-hover: #001344f7;
@@ -15,5 +19,13 @@
   font-family: "Poppins", sans-serif;
 }
 body {
-  /* letter-spacing: 1px;  */
+  height: 100dvh;
+}
+
+p {
+  font-size: clamp(0.7rem, 1.3dvw, 1rem);
+}
+
+h5 {
+  font-size: clamp(0.9rem, 1.3dvw, 2rem) !important;
 }

@@ -21,7 +21,7 @@ const SideBar = ({ user }) => {
       <div>
         {/* Navbar/Header */}
         <div
-          className="image-container d-flex align-items-center justify-content-center "
+          className="image-container d-flex align-items-center justify-content-center border-bottom"
           style={{ height: "4rem", border: "white" }}
         >
           {/* Toggle Button - Moved to Left */}
@@ -56,12 +56,12 @@ const SideBar = ({ user }) => {
           {/* Show logo only when sidebar is open */}
         </div>
 
-        <div className=" listGroup d-flex justify-content-center ">
-          {user?.isAdmin ? (
-            <>
-              <ul className="sideBar-list list-unstyled">
+        <div className="p-2 ">
+          <>
+            <ul className="sideBar-list list-unstyled d-flex flex-column gap-2">
+              {user.isAdmin ? (
                 <li
-                  className={`list-group-items ${
+                  className={`list-group-items  ${
                     location.pathname === "/admin/Home" ? "active" : ""
                   }`}
                 >
@@ -70,6 +70,19 @@ const SideBar = ({ user }) => {
                     <p className="m-0">Dashboard</p>
                   </Link>
                 </li>
+              ) : (
+                <li
+                  className={`list-group-items rounded py-1  px-2 ${
+                    location.pathname === "/Home" ? "active" : ""
+                  }`}
+                >
+                  <Link className="d-flex align-items-center" to="/Home">
+                    <i className="bx bx-home"></i>
+                    <p className="m-0"> Homepage</p>
+                  </Link>
+                </li>
+              )}
+              {user.isAdmin ? (
                 <li
                   className={`list-group-items ${
                     location.pathname === "/admin/ManageRequestForm"
@@ -77,59 +90,58 @@ const SideBar = ({ user }) => {
                       : ""
                   }`}
                 >
-                  <Link to="/admin/manage-request-form">
+                  <Link
+                    className="d-flex align-items-center"
+                    to="/admin/manage-request-form"
+                  >
                     <i className="bx bx-file"></i>
                     <p className="m-0">Request Form</p>
                   </Link>
                 </li>
+              ) : (
+                <li
+                  className={`list-group-items rounded py-1  px-2 ${
+                    location.pathname === "/request-documents" ? "active" : ""
+                  }`}
+                >
+                  <Link
+                    className="d-flex align-items-center"
+                    to="/request-documents"
+                  >
+                    <i className="bx bx-file "></i>
+                    <p className="m-0"> Request Form</p>
+                  </Link>
+                </li>
+              )}
+
+              {user.isAdmin ? (
                 <li
                   className={`list-group-items ${
                     location.pathname === "/admin/Reports" ? "active" : ""
                   }`}
                 >
-                  <Link to="/admin/reports">
+                  <Link
+                    className="d-flex align-items-center"
+                    to="/admin/reports"
+                  >
                     <i className="bx bx-file"></i>
                     <p className="m-0"> Reports</p>
                   </Link>
                 </li>
-              </ul>
-            </>
-          ) : (
-            <>
-              <ul className="sideBar-list list-unstyled mt-3 ">
+              ) : (
                 <li
-                  className={`list-group-items ${
-                    location.pathname === "/Home" ? "active" : ""
-                  }`}
-                >
-                  <Link to="/Home">
-                    <i className="bx bx-home"></i>
-                    <p className="m-0"> Homepage</p>
-                  </Link>
-                </li>
-                <li
-                  className={`list-group-items ${
-                    location.pathname === "/request-documents" ? "active" : ""
-                  }`}
-                >
-                  <Link to="/request-documents">
-                    <i className="bx bx-file "></i>
-                    <p className="m-0"> Request Form</p>
-                  </Link>
-                </li>
-                <li
-                  className={`list-group-items ${
+                  className={`list-group-items rounded py-1  px-2 ${
                     location.pathname === "/About" ? "active" : ""
                   }`}
                 >
-                  <Link to="/About">
+                  <Link className="d-flex align-items-center" to="/About">
                     <i className="bx bx-info-circle"></i>
                     <p className="m-0"> About Us</p>
                   </Link>
                 </li>
-              </ul>
-            </>
-          )}
+              )}
+            </ul>
+          </>
         </div>
       </div>
 

@@ -33,29 +33,35 @@ export default function Home() {
         className="rounded-2 shadow-sm mb-2"
         style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="m-0 p-3" style={{ color: "var(--secondMain-color)" }}>
+        <h4 className="m-0 p-3" style={{ color: "var(--secondMain-color)" }}>
           Pending Request
-        </h5>
+        </h4>
       </div>
 
       <div
         className="p-2 text-start w-100 rounded-2 p-3"
         style={{ backgroundColor: "var(--thirdMain-color)" }}
       >
-        <h5
+        <div
           className="m-0 d-flex align-items-center justify-content-center"
           style={{ color: "var(--background-color)" }}
         >
           <div className="w-100 d-flex align-items-center justify-content-center">
-            <i className="bx bxs-notepad fs-5 me-1 m-0"></i>Purpose
+            <h5 className="m-0">
+              <i className="bx bxs-notepad me-1 m-0"></i>Purpose
+            </h5>
           </div>
           <div className="w-100 d-flex align-items-center justify-content-center">
-            <i className="bx bxs-calendar-check fs-5 me-1"></i>Date
+            <h5 className="m-0">
+              <i className="bx bxs-calendar-check me-1"></i>Date
+            </h5>
           </div>
           <div className="w-100 d-flex align-items-center justify-content-center">
-            <i className="bx bxs-id-card fs-5 me-1"></i>Status
+            <h5 className="m-0">
+              <i className="bx bxs-id-card me-1"></i>Status
+            </h5>
           </div>
-        </h5>
+        </div>
       </div>
       <div className="mt-3 d-flex flex-column gap-3">
         {requestedDocuments.length > 0 ? (
