@@ -7,7 +7,7 @@ import Step3 from "../../components/requestingDocuments/Step3";
 import Reminder from "../../components/requestingDocuments/Reminder";
 import { motion, AnimatePresence } from "framer-motion";
 import ReqProgressBar from "../../components/requestingDocuments/ReqProgressBar";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function RequestDocument() {
@@ -18,12 +18,13 @@ export default function RequestDocument() {
   const [isLoading, setIsLoading] = useState(false);
   const [inputsLength, setInputsLength] = useState(0);
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
   const requestID = useRef(
     Date.now().toString() + Math.floor(Math.random() * 1000).toString()
   ).current;
 
-  console.log("requestID", requestID);
+  // console.log("requestID", requestID);
 
   useEffect(() => {
     // Create new input value fields when inputsLength changes
@@ -97,9 +98,27 @@ export default function RequestDocument() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let newValue = value;
+
+    if (name === "mobileNum") {
+      // Remove all non-numeric characters
+      newValue = newValue.replace(/\D/g, "");
+
+      // Ensure the number starts with "63"
+      if (!newValue.startsWith("63")) {
+        newValue = "63" + newValue;
+      }
+
+      // Limit to 12 digits (including country code)
+      newValue = newValue.slice(0, 12);
+
+      // Add "+" at the beginning
+      newValue = "+" + newValue;
+    }
+
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: newValue, // Use the properly formatted newValue
     }));
   };
 
@@ -117,32 +136,20 @@ export default function RequestDocument() {
 
   const upload = async () => {
     const data = new FormData();
+    data.append("requestID", formData.requestID);
     data.append("file", file);
-    axios
-      .post("http://localhost:5000/api/documents/uploadDocuments", data)
-      .then((res) => {
-        alert("uploaded");
-      })
-      .catch((err) => console.log.err);
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/documents/uploadDocuments",
+        data,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
   };
-
-  // const upload = async () => {
-  //   const data = new FormData();
-  //   data.append("requestID", formData.requestID);
-  //   data.append("file", file);
-  //   try {
-  //     const response = await axios.post(
-  //       "http://localhost:5000/api/documents/uploadDocuments",
-  //       data
-  //     );
-  //     alert("uploaded");
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error("Error sending request:", error);
-  //   }
-  // };
-
-  // Handle form submission
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -156,13 +163,15 @@ export default function RequestDocument() {
           "http://localhost:5000/api/documents/insertInputs",
           formData
         );
-        alert("Inserted");
         console.log(response.data); // Handle success response
       } catch (error) {
         console.error("Error sending request:", error);
       }
-      await upload();
-      alert("Document Requested");
+      if (file) {
+        await upload();
+      }
+      alert("Requested document successfully");
+      navigate("/home");
       console.log(response.data); // Handle success response
     } catch (error) {
       console.error("Error sending request:", error);
@@ -195,11 +204,11 @@ export default function RequestDocument() {
           style={{ backgroundColor: "var(--main-color)" }}
         >
           <h5 className="m-0 px-2" style={{ color: "var(--secondMain-color)" }}>
-            Request Submission {currentStep} {file}
+            Request Submission
           </h5>
-          <p className="m-0 text-light">
+          {/* <p className="m-0 text-light">
             (Please ensure all required fields are completed before submission.)
-          </p>
+          </p> */}
         </div>
 
         <div className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded p-3 position-relative">
@@ -304,28 +313,28 @@ export default function RequestDocument() {
                   className="primaryButton"
                   onClick={nextStep}
                   style={{}}
-                  // disabled={
-                  //   currentStep === 1
-                  //     ? !privacyConsent
-                  //     : currentStep === 2
-                  //     ? !formData.email ||
-                  //       !formData.studentID ||
-                  //       !formData.firstName ||
-                  //       !formData.lastName ||
-                  //       !formData.dateOfBirth ||
-                  //       !formData.sex ||
-                  //       !formData.mobileNum
-                  //     : currentStep === 3
-                  //     ? !formData.program ||
-                  //       !formData.classification ||
-                  //       (formData.classification === "graduated" &&
-                  //         !formData.yearGraduated) ||
-                  //       (formData.classification === "undergraduate" &&
-                  //         !formData.yearLevel) ||
-                  //       !formData.schoolYearAttended ||
-                  //       !formData.purpose
-                  //     : false
-                  // }
+                  disabled={
+                    currentStep === 1
+                      ? !privacyConsent
+                      : currentStep === 2
+                      ? !formData.email ||
+                        !formData.studentID ||
+                        !formData.firstName ||
+                        !formData.lastName ||
+                        !formData.dateOfBirth ||
+                        !formData.sex ||
+                        !formData.mobileNum
+                      : currentStep === 3
+                      ? !formData.program ||
+                        !formData.classification ||
+                        (formData.classification === "graduated" &&
+                          !formData.yearGraduated) ||
+                        (formData.classification === "undergraduate" &&
+                          !formData.yearLevel) ||
+                        !formData.schoolYearAttended ||
+                        !formData.purpose
+                      : false
+                  }
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
                     Next Step <i class="bx bx-chevrons-right"></i>

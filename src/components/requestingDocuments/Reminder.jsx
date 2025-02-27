@@ -19,7 +19,8 @@ const Reminder = ({
   return (
     <div className="p-1 rounded-1">
       <h3 className="fw-bold" style={{ color: "var(--main-color)" }}>
-        Reminder
+        <span className="text-danger">Important:</span> Please read carefully
+        before completing the form.
       </h3>
       <div>
         <p>

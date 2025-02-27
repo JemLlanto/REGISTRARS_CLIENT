@@ -96,7 +96,7 @@ const Step3 = ({
   return (
     <div className="mb-3 p-3">
       <h3 className="fw-bold" style={{ color: "var(--main-color)" }}>
-        {formData.purpose} {inputsLength}
+        {formData.purpose}
       </h3>
       <div className="d-flex flex-column gap-3">
         {selection?.length > 0 ? (

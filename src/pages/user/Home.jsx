@@ -7,9 +7,13 @@ export default function Home() {
   const { user } = useOutletContext();
   const [requestedDocuments, setRequestedDocuments] = useState([]);
 
+  const userID = user?.userID;
+
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/documents/fetchRequestedDocuments")
+      .get(
+        `http://localhost:5000/api/fetchingDocuments/fetchRequestedDocuments/${userID}`
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
@@ -21,15 +25,16 @@ export default function Home() {
       .catch((err) => {
         console.log("Error fetching Programs: ", err);
       });
-  }, []);
+  }, [userID]);
+
   return (
     <div className="p-4 w-100 overflow-auto" style={{ maxHeight: "650px" }}>
       <div
-        className="rounded-2 shadow-sm mb-5"
+        className="rounded-2 shadow-sm mb-2"
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5 className="m-0 p-3" style={{ color: "var(--secondMain-color)" }}>
-          Pending Request:
+          Pending Request
         </h5>
       </div>
 
@@ -41,46 +46,50 @@ export default function Home() {
           className="m-0 d-flex align-items-center justify-content-center"
           style={{ color: "var(--background-color)" }}
         >
-          <div className="w-100">
+          <div className="w-100 d-flex align-items-center justify-content-center">
             <i className="bx bxs-notepad fs-5 me-1 m-0"></i>Purpose
           </div>
-          <div className="w-100">
+          <div className="w-100 d-flex align-items-center justify-content-center">
             <i className="bx bxs-calendar-check fs-5 me-1"></i>Date
           </div>
-          <div className="w-100">
+          <div className="w-100 d-flex align-items-center justify-content-center">
             <i className="bx bxs-id-card fs-5 me-1"></i>Status
           </div>
         </h5>
       </div>
-      {requestedDocuments.map((request) => (
-        <Link
-          key={request.requestID}
-          className="text-decoration-none text-dark"
-          to="/request-details"
-        >
-          <div className="row mt-3 g-2 bg-light shadow-sm p-3">
-            <div className="col-12 col-md flex-row">
-              <div className="d-flex align-items-center gap-2">
-                <p className="m-0 w-100 fw-bold">{request.purpose}</p>
-              </div>
-            </div>
+      <div className="mt-3 d-flex flex-column gap-3">
+        {requestedDocuments.length > 0 ? (
+          <>
+            {requestedDocuments.map((request) => (
+              <Link
+                key={request.requestID}
+                className="text-decoration-none text-dark"
+                to={`/request-details/${request.requestID}`}
+              >
+                <div className="row mx-auto g-2 bg-light rounded shadow-sm p-3">
+                  <div className="col-12 col-md d-flex align-items-center justify-content-center">
+                    <p className="m-0 fw-bold">{request.purpose}</p>
+                  </div>
 
-            <div className="col-12 col-md">
-              <div className="d-flex align-items-center">
-                <p className="m-0 w-50 fw-bold">
-                  {new Date(request.created).toLocaleDateString()}
-                </p>
-              </div>
-            </div>
+                  <div className="col-12 col-md d-flex align-items-center justify-content-center">
+                    <p className="m-0 fw-bold">
+                      {new Date(request.created).toLocaleDateString()}
+                    </p>
+                  </div>
 
-            <div className="col-12 col-md">
-              <div className="d-flex align-items-center">
-                <h6 className="m-0 text-warning fw-bold">Pending</h6>
-              </div>
-            </div>
-          </div>
-        </Link>
-      ))}
+                  <div className="col-12 col-md d-flex align-items-center justify-content-center">
+                    <h6 className="m-0 text-warning fw-bold">Pending</h6>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </>
+        ) : (
+          <>
+            <p>No pending request</p>
+          </>
+        )}
+      </div>
 
       {/* <div className="w-100 h-50 bg-light shadow-sm rounded-2 p-5 mt-5">
         <div className="d-flex align-items-center justify-content-around mt-5">

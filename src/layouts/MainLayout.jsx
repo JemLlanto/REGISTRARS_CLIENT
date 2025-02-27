@@ -60,7 +60,10 @@ const MainLayout = () => {
         <div className="d-none d-md-block">
           <SideBar user={user} />
         </div>
-        <div className="w-100">
+        <div
+          className="w-100"
+          style={{ backgroundColor: "var(--background-color)" }}
+        >
           <NavBar user={user} />
           <div className="d-flex justify-content-center align-items-center">
             <Outlet context={{ user }} />
