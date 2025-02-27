@@ -32,19 +32,51 @@ export default function Home() {
           Pending Request:
         </h5>
       </div>
+
+      <div
+        className="p-2 text-start w-100 rounded-2 p-3"
+        style={{ backgroundColor: "var(--thirdMain-color)" }}
+      >
+        <h5
+          className="m-0 d-flex align-items-center justify-content-center"
+          style={{ color: "var(--background-color)" }}
+        >
+          <div className="w-100">
+            <i className="bx bxs-notepad fs-5 me-1 m-0"></i>Purpose
+          </div>
+          <div className="w-100">
+            <i className="bx bxs-calendar-check fs-5 me-1"></i>Date
+          </div>
+          <div className="w-100">
+            <i className="bx bxs-id-card fs-5 me-1"></i>Status
+          </div>
+        </h5>
+      </div>
       {requestedDocuments.map((request) => (
         <Link
           key={request.requestID}
           className="text-decoration-none text-dark"
           to="/request-details"
         >
-          <div className="w-100 bg-light shadow-sm rounded-2">
-            <div className="d-flex align-items-center justify-content-evenly mt-2 p-3 text-center">
-              <p className="m-0 w-25">{request.purpose}</p>
-              <p className="m-0 w-50">
-                {new Date(request.created).toLocaleDateString()}
-              </p>
-              <p className="m-0 w-25 text-warning fw-bold">Pending</p>
+          <div className="row mt-3 g-2 bg-light shadow-sm p-3">
+            <div className="col-12 col-md flex-row">
+              <div className="d-flex align-items-center gap-2">
+                <p className="m-0 w-100 fw-bold">{request.purpose}</p>
+              </div>
+            </div>
+
+            <div className="col-12 col-md">
+              <div className="d-flex align-items-center">
+                <p className="m-0 w-50 fw-bold">
+                  {new Date(request.created).toLocaleDateString()}
+                </p>
+              </div>
+            </div>
+
+            <div className="col-12 col-md">
+              <div className="d-flex align-items-center">
+                <h6 className="m-0 text-warning fw-bold">Pending</h6>
+              </div>
             </div>
           </div>
         </Link>

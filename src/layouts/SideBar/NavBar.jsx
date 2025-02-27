@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Dropdown, Button } from "react-bootstrap";
 import axios from "axios";
-import { IoNotificationsOutline } from "react-icons/io5";
 
 const NavBar = ({ user }) => {
   const [notifCount, setNotifCount] = useState(3);
@@ -35,17 +34,7 @@ const NavBar = ({ user }) => {
           className="position-relative me-3"
           onClick={handleNotifClick}
           bsPrefix="custom-toggle"
-        >
-          <IoNotificationsOutline size={24} />
-          {notifCount > 0 && (
-            <span
-              className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-              style={{ fontSize: "0.75rem" }}
-            >
-              {notifCount}
-            </span>
-          )}
-        </Dropdown.Toggle>
+        ></Dropdown.Toggle>
 
         <Dropdown.Menu className="p-2" style={{ minWidth: "250px" }}>
           <Dropdown.ItemText className="fw-bold">
