@@ -5,7 +5,7 @@ import { useOutletContext, useParams } from "react-router-dom";
 const RequestDetails = () => {
   const { user } = useOutletContext();
   const { requestID } = useParams();
-  const [documentDetails, setDocumentDetails] = useState();
+  const [documentDetails, setDocumentDetails] = useState([]);
 
   useEffect(() => {
     axios
@@ -32,7 +32,7 @@ const RequestDetails = () => {
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
-          Details {requestID}
+          Details
         </h5>
       </div>
       <div className="d-flex align-items-center justify-content-center w-100 flex-column mt-3">
@@ -52,7 +52,7 @@ const RequestDetails = () => {
           {/* Title */}
           <div className="d-flex align-items-center">
             <i className="bx bxs-notepad fs-2"></i>
-            <h4 className="m-0 px-2">For Transfer</h4>
+            <h4 className="m-0 px-2">{documentDetails.purpose}</h4>
           </div>
 
           <div className="row mt-3 g-2">
@@ -60,7 +60,10 @@ const RequestDetails = () => {
               <p className="text-muted ">Name</p>
               <div className="d-flex align-items-center gap-2">
                 <i className="bx bxs-user"></i>
-                <h6 className="m-0">Sallao John Mark</h6>
+                <h6 className="m-0">
+                  {documentDetails.firstName} {`${documentDetails.middleName} `}
+                  {documentDetails.lastName}
+                </h6>
               </div>
             </div>
 
@@ -68,23 +71,32 @@ const RequestDetails = () => {
               <p className="text-muted">Course</p>
               <div className="d-flex align-items-center">
                 <i className="bx bxs-graduation fs-5 me-1"></i>
-                <h6 className="m-0">BS Infotech</h6>
+                <h6 className="m-0">{documentDetails.program}</h6>
               </div>
             </div>
-
-            <div className="col-12 col-md">
-              <p className="text-muted">Year Level</p>
-              <div className="d-flex align-items-center">
-                <i className="bx bxs-calendar fs-5 me-1"></i>
-                <h6 className="m-0">Fourth year</h6>
+            {documentDetails.classification === "graduated" ? (
+              <div className="col-12 col-md">
+                <p className="text-muted">Year Graduated</p>
+                <div className="d-flex align-items-center">
+                  <i className="bx bxs-calendar fs-5 me-1"></i>
+                  <h6 className="m-0">{documentDetails.yearGraduated}</h6>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="col-12 col-md">
+                <p className="text-muted">Year Level</p>
+                <div className="d-flex align-items-center">
+                  <i className="bx bxs-calendar fs-5 me-1"></i>
+                  <h6 className="m-0">{documentDetails.yearLevel}</h6>
+                </div>
+              </div>
+            )}
 
             <div className="col-12 col-md">
               <p className="text-muted">Gender</p>
               <div className="d-flex align-items-center">
                 <i className="bx bx-male-sign fs-5 me-1"></i>
-                <h6 className="m-0">Male</h6>
+                <h6 className="m-0">{documentDetails.sex}</h6>
               </div>
             </div>
 
@@ -92,7 +104,7 @@ const RequestDetails = () => {
               <p className="text-muted">Student ID</p>
               <div className="d-flex align-items-center">
                 <i className="bx bxs-id-card fs-5 me-1"></i>
-                <h6 className="m-0">202110575</h6>
+                <h6 className="m-0">{documentDetails.studentID}</h6>
               </div>
             </div>
           </div>
@@ -105,7 +117,7 @@ const RequestDetails = () => {
               <p className="text-muted">Classification</p>
               <div className="d-flex align-items-center gap-2">
                 <i className="bx bxs-user-detail fs-5 me-1"></i>
-                <h6 className="m-0">Undergraduate</h6>
+                <h6 className="m-0">{documentDetails.classification}</h6>
               </div>
             </div>
 
@@ -113,7 +125,7 @@ const RequestDetails = () => {
               <p className="text-muted">Phone Number</p>
               <div className="d-flex align-items-center">
                 <i className="bx bxs-phone fs-5 me-1"></i>
-                <h6 className="m-0">09704715264</h6>
+                <h6 className="m-0">{documentDetails.mobileNum}</h6>
               </div>
             </div>
 
@@ -121,23 +133,19 @@ const RequestDetails = () => {
               <p className="text-muted">Birthday</p>
               <div className="d-flex align-items-center">
                 <i className="bx bxs-cake fs-5 me-1"></i>
-                <h6 className="m-0">April 27, 2003</h6>
+                <h6 className="m-0">
+                  {new Intl.DateTimeFormat("en-US", {
+                    dateStyle: "medium",
+                  }).format(new Date(documentDetails.dateOfBirth))}
+                </h6>
               </div>
             </div>
 
             <div className="col-12 col-md">
-              <p className="text-muted">Graduation Year</p>
+              <p className="text-muted">Last School Year Attended</p>
               <div className="d-flex align-items-center">
                 <i className="bx bxs-calendar-check fs-5 me-1"></i>
-                <h6 className="m-0">2025</h6>
-              </div>
-            </div>
-
-            <div className="col-12 col-md">
-              <p className="text-muted">Year Graduated</p>
-              <div className="d-flex align-items-center">
-                <i className="bx bxs-certification fs-5 me-1"></i>
-                <h6 className="m-0">Year Graduate</h6>
+                <h6 className="m-0">{documentDetails.schoolYearAttended}</h6>
               </div>
             </div>
           </div>
