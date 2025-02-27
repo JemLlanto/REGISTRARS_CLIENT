@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 
-function AdminModal() {
+function programModal() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -95,4 +95,4 @@ function AdminModal() {
   );
 }
 
-export default AdminModal;
+export default programModal;

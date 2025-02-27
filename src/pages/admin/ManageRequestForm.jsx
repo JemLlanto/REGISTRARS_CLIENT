@@ -1,7 +1,7 @@
 import { Modal } from "bootstrap";
 import React from "react";
-import AdminModal from "../../components/Modals/Modals";
-
+import ProgramModal from "../../components/Modals/programModal";
+import PurposeModal from "../../components/Modals/purposeModal";
 const ManageRequestForm = () => {
   return (
     <div className="w-100 p-4">
@@ -20,7 +20,15 @@ const ManageRequestForm = () => {
             <h5>Program/Course</h5>
           </div>
           <div>
-            <AdminModal></AdminModal>
+            <ProgramModal></ProgramModal>
+          </div>
+        </div>
+        <div className="d-flex align-items-start flex-column">
+          <div className="">
+            <h5>Purpose</h5>
+          </div>
+          <div>
+            <PurposeModal></PurposeModal>
           </div>
         </div>
       </div>

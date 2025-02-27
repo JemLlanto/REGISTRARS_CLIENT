@@ -54,16 +54,13 @@ const MainLayout = () => {
   return (
     <div
       className="w-100 d-flex flex-column"
-      style={{ backgroundColor: "rgb(245, 245, 245)" }}
+      style={{ backgroundColor: "var(--background-color)", height: "100dvh" }}
     >
-      <div className="d-flex">
-        <div>
+      <div className="d-flex overflow-hidden" style={{ height: "100dvh" }}>
+        <div className="d-none d-md-block">
           <SideBar user={user} />
         </div>
-        <div
-          className="w-100"
-          style={{ backgroundColor: "var(--background-color)" }}
-        >
+        <div className="w-100">
           <NavBar user={user} />
           <div className="d-flex justify-content-center align-items-center">
             <Outlet context={{ user }} />
