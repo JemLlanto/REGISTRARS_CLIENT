@@ -24,7 +24,7 @@ import NewRequest from "./pages/admin/Dashboard/NewRequest";
 import Completed from "./pages/admin/Dashboard/Completed";
 import Pendings from "./pages/admin/Dashboard/Pendings";
 import TotalRequest from "./pages/admin/Dashboard/TotalRequest";
-import RequestDetails from "./pages/user/UserDetails/RequestDetails";
+import RequestDetails from "./pages/user/RequestDetails/RequestDetails";
 import ManageRequestForm from "./pages/admin/ManageRequestForm";
 
 const App = () => {
@@ -40,7 +40,10 @@ const App = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/request-documents" element={<RequestDocuments />} />
           <Route path="/about" element={<About />} />
-          <Route path="/request-details" element={<RequestDetails />} />
+          <Route
+            path="/request-details/:requestID"
+            element={<RequestDetails />}
+          />
           {/* admin */}
           <Route path="/admin/home" element={<AdminHome />} />
           <Route path="/admin/reports" element={<Reports />} />

@@ -1,9 +1,29 @@
-import React from "react";
-import { useOutletContext } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useOutletContext, useParams } from "react-router-dom";
 
 const RequestDetails = () => {
   const { user } = useOutletContext();
+  const { requestID } = useParams();
+  const [documentDetails, setDocumentDetails] = useState();
 
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:5000/api/fetchingDocuments/fetchRequestedDocumentsDetails/${requestID}`
+      )
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          console.log(res.data.data);
+          setDocumentDetails(res.data.data);
+        } else if (res.data.Message) {
+          console.log("Error: ", res.data.Message);
+        }
+      })
+      .catch((err) => {
+        console.log("Error fetching details: ", err);
+      });
+  }, [requestID]);
   return (
     <div className="p-4 w-100 overflow-auto" style={{ maxHeight: "650px" }}>
       {/* Header Section */}
@@ -12,7 +32,7 @@ const RequestDetails = () => {
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
-          Details
+          Details {requestID}
         </h5>
       </div>
       <div className="d-flex align-items-center justify-content-center w-100 flex-column mt-3">
