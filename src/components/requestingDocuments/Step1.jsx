@@ -4,7 +4,7 @@ import { FloatingLabel, Form, Row, Col } from "react-bootstrap";
 
 const Step1 = ({ formData, handleChange }) => {
   return (
-    <div className="requestForm form-label mb-3 p-3">
+    <div className="requestForm form-label p-3">
       {/* Email and Student ID */}
       <Row className="mb-1">
         <Col md={6}>
@@ -80,7 +80,7 @@ const Step1 = ({ formData, handleChange }) => {
       <FloatingLabel
         controlId="floatingDOB"
         label="Date of Birth"
-        className="mb-3"
+        className="mb-2"
       >
         <Form.Control
           type="date"
@@ -109,11 +109,11 @@ const Step1 = ({ formData, handleChange }) => {
         {/* Mobile Number */}
         <FloatingLabel
           controlId="floatingMobile"
-          label="Mobile No."
-          className="mt-3"
+          label="Mobile No.(+63XXXXXXXXXX)"
+          className="mt-2"
         >
           <Form.Control
-            type="number"
+            type="text"
             name="mobileNum"
             value={formData.mobileNum}
             onChange={handleChange}
