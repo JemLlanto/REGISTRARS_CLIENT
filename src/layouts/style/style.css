@@ -134,10 +134,6 @@
   }
 }
 
-.core {
-  color: var(--secondMain-color);
-}
-
 /* about us */
 .policy {
   background: url("/policy.png") no-repeat center center;

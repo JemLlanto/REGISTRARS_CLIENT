@@ -29,3 +29,6 @@ p {
 h5 {
   font-size: clamp(0.9rem, 1.3dvw, 2rem) !important;
 }
+h2 {
+  font-size: clamp(1.5rem, 2dvw, 2.5rem) !important;
+}

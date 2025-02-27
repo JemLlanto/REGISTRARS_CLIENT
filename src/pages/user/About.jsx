@@ -14,7 +14,7 @@ export default function About() {
           About Us:
         </h5>
       </div>
-
+      {/* 
       <div
         className="core d-flex  justify-content-start flex-column  w-100  shadow-sm rounded-2 p-5 mt-5 text-center"
         style={{
@@ -35,7 +35,7 @@ export default function About() {
         <div>
           <h3>07:00 AM to 06:00 PM</h3>
         </div>
-      </div>
+      </div> */}
       <div
         className="d-flex justify-content-between gap-2 mt-2 row mx-auto"
         style={{ maxHeight: "650px" }}
@@ -80,44 +80,24 @@ export default function About() {
             </p>
           </div>
         </div>
-      </div>
-
-      {/* <li
-        className=" w-100 list-unstyled mt-5"
-        style={{ height: "2px", backgroundColor: "var(--secondMain-color)" }}
-      ></li> */}
-
-      <div
-        className="core d-flex  justify-content-evenly w-100  shadow-sm rounded-2 p-5 mt-5"
-        style={{
-          backgroundColor: "var(--main-color)",
-        }}
-      >
-        <div className="m-0 ">
-          <h2 className=" fw-bold">TRUTH</h2>
-        </div>
-        <div className="m-0 ">
-          <h2 className=" fw-bold">INTEGRITY</h2>
-        </div>
-        <div className="m-0 ">
-          <h2 className=" fw-bold">EXCELLENCE</h2>
-        </div>
-        <div className="m-0">
-          <h2 className=" fw-bold">SERVICE</h2>
-        </div>
-      </div>
-
-      <div className="d-flex align-items-center justify-content-center w-100 h-50 bg-white shadow-sm rounded-2 flex-column mt-4">
-        <div className="m-0 mt-3">
-          <h4>MANAGEMENT INFORMATION SYSTEMS</h4>
-        </div>
-        <div className="mt-3 m-0">
-          <h1>Withdrawal of Registration / Enrollment</h1>
-        </div>
-        <div className="mb-2">
-          <p className="text-center">until</p>
-          <h3>MARCH 11, 2025</h3>
-          <h5>CUT-OFF TIME: 4:00 PM</h5>
+        <div
+          className="core row w-100  shadow-sm rounded-2 p-5 mt-2 mx-0 gap-3"
+          style={{
+            backgroundColor: "var(--main-color)",
+          }}
+        >
+          <div className="m-0 col-md d-flex justify-content-center">
+            <h2 className="text-warning fw-bold">TRUTH</h2>
+          </div>
+          <div className="m-0 col-md d-flex justify-content-center">
+            <h2 className="text-warning fw-bold">INTEGRITY</h2>
+          </div>
+          <div className="m-0 col-md d-flex justify-content-center">
+            <h2 className="text-warning fw-bold">EXCELLENCE</h2>
+          </div>
+          <div className="m-0 col-md d-flex justify-content-center">
+            <h2 className="text-warning fw-bold">SERVICE</h2>
+          </div>
         </div>
       </div>
     </div>
