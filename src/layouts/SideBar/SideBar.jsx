@@ -21,8 +21,8 @@ const SideBar = ({ user }) => {
       <div>
         {/* Navbar/Header */}
         <div
-          className="d-flex align-items-center justify-content-center "
-          style={{ height: "5rem" }}
+          className="image-container d-flex align-items-center justify-content-center "
+          style={{ height: "4rem", border: "white" }}
         >
           {/* Toggle Button - Moved to Left */}
           <div className={`${showSidebar ? "fade-in" : "fade-out"}`}>

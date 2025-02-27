@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function AdminModal() {
+function graduatedModal() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -36,4 +36,4 @@ function AdminModal() {
   );
 }
 
-export default AdminModal;
+export default graduatedModal;

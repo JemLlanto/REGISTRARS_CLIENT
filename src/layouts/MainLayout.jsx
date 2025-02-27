@@ -57,7 +57,7 @@ const MainLayout = () => {
       style={{ backgroundColor: "rgb(245, 245, 245)" }}
     >
       <div className="d-flex">
-        <div>
+        <div className="d-none d-md-block">
           <SideBar user={user} />
         </div>
         <div className="w-100">

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import PurposeCollapse from "../accordion/PurposeCollapse";
 
-function AdminModal() {
+function purposeModal() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -14,13 +15,13 @@ function AdminModal() {
         View More
       </Button>
 
-      <Modal show={show} onHide={handleClose} centered>
+      <Modal size="lg" show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>View More</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
-            <h3>View</h3>
+            <PurposeCollapse></PurposeCollapse>
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -36,4 +37,4 @@ function AdminModal() {
   );
 }
 
-export default AdminModal;
+export default purposeModal;
