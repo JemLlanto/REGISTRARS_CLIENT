@@ -117,13 +117,19 @@ export default function RequestDocument() {
 
   const upload = async () => {
     const data = new FormData();
+    data.append("requestID", formData.requestID);
     data.append("file", file);
-    axios
-      .post("http://localhost:5000/api/documents/uploadDocuments", data)
-      .then((res) => {
-        alert("uploaded");
-      })
-      .catch((err) => console.log.err);
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/documents/uploadDocuments",
+        data
+      );
+      alert("Uploaded");
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
   };
 
   // const upload = async () => {
@@ -195,7 +201,7 @@ export default function RequestDocument() {
           style={{ backgroundColor: "var(--main-color)" }}
         >
           <h5 className="m-0 px-2" style={{ color: "var(--secondMain-color)" }}>
-            Request Submission {currentStep} {file}
+            Request Submission {currentStep}
           </h5>
           <p className="m-0 text-light">
             (Please ensure all required fields are completed before submission.)
