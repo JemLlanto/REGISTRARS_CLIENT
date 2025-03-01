@@ -20,73 +20,67 @@ export default function Home() {
         className="overflow-y-scroll overflow-x-hidden"
         style={{ height: "77dvh" }}
       >
-        {/* Responsive Boxes */}
-        <Row className="container w-100 mt-4 g-3">
-          <Col xs={12} sm={6} md={3}>
-            <Link
-              to="/admin/dashboard/new-request"
-              className="text-decoration-none"
-            >
-              <div className="shadow-sm rounded p-3  text-start">
-                <div className="d-flex justify-content-between">
-                  <i class="bx bx-user-plus"></i>
-                  <div className="flex-column">
-                    <h5 className="text-success">123+</h5>
-                    <h4 className="text-dark">New Request</h4>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </Col>
-          <Col xs={12} sm={6} md={3}>
-            <Link
-              to="/admin/dashboard/pendings"
-              className="text-decoration-none"
-            >
-              <div className="shadow-sm rounded p-3  text-start">
-                <div className="d-flex justify-content-between">
-                  <i class="bx bxs-timer"></i>
-                  <div className="flex-column">
-                    <h5 className="text-success">2133+</h5>
-                    <h4 className="text-dark">Pendings</h4>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </Col>
-          <Col xs={12} sm={6} md={3}>
-            <Link
-              to="/admin/dashboard/completed"
-              className="text-decoration-none"
-            >
-              <div className="shadow-sm rounded p-3 text-start">
-                <div className="d-flex justify-content-between">
-                  <i class="bx bxs-user-check"></i>
-                  <div className="flex-column">
-                    <h5 className="text-success">923+</h5>
-                    <h4 className="text-dark">Completed</h4>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </Col>
-          <Col xs={12} sm={6} md={3}>
-            <Link
-              to="/admin/dashboard/total-request"
-              className="text-decoration-none"
-            >
-              <div className="shadow-sm rounded p-3 text-start">
-                <div className="d-flex justify-content-between">
-                  <i class="bx bx-list-check"></i>
-                  <div className="flex-column">
-                    <h5 className="text-success">0928+</h5>
-                    <h4 className="text-dark">Total Request</h4>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </Col>
-        </Row>
+       <Row className="container w-100 mt-4 g-3">
+  <Col xs={12} sm={6} md={3}>
+    <Link to="/admin/dashboard/new-request" className="text-decoration-none">
+      <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center">
+        <div className="text-white d-flex justify-content-center align-items-center p-3" style={{ width: "60px", height: "60px" }}>
+          <i className="bx bx-user-plus fs-3 rounded-circle"></i>
+        </div>
+        <div className="ms-3">
+          <h5 className="text-success mb-1">123+</h5>
+          <h5 className="text-dark">New Request</h5>
+        </div>
+      </div>
+    </Link>
+  </Col>
+
+  <Col xs={12} sm={6} md={3}>
+    <Link to="/admin/dashboard/pendings" className="text-decoration-none">
+      <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center">
+        <div className=" text-white  d-flex justify-content-center align-items-center p-3" style={{ width: "60px", height: "60px" }}>
+          <i className="bx bxs-timer fs-3 rounded-circle"></i>
+        </div>
+        <div className="ms-3">
+          <h5 className="text-success mb-1">2133+</h5>
+          <h5 className="text-dark">Pendings</h5>
+        </div>
+      </div>
+    </Link>
+  </Col>
+
+  <Col xs={12} sm={6} md={3}>
+    <Link to="/admin/dashboard/completed" className="text-decoration-none">
+      <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center">
+        <div className=" text-white  d-flex justify-content-center align-items-center p-3" style={{ width: "60px", height: "60px" }}>
+          <i className="bx bxs-user-check fs-3 rounded-circle"></i>
+        </div>
+        <div className="ms-3">
+
+        </div>
+        <div>
+        <h5 className="text-success mb-1">923+</h5>
+        <h5 className="text-dark">Completed</h5>
+        </div>
+      </div>
+    </Link>
+  </Col>
+
+  <Col xs={12} sm={6} md={3}>
+    <Link to="/admin/dashboard/total-request" className="text-decoration-none">
+      <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center">
+        <div className=" text-white  d-flex justify-content-center align-items-center p-3" style={{ width: "60px", height: "60px" }}>
+          <i className="bx bx-list-check fs-3 rounded-circle"></i>
+        </div>
+        <div className="ms-3">
+          <h5 className="text-success mb-1">928+</h5>
+          <h5 className="text-dark">Total Request</h5>
+        </div>
+      </div>
+    </Link>
+  </Col>
+</Row>
+
 
         {/* Free Space Section */}
         <div className="w-100 rounded-2 p-1 mt-5 text-center">
@@ -95,26 +89,12 @@ export default function Home() {
               <img
                 src="/Graph.png"
                 alt="cvsu-logo"
-                className="w-100 img-fluid"
-                style={{ objectFit: "cover", height: "300px" }}
+                className="w-75 img-fluid"
+                style={{ objectFit: "cover", height: "400px" }}
               />
             </div>
 
-            <div className="w-100  bg-white shadow-sm d-flex justify-content-between">
-              <div className="w-50">
-                <img
-                  src="/chart.png"
-                  alt="cvsu-logo"
-                  className="w-100 img-fluid"
-                  style={{ objectFit: "cover", height: "300px" }}
-                />
-              </div>
-              <div className="w-50 m-0 d-flex align-content-center justify-content-center flex-column">
-                <h3 className="m-0">50%</h3>
-                <h3 className="m-0">25%</h3>
-                <h3 className="m-0">25%</h3>
-              </div>
-            </div>
+         
           </div>
         </div>
       </div>

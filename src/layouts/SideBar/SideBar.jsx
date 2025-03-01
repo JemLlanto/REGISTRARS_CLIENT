@@ -56,7 +56,7 @@ const SideBar = ({ user }) => {
           {/* Show logo only when sidebar is open */}
         </div>
 
-        <div className="p-2 ">
+        <div className="p-3 ">
           <>
             <ul className="sideBar-list list-unstyled d-flex flex-column gap-2">
               {user.isAdmin ? (
@@ -65,7 +65,7 @@ const SideBar = ({ user }) => {
                     location.pathname === "/admin/Home" ? "active" : ""
                   }`}
                 >
-                  <Link to="/admin/home">
+                  <Link className="d-flex align-items-center" to="/admin/home">
                     <i className="bx bx-home"></i>
                     <p className="m-0">Dashboard</p>
                   </Link>

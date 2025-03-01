@@ -29,10 +29,10 @@
   transition: 0.3s;
 }
 
-.SideBar.toggled h3 {
+.SideBar.toggled p {
   display: block;
 }
-.SideBar h3 {
+.SideBar p {
   display: none;
 }
 
