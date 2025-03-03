@@ -30,12 +30,12 @@ const NavBar = ({ user }) => {
         <img
           src="/cvsu-logo.png"
           alt="Registrar Logo"
-          className="d-block img-fluid"
+          className="d-block d-md-none img-fluid"
           style={{ maxWidth: "50px", objectFit: "cover" }}
         />
 
         {/* Right Side*/}
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center ms-auto">
           {/* User Dropdown */}
           <Dropdown align="end">
             <Dropdown.Toggle
