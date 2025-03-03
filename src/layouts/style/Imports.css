@@ -8,7 +8,8 @@
   --main-color: #001957f7;
   --main-color-hover: #001344f7;
   --main-color-disabled: #3f5a9ff7;
-  --secondMain-color: #e4b703fb;
+  /* --secondMain-color: #e4b703fb; */
+  --secondMain-color: #fffffffb;
   --primary-color: rgb(63, 125, 250); /* Bootstrap Blue */
   --secondary-color: #6c757d; /* Optional */
   --background-color: #ebebeb; /* Light Background */

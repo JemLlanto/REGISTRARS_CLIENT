@@ -39,7 +39,7 @@ export default function Home() {
       </div>
 
       <div
-        className="p-2 text-start w-100 rounded-2 p-3 d-none d-md-block"
+        className="p-2 text-start w-100 rounded-2 p-3 d-none d-sm-block"
         style={{ backgroundColor: "var(--thirdMain-color)" }}
       >
         <div
@@ -73,18 +73,21 @@ export default function Home() {
                 to={`/request-details/${request.requestID}`}
               >
                 <div className="row mx-auto g-2 bg-light rounded shadow-sm p-3">
-                  <div className="col-12 col-md d-flex align-items-center justify-content-center">
-                    <p className="m-0 fw-bold">{request.purpose}</p>
+                  <div className="col-12 col-sm d-flex align-items-center justify-content-center">
+                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Purpose:</h5>
+                    <p className="m-0">{request.purpose}</p>
                   </div>
 
-                  <div className="col-12 col-md d-flex align-items-center justify-content-center">
-                    <p className="m-0 fw-bold">
+                  <div className="col-12 col-sm d-flex align-items-center justify-content-center">
+                  <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Date:</h5>
+                    <p className="m-0 ">
                       {new Date(request.created).toLocaleDateString()}
                     </p>
                   </div>
 
-                  <div className="col-12 col-md d-flex align-items-center justify-content-center">
-                    <h6 className="m-0 text-warning fw-bold">Pending</h6>
+                  <div className="col-12 col-sm d-flex align-items-center justify-content-center">
+                  <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Status:</h5>
+                    <h5 className="m-0 text-warning ">Pending</h5>
                   </div>
                 </div>
               </Link>
