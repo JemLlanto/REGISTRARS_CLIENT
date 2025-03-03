@@ -21,6 +21,12 @@ export default function RequestDocument() {
   const [docType, setDocType] = useState([]);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (user.isAdmin) {
+      navigate("/admin/home");
+    }
+  }, [user.isAdmin, navigate]);
+
   const requestID = useRef(
     Date.now().toString() + Math.floor(Math.random() * 1000).toString()
   ).current;
