@@ -18,6 +18,7 @@ export default function RequestDocument() {
   const [isLoading, setIsLoading] = useState(false);
   const [inputsLength, setInputsLength] = useState(0);
   const [file, setFile] = useState(null);
+  const [docType, setDocType] = useState([]);
   const navigate = useNavigate();
 
   const requestID = useRef(
@@ -72,7 +73,6 @@ export default function RequestDocument() {
     yearLevel: "",
     program: user.program || "",
     purpose: "",
-    selection: "",
     upload: "",
   }); // State to store input value
 
@@ -150,6 +150,22 @@ export default function RequestDocument() {
       throw err;
     }
   };
+  const insertDocTypes = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/documents/insertDocTypes",
+        {
+          documentTypes: docType,
+          requestID: requestID,
+        }
+      );
+      console.log("Insert response:", res.data);
+      return res.data;
+    } catch (err) {
+      console.log("Error inserting document types:", err);
+      throw err;
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -166,6 +182,9 @@ export default function RequestDocument() {
         console.log(response.data); // Handle success response
       } catch (error) {
         console.error("Error sending request:", error);
+      }
+      if (docType) {
+        await insertDocTypes();
       }
       if (file) {
         await upload();
@@ -271,6 +290,8 @@ export default function RequestDocument() {
                     custom={direction}
                   >
                     <Step3
+                      docType={docType}
+                      setDocType={setDocType}
                       setFile={setFile}
                       setInputsLength={setInputsLength}
                       inputsLength={inputsLength}
@@ -313,28 +334,28 @@ export default function RequestDocument() {
                   className="primaryButton"
                   onClick={nextStep}
                   style={{}}
-                  disabled={
-                    currentStep === 1
-                      ? !privacyConsent
-                      : currentStep === 2
-                      ? !formData.email ||
-                        !formData.studentID ||
-                        !formData.firstName ||
-                        !formData.lastName ||
-                        !formData.dateOfBirth ||
-                        !formData.sex ||
-                        !formData.mobileNum
-                      : currentStep === 3
-                      ? !formData.program ||
-                        !formData.classification ||
-                        (formData.classification === "graduated" &&
-                          !formData.yearGraduated) ||
-                        (formData.classification === "undergraduate" &&
-                          !formData.yearLevel) ||
-                        !formData.schoolYearAttended ||
-                        !formData.purpose
-                      : false
-                  }
+                  // disabled={
+                  //   currentStep === 1
+                  //     ? !privacyConsent
+                  //     : currentStep === 2
+                  //     ? !formData.email ||
+                  //       !formData.studentID ||
+                  //       !formData.firstName ||
+                  //       !formData.lastName ||
+                  //       !formData.dateOfBirth ||
+                  //       !formData.sex ||
+                  //       !formData.mobileNum
+                  //     : currentStep === 3
+                  //     ? !formData.program ||
+                  //       !formData.classification ||
+                  //       (formData.classification === "graduated" &&
+                  //         !formData.yearGraduated) ||
+                  //       (formData.classification === "undergraduate" &&
+                  //         !formData.yearLevel) ||
+                  //       !formData.schoolYearAttended ||
+                  //       !formData.purpose
+                  //     : false
+                  // }
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
                     Next Step <i class="bx bx-chevrons-right"></i>

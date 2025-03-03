@@ -6,10 +6,14 @@ const RequestDetails = () => {
   const { user } = useOutletContext();
   const { requestID } = useParams();
   const [documentDetails, setDocumentDetails] = useState([]);
+  const [documentTypes, setDocumentTypes] = useState([]);
+  const [documentInputValues, setDocumentInputValues] = useState([]);
+  const [documentInputs, setDocumentInputs] = useState([]);
+  const [documentFile, setDocumentFile] = useState(null);
   const birthDate = documentDetails?.dateOfBirth
     ? new Intl.DateTimeFormat("en-US", {
         dateStyle: "medium",
-      }).format(new Date(documentDetails.dateOfBirth))
+      }).format(new Date(documentDetails?.dateOfBirth))
     : "";
 
   useEffect(() => {
@@ -29,6 +33,76 @@ const RequestDetails = () => {
         console.log("Error fetching details: ", err);
       });
   }, [requestID]);
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:5000/api/fetchingDocuments/fetchRequestedDocumentTypes/${requestID}`
+      )
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          console.log(res.data.data);
+          setDocumentTypes(res.data.data);
+        } else if (res.data.Message) {
+          console.log("Error: ", res.data.Message);
+        }
+      })
+      .catch((err) => {
+        console.log("Error fetching details: ", err);
+      });
+  }, [requestID]);
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:5000/api/fetchingDocuments/fetchRequestedDocumentFiles/${requestID}`
+      )
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          console.log(res.data.data);
+          setDocumentFile(res.data.data);
+        } else if (res.data.Message) {
+          console.log("Error: ", res.data.Message);
+        }
+      })
+      .catch((err) => {
+        console.log("Error fetching details: ", err);
+      });
+  }, [requestID]);
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:5000/api/fetchingDocuments/fetchRequestedDocumentInputs/${requestID}`
+      )
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          console.log(res.data.data);
+          setDocumentInputValues(res.data.data);
+        } else if (res.data.Message) {
+          console.log("Error: ", res.data.Message);
+        }
+      })
+      .catch((err) => {
+        console.log("Error fetching details: ", err);
+      });
+  }, [requestID]);
+
+  // fetching inputs
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/api/documents/fetchInputs`, {
+        params: { purposeID: documentDetails.purposeID },
+      })
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          console.log(res.data.data);
+          setDocumentInputs(res.data.data);
+        } else if (res.data.Message) {
+          console.log("Error: ", res.data.Message);
+        }
+      })
+      .catch((err) => {
+        console.log("Error fetching details: ", err);
+      });
+  }, [documentDetails.purposeID]);
   return (
     <div className="p-4 w-100 overflow-auto" style={{ maxHeight: "650px" }}>
       {/* Header Section */}
@@ -152,6 +226,51 @@ const RequestDetails = () => {
           </div>
         </div>
       </div>
+      {documentTypes.length > 0 && (
+        <div className="information bg-white w-100 mt-2 shadow-sm rounded-2 p-4">
+          <p className="text-muted">Document Type</p>
+          <div className="d-flex align-items-center gap-2">
+            <i className="bx bxs-file-pdf fs-5 me-1"></i>
+            <h6 className="m-0">
+              {documentTypes.map((type) => type.documentType).join(", ")}
+            </h6>
+          </div>
+        </div>
+      )}
+      {documentInputValues.length > 0 && (
+        <div className="information bg-white w-100 mt-2 shadow-sm rounded-2 p-4">
+          <table class="table">
+            <thead>
+              <tr>
+                {documentInputs.map((input) => (
+                  <th scope="col">{input.inputDescription}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {documentInputValues.map((inputValue) => (
+                  <td>{inputValue.inputValue}</td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
+      {documentFile && (
+        <div className="information bg-white w-100 mt-2 shadow-sm rounded-2 p-4">
+          <div className="col-12 col-md">
+            <p className="text-muted">Document Upload</p>
+            <div className="d-flex align-items-center gap-2">
+              <img
+                src={`http://localhost:5000/uploads/${documentFile.image_file}`}
+                alt=""
+                style={{ width: "100%" }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
