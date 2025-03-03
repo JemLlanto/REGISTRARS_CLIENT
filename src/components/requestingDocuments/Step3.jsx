@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { FloatingLabel, ToggleButton, Form } from "react-bootstrap";
 
 const Step3 = ({
+  docType,
+  setDocType,
   setFile,
   setInputsLength,
   inputsLength,
@@ -100,24 +102,32 @@ const Step3 = ({
       </h3>
       <div className="d-flex flex-column gap-3">
         {selection?.length > 0 ? (
-          <>
-            <div className="d-flex  flex-column gap-2">
-              <h5 className="m-0">Type of document: {formData.selection}</h5>
-              {selection.map((select) => (
-                <ToggleButton
-                  key={select.selectionID}
-                  id={`radio-${select.selectionID}`}
-                  type="radio"
-                  name="employmentOptions"
-                  value={select.selectionName}
-                  checked={selectedOption === select.selectionName}
-                  onChange={(e) => handleSelectionChange(e.currentTarget.value)}
-                >
-                  {select.selectionName}
-                </ToggleButton>
-              ))}
-            </div>
-          </>
+          <div className="d-flex flex-column gap-2">
+            <h5 className="mt-3">
+              <strong>Selected document types:</strong>{" "}
+              {docType.length > 0 ? docType.join(", ") : "None"}
+            </h5>
+            {selection.map((select) => (
+              <ToggleButton
+                key={select.selectionID}
+                type="checkbox"
+                id={`checkbox-${select.selectionID}`}
+                label={select.selectionName}
+                checked={docType.includes(select.selectionName)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setDocType([...docType, select.selectionName]);
+                  } else {
+                    setDocType(
+                      docType.filter((item) => item !== select.selectionName)
+                    );
+                  }
+                }}
+              >
+                {select.selectionName}
+              </ToggleButton>
+            ))}
+          </div>
         ) : null}
 
         {inputsLength > 0 && (
