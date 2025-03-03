@@ -108,6 +108,7 @@ const Step2 = ({ formData, handleChange }) => {
             name="yearGraduated"
             value={formData.yearGraduated}
             onChange={handleChange}
+            disabled={!formData.classification}
           >
             <option value="">Choose...</option>
             {yearGraduated.map((year) => (
@@ -127,6 +128,7 @@ const Step2 = ({ formData, handleChange }) => {
             name="yearLevel"
             value={formData.yearLevel}
             onChange={handleChange}
+            disabled={!formData.classification}
           >
             <option value="">Choose...</option>
             <option value="first-year">First Year</option>

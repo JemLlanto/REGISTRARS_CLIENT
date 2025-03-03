@@ -334,28 +334,28 @@ export default function RequestDocument() {
                   className="primaryButton"
                   onClick={nextStep}
                   style={{}}
-                  // disabled={
-                  //   currentStep === 1
-                  //     ? !privacyConsent
-                  //     : currentStep === 2
-                  //     ? !formData.email ||
-                  //       !formData.studentID ||
-                  //       !formData.firstName ||
-                  //       !formData.lastName ||
-                  //       !formData.dateOfBirth ||
-                  //       !formData.sex ||
-                  //       !formData.mobileNum
-                  //     : currentStep === 3
-                  //     ? !formData.program ||
-                  //       !formData.classification ||
-                  //       (formData.classification === "graduated" &&
-                  //         !formData.yearGraduated) ||
-                  //       (formData.classification === "undergraduate" &&
-                  //         !formData.yearLevel) ||
-                  //       !formData.schoolYearAttended ||
-                  //       !formData.purpose
-                  //     : false
-                  // }
+                  disabled={
+                    currentStep === 1
+                      ? !privacyConsent
+                      : currentStep === 2
+                      ? !formData.email ||
+                        !formData.studentID ||
+                        !formData.firstName ||
+                        !formData.lastName ||
+                        !formData.dateOfBirth ||
+                        !formData.sex ||
+                        !formData.mobileNum
+                      : currentStep === 3
+                      ? !formData.program ||
+                        !formData.classification ||
+                        (formData.classification === "graduated" &&
+                          !formData.yearGraduated) ||
+                        (formData.classification === "undergraduate" &&
+                          !formData.yearLevel) ||
+                        !formData.schoolYearAttended ||
+                        !formData.purpose
+                      : false
+                  }
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
                     Next Step <i class="bx bx-chevrons-right"></i>
