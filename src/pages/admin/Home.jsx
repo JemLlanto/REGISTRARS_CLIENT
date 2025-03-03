@@ -21,9 +21,9 @@ export default function Home() {
         style={{ height: "77dvh" }}
       >
        <Row className="container w-100 mt-4 g-3">
-  <Col xs={12} sm={6} md={3}>
+  <Col xs={12} sm={6} md={3}> 
     <Link to="/admin/dashboard/new-request" className="text-decoration-none">
-      <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center">
+      <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
         <div className="text-white d-flex justify-content-center align-items-center p-3" style={{ width: "60px", height: "60px" }}>
           <i className="bx bx-user-plus fs-3 rounded-circle"></i>
         </div>
@@ -37,7 +37,7 @@ export default function Home() {
 
   <Col xs={12} sm={6} md={3}>
     <Link to="/admin/dashboard/pendings" className="text-decoration-none">
-      <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center">
+      <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white w-100">
         <div className=" text-white  d-flex justify-content-center align-items-center p-3" style={{ width: "60px", height: "60px" }}>
           <i className="bx bxs-timer fs-3 rounded-circle"></i>
         </div>
@@ -46,12 +46,12 @@ export default function Home() {
           <h5 className="text-dark">Pendings</h5>
         </div>
       </div>
-    </Link>
-  </Col>
+        </Link>
+      </Col>
 
   <Col xs={12} sm={6} md={3}>
     <Link to="/admin/dashboard/completed" className="text-decoration-none">
-      <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center">
+      <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
         <div className=" text-white  d-flex justify-content-center align-items-center p-3" style={{ width: "60px", height: "60px" }}>
           <i className="bx bxs-user-check fs-3 rounded-circle"></i>
         </div>
@@ -68,7 +68,7 @@ export default function Home() {
 
   <Col xs={12} sm={6} md={3}>
     <Link to="/admin/dashboard/total-request" className="text-decoration-none">
-      <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center">
+      <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
         <div className=" text-white  d-flex justify-content-center align-items-center p-3" style={{ width: "60px", height: "60px" }}>
           <i className="bx bx-list-check fs-3 rounded-circle"></i>
         </div>
@@ -83,7 +83,7 @@ export default function Home() {
 
 
         {/* Free Space Section */}
-        <div className="w-100 rounded-2 p-1 mt-5 text-center">
+        {/* <div className="w-100 rounded-2 p-1 mt-5 text-center">
           <div className=" d-flex  justify-content-evenly gap-3">
             <div className="w-100  bg-white shadow-sm d-flex justify-content-center align-items-center">
               <img
@@ -96,7 +96,7 @@ export default function Home() {
 
          
           </div>
-        </div>
+        </div> */}
       </div>
     </Container>
   );
