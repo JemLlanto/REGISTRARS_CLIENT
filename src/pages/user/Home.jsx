@@ -40,13 +40,13 @@ export default function Home() {
         className="rounded-2 shadow-sm mb-2"
         style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h4 className="m-0 p-3" style={{ color: "var(--secondMain-color)" }}>
+        <h5 className="m-0 p-3" style={{ color: "var(--secondMain-color)" }}>
           Pending Request
-        </h4>
+        </h5>
       </div>
 
       <div
-        className="p-2 text-start w-100 rounded-2 p-3"
+        className="p-2 text-start w-100 rounded-2 p-3 d-none d-md-block"
         style={{ backgroundColor: "var(--thirdMain-color)" }}
       >
         <div

@@ -111,7 +111,7 @@ export default function Home() {
         </Row>
 
         {/* Free Space Section */}
-        <div className="w-100 rounded-2 p-1 mt-5 text-center">
+        {/* <div className="w-100 rounded-2 p-1 mt-5 text-center">
           <div className=" d-flex  justify-content-evenly gap-3">
             <div className="w-100  bg-white shadow-sm d-flex justify-content-center align-items-center">
               <img
@@ -122,7 +122,7 @@ export default function Home() {
               />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </Container>
   );

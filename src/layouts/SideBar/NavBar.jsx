@@ -52,18 +52,18 @@ const NavBar = ({ user }) => {
                 {user.firstName}
               </p>
             </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item>
+            <Dropdown.Menu className="text-center">
+              <Dropdown.Item className="btn btn-white btn-no-hover">
                 <Link
                   to="/ProfileSetup"
-                  className="text-decoration-none text-dark"
+                  className="text-decoration-none text-dark border-0 bg-transparent "
                 >
                   Profile
                 </Link>
               </Dropdown.Item>
-              <Dropdown.Item>
+              <Dropdown.Item className="btn btn-white btn-no-hover">
                 <button
-                  className="btn btn-light w-100 text-center border-0 bg-transparent"
+                  className="btn btn-white btn-no-hover w-100 text-center border-0 bg-transparent "
                   onClick={handleLogout}
                 >
                   Logout
