@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useOutletContext, Link } from "react-router-dom";
+import { useOutletContext, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Home() {
   const { user } = useOutletContext();
   const [requestedDocuments, setRequestedDocuments] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user.isAdmin) {
+      navigate("/admin/home");
+    }
+  }, [user.isAdmin, navigate]);
 
   const userID = user?.userID;
 
