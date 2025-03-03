@@ -14,7 +14,7 @@ const NavBar = ({ user }) => {
     axios
       .get("http://localhost:5000/api/auth/logout")
       .then(() => {
-        location.reload(true);
+        window.location.reload();
       })
       .catch((err) => console.log(err));
   };
@@ -44,19 +44,28 @@ const NavBar = ({ user }) => {
               id="dropdown-basic"
               style={{ backgroundColor: "var(--main-color)" }}
             >
-              <i className="bx bx-user-circle px-2 fs-5 m-0 d-none d-md-block" style={{ color: "var(--secondMain-color)" }}></i>
+              <i
+                className="bx bx-user-circle px-2 fs-5 m-0 d-none d-md-block"
+                style={{ color: "var(--secondMain-color)" }}
+              ></i>
               <p className="m-0" style={{ color: "var(--secondMain-color)" }}>
                 {user.firstName}
               </p>
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item>
-                <Link to="/ProfileSetup" className="text-decoration-none text-dark">
+                <Link
+                  to="/ProfileSetup"
+                  className="text-decoration-none text-dark"
+                >
                   Profile
                 </Link>
               </Dropdown.Item>
               <Dropdown.Item>
-                <button className="btn btn-light w-100 text-center border-0 bg-transparent" onClick={handleLogout}>
+                <button
+                  className="btn btn-light w-100 text-center border-0 bg-transparent"
+                  onClick={handleLogout}
+                >
                   Logout
                 </button>
               </Dropdown.Item>
@@ -76,29 +85,76 @@ const NavBar = ({ user }) => {
       </div>
 
       {/* OFFCANVAS SIDEBAR*/}
-      <Offcanvas show={show} onHide={handleClose} placement="end" style={{ width: "170px" }}>
+      <Offcanvas
+        show={show}
+        onHide={handleClose}
+        placement="end"
+        style={{ width: "170px" }}
+      >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Sidebar</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ul className="sideBar-list list-unstyled d-flex flex-column gap-2">
-            <li className={`list-group-items ${location.pathname === (user.isAdmin ? "/admin/Home" : "/Home") ? "active" : ""}`}>
-              <Link className="d-flex align-items-center" to={user.isAdmin ? "/admin/home" : "/Home"} onClick={handleClose}>
+            <li
+              className={`list-group-items ${
+                location.pathname === (user.isAdmin ? "/admin/Home" : "/Home")
+                  ? "active"
+                  : ""
+              }`}
+            >
+              <Link
+                className="d-flex align-items-center"
+                to={user.isAdmin ? "/admin/home" : "/Home"}
+                onClick={handleClose}
+              >
                 <i className="bx bx-home"></i>
                 <p className="m-0">{user.isAdmin ? "Dashboard" : "Homepage"}</p>
               </Link>
             </li>
 
-            <li className={`list-group-items ${location.pathname === (user.isAdmin ? "/admin/ManageRequestForm" : "/request-documents") ? "active" : ""}`}>
-              <Link className="d-flex align-items-center" to={user.isAdmin ? "/admin/manage-request-form" : "/request-documents"} onClick={handleClose}>
+            <li
+              className={`list-group-items ${
+                location.pathname ===
+                (user.isAdmin
+                  ? "/admin/ManageRequestForm"
+                  : "/request-documents")
+                  ? "active"
+                  : ""
+              }`}
+            >
+              <Link
+                className="d-flex align-items-center"
+                to={
+                  user.isAdmin
+                    ? "/admin/manage-request-form"
+                    : "/request-documents"
+                }
+                onClick={handleClose}
+              >
                 <i className="bx bx-file"></i>
                 <p className="m-0">Request Form</p>
               </Link>
             </li>
 
-            <li className={`list-group-items ${location.pathname === (user.isAdmin ? "/admin/Reports" : "/About") ? "active" : ""}`}>
-              <Link className="d-flex align-items-center" to={user.isAdmin ? "/admin/reports" : "/About"} onClick={handleClose}>
-                <i className={`bx ${user.isAdmin ? "bx-file" : "bx-info-circle"}`}></i>
+            <li
+              className={`list-group-items ${
+                location.pathname ===
+                (user.isAdmin ? "/admin/Reports" : "/About")
+                  ? "active"
+                  : ""
+              }`}
+            >
+              <Link
+                className="d-flex align-items-center"
+                to={user.isAdmin ? "/admin/reports" : "/About"}
+                onClick={handleClose}
+              >
+                <i
+                  className={`bx ${
+                    user.isAdmin ? "bx-file" : "bx-info-circle"
+                  }`}
+                ></i>
                 <p className="m-0">{user.isAdmin ? "Reports" : "About Us"}</p>
               </Link>
             </li>

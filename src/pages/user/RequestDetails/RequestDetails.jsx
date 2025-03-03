@@ -6,6 +6,11 @@ const RequestDetails = () => {
   const { user } = useOutletContext();
   const { requestID } = useParams();
   const [documentDetails, setDocumentDetails] = useState([]);
+  const birthDate = documentDetails?.dateOfBirth
+    ? new Intl.DateTimeFormat("en-US", {
+        dateStyle: "medium",
+      }).format(new Date(documentDetails.dateOfBirth))
+    : "";
 
   useEffect(() => {
     axios
@@ -133,11 +138,7 @@ const RequestDetails = () => {
               <p className="text-muted">Birthday</p>
               <div className="d-flex align-items-center">
                 <i className="bx bxs-cake fs-5 me-1"></i>
-                <h6 className="m-0">
-                  {new Intl.DateTimeFormat("en-US", {
-                    dateStyle: "medium",
-                  }).format(new Date(documentDetails.dateOfBirth))}
-                </h6>
+                <h6 className="m-0">{birthDate}</h6>
               </div>
             </div>
 
