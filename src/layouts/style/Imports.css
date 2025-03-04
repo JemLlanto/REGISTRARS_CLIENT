@@ -27,16 +27,15 @@ p {
   font-size: clamp(0.7rem, 1.3dvw, 1rem);
 }
 
-
 h2 {
   font-size: clamp(1.5rem, 2dvw, 2.5rem) !important;
 }
 
-h3{
-  font-size: clamp(1.2rem, 2dvw, 2.5rem) !important; 
+h3 {
+  font-size: clamp(1.2rem, 2dvw, 2.5rem) !important;
 }
 
-h4{
+h4 {
   font-size: clamp(1.5rem, 2dvw, 2rem) !important;
 }
 

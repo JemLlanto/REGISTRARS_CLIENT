@@ -8,7 +8,7 @@ function purposeModal() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/documents/fetchPurposes")
+      .get("http://localhost:5000/api/fetchingDocuments/fetchPurposes")
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
@@ -20,7 +20,7 @@ function purposeModal() {
       .catch((err) => {
         console.log("Error fetching purposes:", err);
       });
-  });
+  }, []);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

@@ -33,7 +33,7 @@ const Step3 = ({
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/documents/fetchPurposeData`, {
+      .get(`http://localhost:5000/api/fetchingDocuments/fetchPurposeData`, {
         params: { purposeName: formData.purpose }, // Pass purposeName as a query param
       })
       .then((res) => {
@@ -57,13 +57,13 @@ const Step3 = ({
     const isActive = { current: true };
 
     Promise.all([
-      axios.get(`http://localhost:5000/api/documents/fetchSelections`, {
+      axios.get(`http://localhost:5000/api/fetchDocuments/fetchSelections`, {
         params: { purposeID },
       }),
-      axios.get(`http://localhost:5000/api/documents/fetchInputs`, {
+      axios.get(`http://localhost:5000/api/fetchDocuments/fetchInputs`, {
         params: { purposeID },
       }),
-      axios.get(`http://localhost:5000/api/documents/fetchUploads`, {
+      axios.get(`http://localhost:5000/api/fetchDocuments/fetchUploads`, {
         params: { purposeID },
       }),
     ])

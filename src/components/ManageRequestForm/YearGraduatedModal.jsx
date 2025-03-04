@@ -8,7 +8,7 @@ function YearGraduatedModal() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/documents/fetchYearGraduated")
+      .get("http://localhost:5000/api/fetchingDocuments/fetchYearGraduated")
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
@@ -20,7 +20,7 @@ function YearGraduatedModal() {
       .catch((err) => {
         console.log("Error fetching yearGraduated:", err);
       });
-  });
+  }, []);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
