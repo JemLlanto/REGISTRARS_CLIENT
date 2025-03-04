@@ -35,7 +35,7 @@ export default function Home() {
   }, [userID]);
 
   return (
-    <div className="p-4 w-100 overflow-auto" style={{ maxHeight: "650px" }}>
+    <div className="p-4 w-100 overflow-auto" style={{ height: "90dvh" }}>
       <div
         className="rounded-2 shadow-sm mb-2"
         style={{ backgroundColor: "var(--main-color)" }}
@@ -81,19 +81,36 @@ export default function Home() {
               >
                 <div className="row mx-auto g-2 bg-light rounded shadow-sm p-3">
                   <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Purpose:</h5>
+                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                      Purpose:
+                    </h5>
                     <p className="m-0">{request.purpose}</p>
                   </div>
 
+                  {/* Line */}
+                  <div
+                    className="bg-dark w-100  d-block d-sm-none"
+                    style={{ height: "1px" }}
+                  ></div>
+
                   <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                  <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Date:</h5>
+                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                      Date:
+                    </h5>
                     <p className="m-0 ">
                       {new Date(request.created).toLocaleDateString()}
                     </p>
                   </div>
+                  {/* Line */}
+                  <div
+                    className="bg-dark w-100 d-block d-sm-none"
+                    style={{ height: "1px" }}
+                  ></div>
 
                   <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                  <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Status:</h5>
+                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                      Status:
+                    </h5>
                     <h5 className="m-0 text-warning ">Pending</h5>
                   </div>
                 </div>

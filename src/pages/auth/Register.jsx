@@ -3,6 +3,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
 import "boxicons/css/boxicons.min.css";
+import { Background } from "../../components/Background/Background";
 
 const Register = ({ setActivePage }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -79,173 +80,175 @@ const Register = ({ setActivePage }) => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <div className="position-absolute top-0 start-0 w-100 h-100">
-        <img
-          src="/1.png"
-          alt="Background 1"
-          className="img-fluid position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
-        />
-      </div>
-      <div className="position-absolute top-0 start-0 w-100 h-100">
-        <img
-          src="/2.png"
-          alt="Background 2"
-          className="img-fluid position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
-        />
-      </div>
-      <div className="position-absolute top-0 start-0 w-100 h-100">
-        <img
-          src="/3.png"
-          alt="Background 3"
-          className="img-fluid position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
-        />
-      </div>
-      <div
-        className="card p-4 shadow-sm rounded-4"
-        style={{ width: "35rem", backgroundColor: "#001957f7" }}
-      >
-        <div className="d-flex justify-content-center">
-          <img src="/cvsu-logo.png" alt="cvsu-logo" style={{ width: "15%" }} />
-        </div>
-        <h4 className="text-center fw-bold text-white mt-2">CREATE ACCOUNT</h4>
-        <h6 className="text-center mb-4 fw-bold" style={{ color: "#e4b703fb" }}>
-          Sign Up & Get Started
-        </h6>
-
-        <form onSubmit={handleRegister}>
-          <Row>
-            <Col md={6}>
-              <div className="mb-3">
-                <label className="form-label text-white">First Name:</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={inputs.firstName}
-                  onChange={handleChange}
-                  className="form-control"
-                />
-                {errors.firstName && (
-                  <div className="text-danger small">{errors.firstName}</div>
-                )}
-              </div>
-            </Col>
-            <Col md={6}>
-              <div className="mb-3">
-                <label className="form-label text-white">Last Name:</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={inputs.lastName}
-                  onChange={handleChange}
-                  className="form-control"
-                />
-                {errors.lastName && (
-                  <div className="text-danger small">{errors.lastName}</div>
-                )}
-              </div>
-            </Col>
-          </Row>
-
-          <div className="mb-3">
-            <label className="form-label text-white">Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={inputs.email}
-              onChange={handleChange}
-              className="form-control"
+    <>
+      <div className="d-flex justify-content-center align-items-center bg-light p-3">
+        <div
+          className="p-4 shadow-sm rounded-4 mx-auto"
+          style={{
+            minHeight:"80vh",
+            overflowY:"auto",
+            maxWidth: "30rem",
+            backgroundColor: "var(--main-color)",
+            zIndex: 1000,
+            position: "relative",
+          }}
+        >
+          <div className="d-flex justify-content-center">
+            <img
+              src="/cvsu-logo.png"
+              alt="cvsu-logo"
+              style={{ width: "15%" }}
             />
-            {errors.email && (
-              <div className="text-danger small">{errors.email}</div>
-            )}
           </div>
-          <Row>
-            <Col>
-              <div className="mb-3 position-relative">
-                <label className="form-label text-white">Password:</label>
-                <div className="input-group">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    value={inputs.password}
-                    onChange={handleChange}
-                    className="form-control"
-                  />
-                  <span
-                    className="input-group-text"
-                    onClick={() => setShowPassword(!showPassword)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <i
-                      className={showPassword ? "bx bx-hide" : "bx bx-show"}
-                    ></i>
-                  </span>
-                </div>
-                {errors.password && Array.isArray(errors.password) && (
-                  <ul className="text-warning small mt-">
-                    {errors.password.map((err, idx) => (
-                      <li key={idx}>{err}</li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </Col>
-
-            <Col>
-              <div className="mb-3 position-relative">
-                <label className="form-label text-white">
-                  Confirm Password:
-                </label>
-                <div className="input-group">
-                  <input
-                    type={showConPassword ? "text" : "password"}
-                    name="conPassword"
-                    value={inputs.conPassword}
-                    onChange={handleChange}
-                    className="form-control"
-                  />
-                  <span
-                    className="input-group-text"
-                    onClick={() => setShowConPassword(!showConPassword)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <i
-                      className={showConPassword ? "bx bx-hide" : "bx bx-show"}
-                    ></i>
-                  </span>
-                </div>
-                {errors.conPassword && (
-                  <div className="text-danger small">{errors.conPassword}</div>
-                )}
-              </div>
-            </Col>
-          </Row>
-          <button
-            type="submit"
-            className="btn btn-primary w-100"
-            disabled={!isFormValid()}
+          <h4 className="text-center fw-bold text-white mt-2">
+            CREATE ACCOUNT
+          </h4>
+          <h6
+            className="text-center mb-4 fw-bold"
+            style={{ color: "#e4b703fb" }}
           >
-            Register
-          </button>
-          <p className="mt-3 text-white text-center">
-            Already have an account?{" "}
-            <span
-              className=""
-              style={{
-                cursor: "pointer",
-                color: "#e4b703fb",
-                fontWeight: "bold",
-              }}
-              onClick={() => setActivePage("login")}
+            Sign Up & Get Started
+          </h6>
+
+          <form onSubmit={handleRegister}>
+            <Row>
+              <Col md={6}>
+                <div className="mb-3">
+                  <label className="form-label text-white">First Name:</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={inputs.firstName}
+                    onChange={handleChange}
+                    className="form-control"
+                  />
+                  {errors.firstName && (
+                    <div className="text-danger small">{errors.firstName}</div>
+                  )}
+                </div>
+              </Col>
+              <Col md={6}>
+                <div className="mb-3">
+                  <label className="form-label text-white">Last Name:</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={inputs.lastName}
+                    onChange={handleChange}
+                    className="form-control"
+                  />
+                  {errors.lastName && (
+                    <div className="text-danger small">{errors.lastName}</div>
+                  )}
+                </div>
+              </Col>
+            </Row>
+
+            <div className="mb-3">
+              <label className="form-label text-white">Email:</label>
+              <input
+                type="email"
+                name="email"
+                value={inputs.email}
+                onChange={handleChange}
+                className="form-control"
+              />
+              {errors.email && (
+                <div className="text-danger small">{errors.email}</div>
+              )}
+            </div>
+            <Row>
+              <Col xs={12} md={6}>
+                <div className="mb-3 position-relative">
+                  <label className="form-label text-white">Password:</label>
+                  <div className="input-group">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={inputs.password}
+                      onChange={handleChange}
+                      className="form-control"
+                    />
+                    <span
+                      className="input-group-text"
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <i
+                        className={showPassword ? "bx bx-hide" : "bx bx-show"}
+                      ></i>
+                    </span>
+                  </div>
+                  {errors.password && Array.isArray(errors.password) && (
+                    <ul className="text-warning small  mt-1">
+                      {errors.password.map((err, idx) => (
+                        <li key={idx}>{err}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <div className="mb-3 position-relative">
+                  <label className="form-label text-white">
+                    Confirm Password:
+                  </label>
+                  <div className="input-group">
+                    <input
+                      type={showConPassword ? "text" : "password"}
+                      name="conPassword"
+                      value={inputs.conPassword}
+                      onChange={handleChange}
+                      className="form-control"
+                    />
+                    <span
+                      className="input-group-text"
+                      onClick={() => setShowConPassword(!showConPassword)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <i
+                        className={
+                          showConPassword ? "bx bx-hide" : "bx bx-show"
+                        }
+                      ></i>
+                    </span>
+                  </div>
+                  {errors.conPassword && (
+                    <div className="text-danger small mt-1">
+                      {errors.conPassword}
+                    </div>
+                  )}
+                </div>
+              </Col>
+            </Row>
+            <button
+              type="submit"
+              className="btn btn-primary w-100"
+              disabled={!isFormValid()}
             >
-              Login Here
-            </span>
-            .
-          </p>
-        </form>
+              Register
+            </button>
+            <p className="mt-3 text-white text-center">
+              Already have an account?{" "}
+              <span
+                className=""
+                style={{
+                  cursor: "pointer",
+                  color: "#e4b703fb",
+                  fontWeight: "bold",
+                }}
+                onClick={() => setActivePage("login")}
+              >
+                Login Here
+              </span>
+              .
+            </p>
+          </form>
+        </div>
       </div>
-    </div>
+      <Background></Background>
+    </>
   );
 };
 

@@ -52,86 +52,47 @@
   cursor: not-allowed;
 }
 
-/* pre loader */
-/* Preloader Styling */
+/* Preloader Container */
+/* Preloader Container */
 .preloader-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.568);
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
   z-index: 9999;
-  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
 }
 
-/* Hide Preloader */
-.hidden {
-  opacity: 0;
-  visibility: hidden;
+/* Animated Gates */
+.gate {
+  position: absolute;
+  top: 0;
+  width: 50vw; /* Ensure the gate covers half the screen */
+  height: 100%;
+  background: rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(8px);
 }
 
-/* Shake Animation for Logo */
+/* Positioning Gates */
+.gate-left {
+  left: 0;
+}
+
+.gate-right {
+  right: 0;
+}
+
+/* Preloader Logo */
 .preloader-logo {
-  width: 120px;
+  width: 150px;
   height: auto;
-  animation: shake 1.5s infinite ease-in-out;
-}
-
-/* Shake Keyframes */
-@keyframes shake {
-  0% {
-    transform: translate(1px, 1px) rotate(0deg);
-  }
-  10% {
-    transform: translate(-1px, -2px) rotate(-1deg);
-  }
-  20% {
-    transform: translate(-3px, 0px) rotate(1deg);
-  }
-  30% {
-    transform: translate(3px, 2px) rotate(0deg);
-  }
-  40% {
-    transform: translate(1px, -1px) rotate(1deg);
-  }
-  50% {
-    transform: translate(-1px, 2px) rotate(-1deg);
-  }
-  60% {
-    transform: translate(-3px, 1px) rotate(0deg);
-  }
-  70% {
-    transform: translate(3px, 1px) rotate(-1deg);
-  }
-  80% {
-    transform: translate(-1px, -1px) rotate(1deg);
-  }
-  90% {
-    transform: translate(1px, 2px) rotate(0deg);
-  }
-  100% {
-    transform: translate(1px, -2px) rotate(-1deg);
-  }
-}
-
-/* Fade-in Animation */
-.fade-in {
-  animation: fadeIn 1s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
 }
 
 /* about us */
