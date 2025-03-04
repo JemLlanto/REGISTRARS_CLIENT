@@ -88,7 +88,7 @@ const RequestDetails = () => {
   // fetching inputs
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/documents/fetchInputs`, {
+      .get(`http://localhost:5000/api/fetchDocuments/fetchInputs`, {
         params: { purposeID: documentDetails.purposeID },
       })
       .then((res) => {

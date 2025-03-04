@@ -9,7 +9,7 @@ const Step2 = ({ formData, handleChange }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/documents/fetchPrograms")
+      .get("http://localhost:5000/api/fetchingDocuments/fetchPrograms")
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
@@ -25,7 +25,7 @@ const Step2 = ({ formData, handleChange }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/documents/fetchPurposes")
+      .get("http://localhost:5000/api/fetchingDocuments/fetchPurposes")
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
@@ -41,7 +41,7 @@ const Step2 = ({ formData, handleChange }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/documents/fetchYearGraduated")
+      .get("http://localhost:5000/api/fetchingDocuments/fetchYearGraduated")
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
