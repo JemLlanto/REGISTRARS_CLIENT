@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Background } from "../../components/Background/Background";
+import Preloader from "../../components/Preloader/Preloader";
 
 const Login = ({ setActivePage }) => {
   const [inputs, setInputs] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(true); // Preloader state
-
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 2000); // Simulate loading delay
-  }, []);
 
   const handleChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -43,41 +40,11 @@ const Login = ({ setActivePage }) => {
   };
 
   return (
-    <div className="container-fluid vh-100 d-flex justify-content-center align-items-center position-relative">
-      <div className="position-absolute top-0 start-0 w-100 h-100">
-        <img
-          src="/1.png"
-          alt="Background 1"
-          className="img-fluid position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
-        />
-      </div>
-      <div className="position-absolute top-0 start-0 w-100 h-100">
-        <img
-          src="/2.png"
-          alt="Background 2"
-          className="img-fluid position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
-        />
-      </div>
-      <div className="position-absolute top-0 start-0 w-100 h-100">
-        <img
-          src="/3.png"
-          alt="Background 3"
-          className="img-fluid position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
-        />
-      </div>
-      {/* Preloader Animation */}
-      <div className={`preloader-container ${loading ? "" : "hidden"}`}>
-        <img
-          src="/preloader.png"
-          alt="Loading Logo"
-          className="preloader-logo"
-        />
-      </div>
-
-      {/* Login Form - Appears After Preloader */}
-      {!loading && (
+    <>
+    <Preloader></Preloader>
+      <div className="container-fluid vh-100 d-flex justify-content-center align-items-center position-relative">
         <div
-          className="card p-4 shadow-lg rounded-4 fade-in"
+          className="p-4 shadow-lg rounded-4 fade-in"
           style={{ width: "30rem", backgroundColor: "#001957f7", zIndex: 2 }}
         >
           <div className="d-flex justify-content-center">
@@ -86,10 +53,7 @@ const Login = ({ setActivePage }) => {
           <h4 className="text-center fw-bold text-white">
             CAVITE STATE UNIVERSITY
           </h4>
-          <h5
-            className="text-center mb-4 fw-bold"
-            style={{ color: "#e4b703fb" }}
-          >
+          <h5 className="text-center mb-4 fw-bold" style={{ color: "#e4b703fb" }}>
             REGISTRAR'S ONLINE REQUEST
           </h5>
           <form onSubmit={handleLogin}>
@@ -135,11 +99,7 @@ const Login = ({ setActivePage }) => {
               Don't have an account?{" "}
               <span
                 onClick={() => setActivePage("register")}
-                style={{
-                  cursor: "pointer",
-                  color: "#e4b703fb",
-                  fontWeight: "bold",
-                }}
+                style={{ cursor: "pointer", color: "#e4b703fb", fontWeight: "bold" }}
               >
                 Register here
               </span>
@@ -147,8 +107,9 @@ const Login = ({ setActivePage }) => {
             </p>
           </form>
         </div>
-      )}
-    </div>
+      </div>
+      <Background></Background>
+    </>
   );
 };
 

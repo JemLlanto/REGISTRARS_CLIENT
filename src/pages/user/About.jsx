@@ -5,7 +5,7 @@ export default function About() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="p-4 w-100 overflow-auto" style={{ maxHeight: "650px" }}>
+    <div className="p-4 w-100 overflow-auto" style={{ maxHeight: "90dvh" }}>
       <div
         className="rounded-2 shadow-sm p-2"
         style={{ backgroundColor: "var(--main-color)" }}
