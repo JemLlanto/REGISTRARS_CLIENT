@@ -1,24 +1,24 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Form, InputGroup } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
-const PurposeInput = ({ purpose }) => {
-  const [inputs, setInputs] = useState([]);
+const PurposeUpload = ({ purpose }) => {
+  const [uploads, setUploads] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [addInput, setAddInput] = useState(false);
-  const [editInput, setEditInput] = useState(null);
+  const [addUpload, setAddUpload] = useState(false);
+  const [editUpload, setEditUpload] = useState(null);
   const [formData, setFormData] = useState({
-    inputDescription: "",
+    uploadDescription: "",
     purposeID: purpose.purposeID,
-    inputID: "",
+    uploadID: "",
   });
 
-  const fetchInputs = () => {
+  const fetchUploads = () => {
     setIsLoading(true);
-    setInputs([]);
+    setUploads([]);
 
     axios
-      .get("http://localhost:5000/api/fetchingDocuments/fetchInputs", {
+      .get("http://localhost:5000/api/fetchingDocuments/fetchUploads", {
         params: {
           purposeID: purpose.purposeID,
         },
@@ -26,7 +26,7 @@ const PurposeInput = ({ purpose }) => {
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
-          setInputs(res.data.data);
+          setUploads(res.data.data);
           setIsLoading(false);
         } else if (res.data.Message) {
           console.log("Error: ", res.data.Message);
@@ -34,38 +34,38 @@ const PurposeInput = ({ purpose }) => {
         }
       })
       .catch((err) => {
-        console.log("Error fetching inputs:", err);
+        console.log("Error fetching uploads:", err);
         setIsLoading(false);
       });
   };
 
   useEffect(() => {
-    fetchInputs();
+    fetchUploads();
   }, []);
 
-  const handleEditInput = (inputs) => {
-    setEditInput(inputs.inputID);
+  const handleEditUpload = (uploads) => {
+    setEditUpload(uploads.uploadID);
     setFormData({
-      inputDescription: inputs.inputDescription,
+      uploadDescription: uploads.uploadDescription,
       purposeID: purpose.purposeID,
-      inputID: inputs.inputID,
+      uploadID: uploads.uploadID,
     });
-    setAddInput(false);
+    setAddUpload(false);
   };
 
-  const handleAddInput = (e) => {
+  const handleAddUpload = (e) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:5000/api/documents/addInput", formData)
+      .post("http://localhost:5000/api/documents/addUpload", formData)
       .then((res) => {
         if (res.data.Status === "Success") {
-          setAddInput(false);
+          setAddUpload(false);
           setFormData({
-            inputDescription: "",
+            uploadDescription: "",
             purposeID: purpose.purposeID,
           });
-          fetchInputs();
+          fetchUploads();
           alert(res.data.Message);
         } else if (res.data.Status === "Failed") {
           alert(res.data.Message);
@@ -74,22 +74,22 @@ const PurposeInput = ({ purpose }) => {
         }
       })
       .catch((err) => {
-        console.log("Error adding inputs:", err);
+        console.log("Error adding uploads:", err);
       });
   };
-  const handleUpdateInput = (e) => {
+  const handleUpdateUpload = (e) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:5000/api/documents/updateInput", formData)
+      .post("http://localhost:5000/api/documents/updateUpload", formData)
       .then((res) => {
         if (res.data.Status === "Success") {
-          setEditInput(false);
+          setEditUpload(false);
           setFormData({
-            inputDescription: "",
+            uploadDescription: "",
             purposeID: purpose.purposeID,
           });
-          fetchInputs();
+          fetchUploads();
           alert(res.data.Message);
         } else if (res.data.Status === "Failed") {
           alert(res.data.Message);
@@ -98,21 +98,23 @@ const PurposeInput = ({ purpose }) => {
         }
       })
       .catch((err) => {
-        console.log("Error adding inputs:", err);
+        console.log("Error adding uploads:", err);
       });
   };
-  const handleDeleteInput = (inputID, inputDescription) => {
-    if (!window.confirm(`Are you sure you want to delete ${inputDescription}?`))
+  const handleDeleteUpload = (uploadID, uploadDescription) => {
+    if (
+      !window.confirm(`Are you sure you want to delete ${uploadDescription}?`)
+    )
       return;
 
     axios
-      .post("http://localhost:5000/api/documents/deleteInput", {
-        inputID,
+      .post("http://localhost:5000/api/documents/deleteUpload", {
+        uploadID,
       })
       .then((res) => {
         if (res.data.Status === "Success") {
           alert(res.data.Message);
-          fetchInputs();
+          fetchUploads();
         } else if (res.data.Status === "Failed") {
           alert(res.data.Message);
         } else if (res.data.Message) {
@@ -128,7 +130,7 @@ const PurposeInput = ({ purpose }) => {
     <>
       <div className="border p-2 rounded">
         <div className="d-flex align-items-center justify-content-start gap-1">
-          <h5 className="m-0 fw-bold">Required Questions</h5>
+          <h5 className="m-0 fw-bold">Required File</h5>
         </div>
         {isLoading ? (
           <>
@@ -137,42 +139,42 @@ const PurposeInput = ({ purpose }) => {
         ) : (
           // FOR DISPLAYING INPUTS
           <>
-            {inputs.length === 0 ? (
+            {uploads.length === 0 ? (
               <>
                 <p className="m-0">No questions</p>
               </>
             ) : (
               <>
                 <div className="d-flex flex-column gap-1">
-                  {inputs.map((input) => (
+                  {uploads.map((upload) => (
                     <div
-                      key={input.inputID}
+                      key={upload.uploadID}
                       className="d-flex align-items-center justify-content-between"
                     >
-                      {editInput === input.inputID ? (
+                      {editUpload === upload.uploadID ? (
                         <>
                           {/* FOR EDITING INPUT */}
                           <Form.Control
                             className="w-75"
-                            placeholder="inputDescription"
-                            name="inputDescription"
+                            placeholder="uploadDescription"
+                            name="uploadDescription"
                             onChange={(e) => {
                               setFormData({
                                 ...formData,
-                                inputDescription: e.target.value,
+                                uploadDescription: e.target.value,
                               });
                             }}
-                            value={formData.inputDescription}
-                            aria-label="inputDescription"
+                            value={formData.uploadDescription}
+                            aria-label="uploadDescription"
                             aria-describedby="basic-addon1"
                           />
                           <div className="d-flex gap-1">
                             <button
                               className="btn btn-sm btn-danger"
                               onClick={() => {
-                                setEditInput(null),
+                                setEditUpload(null),
                                   setFormData({
-                                    inputDescription: "",
+                                    uploadDescription: "",
                                   });
                               }}
                             >
@@ -181,11 +183,11 @@ const PurposeInput = ({ purpose }) => {
                             <button
                               className="btn btn-sm btn-primary"
                               disabled={
-                                formData.inputDescription === "" ||
-                                formData.inputDescription ===
-                                  input.inputDescription
+                                formData.uploadDescription === "" ||
+                                formData.uploadDescription ===
+                                  upload.uploadDescription
                               }
-                              onClick={handleUpdateInput}
+                              onClick={handleUpdateUpload}
                             >
                               Save
                             </button>
@@ -193,20 +195,20 @@ const PurposeInput = ({ purpose }) => {
                         </>
                       ) : (
                         <>
-                          <p className="m-0">{input.inputDescription}</p>
+                          <p className="m-0">{upload.uploadDescription}</p>
                           <div className="d-flex gap-1">
                             <button
                               className="btn btn-sm btn-primary"
-                              onClick={() => handleEditInput(input)}
+                              onClick={() => handleEditUpload(upload)}
                             >
                               Edit
                             </button>
                             <button
                               className="btn btn-sm btn-danger"
                               onClick={() =>
-                                handleDeleteInput(
-                                  input.inputID,
-                                  input.inputDescription
+                                handleDeleteUpload(
+                                  upload.uploadID,
+                                  upload.uploadDescription
                                 )
                               }
                             >
@@ -225,32 +227,35 @@ const PurposeInput = ({ purpose }) => {
 
         {/* FOR ADDING NEW INPUT */}
         <div className="d-flex align-items-center justify-content-between mt-1">
-          {addInput ? (
+          {addUpload ? (
             <>
               <Form.Control
                 className="w-75"
                 placeholder="New Question"
-                name="inputDescription"
+                name="uploadDescription"
                 onChange={(e) =>
-                  setFormData({ ...formData, inputDescription: e.target.value })
+                  setFormData({
+                    ...formData,
+                    uploadDescription: e.target.value,
+                  })
                 }
-                value={formData.inputDescription}
-                aria-label="inputDescription"
+                value={formData.uploadDescription}
+                aria-label="uploadDescription"
                 aria-describedby="basic-addon1"
               />
               <div className="d-flex gap-1">
                 <button
                   className="btn btn-sm btn-danger"
                   onClick={() => {
-                    setAddInput(false), setFormData({ inputDescription: "" });
+                    setAddUpload(false), setFormData({ uploadDescription: "" });
                   }}
                 >
                   Cancel
                 </button>
                 <button
                   className="btn btn-sm btn-primary"
-                  onClick={handleAddInput}
-                  disabled={formData.inputDescription === ""}
+                  onClick={handleAddUpload}
+                  disabled={formData.uploadDescription === ""}
                 >
                   Add
                 </button>
@@ -261,13 +266,14 @@ const PurposeInput = ({ purpose }) => {
               <button
                 className="w-100 btn btn-sm btn-primary"
                 onClick={() => {
-                  setAddInput(true),
-                    setEditInput(null),
+                  setAddUpload(true),
+                    setEditUpload(null),
                     setFormData({
-                      inputDescription: "",
+                      uploadDescription: "",
                       purposeID: purpose.purposeID,
                     });
                 }}
+                disabled={uploads.length > 0}
               >
                 Add
               </button>
@@ -279,4 +285,4 @@ const PurposeInput = ({ purpose }) => {
   );
 };
 
-export default PurposeInput;
+export default PurposeUpload;

@@ -3,6 +3,7 @@ import { Button, Accordion, Modal, FloatingLabel, Form } from "react-bootstrap";
 import axios from "axios";
 import PurposeSelections from "./PurposeSelections";
 import PurposeInput from "./PurposeInput";
+import PurposeUpload from "./PurposeUpload";
 
 function purposeModal() {
   const [showPurpose, setShowPurpose] = useState(false);
@@ -231,6 +232,7 @@ function purposeModal() {
                   <Accordion.Body>
                     <PurposeSelections purpose={purpose} />
                     <PurposeInput purpose={purpose} />
+                    <PurposeUpload purpose={purpose} />
                   </Accordion.Body>
                 </Accordion.Item>
               ))}
