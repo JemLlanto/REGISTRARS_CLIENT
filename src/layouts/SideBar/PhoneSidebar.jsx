@@ -25,29 +25,29 @@ const PhoneSidebar = ({ user }) => {
           show={show}
           onHide={handleClose}
           placement="end"
-          style={{ width: "17rem" }}
+          style={{ width: "25rem" }}
         >
-          <Offcanvas.Header closeButton      style={{ backgroundColor: "var(--main-color)" }}>
-          <img
-              src="/Registrar.png"
-              alt="Registrar Logo"
-              className="logo-img"
-              style={{
-                height: "80%",
-                width: "12rem",
-                objectFit: "cover",
-     
-              }}
-            />
-          </Offcanvas.Header>
-          <Offcanvas.Body      style={{ backgroundColor: "var(--main-color)" }}>
-            <ul className="sideBar-list list-unstyled d-flex flex-column gap-2">
+   <Offcanvas.Header closeButton style={{ backgroundColor: "var(--main-color)", height: "5rem" }}>
+  <img
+    src="/Registrar.png"
+    alt="Registrar Logo"
+    className="logo-img"
+    style={{
+      height: "80%",
+      width: "12rem",
+      objectFit: "cover",
+    }}
+  />
+</Offcanvas.Header>
+
+
+          <Offcanvas.Body className="PhoneSidebar" style={{ backgroundColor: "var(--main-color)" }}>
+            <ul className="PhonesideBar-list list-unstyled d-flex flex-column gap-2">
               <li
-                className={`list-group-items ${
-                  location.pathname === (user.isAdmin ? "/admin/Home" : "/Home")
+                className={`p-list-group-items ${location.pathname === (user.isAdmin ? "/admin/Home" : "/Home")
                     ? "active"
                     : ""
-                }`}
+                  }`}
               >
                 <Link
                   className="d-flex align-items-center"
@@ -62,14 +62,13 @@ const PhoneSidebar = ({ user }) => {
               </li>
 
               <li
-                className={`list-group-items ${
-                  location.pathname ===
-                  (user.isAdmin
-                    ? "/admin/ManageRequestForm"
-                    : "/request-documents")
+                className={`p-list-group-items ${location.pathname ===
+                    (user.isAdmin
+                      ? "/admin/ManageRequestForm"
+                      : "/request-documents")
                     ? "active"
                     : ""
-                }`}
+                  }`}
               >
                 <Link
                   className="d-flex align-items-center"
@@ -86,12 +85,11 @@ const PhoneSidebar = ({ user }) => {
               </li>
 
               <li
-                className={`list-group-items ${
-                  location.pathname ===
-                  (user.isAdmin ? "/admin/Reports" : "/About")
+                className={`p-list-group-items ${location.pathname ===
+                    (user.isAdmin ? "/admin/Reports" : "/About")
                     ? "active"
                     : ""
-                }`}
+                  }`}
               >
                 <Link
                   className="d-flex align-items-center"
@@ -99,9 +97,8 @@ const PhoneSidebar = ({ user }) => {
                   onClick={handleClose}
                 >
                   <i
-                    className={`bx ${
-                      user.isAdmin ? "bx-file" : "bx-info-circle"
-                    }`}
+                    className={`bx ${user.isAdmin ? "bx-file" : "bx-info-circle"
+                      }`}
                   ></i>
                   <p className="m-0">{user.isAdmin ? "Reports" : "About Us"}</p>
                 </Link>

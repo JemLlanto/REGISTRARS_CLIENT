@@ -9,6 +9,7 @@ import "./layouts/style/animations.css";
 import "./layouts/style/Side&NavBar.css";
 import "./App.css";
 import "./layouts/style/Imports.css";
+import "./layouts/style/PhoneSidebar.css";
 
 // USER ROUTES
 import Index from "./pages/auth/Index";
