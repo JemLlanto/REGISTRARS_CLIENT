@@ -12,8 +12,8 @@ const RequestDetails = () => {
   const [documentFile, setDocumentFile] = useState(null);
   const birthDate = documentDetails?.dateOfBirth
     ? new Intl.DateTimeFormat("en-US", {
-      dateStyle: "medium",
-    }).format(new Date(documentDetails?.dateOfBirth))
+        dateStyle: "medium",
+      }).format(new Date(documentDetails?.dateOfBirth))
     : "";
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const RequestDetails = () => {
   // fetching inputs
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/fetchDocuments/fetchInputs`, {
+      .get(`http://localhost:5000/api/fetchingDocuments/fetchInputs`, {
         params: { purposeID: documentDetails.purposeID },
       })
       .then((res) => {
@@ -113,7 +113,6 @@ const RequestDetails = () => {
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
           Details
         </h5>
-
       </div>
       <div
         className="p-2 text-center w-100 rounded-2 mt-2"
@@ -169,7 +168,11 @@ const RequestDetails = () => {
                 <img
                   src={`http://localhost:5000/uploads/${documentFile.image_file}`}
                   alt="Document"
-                  style={{ width: "10rem", objectFit: "cover", borderRadius: "0.5rem" }}
+                  style={{
+                    width: "10rem",
+                    objectFit: "cover",
+                    borderRadius: "0.5rem",
+                  }}
                 />
               </div>
             </div>
@@ -181,10 +184,6 @@ const RequestDetails = () => {
         )}
       </div>
 
-
-
-
-
       <div className="row w-100 mx-0 shadow-sm bg-white rounded-3  mt-2">
         {/* Left Column (7) */}
         <div className="col-12 col-md-7  p-4 shadow-sm rounded-3">
@@ -194,7 +193,8 @@ const RequestDetails = () => {
             <div className="d-flex align-items-center gap-2">
               <i className="bx bxs-user text-dark fs-5"></i>
               <h6 className="m-0">
-                {documentDetails.firstName} {documentDetails.middleName} {documentDetails.lastName}
+                {documentDetails.firstName} {documentDetails.middleName}{" "}
+                {documentDetails.lastName}
               </h6>
             </div>
           </div>
@@ -285,9 +285,6 @@ const RequestDetails = () => {
           </div>
         </div>
       </div>
-
-
-
     </div>
   );
 };
