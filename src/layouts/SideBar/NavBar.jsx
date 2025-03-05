@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Dropdown, Offcanvas, Button } from "react-bootstrap";
 import axios from "axios";
-import PhoneSidebar from "../../components/PhoneSidebar/PhoneSidebar";
+import PhoneSidebar from "./PhoneSidebar";
 
 const NavBar = ({ user }) => {
   const [show, setShow] = useState(false);
@@ -68,7 +68,7 @@ const NavBar = ({ user }) => {
                   onClick={handleLogout}
                 >
                   Logout
-                </button>=
+                </button>
               </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>

@@ -1,0 +1,57 @@
+.p-list-group-items a{
+     text-decoration: none;
+     border-radius: 5px;
+     padding: 8px;
+}
+
+.p-list-group-items:hover a{
+    background-color: var(--secondMain-color);
+}
+
+.p-list-group-items:hover p{
+    color: var(--main-color);
+    font-weight: bold;
+}
+
+.p-list-group-items:hover i{
+    color: var(--main-color);
+    font-weight: bold;
+}
+
+.p-list-group-items  p {
+    color: var(--secondMain-color);
+  }
+
+  .p-list-group-items a i{
+    color: var(--secondMain-color);
+    padding: 5px;
+  }
+
+  /* Active State Styling */
+.p-list-group-items.active {
+    background-color: var(--secondMain-color); 
+    font-weight: bold;
+    border-radius: 5px;
+    border-left: 4px solid var(--secondMain-color);
+}
+
+.p-list-group-items.active a i{
+    color: var(--main-color);
+    font-weight: bold;
+}
+
+.p-list-group-items.active  p {
+    color: var(--main-color);
+  }
+
+
+  .offcanvas-header .btn-close {
+    padding: 8px; 
+    opacity: 1; 
+    transition: 0.3s ease-in-out; 
+}
+
+.offcanvas-header .btn-close:hover {
+    background-color: rgb(255, 255, 255); 
+    transform: scale(1.1);
+}
