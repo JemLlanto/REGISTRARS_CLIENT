@@ -23,7 +23,7 @@ const SideBar = ({ user }) => {
           className="image-container d-flex align-items-center justify-content-center border-bottom"
           style={{ height: "4rem", border: "white" }}
         >
-          {/* Toggle Button - Moved to Left */}
+          {/* Toggle Button - Registrar's Logo*/}
           <div className={`${showSidebar ? "fade-in" : "fade-out"}`}>
             <img
               src="/Registrar.png"
@@ -53,6 +53,8 @@ const SideBar = ({ user }) => {
 
         <div className="p-3">
           <ul className="sideBar-list list-unstyled d-flex flex-column gap-2">
+
+            {/* homepage and dashboard */}
             {user.isAdmin ? (
               <li
                 className={`list-group-items  rounded py-1 px-2  ${location.pathname.toLowerCase() === "/admin/home" ? "active" : ""
@@ -74,6 +76,7 @@ const SideBar = ({ user }) => {
                 </Link>
               </li>
             )}
+            {/* student requested list */}
             {user.isAdmin ? (
               <li
                 className={`list-group-items  rounded py-1 px-2  ${location.pathname.toLowerCase() === "/admin/manage-request-form"
@@ -97,7 +100,19 @@ const SideBar = ({ user }) => {
                 </Link>
               </li>
             )}
-
+            {/* student request form */}
+            {user.isAdmin ? (
+              <li
+                className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/student-requests" ? "active" : ""
+                  }`}
+              >
+                <Link className="d-flex align-items-center" to="/admin/student-requests">
+                  <i className="bx bx-user-check me-2"></i>
+                  <p className="m-0">Student Requests</p>
+                </Link>
+              </li>
+            ) : null}
+            {/* about us and reports */}
             {user.isAdmin ? (
               <li
                 className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/reports" ? "active" : ""
@@ -121,15 +136,6 @@ const SideBar = ({ user }) => {
               </li>
             )}
 
-            <li
-              className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/student-requests" ? "active" : ""
-                }`}
-            >
-              <Link className="d-flex align-items-center" to="/admin/student-requests">
-                <i className="bx bx-info-circle"></i>
-                <p className="m-0">Student Requests</p>
-              </Link>
-            </li>
           </ul>
         </div>
       </div>

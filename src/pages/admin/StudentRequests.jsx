@@ -26,7 +26,7 @@ export default function StudentRequests() {
     }, [user]);
 
     return (
-        <div>
+        <div className="p-4 w-100 overflow-auto" style={{ height: "90dvh" }}>
             <div className="mt-3 d-flex flex-column gap-3">
                 {requestedDocuments.length > 0 ? (
                     <>
@@ -41,9 +41,23 @@ export default function StudentRequests() {
                                         <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
                                             Purpose:
                                         </h5>
-                                        <p className="m-0">{request.purpose}</p>
+                                        <p className="m-0 me-1">{request.firstName}</p>
+                                        <p className="m-0">{request.lastName}</p>
                                     </div>
+                                    {/* Line */}
+                                    <div
+                                        className="bg-dark w-100  d-block d-sm-none"
+                                        style={{ height: "1px" }}
+                                    ></div>
 
+                                    <div className="col-12 col-sm d-flex align-items-center justify-content-center">
+                                        <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                                            Student ID
+                                        </h5>
+                                        <p className="m-0 ">
+                                            <p className="m-0">{request.email}</p>
+                                        </p>
+                                    </div>
                                     {/* Line */}
                                     <div
                                         className="bg-dark w-100  d-block d-sm-none"

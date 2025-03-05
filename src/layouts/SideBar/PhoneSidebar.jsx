@@ -43,6 +43,7 @@ const PhoneSidebar = ({ user }) => {
 
           <Offcanvas.Body className="PhoneSidebar" style={{ backgroundColor: "var(--main-color)" }}>
             <ul className="PhonesideBar-list list-unstyled d-flex flex-column gap-2">
+              {/* homepage and dashboard */}
               <li
                 className={`p-list-group-items ${location.pathname === (user.isAdmin ? "/admin/Home" : "/Home")
                   ? "active"
@@ -60,7 +61,7 @@ const PhoneSidebar = ({ user }) => {
                   </p>
                 </Link>
               </li>
-
+              {/* request form */}
               <li
                 className={`p-list-group-items ${location.pathname ===
                   (user.isAdmin
@@ -83,7 +84,31 @@ const PhoneSidebar = ({ user }) => {
                   <p className="m-0">Request Form</p>
                 </Link>
               </li>
-
+              {/* student requested list */}
+              {user.isAdmin ? (
+                <li
+                  className={`list-group-items  rounded py-1 px-2  ${location.pathname.toLowerCase() === "/admin/manage-request-form"
+                    ? "active"
+                    : ""
+                    }`}
+                >
+                  <Link className="d-flex align-items-center" to="/admin/manage-request-form">
+                    <i className="bx bx-file"></i>
+                    <p className="m-0">Request Form</p>
+                  </Link>
+                </li>
+              ) : (
+                <li
+                  className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/request-documents" ? "active" : ""
+                    }`}
+                >
+                  <Link className="d-flex align-items-center" to="/request-documents">
+                    <i className="bx bx-file"></i>
+                    <p className="m-0">Request Form</p>
+                  </Link>
+                </li>
+              )}
+              {/* about and reports */}
               <li
                 className={`p-list-group-items ${location.pathname ===
                   (user.isAdmin ? "/admin/Reports" : "/About")
