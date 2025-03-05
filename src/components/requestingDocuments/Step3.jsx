@@ -57,13 +57,13 @@ const Step3 = ({
     const isActive = { current: true };
 
     Promise.all([
-      axios.get(`http://localhost:5000/api/fetchDocuments/fetchSelections`, {
+      axios.get(`http://localhost:5000/api/fetchingDocuments/fetchSelections`, {
         params: { purposeID },
       }),
-      axios.get(`http://localhost:5000/api/fetchDocuments/fetchInputs`, {
+      axios.get(`http://localhost:5000/api/fetchingDocuments/fetchInputs`, {
         params: { purposeID },
       }),
-      axios.get(`http://localhost:5000/api/fetchDocuments/fetchUploads`, {
+      axios.get(`http://localhost:5000/api/fetchingDocuments/fetchUploads`, {
         params: { purposeID },
       }),
     ])

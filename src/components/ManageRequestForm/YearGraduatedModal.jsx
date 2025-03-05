@@ -128,7 +128,7 @@ function YearGraduatedModal() {
         </h4>
       </Button>
 
-      {/* MODAL FOR VIEWING PROGRAMS */}
+      {/* MODAL FOR VIEWING YEAR */}
       <Modal show={showYear} onHide={handleCloseYear} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title>
@@ -233,8 +233,8 @@ function YearGraduatedModal() {
         </Modal.Footer>
       </Modal>
 
-      {/* MODAL FOR ADDING Year */}
-      <Modal show={addYear} onHide={handleCancelAddYear} centered size="lg">
+      {/* MODAL FOR ADDING YEAR */}
+      <Modal show={addYear} onHide={handleCancelAddYear} centered size="">
         <Modal.Header>
           <Modal.Title>
             <h4 className="m-0">Add Year</h4>

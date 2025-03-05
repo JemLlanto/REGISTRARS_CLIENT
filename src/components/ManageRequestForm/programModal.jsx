@@ -235,12 +235,7 @@ function programModal() {
       </Modal>
 
       {/* MODAL FOR ADDING PROGRAM */}
-      <Modal
-        show={addProgram}
-        onHide={handleCancelAddProgram}
-        centered
-        size="lg"
-      >
+      <Modal show={addProgram} onHide={handleCancelAddProgram} centered size="">
         <Modal.Header>
           <Modal.Title>
             <h4 className="m-0">Add Program/Course</h4>
