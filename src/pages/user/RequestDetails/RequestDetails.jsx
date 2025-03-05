@@ -12,8 +12,8 @@ const RequestDetails = () => {
   const [documentFile, setDocumentFile] = useState(null);
   const birthDate = documentDetails?.dateOfBirth
     ? new Intl.DateTimeFormat("en-US", {
-      dateStyle: "medium",
-    }).format(new Date(documentDetails?.dateOfBirth))
+        dateStyle: "medium",
+      }).format(new Date(documentDetails?.dateOfBirth))
     : "";
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const RequestDetails = () => {
   // fetching inputs
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/fetchDocuments/fetchInputs`, {
+      .get(`http://localhost:5000/api/fetchingDocuments/fetchInputs`, {
         params: { purposeID: documentDetails.purposeID },
       })
       .then((res) => {
@@ -113,9 +113,7 @@ const RequestDetails = () => {
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
           Request Details
         </h5>
-
       </div>
-
 
       {/* Document img */}
       <div className="mx-0">
@@ -153,12 +151,15 @@ const RequestDetails = () => {
         {documentFile && (
           <div className="row mx-0 bg-white w-100 mt-2 shadow-sm rounded-2 p-4 align-items-center">
             <div className="col-12 col-md-4  d-flex flex-column align-items-center ">
-
               <div className="d-flex align-items-center gap-3">
                 <img
                   src={`http://localhost:5000/uploads/${documentFile.image_file}`}
                   alt="Document"
-                  style={{ width: "100%", objectFit: "cover", borderRadius: "0.5rem" }}
+                  style={{
+                    width: "100%",
+                    objectFit: "cover",
+                    borderRadius: "0.5rem",
+                  }}
                 />
               </div>
             </div>
@@ -173,7 +174,8 @@ const RequestDetails = () => {
                 <div className="d-flex align-items-center gap-2">
                   <i className="bx bxs-user text-dark fs-5"></i>
                   <h6 className="m-0">
-                    {documentDetails.firstName} {documentDetails.middleName} {documentDetails.lastName}
+                    {documentDetails.firstName} {documentDetails.middleName}{" "}
+                    {documentDetails.lastName}
                   </h6>
                 </div>
               </div>
@@ -191,7 +193,9 @@ const RequestDetails = () => {
 
               <div className="col-12 col-md-6 col-lg-4 mb-3">
                 <p className="text-muted fw-bold">
-                  {documentDetails.classification === "graduated" ? "Year Graduated" : "Year Level"}
+                  {documentDetails.classification === "graduated"
+                    ? "Year Graduated"
+                    : "Year Level"}
                 </p>
                 <div className="d-flex align-items-center">
                   <i className="bx bxs-calendar text-dark fs-5 me-1"></i>
@@ -208,7 +212,6 @@ const RequestDetails = () => {
       </div>
 
       <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
-
         {/* Gender */}
         <div className="col-12 col-md-6 col-lg-4 mb-3">
           <p className="text-muted fw-bold">Gender</p>
@@ -236,10 +239,7 @@ const RequestDetails = () => {
           </div>
         </div>
         {/* Line */}
-        <div
-          className="bg-dark w-100 mb-2"
-          style={{ height: "1px" }}
-        ></div>
+        <div className="bg-dark w-100 mb-2" style={{ height: "1px" }}></div>
         {/* Phone Number */}
         <div className="col-12 col-md-6 col-lg-4 mb-3">
           <p className="text-muted fw-bold">Phone Number</p>
@@ -266,7 +266,6 @@ const RequestDetails = () => {
             <h6 className="m-0">{documentDetails.schoolYearAttended}</h6>
           </div>
         </div>
-
       </div>
     </div>
   );

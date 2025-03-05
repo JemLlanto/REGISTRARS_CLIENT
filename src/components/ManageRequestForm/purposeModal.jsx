@@ -2,6 +2,8 @@ import { use, useEffect, useState } from "react";
 import { Button, Accordion, Modal, FloatingLabel, Form } from "react-bootstrap";
 import axios from "axios";
 import PurposeSelections from "./PurposeSelections";
+import PurposeInput from "./PurposeInput";
+import PurposeUpload from "./PurposeUpload";
 
 function purposeModal() {
   const [showPurpose, setShowPurpose] = useState(false);
@@ -15,6 +17,8 @@ function purposeModal() {
   const handleAddPurpose = () => {
     setAddPurpose(true);
     setShowPurpose(false);
+    setEditPurpose(null);
+    setFormData({ purposeName: "" });
   };
   const handleCancelAddPurpose = () => {
     setAddPurpose(false);
@@ -129,6 +133,7 @@ function purposeModal() {
         </h4>
       </Button>
 
+      {/* MAIN MODAL FOR PURPOSE */}
       <Modal size="lg" show={showPurpose} onHide={handleClosePurpose} centered>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -184,6 +189,9 @@ function purposeModal() {
                                 e.stopPropagation();
                                 handleUpdatePurpose();
                               }}
+                              disabled={
+                                formData.purposeName === purpose.purposeName
+                              }
                             >
                               <i class="bx bx-check"></i>
                             </button>
@@ -191,7 +199,9 @@ function purposeModal() {
                         </>
                       ) : (
                         <>
-                          <h5 className="m-0">{purpose.purposeName}</h5>
+                          <h5 className="m-0">
+                            {purpose.purposeName} {purpose.purposeID}
+                          </h5>
                           <div className="d-flex gap-1">
                             <button
                               className="btn btn-sm btn-primary"
@@ -221,6 +231,8 @@ function purposeModal() {
                   </Accordion.Header>
                   <Accordion.Body>
                     <PurposeSelections purpose={purpose} />
+                    <PurposeInput purpose={purpose} />
+                    <PurposeUpload purpose={purpose} />
                   </Accordion.Body>
                 </Accordion.Item>
               ))}
