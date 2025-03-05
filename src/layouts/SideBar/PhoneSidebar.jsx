@@ -27,26 +27,26 @@ const PhoneSidebar = ({ user }) => {
           placement="end"
           style={{ width: "25rem" }}
         >
-   <Offcanvas.Header closeButton style={{ backgroundColor: "var(--main-color)", height: "5rem" }}>
-  <img
-    src="/Registrar.png"
-    alt="Registrar Logo"
-    className="logo-img"
-    style={{
-      height: "80%",
-      width: "12rem",
-      objectFit: "cover",
-    }}
-  />
-</Offcanvas.Header>
+          <Offcanvas.Header closeButton style={{ backgroundColor: "var(--main-color)", height: "5rem" }}>
+            <img
+              src="/Registrar.png"
+              alt="Registrar Logo"
+              className="logo-img"
+              style={{
+                height: "80%",
+                width: "12rem",
+                objectFit: "cover",
+              }}
+            />
+          </Offcanvas.Header>
 
 
           <Offcanvas.Body className="PhoneSidebar" style={{ backgroundColor: "var(--main-color)" }}>
             <ul className="PhonesideBar-list list-unstyled d-flex flex-column gap-2">
               <li
                 className={`p-list-group-items ${location.pathname === (user.isAdmin ? "/admin/Home" : "/Home")
-                    ? "active"
-                    : ""
+                  ? "active"
+                  : ""
                   }`}
               >
                 <Link
@@ -63,11 +63,11 @@ const PhoneSidebar = ({ user }) => {
 
               <li
                 className={`p-list-group-items ${location.pathname ===
-                    (user.isAdmin
-                      ? "/admin/ManageRequestForm"
-                      : "/request-documents")
-                    ? "active"
-                    : ""
+                  (user.isAdmin
+                    ? "/admin/ManageRequestForm"
+                    : "/request-documents")
+                  ? "active"
+                  : ""
                   }`}
               >
                 <Link
@@ -86,9 +86,9 @@ const PhoneSidebar = ({ user }) => {
 
               <li
                 className={`p-list-group-items ${location.pathname ===
-                    (user.isAdmin ? "/admin/Reports" : "/About")
-                    ? "active"
-                    : ""
+                  (user.isAdmin ? "/admin/Reports" : "/About")
+                  ? "active"
+                  : ""
                   }`}
               >
                 <Link
