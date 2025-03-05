@@ -27,6 +27,7 @@ import Pendings from "./pages/admin/Dashboard/Pendings";
 import TotalRequest from "./pages/admin/Dashboard/TotalRequest";
 import RequestDetails from "./pages/user/RequestDetails/RequestDetails";
 import ManageRequestForm from "./pages/admin/ManageRequestForm";
+import StudentRequests from "./pages/admin/StudentRequests";
 
 const App = () => {
   return (
@@ -52,6 +53,7 @@ const App = () => {
             path="/admin/manage-request-form"
             element={<ManageRequestForm />}
           />
+          <Route path="/admin/student-requests" element={<StudentRequests />} />
           {/* pages */}
           <Route path="/admin/dashboard/new-request" element={<NewRequest />} />
           <Route path="/admin/dashboard/completed" element={<Completed />} />

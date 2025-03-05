@@ -14,28 +14,36 @@ export default function About() {
           About Us:
         </h5>
       </div>
-      {/* 
-      <div
-        className="core d-flex  justify-content-start flex-column  w-100  shadow-sm rounded-2 p-5 mt-5 text-center"
-        style={{
-          backgroundColor: "var(--main-color)",
-        }}
-      >
-        <div className="">
-          <img
-            src="/OfficeLogo.png"
-            alt="Registrar Logo"
-            style={{ width: "20rem" }}
-          />
+
+      <div className="container">
+        <div
+          className="row align-items-center shadow-sm rounded-2 p-4 mt-5"
+          style={{ backgroundColor: "var(--secondMain-color)" }}
+        >
+          {/* Logo Section */}
+          <div className="col-12 col-md-6">
+            <img
+              src="/adminbg.png"
+              alt="Registrar Logo"
+              className=" img-fluid mx-0"
+              style={{ maxWidth: "100%", maxHeight: "30rem" }}
+            />
+          </div>
+
+          {/* Text Section */}
+          <div className="col-12 col-md-6">
+            <p className="m-0 text-dark text-center text-md-center">
+              The Registrar's Office manages student records, enrollment, and academic documents.
+              It handles registration, transcripts, and graduation requirements while ensuring
+              data accuracy and compliance. Serving as a key support hub, it assists students
+              with enrollment, schedule inquiries, and certification requests, ensuring a smooth
+              academic process.
+            </p>
+          </div>
         </div>
-        <div className="m-0 ">
-          <h1>Office Hours</h1>
-        </div>
-        <div>MONDAY - THRUSDAY</div>
-        <div>
-          <h3>07:00 AM to 06:00 PM</h3>
-        </div>
-      </div> */}
+      </div>
+
+
       <div
         className="d-flex justify-content-between gap-2 mt-2 row mx-auto"
         style={{ maxHeight: "650px" }}
