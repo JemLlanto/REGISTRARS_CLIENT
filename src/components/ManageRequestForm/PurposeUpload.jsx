@@ -156,7 +156,7 @@ const PurposeUpload = ({ purpose }) => {
                           {/* FOR EDITING INPUT */}
                           <Form.Control
                             className="w-75"
-                            placeholder="uploadDescription"
+                            placeholder="Upload Description"
                             name="uploadDescription"
                             onChange={(e) => {
                               setFormData({
