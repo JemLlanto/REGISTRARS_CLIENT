@@ -1,17 +1,112 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useOutletContext, Link, useNavigate } from "react-router-dom";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, FloatingLabel, Form } from "react-bootstrap";
+import axios from "axios";
+import DateSelection from "./Dashboard/DateSelection";
+import StatusLabels from "./Dashboard/StatusLabels";
+import PurposeStats from "./Dashboard/PurposeStats";
 
 export default function Home() {
   const { user } = useOutletContext();
   const navigate = useNavigate();
+  const [requestedDocuments, setRequestedDocuments] = useState([]);
+  const [selectedPeriod, setSelectedPeriod] = useState("week");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
+  // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {
     if (!user.isAdmin) {
       navigate("/home");
     }
-  }, [user.isAdmin, navigate]);
+  }, [user, navigate]);
+
+  // Set default dates on mount
+  useEffect(() => {
+    setDefaultWeekDates();
+  }, []);
+
+  // Fetch documents whenever dates change
+  useEffect(() => {
+    if (startDate && endDate) {
+      fetchRequestedDocuments();
+    }
+  }, [startDate, endDate]);
+
+  // Separate function for the API call that can be called directly
+  const fetchRequestedDocuments = () => {
+    console.log(startDate, endDate);
+    if (startDate && endDate) {
+      axios
+        .get("http://localhost:5000/api/dashboard/fetchRequestedDocuments", {
+          params: {
+            startDate: startDate,
+            endDate: endDate,
+          },
+        })
+        .then((res) => {
+          if (res.data.Status === "Success") {
+            setRequestedDocuments(res.data.data);
+            console.log("requestedDocuments", res.data.data);
+          } else {
+            setRequestedDocuments([]);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
+
+  const setDefaultWeekDates = () => {
+    const today = new Date();
+    const start = new Date(today);
+    const end = new Date(today);
+
+    // Set to first day of current week (Sunday)
+    const day = today.getDay();
+    start.setDate(today.getDate() - day);
+    // Set to last day of current week (Saturday)
+    end.setDate(start.getDate() + 6);
+
+    // Format dates as YYYY-MM-DD
+    setStartDate(start.toISOString().split("T")[0]);
+    setEndDate(end.toISOString().split("T")[0]);
+    fetchRequestedDocuments();
+  };
+
+  // Function to set date range based on period selection
+  const handlePeriodChange = (e) => {
+    const period = e.target.value;
+    setSelectedPeriod(period);
+
+    const today = new Date();
+    let start = new Date();
+    let end = new Date();
+
+    if (period === "week") {
+      // Set to first day of current week (Sunday)
+      const day = today.getDay(); // 0 for Sunday, 1 for Monday, etc.
+      start.setDate(today.getDate() - day); // Go back to Sunday
+      end.setDate(start.getDate() + 6); // Saturday is 6 days after Sunday
+    } else if (period === "month") {
+      // Set to first day of current month
+      start.setDate(1);
+      // Set to last day of current month
+      end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    } else if (period === "year") {
+      // Set to first day of current year
+      start = new Date(today.getFullYear(), 0, 1);
+      // Set to last day of current year
+      end = new Date(today.getFullYear(), 11, 31);
+    }
+
+    // Format dates as YYYY-MM-DD for input fields
+    setStartDate(start.toISOString().split("T")[0]);
+    setEndDate(end.toISOString().split("T")[0]);
+    fetchRequestedDocuments();
+  };
 
   return (
     <Container fluid className="p-4 w-100">
@@ -20,109 +115,26 @@ export default function Home() {
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
-          Dashboard: {user?.firstName}
+          Dashboard: {startDate} - {endDate}
         </h5>
       </div>
       <div
         className="overflow-y-scroll overflow-x-hidden"
         style={{ height: "77dvh" }}
       >
-        <Row className="container w-100 mt-4 g-3">
-          <Col xs={12} sm={6} md={3}>
-            <Link
-              to="/admin/dashboard/new-request"
-              className="text-decoration-none"
-            >
-              <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center">
-                <div
-                  className="text-white d-flex justify-content-center align-items-center p-3"
-                  style={{ width: "60px", height: "60px" }}
-                >
-                  <i className="bx bx-user-plus fs-3 rounded-circle"></i>
-                </div>
-                <div className="ms-3">
-                  <h5 className="text-success mb-1">123+</h5>
-                  <h5 className="text-dark">New Request</h5>
-                </div>
-              </div>
-            </Link>
-          </Col>
+        <DateSelection
+          startDate={startDate}
+          endDate={endDate}
+          selectedPeriod={selectedPeriod}
+          handlePeriodChange={handlePeriodChange}
+          setSelectedPeriod={setSelectedPeriod}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+        />
 
-          <Col xs={12} sm={6} md={3}>
-            <Link
-              to="/admin/dashboard/pendings"
-              className="text-decoration-none"
-            >
-              <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center">
-                <div
-                  className=" text-white  d-flex justify-content-center align-items-center p-3"
-                  style={{ width: "60px", height: "60px" }}
-                >
-                  <i className="bx bxs-timer fs-3 rounded-circle"></i>
-                </div>
-                <div className="ms-3">
-                  <h5 className="text-success mb-1">2133+</h5>
-                  <h5 className="text-dark">Pendings</h5>
-                </div>
-              </div>
-            </Link>
-          </Col>
+        <StatusLabels requestedDocuments={requestedDocuments} />
 
-          <Col xs={12} sm={6} md={3}>
-            <Link
-              to="/admin/dashboard/completed"
-              className="text-decoration-none"
-            >
-              <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center">
-                <div
-                  className=" text-white  d-flex justify-content-center align-items-center p-3"
-                  style={{ width: "60px", height: "60px" }}
-                >
-                  <i className="bx bxs-user-check fs-3 rounded-circle"></i>
-                </div>
-                <div className="ms-3"></div>
-                <div>
-                  <h5 className="text-success mb-1">923+</h5>
-                  <h5 className="text-dark">Completed</h5>
-                </div>
-              </div>
-            </Link>
-          </Col>
-
-          <Col xs={12} sm={6} md={3}>
-            <Link
-              to="/admin/dashboard/total-request"
-              className="text-decoration-none"
-            >
-              <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center">
-                <div
-                  className=" text-white  d-flex justify-content-center align-items-center p-3"
-                  style={{ width: "60px", height: "60px" }}
-                >
-                  <i className="bx bx-list-check fs-3 rounded-circle"></i>
-                </div>
-                <div className="ms-3">
-                  <h5 className="text-success mb-1">928+</h5>
-                  <h5 className="text-dark">Total Request</h5>
-                </div>
-              </div>
-            </Link>
-          </Col>
-        </Row>
-
-        {/* Free Space Section */}
-        {/* <div className="w-100 rounded-2 p-1 mt-5 text-center">
-          <div className=" d-flex  justify-content-evenly gap-3">
-            <div className="w-100  bg-white shadow-sm d-flex justify-content-center align-items-center">
-              <img
-                src="/Graph.png"
-                alt="cvsu-logo"
-                className="w-75 img-fluid"
-                style={{ objectFit: "cover", height: "400px" }}
-              />
-            </div>
-          </div>
-        </div> */}
+        <PurposeStats requestedDocuments={requestedDocuments} />
       </div>
     </Container>
   );
