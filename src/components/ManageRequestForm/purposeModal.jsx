@@ -199,9 +199,7 @@ function purposeModal() {
                         </>
                       ) : (
                         <>
-                          <h5 className="m-0">
-                            {purpose.purposeName} {purpose.purposeID}
-                          </h5>
+                          <h5 className="m-0">{purpose.purposeName}</h5>
                           <div className="d-flex gap-1">
                             <button
                               className="btn btn-sm btn-primary"
