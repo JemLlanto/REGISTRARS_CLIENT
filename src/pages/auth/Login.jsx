@@ -41,7 +41,7 @@ const Login = ({ setActivePage }) => {
 
   return (
     <>
-    <Preloader></Preloader>
+      <Preloader></Preloader>
       <div className="container-fluid vh-100 d-flex justify-content-center align-items-center position-relative">
         <div
           className="p-4 shadow-lg rounded-4 fade-in"
@@ -57,41 +57,43 @@ const Login = ({ setActivePage }) => {
             REGISTRAR'S ONLINE REQUEST
           </h5>
           <form onSubmit={handleLogin}>
-            <div className="mb-3">
-              <label className="form-label text-white">Email:</label>
+            <div className="form-floating mb-3">
               <input
                 type="email"
                 name="email"
                 value={inputs.email}
                 onChange={handleChange}
                 className="form-control"
+                placeholder="Email"
               />
+              <label className="text-dark">Email</label>
               {errors.email && (
                 <div className="text-danger small">{errors.email}</div>
               )}
             </div>
-            <div className="mb-3 position-relative">
-              <label className="form-label text-white">Password:</label>
-              <div className="input-group">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={inputs.password}
-                  onChange={handleChange}
-                  className="form-control"
-                />
-                <span
-                  className="input-group-text bg-white border-0"
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
-                </span>
-              </div>
+
+            <div className="form-floating mb-3 position-relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={inputs.password}
+                onChange={handleChange}
+                className="form-control"
+                placeholder="Password"
+              />
+              <label className="text-dark">Password</label>
+              <span
+                className="position-absolute top-50 end-0 translate-middle-y me-3"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ cursor: "pointer" }}
+              >
+                <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
+              </span>
               {errors.password && (
                 <div className="text-danger small">{errors.password}</div>
               )}
             </div>
+
             <button type="submit" className="btn btn-warning w-100">
               Login
             </button>

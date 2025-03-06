@@ -45,13 +45,14 @@ const NavBar = ({ user }) => {
               id="dropdown-basic"
               style={{ backgroundColor: "var(--main-color)" }}
             >
+
+              <p className="m-0" style={{ color: "var(--secondMain-color)" }}>
+                {user.firstName}
+              </p>
               <i
                 className="bx bx-user-circle px-2 m-0 "
                 style={{ color: "var(--secondMain-color)" }}
               ></i>
-              <p className="m-0" style={{ color: "var(--secondMain-color)" }}>
-                {user.firstName}
-              </p>
             </Dropdown.Toggle>
             <Dropdown.Menu className="text-center">
               <Dropdown.Item className="btn btn-white btn-no-hover">
@@ -70,11 +71,11 @@ const NavBar = ({ user }) => {
                   Logout
                 </button>
               </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                        <PhoneSidebar user={user}></PhoneSidebar>
-                      </div>
-                    </div>
+            </Dropdown.Menu>
+          </Dropdown>
+          <PhoneSidebar user={user}></PhoneSidebar>
+        </div>
+      </div>
     </>
   );
 };

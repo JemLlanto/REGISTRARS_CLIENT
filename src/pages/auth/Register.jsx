@@ -81,12 +81,11 @@ const Register = ({ setActivePage }) => {
 
   return (
     <>
-      <div className="d-flex justify-content-center align-items-center bg-light p-3">
+      <div className="d-flex justify-content-center vh-100 align-items-center p-3">
         <div
           className="p-4 shadow-sm rounded-4 mx-auto"
           style={{
-            minHeight:"80vh",
-            overflowY:"auto",
+            overflowY: "auto",
             maxWidth: "30rem",
             backgroundColor: "var(--main-color)",
             zIndex: 1000,
@@ -113,30 +112,32 @@ const Register = ({ setActivePage }) => {
           <form onSubmit={handleRegister}>
             <Row>
               <Col md={6}>
-                <div className="mb-3">
-                  <label className="form-label text-white">First Name:</label>
+                <div className="form-floating mb-3">
                   <input
                     type="text"
                     name="firstName"
                     value={inputs.firstName}
                     onChange={handleChange}
                     className="form-control"
+                    placeholder="First Name"
                   />
+                  <label className="text-dark">First Name</label>
                   {errors.firstName && (
                     <div className="text-danger small">{errors.firstName}</div>
                   )}
                 </div>
               </Col>
               <Col md={6}>
-                <div className="mb-3">
-                  <label className="form-label text-white">Last Name:</label>
+                <div className="form-floating mb-3">
                   <input
                     type="text"
                     name="lastName"
                     value={inputs.lastName}
                     onChange={handleChange}
                     className="form-control"
+                    placeholder="Last Name"
                   />
+                  <label className="text-dark">Last Name</label>
                   {errors.lastName && (
                     <div className="text-danger small">{errors.lastName}</div>
                   )}
@@ -144,43 +145,40 @@ const Register = ({ setActivePage }) => {
               </Col>
             </Row>
 
-            <div className="mb-3">
-              <label className="form-label text-white">Email:</label>
+            <div className="form-floating mb-3">
               <input
                 type="email"
                 name="email"
                 value={inputs.email}
                 onChange={handleChange}
                 className="form-control"
+                placeholder="Email"
               />
-              {errors.email && (
-                <div className="text-danger small">{errors.email}</div>
-              )}
+              <label className="text-dark">Email</label>
+              {errors.email && <div className="text-danger small">{errors.email}</div>}
             </div>
+
             <Row>
               <Col xs={12} md={6}>
-                <div className="mb-3 position-relative">
-                  <label className="form-label text-white">Password:</label>
-                  <div className="input-group">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      value={inputs.password}
-                      onChange={handleChange}
-                      className="form-control"
-                    />
-                    <span
-                      className="input-group-text"
-                      onClick={() => setShowPassword(!showPassword)}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <i
-                        className={showPassword ? "bx bx-hide" : "bx bx-show"}
-                      ></i>
-                    </span>
-                  </div>
+                <div className="form-floating mb-3 position-relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={inputs.password}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Password"
+                  />
+                  <label className="text-dark">Password</label>
+                  <span
+                    className="input-group-text position-absolute end-0 top-50 translate-middle-y"
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
+                  </span>
                   {errors.password && Array.isArray(errors.password) && (
-                    <ul className="text-warning small  mt-1">
+                    <ul className="text-warning small mt-1">
                       {errors.password.map((err, idx) => (
                         <li key={idx}>{err}</li>
                       ))}
@@ -190,38 +188,30 @@ const Register = ({ setActivePage }) => {
               </Col>
 
               <Col xs={12} md={6}>
-                <div className="mb-3 position-relative">
-                  <label className="form-label text-white">
-                    Confirm Password:
-                  </label>
-                  <div className="input-group">
-                    <input
-                      type={showConPassword ? "text" : "password"}
-                      name="conPassword"
-                      value={inputs.conPassword}
-                      onChange={handleChange}
-                      className="form-control"
-                    />
-                    <span
-                      className="input-group-text"
-                      onClick={() => setShowConPassword(!showConPassword)}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <i
-                        className={
-                          showConPassword ? "bx bx-hide" : "bx bx-show"
-                        }
-                      ></i>
-                    </span>
-                  </div>
+                <div className="form-floating mb-3 position-relative">
+                  <input
+                    type={showConPassword ? "text" : "password"}
+                    name="conPassword"
+                    value={inputs.conPassword}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Confirm Password"
+                  />
+                  <label className="text-dark">Confirm Password</label>
+                  <span
+                    className="input-group-text position-absolute end-0 top-50 translate-middle-y"
+                    onClick={() => setShowConPassword(!showConPassword)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <i className={showConPassword ? "bx bx-hide" : "bx bx-show"}></i>
+                  </span>
                   {errors.conPassword && (
-                    <div className="text-danger small mt-1">
-                      {errors.conPassword}
-                    </div>
+                    <div className="text-danger small mt-1">{errors.conPassword}</div>
                   )}
                 </div>
               </Col>
             </Row>
+
             <button
               type="submit"
               className="btn btn-primary w-100"
