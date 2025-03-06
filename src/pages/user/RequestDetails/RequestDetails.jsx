@@ -12,8 +12,8 @@ const RequestDetails = () => {
   const [documentFile, setDocumentFile] = useState(null);
   const birthDate = documentDetails?.dateOfBirth
     ? new Intl.DateTimeFormat("en-US", {
-        dateStyle: "medium",
-      }).format(new Date(documentDetails?.dateOfBirth))
+      dateStyle: "medium",
+    }).format(new Date(documentDetails?.dateOfBirth))
     : "";
 
   useEffect(() => {
@@ -84,7 +84,6 @@ const RequestDetails = () => {
         console.log("Error fetching details: ", err);
       });
   }, [requestID]);
-
   // fetching inputs
   useEffect(() => {
     axios
@@ -267,6 +266,16 @@ const RequestDetails = () => {
           </div>
         </div>
       </div>
+      {user.isAdmin ? (
+        <div className="row shadow-sm bg-white d-flex justify-content-between rounded-3 p-4 mt-2 mx-0">
+          <button className="w-25 rounded-2 bg-danger text-white py-1">
+            decline
+          </button>
+          <button className="w-25 rounded-2 bg-success text-white py-1">
+            accept
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };
