@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useOutletContext, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import NewAccountPopup from "../../components/NewAccount/NewAccountPopup";
 
 export default function Home() {
   const { user } = useOutletContext();
@@ -36,6 +37,9 @@ export default function Home() {
 
   return (
     <div className="p-4 w-100 overflow-auto" style={{ height: "90dvh" }}>
+      {!user.isAdmin && user.isNewAccount ? (
+        <NewAccountPopup user={user} />
+      ) : null}
       <div
         className="rounded-2 shadow-sm mb-2"
         style={{ backgroundColor: "var(--main-color)" }}

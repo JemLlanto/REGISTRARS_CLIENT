@@ -10,6 +10,7 @@ const Register = ({ setActivePage }) => {
   const [showConPassword, setShowConPassword] = useState(false);
   const [inputs, setInputs] = useState({
     firstName: "",
+    middleName: "",
     lastName: "",
     email: "",
     password: "",
@@ -70,7 +71,7 @@ const Register = ({ setActivePage }) => {
       .post("http://localhost:5000/api/auth/register", inputs)
       .then((res) => {
         if (res.data.Status === "Success") {
-          alert("Registration successful!");
+          alert(res.data.Message);
           setActivePage("login");
         } else {
           alert("Error");
@@ -111,7 +112,7 @@ const Register = ({ setActivePage }) => {
 
           <form onSubmit={handleRegister}>
             <Row>
-              <Col md={6}>
+              <Col md={12}>
                 <div className="form-floating mb-3">
                   <input
                     type="text"
@@ -127,7 +128,23 @@ const Register = ({ setActivePage }) => {
                   )}
                 </div>
               </Col>
-              <Col md={6}>
+              <Col md={12}>
+                <div className="form-floating mb-3">
+                  <input
+                    type="text"
+                    name="middleName"
+                    value={inputs.middleName}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Middle Name"
+                  />
+                  <label className="text-dark">Middle Name</label>
+                  {errors.middleName && (
+                    <div className="text-danger small">{errors.middleName}</div>
+                  )}
+                </div>
+              </Col>
+              <Col md={12}>
                 <div className="form-floating mb-3">
                   <input
                     type="text"
@@ -155,7 +172,9 @@ const Register = ({ setActivePage }) => {
                 placeholder="Email"
               />
               <label className="text-dark">Email</label>
-              {errors.email && <div className="text-danger small">{errors.email}</div>}
+              {errors.email && (
+                <div className="text-danger small">{errors.email}</div>
+              )}
             </div>
 
             <Row>
@@ -175,7 +194,9 @@ const Register = ({ setActivePage }) => {
                     onClick={() => setShowPassword(!showPassword)}
                     style={{ cursor: "pointer" }}
                   >
-                    <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
+                    <i
+                      className={showPassword ? "bx bx-hide" : "bx bx-show"}
+                    ></i>
                   </span>
                   {errors.password && Array.isArray(errors.password) && (
                     <ul className="text-warning small mt-1">
@@ -203,10 +224,14 @@ const Register = ({ setActivePage }) => {
                     onClick={() => setShowConPassword(!showConPassword)}
                     style={{ cursor: "pointer" }}
                   >
-                    <i className={showConPassword ? "bx bx-hide" : "bx bx-show"}></i>
+                    <i
+                      className={showConPassword ? "bx bx-hide" : "bx bx-show"}
+                    ></i>
                   </span>
                   {errors.conPassword && (
-                    <div className="text-danger small mt-1">{errors.conPassword}</div>
+                    <div className="text-danger small mt-1">
+                      {errors.conPassword}
+                    </div>
                   )}
                 </div>
               </Col>
@@ -214,7 +239,7 @@ const Register = ({ setActivePage }) => {
 
             <button
               type="submit"
-              className="btn btn-primary w-100"
+              className="btn btn-warning w-100"
               disabled={!isFormValid()}
             >
               Register

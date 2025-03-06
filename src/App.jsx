@@ -17,7 +17,6 @@ import Home from "./pages/user/Home";
 import RequestDocuments from "./pages/user/RequestDocument";
 import About from "./pages/user/About";
 import ProfileSetup from "./pages/user/ProfileSetup";
-import PagesMainLayout from "./layouts/PagesMainLayout";
 import MainLayout from "./layouts/MainLayout";
 import AdminHome from "./pages/admin/Home";
 import Reports from "./pages/admin/Reports";

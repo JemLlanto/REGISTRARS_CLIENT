@@ -72,7 +72,7 @@ export default function RequestDocument() {
     studentID: user.studentID || "",
     dateOfBirth: user.dateOfBirth || "",
     sex: user.sex || "",
-    mobileNum: user.mobileNum || "",
+    mobileNum: user.mobileNum || "+63",
     classification: "",
     schoolYearAttended: "",
     yearGraduated: "",
@@ -94,7 +94,7 @@ export default function RequestDocument() {
         studentID: user.studentID || "",
         dateOfBirth: user.dateOfBirth || "",
         sex: user.sex || "",
-        mobileNum: user.mobileNum || "",
+        mobileNum: user.mobileNum || "+63",
         program: user.program || "",
 
         // Add any other user fields you want to pre-populate
@@ -322,24 +322,20 @@ export default function RequestDocument() {
                 </p>
               </Button>
               {currentStep === 4 ? (
-                <Button
+                <button
                   type="button"
-                  className="btn btn-success"
-                  style={{
-                    width: "10rem",
-                  }}
+                  className="primaryButton"
                   onClick={handleSubmit}
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
                     Submit
                   </p>
-                </Button>
+                </button>
               ) : (
                 <button
                   type="button"
                   className="primaryButton"
                   onClick={nextStep}
-                  style={{}}
                   disabled={
                     currentStep === 1
                       ? !privacyConsent

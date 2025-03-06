@@ -58,6 +58,10 @@ const Step1 = ({ formData, handleChange }) => {
               onChange={handleChange}
             />
           </FloatingLabel>
+          <h6 className=" text-secondary mt-1">
+            <span className="fw-bold">Note:</span> If unavailable, please leave
+            this field blank.
+          </h6>
         </Col>
         <Col md={""}>
           <FloatingLabel controlId="floatingLastname" label="Lastname">
@@ -100,8 +104,8 @@ const Step1 = ({ formData, handleChange }) => {
           onChange={handleChange}
         >
           <option>Choose...</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
         </Form.Select>
       </FloatingLabel>
 

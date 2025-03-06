@@ -41,7 +41,6 @@ const Login = ({ setActivePage }) => {
 
   return (
     <>
-      <Preloader></Preloader>
       <div className="container-fluid vh-100 d-flex justify-content-center align-items-center position-relative">
         <div
           className="p-4 shadow-lg rounded-4 fade-in"
@@ -53,7 +52,10 @@ const Login = ({ setActivePage }) => {
           <h4 className="text-center fw-bold text-white">
             CAVITE STATE UNIVERSITY
           </h4>
-          <h5 className="text-center mb-4 fw-bold" style={{ color: "#e4b703fb" }}>
+          <h5
+            className="text-center mb-4 fw-bold"
+            style={{ color: "#e4b703fb" }}
+          >
             REGISTRAR'S ONLINE REQUEST
           </h5>
           <form onSubmit={handleLogin}>
@@ -101,7 +103,11 @@ const Login = ({ setActivePage }) => {
               Don't have an account?{" "}
               <span
                 onClick={() => setActivePage("register")}
-                style={{ cursor: "pointer", color: "#e4b703fb", fontWeight: "bold" }}
+                style={{
+                  cursor: "pointer",
+                  color: "#e4b703fb",
+                  fontWeight: "bold",
+                }}
               >
                 Register here
               </span>

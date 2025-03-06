@@ -3,6 +3,7 @@ import Register from "./Register";
 import Login from "./Login";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Preloader from "../../components/Preloader/Preloader";
 
 const Index = () => {
   const [activePage, setActivePage] = useState("login");
@@ -26,6 +27,7 @@ const Index = () => {
 
   return (
     <>
+      <Preloader />
       {activePage === "login" ? (
         <Login setActivePage={setActivePage}></Login>
       ) : (
