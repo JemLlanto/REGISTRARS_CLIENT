@@ -82,7 +82,7 @@ const Register = ({ setActivePage }) => {
 
   return (
     <>
-      <div className="d-flex justify-content-center vh-100 align-items-center p-3">
+      <div className="d-flex justify-content-center vh-100 align-items-center p-3 overflow-auto" style={{ height: "100dvh" }}>
         <div
           className="p-4 shadow-sm rounded-4 mx-auto"
           style={{
