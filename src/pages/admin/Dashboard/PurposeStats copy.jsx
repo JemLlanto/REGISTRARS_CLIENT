@@ -54,7 +54,7 @@ function PurposeStats({ requestedDocuments }) {
             <strong>{label}</strong>
           </p>
           <p className="mb-0">
-            Documents: <strong>{payload[0].value}</strong>
+            Documentssdfffsd: <strong>{payload[0].value}</strong>
           </p>
         </div>
       );

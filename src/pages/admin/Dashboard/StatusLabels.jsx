@@ -15,7 +15,7 @@ const StatusLabels = ({ requestedDocuments }) => {
               className="text-white d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
             >
-              <i className="bx bx-user-plus fs-3 rounded-circle"></i>
+              <i className="bx bx-user-plus fs-3 rounded-circle p-3" style={{ backgroundColor: "var(--main-color)" }}></i>
             </div>
             <div className="ms-3">
               <h5 className="text-success mb-1">123+</h5>
@@ -32,7 +32,7 @@ const StatusLabels = ({ requestedDocuments }) => {
               className=" text-white  d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
             >
-              <i className="bx bxs-timer fs-3 rounded-circle"></i>
+              <i className="bx bxs-timer fs-3 rounded-circle p-3" style={{ backgroundColor: "var(--main-color)" }}></i>
             </div>
             <div className="ms-3">
               <h5 className="text-success mb-1">2133+</h5>
@@ -49,7 +49,7 @@ const StatusLabels = ({ requestedDocuments }) => {
               className=" text-white  d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
             >
-              <i className="bx bxs-user-check fs-3 rounded-circle"></i>
+              <i className="bx bxs-user-check fs-3 rounded-circle p-3" style={{ backgroundColor: "var(--main-color)" }}></i>
             </div>
             <div className="ms-3"></div>
             <div>
@@ -70,7 +70,7 @@ const StatusLabels = ({ requestedDocuments }) => {
               className=" text-white  d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
             >
-              <i className="bx bx-list-check fs-3 rounded-circle"></i>
+              <i className="bx bx-list-check fs-3 rounded-circle p-3" style={{ backgroundColor: "var(--main-color)" }}></i>
             </div>
             <div className="ms-3">
               <h5 className="text-success mb-1">{requestedDocuments.length}</h5>

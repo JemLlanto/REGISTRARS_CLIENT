@@ -119,22 +119,36 @@ export default function Home() {
         </h5>
       </div>
       <div
-        className="overflow-y-scroll overflow-x-hidden"
+        className="overflow-y-scroll overflow-x-hidden mt-3"
         style={{ height: "77dvh" }}
       >
-        <DateSelection
-          startDate={startDate}
-          endDate={endDate}
-          selectedPeriod={selectedPeriod}
-          handlePeriodChange={handlePeriodChange}
-          setSelectedPeriod={setSelectedPeriod}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
-        />
+
 
         <StatusLabels requestedDocuments={requestedDocuments} />
+        <div className="row d-flex align-items-center justify-content-center gap-4 bg-light rounded shadow-sm p-3 mt-3">
+          <div className="col-lg-5 col-md-6 col-sm-12">
+            <div className="d-flex flex-column gap-3 p-3  rounded  bg-white">
+              <DateSelection
+                startDate={startDate}
+                endDate={endDate}
+                selectedPeriod={selectedPeriod}
+                handlePeriodChange={handlePeriodChange}
+                setSelectedPeriod={setSelectedPeriod}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+              />
+            </div>
+          </div>
+          {/* Left side: Chart */}
+          <div className="col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center">
+            <PurposeStats requestedDocuments={requestedDocuments} />
+          </div>
 
-        <PurposeStats requestedDocuments={requestedDocuments} />
+          {/* Right side: Date Selection */}
+
+        </div>
+
+
       </div>
     </Container>
   );
