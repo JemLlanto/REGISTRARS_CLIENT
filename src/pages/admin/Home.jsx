@@ -125,6 +125,7 @@ export default function Home() {
 
 
         <StatusLabels requestedDocuments={requestedDocuments} />
+
         <div className="row d-flex align-items-center justify-content-center gap-4 bg-light rounded shadow-sm p-3 mt-3">
           <div className="col-lg-5 col-md-6 col-sm-12">
             <div className="d-flex flex-column gap-3 p-3  rounded  bg-white">

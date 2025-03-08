@@ -54,7 +54,7 @@ const MainLayout = () => {
   return (
     <div
       className="w-100 d-flex flex-column"
-      style={{ backgroundColor: "var(--background-color)", height: "100dvh" }}
+      style={{ backgroundColor: "var(--bodyBackground-color)", height: "100dvh" }}
     >
       <div className="d-flex overflow-hidden" style={{ height: "100dvh" }}>
         <div className="d-none d-md-block">

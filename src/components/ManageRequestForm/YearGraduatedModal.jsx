@@ -118,11 +118,11 @@ function YearGraduatedModal() {
   return (
     <>
       <Button
-        className="shadow-sm p-3  d-flex justify-content-between align-items-center"
-        variant="light"
+        className="shadow-sm p-2 w-100  d-flex justify-content-between align-items-center"
+        style={{ backgroundColor: "var(--main-color)" }}
         onClick={handleShowYear}
       >
-        <h5 className="m-0">Year Graduated</h5>
+        <h5 className="m-0">customize</h5>
         <h4 className="m-0 d-flex align-items-center">
           <i class="bx bxs-chevron-right"></i>
         </h4>

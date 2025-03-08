@@ -15,9 +15,12 @@ const ManageRequestForm = () => {
         </h5>
       </div>
 
-      <div className="w-100 d-flex flex-column gap-2 p-3 mt-5">
+      <div className="w-100 d-flex flex-column gap-2 p-3 mt-3 mx-0 bg-white shadow-sm rounded-2">
+        <label className="">Programs and Courses</label>
         <ProgramModal></ProgramModal>
+        <label className="">Year Graduated</label>
         <YearGraduatedModal></YearGraduatedModal>
+        <label className="">Purposes</label>
         <PurposeModal></PurposeModal>
       </div>
     </div>

@@ -117,16 +117,19 @@ function programModal() {
 
   return (
     <>
-      <Button
-        className="shadow-sm p-3  d-flex justify-content-between align-items-center"
-        variant="light"
-        onClick={handleShowProgram}
-      >
-        <h5 className="m-0">Program/Course</h5>
-        <h4 className="m-0 d-flex align-items-center">
-          <i class="bx bxs-chevron-right"></i>
-        </h4>
-      </Button>
+      <div className="w-100 mx-0">
+        <Button
+          className="shadow-sm p-2 w-100  d-flex justify-content-between align-items-center"
+          style={{ backgroundColor: "var(--main-color)" }}
+          onClick={handleShowProgram}
+        >
+          <h5 className="m-0">customize</h5>
+          <h4 className="m-0 d-flex align-items-center">
+            <i class="bx bxs-chevron-right"></i>
+          </h4>
+        </Button>
+      </div>
+
 
       {/* MODAL FOR VIEWING PROGRAMS */}
       <Modal show={showProgram} onHide={handleCloseProgram} centered size="lg">
