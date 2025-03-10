@@ -132,10 +132,10 @@ function programModal() {
 
 
       {/* MODAL FOR VIEWING PROGRAMS */}
-      <Modal show={showProgram} onHide={handleCloseProgram} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <h4 className="m-0">Manage Program/Course</h4>
+      <Modal show={showProgram} onHide={handleCloseProgram} centered size="lg" >
+        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
+          <Modal.Title >
+            <h4 className="m-0 text-white">Manage Program and Course</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -231,7 +231,7 @@ function programModal() {
           <Button variant="secondary" onClick={handleCloseProgram}>
             <p className="m-0">Close</p>
           </Button>
-          <Button variant="primary" onClick={handleAddProgram}>
+          <Button style={{ backgroundColor: "var(--main-color)" }} onClick={handleAddProgram}>
             <p className="m-0">Add new program</p>
           </Button>
         </Modal.Footer>
@@ -239,9 +239,9 @@ function programModal() {
 
       {/* MODAL FOR ADDING PROGRAM */}
       <Modal show={addProgram} onHide={handleCancelAddProgram} centered size="">
-        <Modal.Header>
+        <Modal.Header style={{ backgroundColor: "var(--main-color)" }}>
           <Modal.Title>
-            <h4 className="m-0">Add Program/Course</h4>
+            <h4 className="m-0 text-white">Add Program/Course</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -265,7 +265,7 @@ function programModal() {
           <Button variant="secondary" onClick={handleCancelAddProgram}>
             <p className="m-0">Cancel</p>
           </Button>
-          <Button variant="primary" onClick={handleSaveProgram}>
+          <Button style={{ backgroundColor: "var(--main-color)" }} onClick={handleSaveProgram}>
             <p className="m-0">Save</p>
           </Button>
         </Modal.Footer>

@@ -135,9 +135,9 @@ function purposeModal() {
 
       {/* MAIN MODAL FOR PURPOSE */}
       <Modal size="lg" show={showPurpose} onHide={handleClosePurpose} centered>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
           <Modal.Title>
-            <h4 className="m-0">Manage Purposes</h4>
+            <h4 className="m-0 text-white">Manage Purposes</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -241,7 +241,7 @@ function purposeModal() {
           <Button variant="secondary" onClick={handleClosePurpose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleAddPurpose}>
+          <Button style={{ backgroundColor: "var(--main-color)" }} onClick={handleAddPurpose}>
             Add Purpose
           </Button>
         </Modal.Footer>
@@ -249,9 +249,9 @@ function purposeModal() {
 
       {/* MODAL FOR ADDING PURPOSE */}
       <Modal show={addPurpose} onHide={handleCancelAddPurpose} centered size="">
-        <Modal.Header>
-          <Modal.Title>
-            <h4 className="m-0">Add Purpose</h4>
+        <Modal.Header style={{ backgroundColor: "var(--main-color)" }}>
+          <Modal.Title >
+            <h4 className="m-0 text-white">Add Purpose</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -275,7 +275,7 @@ function purposeModal() {
           <Button variant="secondary" onClick={handleCancelAddPurpose}>
             <p className="m-0">Cancel</p>
           </Button>
-          <Button variant="primary" onClick={handleSavePurpose}>
+          <Button style={{ backgroundColor: "var(--main-color)" }} onClick={handleSavePurpose}>
             <p className="m-0">Save</p>
           </Button>
         </Modal.Footer>
