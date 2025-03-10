@@ -102,8 +102,3 @@
   width: 100dvh;
 }
 
-.custom-input {
-  max-width: 200px; /* Adjust as needed */
-  font-size: 0.8rem; /* Smaller text */
-  padding: 5px; /* Reduce padding */
-}

@@ -45,7 +45,7 @@ const PhoneSidebar = ({ user }) => {
             <ul className="PhonesideBar-list list-unstyled d-flex flex-column gap-2">
               {[
                 { path: user.isAdmin ? "/admin/home" : "/home", icon: "bx-home", label: user.isAdmin ? "Dashboard" : "Homepage" },
-                { path: user.isAdmin ? "/admin/manage-request-form" : "/request-documents", icon: "bx-file", label: "Request Form" },
+                { path: user.isAdmin ? "/admin/manage-request-form" : "/request-documents", icon: "bx-file", label: "Manage Requests" },
                 user.isAdmin && { path: "/admin/student-requests", icon: "bx-user-check me-2", label: "Student Requests" },
                 { path: user.isAdmin ? "/admin/reports" : "/about", icon: user.isAdmin ? "bx-file" : "bx-info-circle", label: user.isAdmin ? "Reports" : "About Us" }
               ].filter(Boolean).map(({ path, icon, label }) => (
