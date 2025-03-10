@@ -23,7 +23,7 @@ const DateSelection = ({
             value={selectedPeriod}
             onChange={handlePeriodChange}
           >
-            <option>options...</option>
+            <option>Modified</option>
             <option value="week">This Week</option>
             <option value="month">This Month</option>
             <option value="year">This Year</option>

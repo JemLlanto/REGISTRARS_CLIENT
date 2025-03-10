@@ -11,7 +11,7 @@ export default function Home() {
   const { user } = useOutletContext();
   const navigate = useNavigate();
   const [requestedDocuments, setRequestedDocuments] = useState([]);
-  const [selectedPeriod, setSelectedPeriod] = useState("week");
+  const [selectedPeriod, setSelectedPeriod] = useState("month");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
@@ -22,9 +22,24 @@ export default function Home() {
     }
   }, [user, navigate]);
 
+  const setDefaultMonthDates = () => {
+    const today = new Date();
+
+    // First day of the current month
+    const start = new Date(today.getFullYear(), today.getMonth(), 2);
+
+    // Last day of the current month
+    const end = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+
+    // Format dates as YYYY-MM-DD
+    setStartDate(start.toISOString().split("T")[0]);
+    setEndDate(end.toISOString().split("T")[0]);
+    fetchRequestedDocuments();
+  };
+
   // Set default dates on mount
   useEffect(() => {
-    setDefaultWeekDates();
+    setDefaultMonthDates();
   }, []);
 
   // Fetch documents whenever dates change
@@ -57,23 +72,6 @@ export default function Home() {
           console.error(err);
         });
     }
-  };
-
-  const setDefaultWeekDates = () => {
-    const today = new Date();
-    const start = new Date(today);
-    const end = new Date(today);
-
-    // Set to first day of current week (Sunday)
-    const day = today.getDay();
-    start.setDate(today.getDate() - day);
-    // Set to last day of current week (Saturday)
-    end.setDate(start.getDate() + 6);
-
-    // Format dates as YYYY-MM-DD
-    setStartDate(start.toISOString().split("T")[0]);
-    setEndDate(end.toISOString().split("T")[0]);
-    fetchRequestedDocuments();
   };
 
   // Function to set date range based on period selection

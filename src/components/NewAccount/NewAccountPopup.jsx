@@ -67,6 +67,7 @@ const NewAccountPopup = ({ user }) => {
           console.log(res.data.Message);
           alert(res.data.Message);
           handleClosePopup();
+          window.location.reload();
         } else if (res.data.Error) {
           console.log("Error:", res.data.Error);
         }

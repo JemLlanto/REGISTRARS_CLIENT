@@ -5,6 +5,7 @@ import NavBar from "./SideBar/NavBar";
 import axios from "axios";
 import { useNavigate, Outlet } from "react-router-dom";
 import "boxicons";
+import NewAccountPopup from "../components/NewAccount/NewAccountPopup";
 
 const MainLayout = () => {
   const [auth, setAuth] = useState(false);
@@ -56,6 +57,9 @@ const MainLayout = () => {
       className="w-100 d-flex flex-column"
       style={{ backgroundColor: "var(--background-color)", height: "100dvh" }}
     >
+      {!user.isAdmin && user.isNewAccount ? (
+        <NewAccountPopup user={user} />
+      ) : null}{" "}
       <div className="d-flex overflow-hidden" style={{ height: "100dvh" }}>
         <div className="d-none d-md-block">
           <SideBar user={user} />

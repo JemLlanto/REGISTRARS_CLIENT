@@ -84,6 +84,16 @@ export default function RequestDocument() {
 
   useEffect(() => {
     if (user) {
+      const date = new Date(user.dateOfBirth);
+      const formattedDate = `${date.getFullYear()}-${String(
+        date.getMonth() + 1
+      ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+      setFormData((prevData) => ({
+        ...prevData,
+        dateOfBirth: formattedDate,
+      }));
+    }
+    if (user) {
       setFormData((prevData) => ({
         ...prevData,
         email: user.email || "",
@@ -92,7 +102,7 @@ export default function RequestDocument() {
         middleName: user.middleName || "",
         lastName: user.lastName || "",
         studentID: user.studentID || "",
-        dateOfBirth: user.dateOfBirth || "",
+        // dateOfBirth: user.dateOfBirth || "",
         sex: user.sex || "",
         mobileNum: user.mobileNum || "+63",
         program: user.program || "",

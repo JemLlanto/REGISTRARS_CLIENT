@@ -37,9 +37,6 @@ export default function Home() {
 
   return (
     <div className="p-4 w-100 overflow-auto" style={{ height: "90dvh" }}>
-      {!user.isAdmin && user.isNewAccount ? (
-        <NewAccountPopup user={user} />
-      ) : null}
       <div
         className="rounded-2 shadow-sm mb-2"
         style={{ backgroundColor: "var(--main-color)" }}
@@ -102,7 +99,11 @@ export default function Home() {
                       Date:
                     </h5>
                     <p className="m-0 ">
-                      {new Date(request.created).toLocaleDateString()}
+                      {request?.created
+                        ? new Intl.DateTimeFormat("en-US", {
+                            dateStyle: "medium",
+                          }).format(new Date(request?.created))
+                        : ""}
                     </p>
                   </div>
                   {/* Line */}
