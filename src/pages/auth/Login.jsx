@@ -62,36 +62,44 @@ const Login = ({ setActivePage }) => {
           </h5>
           {/* inputs */}
           <form onSubmit={handleLogin}>
-            <div className="mb-3">
-              <label className="text-white">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={inputs.email}
-                onChange={handleChange}
-                className="form-control"
-                placeholder="Enter your email"
-              />
+            <div className="mb-3 position-relative">
+              <div className="input-group">
+                <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                  <i className="bx bx-user"></i> {/* Profile icon */}
+                </span>
+                <input
+                  type="email"
+                  name="email"
+                  value={inputs.email}
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Enter your email"
+                />
+              </div>
               {errors.email && <div className="text-danger small">{errors.email}</div>}
             </div>
 
             <div className="mb-3 position-relative">
-              <label className="text-white">Password</label>
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={inputs.password}
-                onChange={handleChange}
-                className="form-control"
-                placeholder="Enter your password"
-              />
-              <span
-                className="position-absolute end-0 translate-middle-y me-3"
-                onClick={() => setShowPassword(!showPassword)}
-                style={{ cursor: "pointer", top: "70%" }}
-              >
-                <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
-              </span>
+              <div className="input-group">
+                <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                  <i className="bx bx-lock"></i> {/* Lock icon */}
+                </span>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={inputs.password}
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Enter your password"
+                />
+                <span
+                  className="input-group-text"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
+                </span>
+              </div>
               {errors.password && <div className="text-danger small">{errors.password}</div>}
             </div>
 
