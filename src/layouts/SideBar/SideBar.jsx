@@ -86,7 +86,7 @@ const SideBar = ({ user }) => {
               >
                 <Link className="d-flex align-items-center" to="/admin/manage-request-form">
                   <i className="bx bx-file"></i>
-                  <p className="m-0">Request Form</p>
+                  <p className="m-0">Manage Requests</p>
                 </Link>
               </li>
             ) : (

@@ -32,14 +32,14 @@ function PurposeStats({ requestedDocuments }) {
 
   // Colors for chart elements
   const COLORS = [
-    "#0088FE",
-    "#00C49F",
-    "#FFBB28",
-    "#FF8042",
-    "#8884d8",
-    "#83a6ed",
-    "#8dd1e1",
-    "#82ca9d",
+    "#001957f7",
+    "#001344f7",
+    "#3f5a9ff7",
+    "#123388f7",
+    "#072777f7",
+    "##002fa7f7",
+    "##003acef7",
+    "#2a458af7",
   ];
 
   // Custom tooltip formatter
@@ -64,9 +64,9 @@ function PurposeStats({ requestedDocuments }) {
 
   return (
     <>
-      <div className="bg-white shadow-sm rounded">
+      <div className="bg-white  rounded mt-3 w-100">
         {data.length > 0 ? (
-          <div className="" style={{ height: "300px" }}>
+          <div className="w-100" style={{ height: "200px" }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={data}

@@ -4,18 +4,18 @@ import { Link } from "react-router-dom";
 
 const StatusLabels = ({ requestedDocuments }) => {
   return (
-    <Row className="w-100 mx-auto gap-2">
+    <Row className="w-100 mx-auto gap-2 mt-3">
       <Col className="m-0 p-0">
         <Link
           to="/admin/dashboard/new-request"
           className="text-decoration-none"
         >
-          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-light">
+          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
             <div
               className="text-white d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
             >
-              <i className="bx bx-user-plus fs-3 rounded-circle"></i>
+              <i className="bx bx-user-plus fs-3 rounded-circle p-3" style={{ backgroundColor: "var(--main-color)" }}></i>
             </div>
             <div className="ms-3">
               <h5 className="text-success mb-1">123+</h5>
@@ -27,12 +27,12 @@ const StatusLabels = ({ requestedDocuments }) => {
 
       <Col className="m-0 p-0">
         <Link to="/admin/dashboard/pendings" className="text-decoration-none">
-          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-light">
+          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
             <div
               className=" text-white  d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
             >
-              <i className="bx bxs-timer fs-3 rounded-circle"></i>
+              <i className="bx bxs-timer fs-3 rounded-circle p-3" style={{ backgroundColor: "var(--main-color)" }}></i>
             </div>
             <div className="ms-3">
               <h5 className="text-success mb-1">2133+</h5>
@@ -44,12 +44,12 @@ const StatusLabels = ({ requestedDocuments }) => {
 
       <Col className="m-0 p-0">
         <Link to="/admin/dashboard/completed" className="text-decoration-none">
-          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-light">
+          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
             <div
               className=" text-white  d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
             >
-              <i className="bx bxs-user-check fs-3 rounded-circle"></i>
+              <i className="bx bxs-user-check fs-3 rounded-circle p-3" style={{ backgroundColor: "var(--main-color)" }}></i>
             </div>
             <div className="ms-3"></div>
             <div>
@@ -65,12 +65,12 @@ const StatusLabels = ({ requestedDocuments }) => {
           to="/admin/dashboard/total-request"
           className="text-decoration-none"
         >
-          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-light">
+          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
             <div
               className=" text-white  d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
             >
-              <i className="bx bx-list-check fs-3 rounded-circle"></i>
+              <i className="bx bx-list-check fs-3 rounded-circle p-3" style={{ backgroundColor: "var(--main-color)" }}></i>
             </div>
             <div className="ms-3">
               <h5 className="text-success mb-1">{requestedDocuments.length}</h5>

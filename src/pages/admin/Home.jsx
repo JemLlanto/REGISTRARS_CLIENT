@@ -107,7 +107,8 @@ export default function Home() {
   };
 
   return (
-    <Container fluid className="p-4 w-100">
+    <Container fluid className="p-4 w-100 overflow-y-scroll overflow-x-hidden mt-1"
+      style={{ height: "90dvh" }}>
       <div
         className="rounded-2 shadow-sm text-white p-2"
         style={{ backgroundColor: "var(--main-color)" }}
@@ -116,24 +117,37 @@ export default function Home() {
           Dashboard: {startDate} - {endDate}
         </h5>
       </div>
-      <div
-        className="overflow-y-scroll overflow-x-hidden"
-        style={{ height: "77dvh" }}
-      >
-        <DateSelection
-          startDate={startDate}
-          endDate={endDate}
-          selectedPeriod={selectedPeriod}
-          handlePeriodChange={handlePeriodChange}
-          setSelectedPeriod={setSelectedPeriod}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
-        />
 
-        <StatusLabels requestedDocuments={requestedDocuments} />
 
-        <PurposeStats requestedDocuments={requestedDocuments} />
+
+      <StatusLabels requestedDocuments={requestedDocuments} />
+
+      <div className="row d-flex align-items-center justify-content-center gap-4 bg-white rounded shadow-sm p-3 mt-3 mx-0">
+        <div className="col-lg-5 col-md-6 col-sm-12">
+          <div className="d-flex flex-column gap-3 p-3 rounded bg-white">
+            <div>
+              <DateSelection
+                startDate={startDate}
+                endDate={endDate}
+                selectedPeriod={selectedPeriod}
+                handlePeriodChange={handlePeriodChange}
+                setSelectedPeriod={setSelectedPeriod}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Left side: Chart */}
+        <div className="col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center">
+          <PurposeStats requestedDocuments={requestedDocuments} />
+        </div>
+
+        {/* Right side: Date Selection */}
+
       </div>
+
     </Container>
   );
 }

@@ -11,7 +11,7 @@ const DateSelection = ({
   setEndDate,
 }) => {
   return (
-    <Row className="w-100 mx-auto gap-2">
+    <Row className="w-100 mx-auto gap-2 ">
       <Col className="p-0">
         <FloatingLabel
           className="my-auto"

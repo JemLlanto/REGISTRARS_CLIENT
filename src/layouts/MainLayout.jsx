@@ -55,7 +55,7 @@ const MainLayout = () => {
   return (
     <div
       className="w-100 d-flex flex-column"
-      style={{ backgroundColor: "var(--background-color)", height: "100dvh" }}
+      style={{ backgroundColor: "var(--bodyBackground-color)", height: "100dvh" }}
     >
       {!user.isAdmin && user.isNewAccount ? (
         <NewAccountPopup user={user} />

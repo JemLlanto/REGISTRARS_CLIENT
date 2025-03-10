@@ -46,9 +46,11 @@ const Login = ({ setActivePage }) => {
           className="p-4 shadow-lg rounded-4 fade-in"
           style={{ width: "30rem", backgroundColor: "#001957f7", zIndex: 2 }}
         >
+          {/* Logo */}
           <div className="d-flex justify-content-center">
-            <img src="/cvsu-logo.png" alt="cvsu-logo" className="w-25" />
+            <img style={{ width: "20%" }} src="/cvsu-logo.png" alt="cvsu-logo" />
           </div>
+          {/*  Title*/}
           <h4 className="text-center fw-bold text-white">
             CAVITE STATE UNIVERSITY
           </h4>
@@ -58,42 +60,47 @@ const Login = ({ setActivePage }) => {
           >
             REGISTRAR'S ONLINE REQUEST
           </h5>
+          {/* inputs */}
           <form onSubmit={handleLogin}>
-            <div className="form-floating mb-3">
-              <input
-                type="email"
-                name="email"
-                value={inputs.email}
-                onChange={handleChange}
-                className="form-control"
-                placeholder="Email"
-              />
-              <label className="text-dark">Email</label>
-              {errors.email && (
-                <div className="text-danger small">{errors.email}</div>
-              )}
+            <div className="mb-3 position-relative">
+              <div className="input-group">
+                <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                  <i className="bx bx-user"></i> {/* Profile icon */}
+                </span>
+                <input
+                  type="email"
+                  name="email"
+                  value={inputs.email}
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Enter your email"
+                />
+              </div>
+              {errors.email && <div className="text-danger small">{errors.email}</div>}
             </div>
 
-            <div className="form-floating mb-3 position-relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={inputs.password}
-                onChange={handleChange}
-                className="form-control"
-                placeholder="Password"
-              />
-              <label className="text-dark">Password</label>
-              <span
-                className="position-absolute top-50 end-0 translate-middle-y me-3"
-                onClick={() => setShowPassword(!showPassword)}
-                style={{ cursor: "pointer" }}
-              >
-                <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
-              </span>
-              {errors.password && (
-                <div className="text-danger small">{errors.password}</div>
-              )}
+            <div className="mb-3 position-relative">
+              <div className="input-group">
+                <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                  <i className="bx bx-lock"></i> {/* Lock icon */}
+                </span>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={inputs.password}
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Enter your password"
+                />
+                <span
+                  className="input-group-text"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
+                </span>
+              </div>
+              {errors.password && <div className="text-danger small">{errors.password}</div>}
             </div>
 
             <button type="submit" className="btn btn-warning w-100">

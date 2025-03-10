@@ -82,7 +82,7 @@ const Register = ({ setActivePage }) => {
 
   return (
     <>
-      <div className="d-flex justify-content-center vh-100 align-items-center p-3">
+      <div className="d-flex justify-content-center vh-100 align-items-center p-3 overflow-auto" style={{ height: "100dvh" }}>
         <div
           className="p-4 shadow-sm rounded-4 mx-auto"
           style={{
@@ -113,91 +113,103 @@ const Register = ({ setActivePage }) => {
           <form onSubmit={handleRegister}>
             <Row>
               <Col md={12}>
-                <div className="form-floating mb-3">
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={inputs.firstName}
-                    onChange={handleChange}
-                    className="form-control"
-                    placeholder="First Name"
-                  />
-                  <label className="text-dark">First Name</label>
-                  {errors.firstName && (
-                    <div className="text-danger small">{errors.firstName}</div>
-                  )}
+                <div className="mb-3 position-relative">
+                  <div className="input-group">
+                    <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                      <i className="bx bx-user"></i> {/* User icon */}
+                    </span>
+                    <input
+                      type="text"
+                      name="firstName"
+                      value={inputs.firstName}
+                      onChange={handleChange}
+                      className="form-control"
+                      placeholder="Enter your first name"
+                    />
+                  </div>
+                  {errors.firstName && <div className="text-danger small">{errors.firstName}</div>}
                 </div>
               </Col>
+
               <Col md={12}>
-                <div className="form-floating mb-3">
-                  <input
-                    type="text"
-                    name="middleName"
-                    value={inputs.middleName}
-                    onChange={handleChange}
-                    className="form-control"
-                    placeholder="Middle Name"
-                  />
-                  <label className="text-dark">Middle Name</label>
-                  {errors.middleName && (
-                    <div className="text-danger small">{errors.middleName}</div>
-                  )}
+                <div className="mb-3 position-relative">
+                  <div className="input-group">
+                    <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                      <i className="bx bx-user"></i> {/* User icon */}
+                    </span>
+                    <input
+                      type="text"
+                      name="middleName"
+                      value={inputs.middleName}
+                      onChange={handleChange}
+                      className="form-control"
+                      placeholder="Enter your middle name"
+                    />
+                  </div>
+                  {errors.middleName && <div className="text-danger small">{errors.middleName}</div>}
                 </div>
               </Col>
+
               <Col md={12}>
-                <div className="form-floating mb-3">
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={inputs.lastName}
-                    onChange={handleChange}
-                    className="form-control"
-                    placeholder="Last Name"
-                  />
-                  <label className="text-dark">Last Name</label>
-                  {errors.lastName && (
-                    <div className="text-danger small">{errors.lastName}</div>
-                  )}
+                <div className="mb-3 position-relative">
+                  <div className="input-group">
+                    <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                      <i className="bx bx-user"></i> {/* User icon */}
+                    </span>
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={inputs.lastName}
+                      onChange={handleChange}
+                      className="form-control"
+                      placeholder="Enter your last name"
+                    />
+                  </div>
+                  {errors.lastName && <div className="text-danger small">{errors.lastName}</div>}
                 </div>
               </Col>
             </Row>
 
-            <div className="form-floating mb-3">
-              <input
-                type="email"
-                name="email"
-                value={inputs.email}
-                onChange={handleChange}
-                className="form-control"
-                placeholder="Email"
-              />
-              <label className="text-dark">Email</label>
-              {errors.email && (
-                <div className="text-danger small">{errors.email}</div>
-              )}
+            <div className="mb-3 position-relative">
+              <div className="input-group">
+                <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                  <i className="bx bx-envelope"></i> {/* Email icon */}
+                </span>
+                <input
+                  type="email"
+                  name="email"
+                  value={inputs.email}
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Enter your email"
+                />
+              </div>
+              {errors.email && <div className="text-danger small">{errors.email}</div>}
             </div>
 
             <Row>
               <Col xs={12} md={6}>
-                <div className="form-floating mb-3 position-relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    value={inputs.password}
-                    onChange={handleChange}
-                    className="form-control"
-                    placeholder="Password"
-                  />
-                  <label className="text-dark">Password</label>
-                  <span
-                    className="input-group-text position-absolute end-0 top-50 translate-middle-y"
-                    onClick={() => setShowPassword(!showPassword)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <i
-                      className={showPassword ? "bx bx-hide" : "bx bx-show"}
-                    ></i>
-                  </span>
+                <div className="mb-3 position-relative">
+                  <div className="input-group">
+                    <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                      <i className="bx bx-lock"></i> {/* Lock icon */}
+                    </span>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={inputs.password}
+                      onChange={handleChange}
+                      className="form-control"
+                      placeholder="Enter your password"
+                    />
+                    <span
+                      className="input-group-text"
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
+                    </span>
+                  </div>
                   {errors.password && Array.isArray(errors.password) && (
                     <ul className="text-warning small mt-1">
                       {errors.password.map((err, idx) => (
@@ -209,45 +221,39 @@ const Register = ({ setActivePage }) => {
               </Col>
 
               <Col xs={12} md={6}>
-                <div className="form-floating mb-3 position-relative">
-                  <input
-                    type={showConPassword ? "text" : "password"}
-                    name="conPassword"
-                    value={inputs.conPassword}
-                    onChange={handleChange}
-                    className="form-control"
-                    placeholder="Confirm Password"
-                  />
-                  <label className="text-dark">Confirm Password</label>
-                  <span
-                    className="input-group-text position-absolute end-0 top-50 translate-middle-y"
-                    onClick={() => setShowConPassword(!showConPassword)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <i
-                      className={showConPassword ? "bx bx-hide" : "bx bx-show"}
-                    ></i>
-                  </span>
-                  {errors.conPassword && (
-                    <div className="text-danger small mt-1">
-                      {errors.conPassword}
-                    </div>
-                  )}
+                <div className="mb-3 position-relative">
+                  <div className="input-group">
+                    <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                      <i className="bx bx-lock"></i> {/* Lock icon */}
+                    </span>
+                    <input
+                      type={showConPassword ? "text" : "password"}
+                      name="conPassword"
+                      value={inputs.conPassword}
+                      onChange={handleChange}
+                      className="form-control"
+                      placeholder="Verify Password"
+                    />
+                    <span
+                      className="input-group-text"
+                      onClick={() => setShowConPassword(!showConPassword)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <i className={showConPassword ? "bx bx-hide" : "bx bx-show"}></i>
+                    </span>
+                  </div>
+                  {errors.conPassword && <div className="text-danger small mt-1">{errors.conPassword}</div>}
                 </div>
               </Col>
             </Row>
 
-            <button
-              type="submit"
-              className="btn btn-warning w-100"
-              disabled={!isFormValid()}
-            >
+            <button type="submit" className="btn btn-warning w-100" disabled={!isFormValid()}>
               Register
             </button>
+
             <p className="mt-3 text-white text-center">
               Already have an account?{" "}
               <span
-                className=""
                 style={{
                   cursor: "pointer",
                   color: "#e4b703fb",
@@ -260,6 +266,7 @@ const Register = ({ setActivePage }) => {
               .
             </p>
           </form>
+
         </div>
       </div>
       <Background></Background>

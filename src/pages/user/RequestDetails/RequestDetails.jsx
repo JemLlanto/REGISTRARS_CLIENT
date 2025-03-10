@@ -162,52 +162,55 @@ const RequestDetails = () => {
                 />
               </div>
             </div>
-            <div className="col-12 col-md-8 d-flex align-items-start flex-column">
-              <div className="d-flex align-items-center gap-2 mb-3">
-                <i className="bx bxs-notepad fs-2"></i>
-                <h4 className="m-0 px-2">{documentDetails.purpose}</h4>
-              </div>
-              {/* Name */}
-              <div className="col-12 col-md-6 col-lg-4 mb-3">
-                <p className="text-muted fw-bold">Name</p>
-                <div className="d-flex align-items-center gap-2">
-                  <i className="bx bxs-user text-dark fs-5"></i>
-                  <h6 className="m-0">
-                    {documentDetails.firstName} {documentDetails.middleName}{" "}
-                    {documentDetails.lastName}
-                  </h6>
-                </div>
-              </div>
 
-              {/* Course */}
-              <div className="col-12 col-md-6 col-lg-4 mb-3">
-                <p className="text-muted fw-bold">Course</p>
-                <div className="d-flex align-items-center">
-                  <i className="bx bxs-graduation text-dark fs-5 me-1"></i>
-                  <h6 className="m-0">{documentDetails.program}</h6>
-                </div>
+          </div>
+        )}
+        <div className="row shadow-sm bg-white d-flex align-items-center  rounded-3 p-4 mt-2 mx-0">
+          <div className="col-12 col-md-8 d-flex align-items-start flex-column">
+            <div className="d-flex align-items-center gap-2 mb-3">
+              <i className="bx bxs-notepad fs-2"></i>
+              <h4 className="m-0 px-2">{documentDetails.purpose}</h4>
+            </div>
+            {/* Name */}
+            <div className="col-12 col-md-6 col-lg-4 mb-3">
+              <p className="text-muted fw-bold">Name</p>
+              <div className="d-flex align-items-center gap-2">
+                <i className="bx bxs-user text-dark fs-5"></i>
+                <h6 className="m-0">
+                  {documentDetails.firstName} {documentDetails.middleName}{" "}
+                  {documentDetails.lastName}
+                </h6>
               </div>
+            </div>
 
-              {/* Year Level / Year Graduated */}
+            {/* Course */}
+            <div className="col-12 col-md-6 col-lg-4 mb-3">
+              <p className="text-muted fw-bold">Course</p>
+              <div className="d-flex align-items-center">
+                <i className="bx bxs-graduation text-dark fs-5 me-1"></i>
+                <h6 className="m-0">{documentDetails.program}</h6>
+              </div>
+            </div>
 
-              <div className="col-12 col-md-6 col-lg-4 mb-3">
-                <p className="text-muted fw-bold">
+            {/* Year Level / Year Graduated */}
+
+            <div className="col-12 col-md-6 col-lg-4 mb-3">
+              <p className="text-muted fw-bold">
+                {documentDetails.classification === "graduated"
+                  ? "Year Graduated"
+                  : "Year Level"}
+              </p>
+              <div className="d-flex align-items-center">
+                <i className="bx bxs-calendar text-dark fs-5 me-1"></i>
+                <h6 className="m-0">
                   {documentDetails.classification === "graduated"
-                    ? "Year Graduated"
-                    : "Year Level"}
-                </p>
-                <div className="d-flex align-items-center">
-                  <i className="bx bxs-calendar text-dark fs-5 me-1"></i>
-                  <h6 className="m-0">
-                    {documentDetails.classification === "graduated"
-                      ? documentDetails.yearGraduated
-                      : documentDetails.yearLevel}
-                  </h6>
-                </div>
+                    ? documentDetails.yearGraduated
+                    : documentDetails.yearLevel}
+                </h6>
               </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
 
       <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
