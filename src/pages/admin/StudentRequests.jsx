@@ -64,7 +64,7 @@ export default function StudentRequests() {
                         >
                             <div className="row mx-auto g-2 bg-light rounded shadow-sm p-3">
                                 <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Purpose:</h5>
+                                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Name:</h5>
                                     <p className="m-0 me-1">{request.firstName}</p>
                                     <p className="m-0">{request.lastName}</p>
                                 </div>
@@ -72,8 +72,8 @@ export default function StudentRequests() {
                                 <div className="bg-dark w-100 d-block d-sm-none" style={{ height: "1px" }}></div>
 
                                 <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Student ID:</h5>
-                                    <p className="m-0">{request.email}</p>
+                                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Purpose:</h5>
+                                    <p className="m-0">{request.purpose}</p>
                                 </div>
 
                                 <div className="bg-dark w-100 d-block d-sm-none" style={{ height: "1px" }}></div>

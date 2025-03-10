@@ -15,6 +15,7 @@ const Step1 = ({ formData, handleChange }) => {
               value={formData.email}
               placeholder="name@example.com"
               onChange={handleChange}
+              className="mb-2"
             />
           </FloatingLabel>
         </Col>
@@ -37,7 +38,7 @@ const Step1 = ({ formData, handleChange }) => {
       </Row>
       {/* Name Fields in a Row */}
       <Row className="mb-1">
-        <Col md={""}>
+        <Col md={"6"}>
           <FloatingLabel controlId="floatingFirstname" label="Firstname">
             <Form.Control
               type="text"
@@ -45,10 +46,11 @@ const Step1 = ({ formData, handleChange }) => {
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
+              className="mb-2"
             />
           </FloatingLabel>
         </Col>
-        <Col md={""}>
+        <Col md={"6"}>
           <FloatingLabel controlId="floatingMiddlename" label="Middlename">
             <Form.Control
               type="text"
@@ -56,6 +58,7 @@ const Step1 = ({ formData, handleChange }) => {
               name="middleName"
               value={formData.middleName}
               onChange={handleChange}
+              className="mb-2"
             />
           </FloatingLabel>
           <h6 className=" text-secondary mt-1">
@@ -113,7 +116,7 @@ const Step1 = ({ formData, handleChange }) => {
         {/* Mobile Number */}
         <FloatingLabel
           controlId="floatingMobile"
-          label="Mobile No.(+63XXXXXXXXXX)"
+          label="Mobile No.(+63XXXXX)"
           className="mt-2"
         >
           <Form.Control
