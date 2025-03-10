@@ -14,8 +14,8 @@ const RequestDetails = () => {
   const [documentFile, setDocumentFile] = useState(null);
   const birthDate = documentDetails?.dateOfBirth
     ? new Intl.DateTimeFormat("en-US", {
-        dateStyle: "medium",
-      }).format(new Date(documentDetails?.dateOfBirth))
+      dateStyle: "medium",
+    }).format(new Date(documentDetails?.dateOfBirth))
     : "";
 
   const fetchDocumentDetails = () => {

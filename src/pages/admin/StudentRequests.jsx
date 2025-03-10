@@ -162,7 +162,7 @@ export default function StudentRequests() {
   };
 
   return (
-    <div className="p-4 w-100 overflow-auto" style={{ height: "90dvh" }}>
+    <div className="p-4 w-100 ">
       <div
         className="rounded-2 shadow-sm text-white p-2 mb-3 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
@@ -170,20 +170,6 @@ export default function StudentRequests() {
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
           Student Request List
         </h5>
-        {/* Search Bar */}
-        <div className="form-floating">
-          <input
-            type="text"
-            className="form-control"
-            id="searchInput"
-            placeholder="Search here"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <label className="text-muted" htmlFor="searchInput">
-            Search by name or email
-          </label>
-        </div>
       </div>
       <div>
         <DateSelection
@@ -198,8 +184,8 @@ export default function StudentRequests() {
       </div>
 
       <div
-        className="p-2 text-start w-100 rounded-2 p-3 d-none d-sm-block"
-        style={{ backgroundColor: "var(--thirdMain-color)" }}
+        className="p-2 text-start w-100 rounded-2 p-2 d-none d-sm-block"
+        style={{ backgroundColor: "var(--yellow-color)" }}
       >
         <div
           className="m-0 d-flex align-items-center justify-content-center"
@@ -215,10 +201,11 @@ export default function StudentRequests() {
             <h5 className="m-0">Date</h5>
           </div>
           <div className="w-100 d-flex align-items-center justify-content-center">
+
             <Dropdown>
               <Dropdown.Toggle
-                className="d-flex align-items-center"
-                variant="success"
+                className="d-flex align-items-center text-white"
+                variant="transparent"
                 id="dropdown-basic"
                 bsPrefix=""
               >
@@ -245,6 +232,21 @@ export default function StudentRequests() {
             </Dropdown>
           </div>
         </div>
+      </div>
+
+      {/* Search Bar */}
+      <div className="form-floating mt-3">
+        <input
+          type="text"
+          className="form-control"
+          id="searchInput"
+          placeholder="Search here"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <label className="text-muted" htmlFor="searchInput">
+          Search by name or email
+        </label>
       </div>
 
       <RequestHeaders filteredRequests={filteredRequests} />

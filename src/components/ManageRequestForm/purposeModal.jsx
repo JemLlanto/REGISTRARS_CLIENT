@@ -127,9 +127,9 @@ function purposeModal() {
         style={{ backgroundColor: "var(--main-color)" }}
         onClick={handleShowPurpose}
       >
-        <h5 className="m-0">customize</h5>
+        <h5 className="m-0 ms-3">customize</h5>
         <h4 className="m-0 d-flex align-items-center">
-          <i class="bx bxs-chevron-right"></i>
+          <i class="bx bxs-chevron-right me-2"></i>
         </h4>
       </Button>
 
