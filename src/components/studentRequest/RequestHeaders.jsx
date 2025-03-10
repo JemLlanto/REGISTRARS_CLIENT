@@ -27,7 +27,7 @@ const RequestHeaders = ({ filteredRequests }) => {
                 <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
                   Student ID:
                 </h5>
-                <p className="m-0">{request.email}</p>
+                <p className="m-0">{request.purpose}</p>
               </div>
 
               <div
