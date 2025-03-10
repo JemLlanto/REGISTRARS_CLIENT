@@ -16,6 +16,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
             : documentDetails.status === "processing"
             ? "completed"
             : null,
+        userID: documentDetails.userID,
       });
     }
   }, [documentDetails]);
@@ -72,7 +73,10 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Notice!</Modal.Title>
+          <Modal.Title>
+            Notice!
+            {documentDetails.userID}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <h5>

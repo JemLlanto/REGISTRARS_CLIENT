@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Dropdown, Offcanvas, Button } from "react-bootstrap";
 import axios from "axios";
@@ -6,10 +6,33 @@ import PhoneSidebar from "./PhoneSidebar";
 
 const NavBar = ({ user }) => {
   const [show, setShow] = useState(false);
+  const [notifications, setNotifications] = useState([]);
   const location = useLocation(); // Get current route
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
+
+  const fetchNotifications = () => {
+    axios
+      .get(
+        `http://localhost:5000/api/notification/fetchNotification/${user.userID}`
+      )
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          setNotifications(res.data.data);
+          console.log(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchNotifications();
+    }
+  }, [user]);
 
   const handleLogout = () => {
     axios
@@ -34,7 +57,6 @@ const NavBar = ({ user }) => {
           className="d-block d-md-none img-fluid"
           style={{ maxWidth: "50px", objectFit: "cover" }}
         />
-
         {/* Right Side*/}
         <div className="d-flex align-items-end justify-content-end ms-auto gap-2">
           <Dropdown>
@@ -49,21 +71,38 @@ const NavBar = ({ user }) => {
                 <i class="bx bx-bell"></i>
               </h5>
               <div
-                className="position-absolute rounded-circle"
+                className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
                 style={{
-                  width: ".7rem",
-                  height: ".7rem",
+                  width: ".9rem",
+                  height: ".9rem",
                   backgroundColor: "red",
+                  top: "0",
+                  left: "-.2rem",
                 }}
               >
-                <p className="m-0">00</p>
+                <p
+                  className="m-0 text-white"
+                  style={{ fontSize: "clamp(.5rem, .9dvw, .7rem)" }}
+                >
+                  {notifications.length}
+                </p>
               </div>
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item style={{ width: "20rem" }} href="#/action-1">
-                Action
-              </Dropdown.Item>
+              {notifications.length === 0 ? (
+                <>
+                  <div style={{ width: "20rem" }}>
+                    <p className="m-0 text-center">No notification</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {notifications.map((notif, index) => (
+                    <Dropdown.Item key={index}>{notif.message}</Dropdown.Item>
+                  ))}
+                </>
+              )}
             </Dropdown.Menu>
           </Dropdown>
           {/* User Dropdown */}
