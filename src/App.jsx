@@ -20,9 +20,9 @@ import ProfileSetup from "./pages/user/ProfileSetup";
 import MainLayout from "./layouts/MainLayout";
 import AdminHome from "./pages/admin/Home";
 import Reports from "./pages/admin/Reports";
-import RequestDetails from "./pages/user/RequestDetails/RequestDetails";
 import ManageRequestForm from "./pages/admin/ManageRequestForm";
 import StudentRequests from "./pages/admin/StudentRequests";
+import RequestDetails from "./layouts/requestDetails/requestDetails";
 
 const App = () => {
   return (

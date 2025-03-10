@@ -24,7 +24,7 @@ const NavBar = ({ user }) => {
     <>
       {/* NAVBAR */}
       <div
-        className="px-4 p-1 w-100 d-flex justify-content-between align-items-center bg-white"
+        className=" p-1 w-100 d-flex justify-content-between align-items-center bg-white"
         style={{ height: "4rem" }}
       >
         {/* Logo*/}
@@ -36,21 +36,49 @@ const NavBar = ({ user }) => {
         />
 
         {/* Right Side*/}
-        <div className="d-flex align-items-center ms-auto">
+        <div className="d-flex align-items-end justify-content-end ms-auto gap-2">
+          <Dropdown>
+            <Dropdown.Toggle
+              className="border rounded-circle p-0 d-flex align-items-center justify-content-center"
+              variant="light"
+              id="dropdown-basic"
+              bsPrefix="none"
+              style={{ width: "2.5rem", height: "2.5rem" }}
+            >
+              <h5 className="m-0 d-flex align-items-center justify-content-center">
+                <i class="bx bx-bell"></i>
+              </h5>
+              <div
+                className="position-absolute rounded-circle"
+                style={{
+                  width: ".7rem",
+                  height: ".7rem",
+                  backgroundColor: "red",
+                }}
+              >
+                <p className="m-0">00</p>
+              </div>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item style={{ width: "20rem" }} href="#/action-1">
+                Action
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
           {/* User Dropdown */}
           <Dropdown align="end">
             <Dropdown.Toggle
               bsPrefix="custom-dropdown-toggle"
-              className="py-2 px-4 px-md-5 mt-1 d-flex align-items-center"
+              className="py-2 mt-1 d-flex align-items-center justify-content-end gap-2"
               id="dropdown-basic"
               style={{ backgroundColor: "var(--main-color)" }}
             >
-
               <p className="m-0" style={{ color: "var(--secondMain-color)" }}>
                 {user.firstName}
               </p>
               <i
-                className="bx bx-user-circle px-2 m-0 "
+                className="bx bx-user-circle m-0 "
                 style={{ color: "var(--secondMain-color)" }}
               ></i>
             </Dropdown.Toggle>
