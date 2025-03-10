@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useLocation } from "react-router-dom";
-import DateSelection from "./Dashboard/DateSelection";
+import DateSelection from "../../components/Dashboard/DateSelection";
 import RequestHeaders from "../../components/studentRequest/requestHeaders";
 import { Dropdown } from "react-bootstrap";
 
@@ -206,10 +206,10 @@ export default function StudentRequests() {
           style={{ color: "var(--background-color)" }}
         >
           <div className="w-100 d-flex align-items-center justify-content-center">
-            <h5 className="m-0">Purpose</h5>
+            <h5 className="m-0">Name</h5>
           </div>
           <div className="w-100 d-flex align-items-center justify-content-center">
-            <h5 className="m-0">Email</h5>
+            <h5 className="m-0">Purpose</h5>
           </div>
           <div className="w-100 d-flex align-items-center justify-content-center">
             <h5 className="m-0">Date</h5>
@@ -237,6 +237,9 @@ export default function StudentRequests() {
                 </Dropdown.Item>
                 <Dropdown.Item onClick={() => handleSelect("completed")}>
                   Completed
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => handleSelect("canceled")}>
+                  Canceled
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

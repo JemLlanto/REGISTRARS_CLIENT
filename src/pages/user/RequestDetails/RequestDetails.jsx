@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
+import CancelButton from "../../../components/requestDetails/CancelButton";
+import ChangeStatusButton from "../../../components/requestDetails/ChangeStatusButton";
 
 const RequestDetails = () => {
   const { user } = useOutletContext();
@@ -12,11 +14,11 @@ const RequestDetails = () => {
   const [documentFile, setDocumentFile] = useState(null);
   const birthDate = documentDetails?.dateOfBirth
     ? new Intl.DateTimeFormat("en-US", {
-      dateStyle: "medium",
-    }).format(new Date(documentDetails?.dateOfBirth))
+        dateStyle: "medium",
+      }).format(new Date(documentDetails?.dateOfBirth))
     : "";
 
-  useEffect(() => {
+  const fetchDocumentDetails = () => {
     axios
       .get(
         `http://localhost:5000/api/fetchingDocuments/fetchRequestedDocumentsDetails/${requestID}`
@@ -32,7 +34,11 @@ const RequestDetails = () => {
       .catch((err) => {
         console.log("Error fetching details: ", err);
       });
-  }, [requestID]);
+  };
+
+  useEffect(() => {
+    fetchDocumentDetails();
+  }, []);
   useEffect(() => {
     axios
       .get(
@@ -106,12 +112,24 @@ const RequestDetails = () => {
     <div className="p-4 w-100 overflow-auto" style={{ maxHeight: "90dvh" }}>
       {/* Header Section */}
       <div
-        className="rounded-2 shadow-sm p-2"
+        className="rounded-2 shadow-sm p-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
           Request Details
         </h5>
+        {user.isAdmin ? (
+          <div className="w-50 d-flex justify-content-end gap-3">
+            <CancelButton
+              fetchDocumentDetails={fetchDocumentDetails}
+              documentDetails={documentDetails}
+            />
+            <ChangeStatusButton
+              fetchDocumentDetails={fetchDocumentDetails}
+              documentDetails={documentDetails}
+            />
+          </div>
+        ) : null}
       </div>
 
       {/* Document img */}
@@ -162,14 +180,15 @@ const RequestDetails = () => {
                 />
               </div>
             </div>
-
           </div>
         )}
         <div className="row shadow-sm bg-white d-flex align-items-center  rounded-3 p-4 mt-2 mx-0">
           <div className="col-12 col-md-8 d-flex align-items-start flex-column">
             <div className="d-flex align-items-center gap-2 mb-3">
               <i className="bx bxs-notepad fs-2"></i>
-              <h4 className="m-0 px-2">{documentDetails.purpose}</h4>
+              <h4 className="m-0 px-2">
+                {documentDetails.purpose} ({documentDetails.status})
+              </h4>
             </div>
             {/* Name */}
             <div className="col-12 col-md-6 col-lg-4 mb-3">
@@ -269,16 +288,6 @@ const RequestDetails = () => {
           </div>
         </div>
       </div>
-      {user.isAdmin ? (
-        <div className="row shadow-sm bg-white d-flex justify-content-between rounded-3 p-4 mt-2 mx-0">
-          <button className="w-25 rounded-2 bg-danger text-white py-1">
-            decline
-          </button>
-          <button className="w-25 rounded-2 bg-success text-white py-1">
-            accept
-          </button>
-        </div>
-      ) : null}
     </div>
   );
 };

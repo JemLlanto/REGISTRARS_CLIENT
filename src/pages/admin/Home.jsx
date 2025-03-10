@@ -3,9 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useOutletContext, Link, useNavigate } from "react-router-dom";
 import { Row, Col, Container, FloatingLabel, Form } from "react-bootstrap";
 import axios from "axios";
-import DateSelection from "./Dashboard/DateSelection";
-import StatusLabels from "./Dashboard/StatusLabels";
-import PurposeStats from "./Dashboard/PurposeStats";
+import DateSelection from "../../components/Dashboard/DateSelection";
+import StatusLabels from "../../components/Dashboard/StatusLabels";
+import PurposeStats from "../../components/Dashboard/PurposeStats";
 
 export default function Home() {
   const { user } = useOutletContext();
@@ -107,8 +107,11 @@ export default function Home() {
   };
 
   return (
-    <Container fluid className="p-4 w-100 overflow-y-scroll overflow-x-hidden mt-1"
-      style={{ height: "90dvh" }}>
+    <Container
+      fluid
+      className="p-4 w-100 overflow-y-scroll overflow-x-hidden mt-1"
+      style={{ height: "90dvh" }}
+    >
       <div
         className="rounded-2 shadow-sm text-white p-2"
         style={{ backgroundColor: "var(--main-color)" }}
@@ -117,8 +120,6 @@ export default function Home() {
           Dashboard: {startDate} - {endDate}
         </h5>
       </div>
-
-
 
       <StatusLabels requestedDocuments={requestedDocuments} />
 
@@ -145,9 +146,7 @@ export default function Home() {
         </div>
 
         {/* Right side: Date Selection */}
-
       </div>
-
     </Container>
   );
 }

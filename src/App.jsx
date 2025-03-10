@@ -20,10 +20,6 @@ import ProfileSetup from "./pages/user/ProfileSetup";
 import MainLayout from "./layouts/MainLayout";
 import AdminHome from "./pages/admin/Home";
 import Reports from "./pages/admin/Reports";
-import NewRequest from "./pages/admin/Dashboard/NewRequest";
-import Completed from "./pages/admin/Dashboard/Completed";
-import Pendings from "./pages/admin/Dashboard/Pendings";
-import TotalRequest from "./pages/admin/Dashboard/TotalRequest";
 import RequestDetails from "./pages/user/RequestDetails/RequestDetails";
 import ManageRequestForm from "./pages/admin/ManageRequestForm";
 import StudentRequests from "./pages/admin/StudentRequests";
@@ -53,14 +49,6 @@ const App = () => {
             element={<ManageRequestForm />}
           />
           <Route path="/admin/student-requests" element={<StudentRequests />} />
-          {/* pages */}
-          <Route path="/admin/dashboard/new-request" element={<NewRequest />} />
-          <Route path="/admin/dashboard/completed" element={<Completed />} />
-          <Route path="/admin/dashboard/pendings" element={<Pendings />} />
-          <Route
-            path="/admin/dashboard/total-request"
-            element={<TotalRequest />}
-          />
         </Route>
       </Routes>
     </BrowserRouter>
