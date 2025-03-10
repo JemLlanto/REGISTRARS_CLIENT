@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 
 const StatusLabels = ({ requestedDocuments }) => {
   return (
-    <Row className="w-100 mx-auto gap-2">
+    <Row className="w-100 mx-auto gap-2 mt-3">
       <Col className="m-0 p-0">
         <Link
           to="/admin/dashboard/new-request"
           className="text-decoration-none"
         >
-          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-light">
+          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
             <div
               className="text-white d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
@@ -27,7 +27,7 @@ const StatusLabels = ({ requestedDocuments }) => {
 
       <Col className="m-0 p-0">
         <Link to="/admin/dashboard/pendings" className="text-decoration-none">
-          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-light">
+          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
             <div
               className=" text-white  d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
@@ -44,7 +44,7 @@ const StatusLabels = ({ requestedDocuments }) => {
 
       <Col className="m-0 p-0">
         <Link to="/admin/dashboard/completed" className="text-decoration-none">
-          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-light">
+          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
             <div
               className=" text-white  d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
@@ -65,7 +65,7 @@ const StatusLabels = ({ requestedDocuments }) => {
           to="/admin/dashboard/total-request"
           className="text-decoration-none"
         >
-          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-light">
+          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
             <div
               className=" text-white  d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}

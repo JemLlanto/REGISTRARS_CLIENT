@@ -64,7 +64,7 @@ function PurposeStats({ requestedDocuments }) {
 
   return (
     <>
-      <div className="bg-white shadow-sm rounded mt-3 w-100">
+      <div className="bg-white  rounded mt-3 w-100">
         {data.length > 0 ? (
           <div className="w-100" style={{ height: "200px" }}>
             <ResponsiveContainer width="100%" height="100%">
