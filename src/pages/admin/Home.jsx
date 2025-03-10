@@ -122,30 +122,20 @@ export default function Home() {
 
       <StatusLabels requestedDocuments={requestedDocuments} />
 
-      <div className="row d-flex align-items-center justify-content-center gap-4 bg-white rounded shadow-sm p-3 mt-3 mx-0">
-        <div className="col-lg-5 col-md-6 col-sm-12">
-          <div className="d-flex flex-column gap-3 p-3 rounded bg-white">
-            <div>
-              <DateSelection
-                startDate={startDate}
-                endDate={endDate}
-                selectedPeriod={selectedPeriod}
-                handlePeriodChange={handlePeriodChange}
-                setSelectedPeriod={setSelectedPeriod}
-                setStartDate={setStartDate}
-                setEndDate={setEndDate}
-              />
-            </div>
-          </div>
-        </div>
+      <div className="bg-white mt-2 p-3 shadow-sm rounded">
+        <DateSelection
+          startDate={startDate}
+          endDate={endDate}
+          selectedPeriod={selectedPeriod}
+          handlePeriodChange={handlePeriodChange}
+          setSelectedPeriod={setSelectedPeriod}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+        />
+      </div>
 
-        {/* Left side: Chart */}
-        <div className="col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center">
-          <PurposeStats requestedDocuments={requestedDocuments} />
-        </div>
-
-        {/* Right side: Date Selection */}
-
+      <div className="w-100">
+        <PurposeStats requestedDocuments={requestedDocuments} />
       </div>
 
     </Container>

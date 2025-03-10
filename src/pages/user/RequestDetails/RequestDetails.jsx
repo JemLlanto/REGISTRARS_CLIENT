@@ -113,106 +113,81 @@ const RequestDetails = () => {
           Request Details
         </h5>
       </div>
+      <div className="information bg-white w-100 mt-2 shadow-sm rounded-2 p-4">
+        <p className="text-muted">Document Type</p>
+        <div className="d-flex align-items-center gap-2">
+          <i className="bx bxs-file-pdf fs-5 me-1"></i>
+          <h6 className="m-0">
+            {documentTypes.map((type) => type.documentType).join(", ")}
+          </h6>
+        </div>
+      </div>
+      {/* Document Information */}
+      <div className="d-flex flex-wrap bg-white w-100 mt-2 shadow-sm rounded-2 p-4">
+        {/* Left Side - Purpose and Name */}
+        <div className="col-12 col-md-8 d-flex flex-column">
+          <div className="d-flex align-items-center gap-2 mb-3">
+            <i className="bx bxs-notepad fs-2"></i>
+            <h4 className="m-0 px-2">{documentDetails.purpose}</h4>
+          </div>
 
-      {/* Document img */}
-      <div className="mx-0">
-        {documentTypes.length > 0 && (
-          <div className="information bg-white w-100 mt-2 shadow-sm rounded-2 p-4">
-            <p className="text-muted">Document Type</p>
+          {/* Name */}
+          <div className="mb-3">
+            <p className="text-muted fw-bold">Name</p>
             <div className="d-flex align-items-center gap-2">
-              <i className="bx bxs-file-pdf fs-5 me-1"></i>
+              <i className="bx bxs-user text-dark fs-5"></i>
               <h6 className="m-0">
-                {documentTypes.map((type) => type.documentType).join(", ")}
+                {documentDetails.firstName} {documentDetails.middleName} {documentDetails.lastName}
               </h6>
             </div>
           </div>
-        )}
-        {documentInputValues.length > 0 && (
-          <div className="information bg-white w-100 mt-2 shadow-sm rounded-2 p-4">
-            <table class="table">
-              <thead>
-                <tr>
-                  {documentInputs.map((input) => (
-                    <th scope="col">{input.inputDescription}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  {documentInputValues.map((inputValue) => (
-                    <td>{inputValue.inputValue}</td>
-                  ))}
-                </tr>
-              </tbody>
-            </table>
+
+          {/* Course */}
+          <div className="col-12 col-md-6 col-lg-4 mb-3">
+            <p className="text-muted fw-bold">Course</p>
+            <div className="d-flex align-items-center">
+              <i className="bx bxs-graduation text-dark fs-5 me-1"></i>
+              <h6 className="m-0">{documentDetails.program}</h6>
+            </div>
           </div>
-        )}
-        {documentFile && (
-          <div className="row mx-0 bg-white w-100 mt-2 shadow-sm rounded-2 p-4 align-items-center">
-            <div className="col-12 col-md-4  d-flex flex-column align-items-center ">
-              <div className="d-flex align-items-center gap-3">
-                <img
-                  src={`http://localhost:5000/uploads/${documentFile.image_file}`}
-                  alt="Document"
-                  style={{
-                    width: "100%",
-                    objectFit: "cover",
-                    borderRadius: "0.5rem",
-                  }}
-                />
-              </div>
-            </div>
 
-          </div>
-        )}
-        <div className="row shadow-sm bg-white d-flex align-items-center  rounded-3 p-4 mt-2 mx-0">
-          <div className="col-12 col-md-8 d-flex align-items-start flex-column">
-            <div className="d-flex align-items-center gap-2 mb-3">
-              <i className="bx bxs-notepad fs-2"></i>
-              <h4 className="m-0 px-2">{documentDetails.purpose}</h4>
-            </div>
-            {/* Name */}
-            <div className="col-12 col-md-6 col-lg-4 mb-3">
-              <p className="text-muted fw-bold">Name</p>
-              <div className="d-flex align-items-center gap-2">
-                <i className="bx bxs-user text-dark fs-5"></i>
-                <h6 className="m-0">
-                  {documentDetails.firstName} {documentDetails.middleName}{" "}
-                  {documentDetails.lastName}
-                </h6>
-              </div>
-            </div>
+          {/* Year Level / Year Graduated */}
 
-            {/* Course */}
-            <div className="col-12 col-md-6 col-lg-4 mb-3">
-              <p className="text-muted fw-bold">Course</p>
-              <div className="d-flex align-items-center">
-                <i className="bx bxs-graduation text-dark fs-5 me-1"></i>
-                <h6 className="m-0">{documentDetails.program}</h6>
-              </div>
-            </div>
-
-            {/* Year Level / Year Graduated */}
-
-            <div className="col-12 col-md-6 col-lg-4 mb-3">
-              <p className="text-muted fw-bold">
+          <div className="col-12 col-md-6 col-lg-4 mb-3">
+            <p className="text-muted fw-bold">
+              {documentDetails.classification === "graduated"
+                ? "Year Graduated"
+                : "Year Level"}
+            </p>
+            <div className="d-flex align-items-center">
+              <i className="bx bxs-calendar text-dark fs-5 me-1"></i>
+              <h6 className="m-0">
                 {documentDetails.classification === "graduated"
-                  ? "Year Graduated"
-                  : "Year Level"}
-              </p>
-              <div className="d-flex align-items-center">
-                <i className="bx bxs-calendar text-dark fs-5 me-1"></i>
-                <h6 className="m-0">
-                  {documentDetails.classification === "graduated"
-                    ? documentDetails.yearGraduated
-                    : documentDetails.yearLevel}
-                </h6>
-              </div>
+                  ? documentDetails.yearGraduated
+                  : documentDetails.yearLevel}
+              </h6>
             </div>
           </div>
         </div>
+
+        {/* Right Side - Image */}
+        {documentFile && (
+          <div className="col-12 col-md-4 d-flex justify-content-end">
+            <img
+              src={`http://localhost:5000/uploads/${documentFile.image_file}`}
+              alt="Document"
+              style={{
+                width: "100%",
+                maxWidth: "200px",
+                objectFit: "cover",
+                borderRadius: "0.5rem",
+              }}
+            />
+          </div>
+        )}
       </div>
 
+      {/* Additional Information */}
       <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
         {/* Gender */}
         <div className="col-12 col-md-6 col-lg-4 mb-3">
@@ -280,6 +255,7 @@ const RequestDetails = () => {
         </div>
       ) : null}
     </div>
+
   );
 };
 

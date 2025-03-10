@@ -56,17 +56,22 @@ export default function Home() {
         >
           <div className="w-100 d-flex align-items-center justify-content-center">
             <h5 className="m-0">
-              <i className="bx bxs-notepad me-1 m-0"></i>Purpose
+              <i className="bx bxs-user me-2 "></i>Name
             </h5>
           </div>
           <div className="w-100 d-flex align-items-center justify-content-center">
             <h5 className="m-0">
-              <i className="bx bxs-calendar-check me-1"></i>Date
+              <i className="bx bxs-notepad me-2 m-0"></i>Purpose
             </h5>
           </div>
           <div className="w-100 d-flex align-items-center justify-content-center">
             <h5 className="m-0">
-              <i className="bx bxs-id-card me-1"></i>Status
+              <i className="bx bxs-calendar-check me-2"></i>Date
+            </h5>
+          </div>
+          <div className="w-100 d-flex align-items-center justify-content-center">
+            <h5 className="m-0">
+              <i className="bx bxs-id-card me-2"></i>Status
             </h5>
           </div>
         </div>
@@ -81,6 +86,17 @@ export default function Home() {
                 to={`/request-details/${request.requestID}`}
               >
                 <div className="row mx-auto g-2 bg-light rounded shadow-sm p-3">
+                  <div className="col-12 col-sm d-flex align-items-center justify-content-center">
+                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                      Name:
+                    </h5>
+                    <p className="m-0">{request.firstName}</p>
+                  </div>
+                  {/* Line */}
+                  <div
+                    className="bg-dark w-100  d-block d-sm-none"
+                    style={{ height: "1px" }}
+                  ></div>
                   <div className="col-12 col-sm d-flex align-items-center justify-content-center">
                     <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
                       Purpose:
@@ -101,8 +117,8 @@ export default function Home() {
                     <p className="m-0 ">
                       {request?.created
                         ? new Intl.DateTimeFormat("en-US", {
-                            dateStyle: "medium",
-                          }).format(new Date(request?.created))
+                          dateStyle: "medium",
+                        }).format(new Date(request?.created))
                         : ""}
                     </p>
                   </div>
