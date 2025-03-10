@@ -70,23 +70,25 @@ const NavBar = ({ user }) => {
               <h5 className="m-0 d-flex align-items-center justify-content-center">
                 <i class="bx bx-bell"></i>
               </h5>
-              <div
-                className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
-                style={{
-                  width: ".9rem",
-                  height: ".9rem",
-                  backgroundColor: "red",
-                  top: "0",
-                  left: "-.2rem",
-                }}
-              >
-                <p
-                  className="m-0 text-white"
-                  style={{ fontSize: "clamp(.5rem, .9dvw, .7rem)" }}
+              {notifications.length === 0 ? null : (
+                <div
+                  className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
+                  style={{
+                    width: ".9rem",
+                    height: ".9rem",
+                    backgroundColor: "red",
+                    top: "0",
+                    left: "-.2rem",
+                  }}
                 >
-                  {notifications.length}
-                </p>
-              </div>
+                  <p
+                    className="m-0 text-white"
+                    style={{ fontSize: "clamp(.5rem, .9dvw, .7rem)" }}
+                  >
+                    {notifications.length}
+                  </p>
+                </div>
+              )}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
