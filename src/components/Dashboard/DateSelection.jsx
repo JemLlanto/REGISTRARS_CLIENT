@@ -11,13 +11,9 @@ const DateSelection = ({
   setEndDate,
 }) => {
   return (
-    <Row className="w-100 mx-auto gap-2 ">
-      <Col className="p-0">
-        <FloatingLabel
-          className="my-auto"
-          controlId="floatingPeriod"
-          label="Data report period"
-        >
+    <div className="d-flex flex-wrap justify-content-between gap-2 w-100">
+      <div className="flex-grow-1">
+        <FloatingLabel controlId="floatingPeriod" label="Data report period">
           <Form.Select
             aria-label="Floating label select example"
             value={selectedPeriod}
@@ -29,36 +25,41 @@ const DateSelection = ({
             <option value="year">This Year</option>
           </Form.Select>
         </FloatingLabel>
-      </Col>
-      <Col className="p-0">
-        <Form.Floating className="mb-3">
+      </div>
+
+      <div className="flex-grow-1">
+        <Form.Floating>
           <Form.Control
             id="startingPeriod"
             type="date"
             placeholder=""
             value={startDate}
             onChange={(e) => {
-              setStartDate(e.target.value), setSelectedPeriod("");
+              setStartDate(e.target.value);
+              setSelectedPeriod("");
             }}
           />
           <label htmlFor="startingPeriod">Starting period:</label>
         </Form.Floating>
-      </Col>
-      <Col className="p-0">
-        <Form.Floating className="mb-3">
+      </div>
+
+      <div className="flex-grow-1">
+        <Form.Floating>
           <Form.Control
             id="endingPeriod"
             type="date"
             placeholder=""
             value={endDate}
             onChange={(e) => {
-              setEndDate(e.target.value), setSelectedPeriod("");
+              setEndDate(e.target.value);
+              setSelectedPeriod("");
             }}
           />
           <label htmlFor="endingPeriod">Ending period:</label>
         </Form.Floating>
-      </Col>
-    </Row>
+      </div>
+    </div>
+
   );
 };
 

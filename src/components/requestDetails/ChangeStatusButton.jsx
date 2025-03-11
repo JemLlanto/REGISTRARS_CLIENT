@@ -14,8 +14,8 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
           documentDetails.status === "pending"
             ? "processing"
             : documentDetails.status === "processing"
-            ? "completed"
-            : null,
+              ? "completed"
+              : null,
         userID: documentDetails.userID,
       });
     }
@@ -52,7 +52,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
   return (
     <>
       <button
-        className=" btn btn-success"
+        className="btn btn-success btn-sm btn-responsive"
         onClick={handleShowChangeStatusModal}
         disabled={
           documentDetails.status === "canceled" ||
@@ -60,12 +60,9 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
         }
       >
         Mark as{" "}
-        {documentDetails.status === "pending" ? (
-          <>"Processing"</>
-        ) : (
-          <>"Completed"</>
-        )}
+        {documentDetails.status === "pending" ? "Processing" : "Completed"}
       </button>
+
 
       <Modal
         show={showChangeStatusModal}

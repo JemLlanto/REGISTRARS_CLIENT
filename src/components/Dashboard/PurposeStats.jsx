@@ -66,7 +66,7 @@ function PurposeStats({ requestedDocuments }) {
     <>
       <div className="bg-white  rounded mt-2 w-100">
         {data.length > 0 ? (
-          <div className="w-100" style={{ height: "200px" }}>
+          <div className="w-100" style={{ height: "300px" }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={data}

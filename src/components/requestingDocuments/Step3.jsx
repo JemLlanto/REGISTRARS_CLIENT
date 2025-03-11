@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FloatingLabel, ToggleButton, Form } from "react-bootstrap";
+import { FloatingLabel, ToggleButton, Form, Button } from "react-bootstrap";
 
 const Step3 = ({
   docType,
@@ -18,6 +18,7 @@ const Step3 = ({
   const [selection, setSelection] = useState([]);
   const [inputs, setInputs] = useState([]);
   const [uploads, setUploads] = useState([]);
+  const [uploadsState, setUploadsState] = useState([]);
 
   // Handle selection change
   const handleSelectionChange = (value) => {
@@ -29,7 +30,11 @@ const Step3 = ({
       },
     });
   };
-  setInputsLength(inputs?.length);
+
+  // Move setInputsLength into useEffect to avoid rendering issues
+  useEffect(() => {
+    setInputsLength(inputs?.length);
+  }, [inputs, setInputsLength]);
 
   useEffect(() => {
     axios
@@ -78,7 +83,9 @@ const Step3 = ({
           setInputs(inputsRes.data.data);
         }
         if (uploadsRes.data.Status === "Success") {
-          setUploads(uploadsRes.data.data);
+          const uploadData = uploadsRes.data.data;
+          setUploads(uploadData);
+          setUploadsState(uploadData); // Initialize uploadsState with the fetched data
         }
       })
       .catch((err) => {
@@ -94,6 +101,42 @@ const Step3 = ({
   useEffect(() => {
     console.log("formData updated:", formData);
   }, [formData]);
+
+  const handleFileChange = (event, uploadID) => {
+    const file = event.target.files[0];
+    if (file) {
+      setFile(file); // Set the file in parent component
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        setUploadsState((prevUploads) =>
+          prevUploads.map((upload) =>
+            upload.uploadID === uploadID ? { ...upload, preview: reader.result, file: file } : upload
+          )
+        );
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Function to remove uploaded photo
+  const handleRemoveFile = (uploadID) => {
+    // Reset the file input
+    const fileInput = document.getElementById(`inputGroupFile${uploadID}`);
+    if (fileInput) {
+      fileInput.value = "";
+    }
+
+    // Remove the preview and file from the upload state
+    setUploadsState((prevUploads) =>
+      prevUploads.map((upload) =>
+        upload.uploadID === uploadID ? { ...upload, preview: null, file: null } : upload
+      )
+    );
+
+    // If this was the active file in the parent component, clear it
+    setFile(null);
+  };
 
   return (
     <div className="mb-3 p-3">
@@ -130,7 +173,7 @@ const Step3 = ({
           </div>
         ) : null}
 
-        {inputsLength > 0 && (
+        {inputs.length > 0 && (
           <div className="d-flex flex-column gap-2">
             <h5 className="m-0">Complete all fields:</h5>
             {inputs.map((input, index) => {
@@ -153,25 +196,67 @@ const Step3 = ({
           </div>
         )}
 
-        {uploads.length > 0 && (
-          <div className="d-flex  flex-column gap-2">
+        {uploadsState.length > 0 && (
+          <div className="d-flex flex-column gap-2">
             <h5 className="m-0">Upload necessary files:</h5>
-            {uploads.map((upload) => (
-              <div key={upload.fileID} class="input-group mb-3">
-                <label
-                  class="w-100 border rounded p-3"
-                  htmlFor={`inputGroupFile${upload.uploadID}`}
-                >
-                  <div className="">
-                    <h5 className="m-0">{upload.uploadDescription}</h5>
-                  </div>
-                </label>
+            {uploadsState.map((upload) => (
+              <div key={upload.uploadID} className="input-group mb-3">
+                <div className="w-100 border rounded p-3">
+                  {/* Show upload description and button only if no preview */}
+                  {!upload.preview ? (
+                    <div className="d-flex justify-content-between align-items-center">
+                      <h5 className="m-0">{upload.uploadDescription}</h5>
+                      <label
+                        className="btn btn-md btn-primary m-0"
+                        htmlFor={`inputGroupFile${upload.uploadID}`}
+                      >
+                        Upload
+                      </label>
+                    </div>
+                  ) : (
+                    <div className="mt-3 position-relative">
+                      <div className="d-flex justify-content-center position-relative">
+                        <div className="position-relative">
+                          <img
+                            src={upload.preview}
+                            alt="Uploaded Preview"
+                            className="img-fluid rounded shadow-sm"
+                            style={{ maxWidth: "clamp( 5rem , 40dvh, 15rem)" }}
+                          />
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => handleRemoveFile(upload.uploadID)}
+                            style={{
+                              position: "absolute",
+                              top: "0",
+                              right: "0",
+                              borderRadius: "50%",
+                              width: "30px",
+                              height: "30px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              padding: "0",
+                              fontWeight: "bold",
+                              boxShadow: "0 2px 5px rgba(0,0,0,0.2)"
+                            }}
+                          >
+                            X
+                          </Button>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  )}
+                </div>
                 <input
                   hidden
                   type="file"
-                  class="form-control"
+                  className="form-control"
                   id={`inputGroupFile${upload.uploadID}`}
-                  onChange={(e) => setFile(e.target.files[0])}
+                  onChange={(e) => handleFileChange(e, upload.uploadID)}
                 />
               </div>
             ))}
