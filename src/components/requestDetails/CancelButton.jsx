@@ -1,13 +1,20 @@
 import { Modal, FloatingLabel, Form } from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
   const [showCancelModal, setShowCancelModal] = useState(false);
-  const [formData, setFormData] = useState({
-    requestID: documentDetails.requestID,
-    reason: "",
-  });
+  const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    if (documentDetails) {
+      setFormData({
+        requestID: documentDetails.requestID,
+        reason: "",
+        userID: documentDetails.userID,
+      });
+    }
+  }, [documentDetails]);
 
   const handleShowCancelModal = () => {
     setShowCancelModal(true);
@@ -75,6 +82,7 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
           <button
             className="btn btn-primary"
             onClick={() => handleCancelRequest(documentDetails.requestID)}
+            disabled={formData.reason === ""}
           >
             Confirm
           </button>

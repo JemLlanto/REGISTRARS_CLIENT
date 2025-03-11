@@ -7,7 +7,7 @@ import { io } from "socket.io-client";
 // Initialize socket connection
 const socket = io("http://localhost:5000"); // Match your server URL
 
-const NotifButton = ({ user }) => {
+const NotifButtonAdmin = ({ user }) => {
   const [notifications, setNotifications] = useState([]);
   const [toasts, setToasts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -264,4 +264,4 @@ const NotifButton = ({ user }) => {
   );
 };
 
-export default NotifButton;
+export default NotifButtonAdmin;

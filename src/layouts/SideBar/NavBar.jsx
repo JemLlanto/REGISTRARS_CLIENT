@@ -4,6 +4,7 @@ import { Dropdown, Offcanvas, Button } from "react-bootstrap";
 import axios from "axios";
 import PhoneSidebar from "./PhoneSidebar";
 import NotifButton from "../../components/NavBar/NotifButton";
+import NotifButtonAdmin from "../../components/NavBar/NotifButtonAdmin";
 
 const NavBar = ({ user }) => {
   const [show, setShow] = useState(false);
@@ -38,7 +39,11 @@ const NavBar = ({ user }) => {
         {/* Right Side*/}
         <div className="d-flex align-items-end justify-content-end ms-auto gap-2">
           {/* Notification Dropdown */}
-          <NotifButton user={user} />
+          {user.isAdmin ? (
+            <NotifButtonAdmin user={user} />
+          ) : (
+            <NotifButton user={user} />
+          )}
 
           {/* User Dropdown */}
           <Dropdown align="end">
