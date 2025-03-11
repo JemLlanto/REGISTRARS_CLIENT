@@ -5,7 +5,7 @@ import PurposeModal from "../../components/ManageRequestForm/purposeModal";
 import YearGraduatedModal from "../../components/ManageRequestForm/yearGraduatedModal";
 const ManageRequestForm = () => {
   return (
-    <div className="w-100 p-4">
+    <div className="p-1 p-sm-4 w-100 ">
       <div
         className="rounded-2 shadow-sm text-white p-2"
         style={{ backgroundColor: "var(--main-color)" }}

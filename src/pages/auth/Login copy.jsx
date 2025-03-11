@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Background } from "../../components/Background/Background";
 import Preloader from "../../components/Preloader/Preloader";
@@ -31,33 +30,13 @@ const Login = ({ setActivePage }) => {
       .post("http://localhost:5000/api/auth/login", inputs)
       .then((res) => {
         if (res.data.Status === "Success") {
-          Swal.fire({
-            title: "Login Successful!",
-            text: "Welcome back!",
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "OK",
-          }).then(() => {
-            navigate("/Home");
-          });
+          alert("Login successful!");
+          navigate("/Home");
         } else {
-          Swal.fire({
-            title: "Login Failed",
-            text: res.data.Error,
-            icon: "error",
-            confirmButtonColor: "#d33",
-            confirmButtonText: "Try Again",
-          });
+          alert(res.data.Error);
         }
       })
-      .catch((err) => {
-        Swal.fire({
-          title: "Error",
-          text: "Something went wrong. Please try again later.",
-          icon: "error",
-        });
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -71,7 +50,7 @@ const Login = ({ setActivePage }) => {
           <div className="d-flex justify-content-center">
             <img style={{ width: "20%" }} src="/cvsu-logo.png" alt="cvsu-logo" />
           </div>
-          {/* Title */}
+          {/*  Title*/}
           <h4 className="text-center fw-bold text-white">
             CAVITE STATE UNIVERSITY
           </h4>
@@ -81,12 +60,12 @@ const Login = ({ setActivePage }) => {
           >
             REGISTRAR'S ONLINE REQUEST
           </h5>
-          {/* Inputs */}
+          {/* inputs */}
           <form onSubmit={handleLogin}>
             <div className="mb-3 position-relative">
               <div className="input-group">
                 <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
-                  <i className="bx bx-user"></i>
+                  <i className="bx bx-user"></i> {/* Profile icon */}
                 </span>
                 <input
                   type="email"
@@ -103,7 +82,7 @@ const Login = ({ setActivePage }) => {
             <div className="mb-3 position-relative">
               <div className="input-group">
                 <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
-                  <i className="bx bx-lock"></i>
+                  <i className="bx bx-lock"></i> {/* Lock icon */}
                 </span>
                 <input
                   type={showPassword ? "text" : "password"}

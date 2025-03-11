@@ -188,46 +188,26 @@ export default function StudentRequests() {
             />
           </div>
         </div>
-        <div className="d-block d-md-none  rounded " >
-          <div className="d-flex align-items-center rounded  " >
-            <RequestDatepicker
-              startDate={startDate}
-              endDate={endDate}
-              selectedPeriod={selectedPeriod}
-              handlePeriodChange={handlePeriodChange}
-              setSelectedPeriod={setSelectedPeriod}
-              setStartDate={setStartDate}
-              setEndDate={setEndDate}
-            />
-          </div>
-        </div>
       </div>
       <div>
 
         {/* Search Bar phone*/}
-        {/* Mobile layout container */}
-        <div className="d-block d-md-none mb-2 mt-2">
-          <div className="d-flex justify-content-between align-items-center">
-            {/* Search Bar - left side */}
-            <div className="w-100 ">
-              <div className="d-flex align-items-center rounded border" style={{ backgroundColor: "var(--main-color)" }}>
-                <div className="px-2">
-                  <i className="bx bx-search-alt fw-bold text-white"></i>
-                </div>
-                <input
-                  type="text"
-                  className="form-control rounded-0 border-0 shadow-none"
-                  id="searchInput"
-                  placeholder="Search by name or email"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  style={{ borderRadius: "8px" }}
-                />
-              </div>
+        <div className="d-block d-md-none mb-2 rounded p-2 mt-2 bg-black" >
+          <div className="d-flex align-items-center rounded border mx-0" style={{ backgroundColor: "var(--main-color)" }} >
+            <div className="px-2" >
+              <i className="bx bx-search-alt fw-bold text-white"></i>
             </div>
+            <input
+              type="text"
+              className="form-control rounded-0 border-0 shadow-none"
+              id="searchInput"
+              placeholder="Search by name or email"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{ borderRadius: "8px" }}
+            />
           </div>
         </div>
-        {/* large  device*/}
         <div className="d-none d-md-block">
           <DateSelection
             startDate={startDate}
@@ -237,6 +217,18 @@ export default function StudentRequests() {
             setSelectedPeriod={setSelectedPeriod}
             setStartDate={setStartDate}
             setEndDate={setEndDate}
+          />
+        </div>
+        <div className="d-block d-md-none">
+          <RequestDatepicker
+            startDate={startDate}
+            endDate={endDate}
+            selectedPeriod={selectedPeriod}
+            handlePeriodChange={handlePeriodChange}
+            setSelectedPeriod={setSelectedPeriod}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            fetchRequestedDocuments={fetchRequestedDocuments}
           />
         </div>
       </div>

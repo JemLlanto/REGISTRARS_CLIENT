@@ -109,7 +109,7 @@ export default function Home() {
   return (
     <Container
       fluid
-      className="p-4 w-100 overflow-y-scroll overflow-x-hidden mt-1"
+      className="p-1 p-sm-4 w-100 overflow-y-scroll overflow-x-hidden mt-1"
       style={{ height: "90dvh" }}
     >
       <div

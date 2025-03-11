@@ -232,7 +232,7 @@ export default function RequestDocument() {
   };
 
   return (
-    <div className="w-100 row p-4">
+    <div className="p-0 p-sm-4 w-100 row ">
       <div className="col">
         <div
           className="rounded shadow-sm d-flex align-items-center p-3"
@@ -350,23 +350,23 @@ export default function RequestDocument() {
                     currentStep === 1
                       ? !privacyConsent
                       : currentStep === 2
-                      ? !formData.email ||
+                        ? !formData.email ||
                         !formData.studentID ||
                         !formData.firstName ||
                         !formData.lastName ||
                         !formData.dateOfBirth ||
                         !formData.sex ||
                         !formData.mobileNum
-                      : currentStep === 3
-                      ? !formData.program ||
-                        !formData.classification ||
-                        (formData.classification === "graduated" &&
-                          !formData.yearGraduated) ||
-                        (formData.classification === "undergraduate" &&
-                          !formData.yearLevel) ||
-                        !formData.schoolYearAttended ||
-                        !formData.purpose
-                      : false
+                        : currentStep === 3
+                          ? !formData.program ||
+                          !formData.classification ||
+                          (formData.classification === "graduated" &&
+                            !formData.yearGraduated) ||
+                          (formData.classification === "undergraduate" &&
+                            !formData.yearLevel) ||
+                          !formData.schoolYearAttended ||
+                          !formData.purpose
+                          : false
                   }
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
