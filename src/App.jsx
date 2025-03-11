@@ -11,39 +11,49 @@ import "./App.css";
 import "./layouts/style/Imports.css";
 import "./layouts/style/PhoneSidebar.css";
 
-// USER ROUTES
+// UNIVERSAL ROUTES
 import Index from "./pages/auth/Index";
+import MainLayout from "./layouts/MainLayout";
+import RequestDetails from "./layouts/requestDetails/requestDetails";
+import ProfileSetup from "./pages/user/ProfileSetup";
+
+// USER ROUTES
 import Home from "./pages/user/Home";
 import RequestDocuments from "./pages/user/RequestDocument";
 import About from "./pages/user/About";
-import ProfileSetup from "./pages/user/ProfileSetup";
-import MainLayout from "./layouts/MainLayout";
+
+// ADMIN ROUTES
 import AdminHome from "./pages/admin/Home";
-import Reports from "./pages/admin/Reports";
-import ManageRequestForm from "./pages/admin/ManageRequestForm";
 import StudentRequests from "./pages/admin/StudentRequests";
-import RequestDetails from "./layouts/requestDetails/requestDetails";
+import ManageRequestForm from "./pages/admin/ManageRequestForm";
+import ManageAdmin from "./pages/admin/ManageAdmin";
+import Reports from "./pages/admin/Reports";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Register and Login page */}
         <Route path="/" element={<Index />} />
+
         {/* Routes that need MainLayout */}
         <Route element={<MainLayout />}>
           <Route path="/profilesetup" element={<ProfileSetup />} />
+          <Route
+            path="/request-details/:requestID"
+            element={<RequestDetails />}
+          />
+
           {/* user */}
           <Route path="*" element={<Navigate to="/home" replace />} />
           <Route path="/home" element={<Home />} />
           <Route path="/request-documents" element={<RequestDocuments />} />
           <Route path="/about" element={<About />} />
-          <Route
-            path="/request-details/:requestID"
-            element={<RequestDetails />}
-          />
+
           {/* admin */}
           <Route path="/admin/home" element={<AdminHome />} />
           <Route path="/admin/reports" element={<Reports />} />
+          <Route path="/admin/manage-admin" element={<ManageAdmin />} />
           <Route
             path="/admin/manage-request-form"
             element={<ManageRequestForm />}
