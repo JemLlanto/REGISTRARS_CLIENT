@@ -17,7 +17,7 @@ const getStatusColor = (status) => {
 
 const RequestHeaders = ({ filteredRequests }) => {
   return (
-    <div className="mt-3 d-flex flex-column gap-3 overflow-auto" style={{ height: "43dvh" }}>
+    <div className="mt-3 d-flex flex-column gap-3 overflow-auto" style={{ height: "50dvh" }}>
       {filteredRequests.length > 0 ? (
         filteredRequests.map((request) => (
           <Link
