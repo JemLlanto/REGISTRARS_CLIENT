@@ -184,7 +184,7 @@ export default function StudentRequests() {
       </div>
 
       <div
-        className="p-2 text-start w-100 rounded-2 p-2 d-none d-sm-block"
+        className="p-2 text-start w-100 rounded-2 p-2 d-none d-sm-block mt-3"
         style={{ backgroundColor: "var(--yellow-color)" }}
       >
         <div

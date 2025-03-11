@@ -38,15 +38,16 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
   return (
     <>
       <button
-        className=" btn btn-danger"
+        className="btn btn-danger btn-sm btn-responsive"
         onClick={handleShowCancelModal}
         disabled={
           documentDetails.status === "canceled" ||
-          documentDetails.status != "pending"
+          documentDetails.status !== "pending"
         }
       >
         Cancel
       </button>
+
 
       <Modal show={showCancelModal} onHide={handleCloseCancelModal} centered>
         <Modal.Header closeButton>

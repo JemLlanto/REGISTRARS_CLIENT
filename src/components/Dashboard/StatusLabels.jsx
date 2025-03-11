@@ -14,7 +14,7 @@ const StatusLabels = ({ requestedDocuments }) => {
   ).length;
 
   return (
-    <Row className="w-100 mx-auto gap-2 mt-3">
+    <Row className="w-100 mx-auto gap-2 mt-2">
       <Col className="m-0 p-0">
         <Link
           to="/admin/dashboard/new-request"
