@@ -36,7 +36,7 @@ export default function Home() {
   }, [userID]);
 
   return (
-    <div className="p-4 w-100 overflow-auto" style={{ height: "90dvh" }}>
+    <div className="p-1 p-sm-4 w-100 overflow-auto" style={{ height: "90dvh" }}>
       <div
         className="rounded-2 shadow-sm mb-2"
         style={{ backgroundColor: "var(--main-color)" }}
@@ -48,7 +48,7 @@ export default function Home() {
 
       <div
         className="p-2 text-start w-100 rounded-2 p-3 d-none d-sm-block"
-        style={{ backgroundColor: "var(--thirdMain-color)" }}
+        style={{ backgroundColor: "var(--yellow-color)" }}
       >
         <div
           className="m-0 d-flex align-items-center justify-content-center"

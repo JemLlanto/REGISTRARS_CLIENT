@@ -17,7 +17,7 @@ export default function ProfileSetup() {
   };
 
   return (
-    <div className="p-4 w-100">
+    <div className="p-1 p-sm-4 w-100">
       <div
         className="rounded-2 shadow-sm p-2"
         style={{ backgroundColor: "var(--main-color)" }}
