@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
 import CancelButton from "../../components/requestDetails/CancelButton";
 import ChangeStatusButton from "../../components/requestDetails/ChangeStatusButton";
+import ExternalFormModal from "../../components/FeedbackFormInternal/InternalForm";
 
 const RequestDetails = () => {
   const { user } = useOutletContext();
@@ -118,20 +119,22 @@ const RequestDetails = () => {
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
           Request Details
         </h5>
-        <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
-          <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
-            <CancelButton
-              fetchDocumentDetails={fetchDocumentDetails}
-              documentDetails={documentDetails}
-              className="btn-sm btn-responsive"
-            />
-            <ChangeStatusButton
-              fetchDocumentDetails={fetchDocumentDetails}
-              documentDetails={documentDetails}
-              className="btn-sm btn-responsive"
-            />
+        {user.isAdmin ? (
+          <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
+            <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
+              <CancelButton
+                fetchDocumentDetails={fetchDocumentDetails}
+                documentDetails={documentDetails}
+                className="btn-sm btn-responsive"
+              />
+              <ChangeStatusButton
+                fetchDocumentDetails={fetchDocumentDetails}
+                documentDetails={documentDetails}
+                className="btn-sm btn-responsive"
+              />
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
       {/* buttons */}
       {user.isAdmin ? (
@@ -154,14 +157,21 @@ const RequestDetails = () => {
 
       {/* purpose */}
       <div className="row shadow-sm bg-white d-flex align-items-center justify-content-between rounded-3 p-4 mt-2 mx-0">
-        <div className="col-12 col-md-auto d-flex align-items-center gap-2">
+        {/* Purpose and Status */}
+        <div className="col d-flex align-items-center gap-1">
           <i className="bx bxs-notepad fs-2"></i>
           <h4 className="m-0 px-2">
             {documentDetails.purpose} - {documentDetails.status}
           </h4>
         </div>
-      </div>
 
+        {/* ExternalFormModal button */}
+        {documentDetails.status === "completed" && (
+          <div className="col-auto">
+            <ExternalFormModal />
+          </div>
+        )}
+      </div>
 
 
 

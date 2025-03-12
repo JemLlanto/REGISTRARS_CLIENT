@@ -132,7 +132,7 @@ export default function Home() {
                     <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
                       Status:
                     </h5>
-                    <h5 className="m-0 text-warning ">Pending</h5>
+                    <h5 className="m-0 text-warning "> {request.status}</h5>
                   </div>
                 </div>
               </Link>
