@@ -39,11 +39,12 @@ const NavBar = ({ user }) => {
         {/* Right Side*/}
         <div className="d-flex align-items-end justify-content-end ms-auto gap-2">
           {/* Notification Dropdown */}
-          {user.isAdmin ? (
+          {/* {user.isAdmin ? (
             <NotifButtonAdmin user={user} />
           ) : (
             <NotifButton user={user} />
-          )}
+          )} */}
+          <NotifButton user={user} />
 
           {/* User Dropdown */}
           <Dropdown align="end">
