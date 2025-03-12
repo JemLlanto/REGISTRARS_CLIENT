@@ -15,7 +15,6 @@ const AdminModal = () => {
   const [addingModal, setAddingModal] = useState(false);
   const [admins, setAdmins] = useState([]);
   const [users, setUsers] = useState([]);
-  const [searchedUser, setSearchUser] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchName, setSearchName] = useState("");
 
@@ -39,6 +38,45 @@ const AdminModal = () => {
     setSearchName(e.target.value);
   };
 
+  const handleAddAdmin = () => {
+    axios
+      .post(`http://localhost:5000/api/manageAdmin/addAdmin/${selectedUser}`)
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          fetchAdmins();
+          fetchUsers();
+          setSelectedUser("");
+          alert(res.data.Message);
+        } else {
+          alert(res.data.Message);
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+  const handleRemoveAdmin = (userID, firstName) => {
+    const isConfirmed = window.confirm(
+      `Are you sure you want to remove ${firstName} as Administrator?`
+    );
+    if (!isConfirmed) return;
+    axios
+      .post(`http://localhost:5000/api/manageAdmin/removeAdmin/${userID}`)
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          fetchAdmins();
+          fetchUsers();
+          setSelectedUser("");
+          alert(res.data.Message);
+        } else {
+          alert(res.data.Message);
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
   const filteredUser = users.filter((user) => {
     const matchedUser = `${user.firstName} ${user.lastName} ${user.email}`
       .toLowerCase()
@@ -47,7 +85,7 @@ const AdminModal = () => {
     return matchedUser;
   });
 
-  useEffect(() => {
+  const fetchAdmins = () => {
     axios
       .get("http://localhost:5000/api/manageAdmin/fetchAdmin")
       .then((res) => {
@@ -59,20 +97,26 @@ const AdminModal = () => {
       .catch((err) => {
         console.log("Error fetching admins: ", err);
       });
-  }, []);
+  };
   useEffect(() => {
+    fetchAdmins();
+  }, []);
+
+  const fetchUsers = () => {
     axios
       .get("http://localhost:5000/api/manageAdmin/fetchUser")
       .then((res) => {
         if (res.data.Status === "Success") {
           setUsers(res.data.data);
-          setSearchUser(res.data.data);
         }
       })
       .catch((err) => {
         console.log("Error: ", err);
       });
-  });
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
   return (
     <>
       <button className="btn btn-primary" onClick={() => handleShow()}>
@@ -99,7 +143,14 @@ const AdminModal = () => {
                     </p>
                   </td>
                   <td>
-                    <button className="btn btn-danger">Remove admin</button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() =>
+                        handleRemoveAdmin(admin.userID, admin.firstName)
+                      }
+                    >
+                      Remove admin
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -164,7 +215,9 @@ const AdminModal = () => {
           <Button variant="secondary" onClick={() => handleCloseAddingModal()}>
             Close
           </Button>
-          <Button variant="primary">Add admin</Button>
+          <Button variant="primary" onClick={() => handleAddAdmin()}>
+            Add admin
+          </Button>
         </Modal.Footer>
       </Modal>
     </>
