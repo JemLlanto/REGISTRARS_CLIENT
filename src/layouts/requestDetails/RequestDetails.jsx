@@ -109,7 +109,7 @@ const RequestDetails = () => {
       });
   }, [documentDetails.purposeID]);
   return (
-    <div className="p-4 w-100 overflow-auto" style={{ maxHeight: "90dvh" }}>
+    <div className="p-0 p-md-4 w-100 overflow-auto" style={{ maxHeight: "90dvh" }}>
       {/* Header Section */}
       <div
         className="rounded-2 shadow-sm p-2 d-flex align-items-center justify-content-between"
@@ -118,10 +118,24 @@ const RequestDetails = () => {
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
           Request Details
         </h5>
+        <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
+          <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
+            <CancelButton
+              fetchDocumentDetails={fetchDocumentDetails}
+              documentDetails={documentDetails}
+              className="btn-sm btn-responsive"
+            />
+            <ChangeStatusButton
+              fetchDocumentDetails={fetchDocumentDetails}
+              documentDetails={documentDetails}
+              className="btn-sm btn-responsive"
+            />
+          </div>
+        </div>
       </div>
       {/* buttons */}
       {user.isAdmin ? (
-        <div className="d-flex align-items-center justify-content-between rounded-3 p-1 mx-0 mt-2">
+        <div className="d-block d-md-none d-flex align-items-center justify-content-between rounded-3 p-1 mx-0 mt-2">
           <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
             <CancelButton
               fetchDocumentDetails={fetchDocumentDetails}
