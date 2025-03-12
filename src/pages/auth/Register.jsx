@@ -3,6 +3,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
 import "boxicons/css/boxicons.min.css";
+import Swal from "sweetalert2";
 import { Background } from "../../components/Background/Background";
 
 const Register = ({ setActivePage }) => {
@@ -28,24 +29,27 @@ const Register = ({ setActivePage }) => {
     return errors;
   };
 
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setInputs({ ...inputs, [name]: value });
+    setInputs((prev) => ({ ...prev, [name]: value }));
 
     let validationErrors = { ...errors };
 
+    if (name === "email") {
+      validationErrors.email = validateEmail(value) ? "" : "Invalid email format";
+    }
+
     if (name === "password") {
       validationErrors.password = validatePassword(value);
-      if (inputs.conPassword && value !== inputs.conPassword) {
-        validationErrors.conPassword = "Passwords do not match";
-      } else {
-        delete validationErrors.conPassword;
-      }
+      validationErrors.conPassword = value !== inputs.conPassword ? "Passwords do not match" : "";
     }
 
     if (name === "conPassword") {
-      validationErrors.conPassword =
-        value !== inputs.password ? "Passwords do not match" : "";
+      validationErrors.conPassword = value !== inputs.password ? "Passwords do not match" : "";
     }
 
     setErrors(validationErrors);
@@ -55,29 +59,43 @@ const Register = ({ setActivePage }) => {
     return (
       inputs.firstName.trim() &&
       inputs.lastName.trim() &&
-      inputs.email.trim() &&
-      inputs.password.trim() &&
-      inputs.conPassword.trim() &&
+      validateEmail(inputs.email) &&
       validatePassword(inputs.password).length === 0 &&
       inputs.password === inputs.conPassword
     );
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     if (!isFormValid()) return;
 
-    axios
-      .post("http://localhost:5000/api/auth/register", inputs)
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          alert(res.data.Message);
-          setActivePage("login");
-        } else {
-          alert("Error");
-        }
-      })
-      .catch((err) => console.error(err));
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/register", inputs);
+      if (res.data.Status === "Success") {
+        Swal.fire({
+          title: "Register Successful!",
+          text: "You can login now!",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "OK",
+        }).then(() => setActivePage("login"));
+      } else {
+        Swal.fire({
+          title: "Register Failed",
+          text: res.data.Error || "Registration failed. Try again.",
+          icon: "error",
+          confirmButtonColor: "#d33",
+          confirmButtonText: "Try Again",
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong. Please try again later.",
+        icon: "error",
+      });
+      console.error(err);
+    }
   };
 
   return (
@@ -94,86 +112,38 @@ const Register = ({ setActivePage }) => {
           }}
         >
           <div className="d-flex justify-content-center">
-            <img
-              src="/cvsu-logo.png"
-              alt="cvsu-logo"
-              style={{ width: "15%" }}
-            />
+            <img src="/cvsu-logo.png" alt="cvsu-logo" style={{ width: "15%" }} />
           </div>
-          <h4 className="text-center fw-bold text-white mt-2">
-            CREATE ACCOUNT
-          </h4>
-          <h6
-            className="text-center mb-4 fw-bold"
-            style={{ color: "#e4b703fb" }}
-          >
-            Sign Up & Get Started
-          </h6>
+          <h4 className="text-center fw-bold text-white mt-2">CREATE ACCOUNT</h4>
+          <h6 className="text-center mb-4 fw-bold" style={{ color: "#e4b703fb" }}>Sign Up & Get Started</h6>
 
           <form onSubmit={handleRegister}>
             <Row>
-              <Col md={12}>
-                <div className="mb-3 position-relative">
-                  <div className="input-group">
-                    <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
-                      <i className="bx bx-user"></i> {/* User icon */}
-                    </span>
-                    <input
-                      type="text"
-                      name="firstName"
-                      value={inputs.firstName}
-                      onChange={handleChange}
-                      className="form-control"
-                      placeholder="Enter your first name"
-                    />
+              {["firstName", "middleName", "lastName"].map((field, index) => (
+                <Col md={12} key={index}>
+                  <div className="mb-3 position-relative">
+                    <div className="input-group">
+                      <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                        <i className="bx bx-user"></i>
+                      </span>
+                      <input
+                        type="text"
+                        name={field}
+                        value={inputs[field]}
+                        onChange={handleChange}
+                        className="form-control"
+                        placeholder={`Enter your ${field.replace("Name", " name")}`}
+                      />
+                    </div>
                   </div>
-                  {errors.firstName && <div className="text-danger small">{errors.firstName}</div>}
-                </div>
-              </Col>
-
-              <Col md={12}>
-                <div className="mb-3 position-relative">
-                  <div className="input-group">
-                    <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
-                      <i className="bx bx-user"></i> {/* User icon */}
-                    </span>
-                    <input
-                      type="text"
-                      name="middleName"
-                      value={inputs.middleName}
-                      onChange={handleChange}
-                      className="form-control"
-                      placeholder="Enter your middle name"
-                    />
-                  </div>
-                  {errors.middleName && <div className="text-danger small">{errors.middleName}</div>}
-                </div>
-              </Col>
-
-              <Col md={12}>
-                <div className="mb-3 position-relative">
-                  <div className="input-group">
-                    <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
-                      <i className="bx bx-user"></i> {/* User icon */}
-                    </span>
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={inputs.lastName}
-                      onChange={handleChange}
-                      className="form-control"
-                      placeholder="Enter your last name"
-                    />
-                  </div>
-                  {errors.lastName && <div className="text-danger small">{errors.lastName}</div>}
-                </div>
-              </Col>
+                </Col>
+              ))}
             </Row>
 
             <div className="mb-3 position-relative">
               <div className="input-group">
                 <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
-                  <i className="bx bx-envelope"></i> {/* Email icon */}
+                  <i className="bx bx-envelope"></i>
                 </span>
                 <input
                   type="email"
@@ -188,63 +158,39 @@ const Register = ({ setActivePage }) => {
             </div>
 
             <Row>
-              <Col xs={12} md={6}>
-                <div className="mb-3 position-relative">
-                  <div className="input-group">
-                    <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
-                      <i className="bx bx-lock"></i> {/* Lock icon */}
-                    </span>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      value={inputs.password}
-                      onChange={handleChange}
-                      className="form-control"
-                      placeholder="Enter your password"
-                    />
-                    <span
-                      className="input-group-text"
-                      onClick={() => setShowPassword(!showPassword)}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
-                    </span>
+              {[
+                { name: "password", show: showPassword, setShow: setShowPassword, placeholder: "Enter your password" },
+                { name: "conPassword", show: showConPassword, setShow: setShowConPassword, placeholder: "Verify Password" }
+              ].map(({ name, show, setShow, placeholder }, index) => (
+                <Col xs={12} md={6} key={index}>
+                  <div className="mb-3 position-relative">
+                    <div className="input-group">
+                      <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                        <i className="bx bx-lock"></i>
+                      </span>
+                      <input
+                        type={show ? "text" : "password"}
+                        name={name}
+                        value={inputs[name]}
+                        onChange={handleChange}
+                        className="form-control"
+                        placeholder={placeholder}
+                      />
+                      <span className="input-group-text" onClick={() => setShow(!show)} style={{ cursor: "pointer" }}>
+                        <i className={show ? "bx bx-hide" : "bx bx-show"}></i>
+                      </span>
+                    </div>
+                    {errors[name] && Array.isArray(errors[name]) && (
+                      <ul className="text-warning small mt-1">
+                        {errors[name].map((err, idx) => (
+                          <li key={idx}>{err}</li>
+                        ))}
+                      </ul>
+                    )}
+                    {errors[name] && !Array.isArray(errors[name]) && <div className="text-danger small mt-1">{errors[name]}</div>}
                   </div>
-                  {errors.password && Array.isArray(errors.password) && (
-                    <ul className="text-warning small mt-1">
-                      {errors.password.map((err, idx) => (
-                        <li key={idx}>{err}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </Col>
-
-              <Col xs={12} md={6}>
-                <div className="mb-3 position-relative">
-                  <div className="input-group">
-                    <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
-                      <i className="bx bx-lock"></i> {/* Lock icon */}
-                    </span>
-                    <input
-                      type={showConPassword ? "text" : "password"}
-                      name="conPassword"
-                      value={inputs.conPassword}
-                      onChange={handleChange}
-                      className="form-control"
-                      placeholder="Verify Password"
-                    />
-                    <span
-                      className="input-group-text"
-                      onClick={() => setShowConPassword(!showConPassword)}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <i className={showConPassword ? "bx bx-hide" : "bx bx-show"}></i>
-                    </span>
-                  </div>
-                  {errors.conPassword && <div className="text-danger small mt-1">{errors.conPassword}</div>}
-                </div>
-              </Col>
+                </Col>
+              ))}
             </Row>
 
             <button type="submit" className="btn btn-warning w-100" disabled={!isFormValid()}>
@@ -254,22 +200,16 @@ const Register = ({ setActivePage }) => {
             <p className="mt-3 text-white text-center">
               Already have an account?{" "}
               <span
-                style={{
-                  cursor: "pointer",
-                  color: "#e4b703fb",
-                  fontWeight: "bold",
-                }}
+                style={{ cursor: "pointer", color: "#e4b703fb", fontWeight: "bold" }}
                 onClick={() => setActivePage("login")}
               >
                 Login Here
-              </span>
-              .
+              </span>.
             </p>
           </form>
-
         </div>
       </div>
-      <Background></Background>
+      <Background />
     </>
   );
 };
