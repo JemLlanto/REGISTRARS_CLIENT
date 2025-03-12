@@ -71,6 +71,41 @@
   padding: 5px;
 }
 
+
+/* tooltip hover start */
+.list-group-items {
+  position: relative;
+}
+
+.list-group-items .tooltip {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%); 
+  background: var(--main-color);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  margin-left: 8px;
+}
+
+/* Show tooltip only when hovered */
+.SideBar .list-group-items:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.SideBar.toggled .list-group-items:hover .tooltip {
+display: none;
+}
+
+/* hover tooltip ending */
+
 .SideBar.toggled i {
   opacity: 1;
 }
