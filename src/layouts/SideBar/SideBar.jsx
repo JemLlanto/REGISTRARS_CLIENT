@@ -13,8 +13,9 @@ const SideBar = ({ user }) => {
 
   return (
     <div
-      className={`SideBar d-flex flex-column justify-content-between ${showSidebar ? "toggled" : ""
-        }`}
+      className={`SideBar d-flex flex-column justify-content-between ${
+        showSidebar ? "toggled" : ""
+      }`}
       style={{ backgroundColor: "var(--main-color)" }}
     >
       <div>
@@ -45,7 +46,9 @@ const SideBar = ({ user }) => {
             style={{ marginRight: "auto" }}
           >
             <i
-              className={`bx ${showSidebar ? "bx-x" : "bx-menu"} transition-icon`}
+              className={`bx ${
+                showSidebar ? "bx-x" : "bx-menu"
+              } transition-icon`}
               style={{ color: "white" }}
             ></i>
           </button>
@@ -53,12 +56,14 @@ const SideBar = ({ user }) => {
 
         <div className="p-3">
           <ul className="sideBar-list list-unstyled d-flex flex-column gap-2">
-
             {/* homepage and dashboard */}
             {user.isAdmin ? (
               <li
-                className={`list-group-items rounded py-1 px-2 position-relative ${location.pathname.toLowerCase() === "/admin/home" ? "active" : ""
-                  }`}
+                className={`list-group-items rounded py-1 px-2 position-relative ${
+                  location.pathname.toLowerCase() === "/admin/home"
+                    ? "active"
+                    : ""
+                }`}
               >
                 <Link className="d-flex align-items-center" to="/admin/home">
                   <i className="bx bx-home"></i>
@@ -68,8 +73,9 @@ const SideBar = ({ user }) => {
               </li>
             ) : (
               <li
-                className={`list-group-items rounded py-1 px-2 position-relative ${location.pathname.toLowerCase() === "/home" ? "active" : ""
-                  }`}
+                className={`list-group-items rounded py-1 px-2 position-relative ${
+                  location.pathname.toLowerCase() === "/home" ? "active" : ""
+                }`}
               >
                 <Link className="d-flex align-items-center" to="/home">
                   <i className="bx bx-home"></i>
@@ -82,12 +88,17 @@ const SideBar = ({ user }) => {
             {/* student requested list */}
             {user.isAdmin ? (
               <li
-                className={`list-group-items  rounded py-1 px-2  ${location.pathname.toLowerCase() === "/admin/manage-request-form"
-                  ? "active"
-                  : ""
-                  }`}
+                className={`list-group-items  rounded py-1 px-2  ${
+                  location.pathname.toLowerCase() ===
+                  "/admin/manage-request-form"
+                    ? "active"
+                    : ""
+                }`}
               >
-                <Link className="d-flex align-items-center" to="/admin/manage-request-form">
+                <Link
+                  className="d-flex align-items-center"
+                  to="/admin/manage-request-form"
+                >
                   <i className="bx bx-file"></i>
                   <p className="m-0">Manage Requests</p>
                 </Link>
@@ -95,10 +106,16 @@ const SideBar = ({ user }) => {
               </li>
             ) : (
               <li
-                className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/request-documents" ? "active" : ""
-                  }`}
+                className={`list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() === "/request-documents"
+                    ? "active"
+                    : ""
+                }`}
               >
-                <Link className="d-flex align-items-center" to="/request-documents">
+                <Link
+                  className="d-flex align-items-center"
+                  to="/request-documents"
+                >
                   <i className="bx bx-file"></i>
                   <p className="m-0">Request Form</p>
                 </Link>
@@ -108,10 +125,16 @@ const SideBar = ({ user }) => {
             {/* student request form */}
             {user.isAdmin ? (
               <li
-                className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/student-requests" ? "active" : ""
-                  }`}
+                className={`list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() === "/admin/student-requests"
+                    ? "active"
+                    : ""
+                }`}
               >
-                <Link className="d-flex align-items-center" to="/admin/student-requests">
+                <Link
+                  className="d-flex align-items-center"
+                  to="/admin/student-requests"
+                >
                   <i className="bx bx-user-check me-2"></i>
                   <p className="m-0">Student Requests</p>
                 </Link>
@@ -121,8 +144,11 @@ const SideBar = ({ user }) => {
             {/* about us and reports */}
             {user.isAdmin ? (
               <li
-                className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/reports" ? "active" : ""
-                  }`}
+                className={`list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() === "/admin/reports"
+                    ? "active"
+                    : ""
+                }`}
               >
                 <Link className="d-flex align-items-center" to="/admin/reports">
                   <i className="bx bx-bar-chart-alt-2"></i>
@@ -130,11 +156,11 @@ const SideBar = ({ user }) => {
                 </Link>
                 <span className="tooltip">Reports</span>
               </li>
-
             ) : (
               <li
-                className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/about" ? "active" : ""
-                  }`}
+                className={`list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() === "/about" ? "active" : ""
+                }`}
               >
                 <Link className="d-flex align-items-center" to="/about">
                   <i className="bx bx-info-circle"></i>
@@ -143,7 +169,24 @@ const SideBar = ({ user }) => {
                 <span className="tooltip">About Us</span>
               </li>
             )}
-
+            {/* about us and reports */}
+            {user.isAdmin === 2 ? (
+              <li
+                className={`list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() === "/admin/manage-admin"
+                    ? "active"
+                    : ""
+                }`}
+              >
+                <Link
+                  className="d-flex align-items-center"
+                  to="/admin/manage-admin"
+                >
+                  <i className="bx bx-bar-chart-alt-2"></i>
+                  <p className="m-0">Manage Admin</p>
+                </Link>
+              </li>
+            ) : null}
           </ul>
         </div>
       </div>
