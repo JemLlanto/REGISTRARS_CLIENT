@@ -175,7 +175,7 @@ export default function StudentRequests() {
         <div className="d-none d-md-block  rounded" >
           <div className="d-flex align-items-center rounded border " >
             <div className="px-2">
-              <i className="bx bx-search-alt fw-bold"></i>
+              <i className="bx bx-search-alt fw-bold mt-2"></i>
             </div>
             <input
               type="text"
