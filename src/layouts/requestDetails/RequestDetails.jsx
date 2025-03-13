@@ -4,6 +4,7 @@ import { useOutletContext, useParams } from "react-router-dom";
 import CancelButton from "../../components/requestDetails/CancelButton";
 import ChangeStatusButton from "../../components/requestDetails/ChangeStatusButton";
 import ExternalFormModal from "../../components/FeedbackFormInternal/InternalForm";
+import Feedbacks from "../../components/feedbacks/feedbacks";
 
 const RequestDetails = () => {
   const { user } = useOutletContext();
@@ -174,8 +175,6 @@ const RequestDetails = () => {
       </div>
 
 
-
-
       <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
         {/* Name */}
         <div className="col-12 col-md-6 col-lg-4 mb-3">
@@ -325,6 +324,9 @@ const RequestDetails = () => {
           </div>
         )}
 
+      </div>
+      <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
+        <Feedbacks></Feedbacks>
       </div>
 
 
