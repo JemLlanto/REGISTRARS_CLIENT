@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Register from "./Register";
-import Login from "./Login";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Preloader from "../../components/Preloader/Preloader";
+import Register from "../../components/auth/Register";
+import Login from "../../components/auth/Login";
 
 const Index = () => {
   const [activePage, setActivePage] = useState("login");
