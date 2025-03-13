@@ -8,7 +8,7 @@ const getStatusColor = (status) => {
       return "text-primary"; // Blue
     case "completed":
       return "text-success"; // Green
-    case "canceled":
+    case "cancelled":
       return "text-danger"; // Red
     default:
       return "text-dark"; // Default color
@@ -17,7 +17,10 @@ const getStatusColor = (status) => {
 
 const RequestHeaders = ({ filteredRequests }) => {
   return (
-    <div className="mt-3 d-flex flex-column gap-3 overflow-auto" style={{ height: "50dvh" }}>
+    <div
+      className="mt-3 d-flex flex-column gap-3 overflow-auto"
+      style={{ height: "50dvh" }}
+    >
       {filteredRequests.length > 0 ? (
         filteredRequests.map((request) => (
           <Link
@@ -32,29 +35,42 @@ const RequestHeaders = ({ filteredRequests }) => {
                 <p className="m-0">{request.lastName}</p>
               </div>
 
-              <div className="bg-dark w-100 d-block d-sm-none" style={{ height: "1px" }}></div>
+              <div
+                className="bg-dark w-100 d-block d-sm-none"
+                style={{ height: "1px" }}
+              ></div>
 
               <div className="col-12 col-sm d-flex align-items-center justify-content-center">
                 <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Purpose:</h5>
                 <p className="m-0">{request.purpose}</p>
               </div>
 
-              <div className="bg-dark w-100 d-block d-sm-none" style={{ height: "1px" }}></div>
+              <div
+                className="bg-dark w-100 d-block d-sm-none"
+                style={{ height: "1px" }}
+              ></div>
 
               <div className="col-12 col-sm d-flex align-items-center justify-content-center">
                 <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Date:</h5>
                 <p className="m-0">
                   {request?.created
-                    ? new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(new Date(request?.created))
+                    ? new Intl.DateTimeFormat("en-US", {
+                        dateStyle: "medium",
+                      }).format(new Date(request?.created))
                     : ""}
                 </p>
               </div>
 
-              <div className="bg-dark w-100 d-block d-sm-none" style={{ height: "1px" }}></div>
+              <div
+                className="bg-dark w-100 d-block d-sm-none"
+                style={{ height: "1px" }}
+              ></div>
 
               <div className="col-12 col-sm d-flex align-items-center justify-content-center">
                 <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Status:</h5>
-                <h5 className={`m-0 ${getStatusColor(request.status)}`}>{request.status}</h5>
+                <h5 className={`m-0 ${getStatusColor(request.status)}`}>
+                  {request.status}
+                </h5>
               </div>
             </div>
           </Link>

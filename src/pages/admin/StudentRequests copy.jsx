@@ -172,8 +172,8 @@ export default function StudentRequests() {
           Student Request List
         </h5>
         {/* Search Bar */}
-        <div className="d-none d-md-block  rounded" >
-          <div className="d-flex align-items-center rounded border " >
+        <div className="d-none d-md-block  rounded">
+          <div className="d-flex align-items-center rounded border ">
             <div className="px-2">
               <i className="bx bx-search-alt fw-bold"></i>
             </div>
@@ -190,11 +190,13 @@ export default function StudentRequests() {
         </div>
       </div>
       <div>
-
         {/* Search Bar phone*/}
-        <div className="d-block d-md-none mb-2 rounded p-2 mt-2 bg-black" >
-          <div className="d-flex align-items-center rounded border mx-0" style={{ backgroundColor: "var(--main-color)" }} >
-            <div className="px-2" >
+        <div className="d-block d-md-none mb-2 rounded p-2 mt-2 bg-black">
+          <div
+            className="d-flex align-items-center rounded border mx-0"
+            style={{ backgroundColor: "var(--main-color)" }}
+          >
+            <div className="px-2">
               <i className="bx bx-search-alt fw-bold text-white"></i>
             </div>
             <input
@@ -233,7 +235,6 @@ export default function StudentRequests() {
         </div>
       </div>
 
-
       <div
         className="p-2 text-start w-100 rounded-2 p-2 d-none d-sm-block mt-3"
         style={{ backgroundColor: "var(--yellow-color)" }}
@@ -252,7 +253,6 @@ export default function StudentRequests() {
             <h5 className="m-0">Date</h5>
           </div>
           <div className="w-100 d-flex align-items-center justify-content-center">
-
             <Dropdown>
               <Dropdown.Toggle
                 className="d-flex align-items-center text-white"
@@ -276,15 +276,14 @@ export default function StudentRequests() {
                 <Dropdown.Item onClick={() => handleSelect("completed")}>
                   Completed
                 </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleSelect("canceled")}>
-                  Canceled
+                <Dropdown.Item onClick={() => handleSelect("cancelled")}>
+                  cancelled
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
         </div>
       </div>
-
 
       <RequestHeaders filteredRequests={filteredRequests} />
     </div>

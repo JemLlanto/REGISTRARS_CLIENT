@@ -11,7 +11,9 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
       setFormData({
         requestID: documentDetails.requestID,
         reason: "",
+        newStatus: "cancelled",
         userID: documentDetails.userID,
+        receiverEmail: documentDetails.email,
       });
     }
   }, [documentDetails]);
@@ -27,6 +29,22 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
       .post("http://localhost:5000/api/managingRequest/cancelRequest", formData)
       .then((res) => {
         if (res.data.Status === "Success") {
+          // FOR SENDING EMAIL TO THE USER
+          axios
+            .post(
+              "http://localhost:5000/api/emailNotification/sendStatusUpdate",
+              formData
+            )
+            .then((res) => {
+              if (res.status === 200) {
+                console.log(res.data.Message);
+              } else {
+                console.log(res.data.Message);
+              }
+            })
+            .catch((err) => {
+              console.log("An error occured: ", err);
+            });
           handleCloseCancelModal();
           alert(res.data.Message);
           setFormData({
@@ -48,13 +66,12 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
         className="btn btn-danger btn-sm btn-responsive"
         onClick={handleShowCancelModal}
         disabled={
-          documentDetails.status === "canceled" ||
+          documentDetails.status === "cancelled" ||
           documentDetails.status !== "pending"
         }
       >
         Cancel
       </button>
-
 
       <Modal show={showCancelModal} onHide={handleCloseCancelModal} centered>
         <Modal.Header closeButton>

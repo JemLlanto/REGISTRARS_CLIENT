@@ -14,9 +14,10 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
           documentDetails.status === "pending"
             ? "processing"
             : documentDetails.status === "processing"
-              ? "completed"
-              : null,
+            ? "completed"
+            : null,
         userID: documentDetails.userID,
+        receiverEmail: documentDetails.email,
       });
     }
   }, [documentDetails]);
@@ -38,6 +39,22 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
+          // FOR SENDING EMAIL TO THE USER
+          axios
+            .post(
+              "http://localhost:5000/api/emailNotification/sendStatusUpdate",
+              formData
+            )
+            .then((res) => {
+              if (res.status === 200) {
+                console.log(res.data.Message);
+              } else {
+                console.log(res.data.Message);
+              }
+            })
+            .catch((err) => {
+              console.log("An error occured: ", err);
+            });
           handleCloseChangeStatusModal();
           alert(res.data.Message);
           fetchDocumentDetails();
@@ -55,14 +72,13 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
         className="btn btn-success btn-sm btn-responsive"
         onClick={handleShowChangeStatusModal}
         disabled={
-          documentDetails.status === "canceled" ||
+          documentDetails.status === "cancelled" ||
           documentDetails.status === "completed"
         }
       >
         Mark as{" "}
         {documentDetails.status === "pending" ? "Processing" : "Completed"}
       </button>
-
 
       <Modal
         show={showChangeStatusModal}
