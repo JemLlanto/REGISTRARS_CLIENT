@@ -1,131 +1,195 @@
 import React, { useState } from "react";
 import jsPDF from "jspdf";
 import cvsuLogo from "/cvsu-logo.png";
+import RatingStep from "./RatingStep";
+import PersonalInfoStep from "./PersonalInfoStep";
+import CommentsStep from "./CommentsStep";
 
-const StakeholdersFeedbackForm = () => {
+
+
+const Feedbacks = () => {
+    const [currentStep, setCurrentStep] = useState(1);
+    const [showModal, setShowModal] = useState(false);
+
     const [formData, setFormData] = useState({
-        name: "",
-        agency: "",
-        emailAddress: "",
-        purposeOfVisit: "",
-        dateVisit: "",
-        attendingStaff: "",
-        comments: "",
+        name: '',
+        agency: '',
+        emailAddress: '',
+        attendingStaff: '',
+        dateVisit: '',
+        purposeOfVisit: '',
         ratings: {
-            courtesy: "",
-            service_quality: "",
-            service_timeliness: "",
-            service_efficiency: "",
-            physical_cleanliness: "",
-            physical_comfort: ""
-        }
+            courtesy: '',
+            service_quality: '',
+            service_timeliness: '',
+            service_efficiency: '',
+            physical_cleanliness: '',
+            physical_comfort: ''
+        },
+        comments: ''
     });
 
+    // Modal control functions
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (name.includes("rating-")) {
-            const ratingType = name.replace("rating-", "");
+
+        if (name.startsWith('rating-')) {
+            const ratingKey = name.replace('rating-', '');
             setFormData({
                 ...formData,
                 ratings: {
                     ...formData.ratings,
-                    [ratingType]: value
+                    [ratingKey]: value
                 }
             });
         } else {
-            setFormData({ ...formData, [name]: value });
+            setFormData({
+                ...formData,
+                [name]: value
+            });
         }
     };
 
+    const nextStep = () => {
+        setCurrentStep(currentStep + 1);
+    };
+
+    const prevStep = () => {
+        setCurrentStep(currentStep - 1);
+    };
+
+    const handleShow = () => setShowModal(true);
+    const handleClose = () => {
+        setShowModal(false);
+        setCurrentStep(1);
+        // Reset form data when closing modal
+        setFormData({
+            name: '',
+            agency: '',
+            emailAddress: '',
+            attendingStaff: '',
+            dateVisit: '',
+            purposeOfVisit: '',
+            ratings: {
+                courtesy: '',
+                service_quality: '',
+                service_timeliness: '',
+                service_efficiency: '',
+                physical_cleanliness: '',
+                physical_comfort: ''
+            },
+            comments: ''
+        });
+    };
+
+    // Render steps based on current step
+    const renderStep = () => {
+        switch (currentStep) {
+            case 1:
+                return <PersonalInfoStep formData={formData} handleChange={handleChange} />;
+            case 2:
+                return <RatingStep formData={formData} handleChange={handleChange} />;
+            case 3:
+                return <CommentsStep formData={formData} handleChange={handleChange} />;
+            default:
+                return <PersonalInfoStep formData={formData} handleChange={handleChange} />;
+        }
+    };
+
+    // PDF generation function
     const downloadPDF = () => {
         try {
             const doc = new jsPDF();
 
-            doc.addImage(cvsuLogo, "PNG", 53, 12, 18, 15);
+            // Add logo
+            doc.addImage(cvsuLogo, "PNG", 50, 12, 18, 15);
 
             // Set initial font size and style
-            doc.setFontSize(12);
-            doc.setFont("helvetica", "bold");
-
-            // Header with logo placeholder
-            doc.text("CAVITE STATE UNIVERSITY", 105, 17, { align: "center" });
             doc.setFontSize(7);
             doc.setFont("helvetica", "bold");
             doc.text("Republic of the Philippines", 105, 13, { align: "center" });
 
-            // Form title
-            doc.setFontSize(11);
-            doc.text("STAKEHOLDERS' FEEDBACK FORM", 105, 30, { align: "center" });
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text("CAVITE STATE UNIVERSITY", 105, 17, { align: "center" });
 
             doc.setFontSize(9);
             doc.setFont("helvetica", "bold");
             doc.text("CCAT Campus", 105, 20, { align: "center" });
+
             doc.setFontSize(8);
             doc.setFont("helvetica", "normal");
             doc.text("Rosario, Cavite", 105, 23, { align: "center" });
 
+            // Form title
+            doc.setFontSize(11);
+            doc.setFont("helvetica", "bold");
+            doc.text("STAKEHOLDERS' FEEDBACK FORM", 105, 30, { align: "center" });
 
+            // Introduction text
             doc.setFontSize(10);
             doc.setFont("helvetica", "normal");
-            doc.text("Please let us know how we can improve our service by giving your honest feedback. We value our stakeholders,", 25, 34);
-            doc.text("hance, your comments and suggestions will be highly appreciated.", 25, 38);
+            doc.text("Please let us know how we can improve our service by giving your honest feedback. We value our stakeholders,", 25, 37);
+            doc.text("hence, your comments and suggestions will be highly appreciated.", 25, 42);
 
             // User information
             doc.setFontSize(9);
             doc.setFont("helvetica", "bold");
-            doc.text("Name:", 25, 42);
+            doc.text("Name:", 25, 50);
             doc.setFont("helvetica", "normal");
-            doc.text(formData.name || "(Not provided)", 55, 42);
+            doc.text(formData.name || "(Not provided)", 55, 50);
 
             doc.setFont("helvetica", "bold");
-            doc.text("Agency:", 25, 46);
+            doc.text("Agency:", 25, 55);
             doc.setFont("helvetica", "normal");
-            doc.text(formData.agency || "(Not provided)", 55, 46);
+            doc.text(formData.agency || "(Not provided)", 55, 55);
 
             doc.setFont("helvetica", "bold");
-            doc.text("Email Address:", 25, 50);
+            doc.text("Email Address:", 25, 60);
             doc.setFont("helvetica", "normal");
-            doc.text(formData.emailAddress || "(Not provided)", 55, 50);
+            doc.text(formData.emailAddress || "(Not provided)", 55, 60);
 
             doc.setFont("helvetica", "bold");
-            doc.text("Purpose of Visit:", 25, 54);
+            doc.text("Purpose of Visit:", 25, 65);
             doc.setFont("helvetica", "normal");
-            doc.text(formData.purposeOfVisit || "(Not provided)", 55, 54);
+            doc.text(formData.purposeOfVisit || "(Not provided)", 55, 65);
 
             doc.setFont("helvetica", "bold");
-            doc.text("Attending Staff:", 110, 42);
+            doc.text("Attending Staff:", 110, 50);
             doc.setFont("helvetica", "normal");
-            doc.text(formData.attendingStaff || "(Not provided)", 140, 42);
+            doc.text(formData.attendingStaff || "(Not provided)", 140, 50);
 
             doc.setFont("helvetica", "bold");
-            doc.text("Date of Visit:", 110, 46);
+            doc.text("Date of Visit:", 110, 55);
             doc.setFont("helvetica", "normal");
-            doc.text(formData.dateVisit || "(Not provided)", 140, 46);
+            doc.text(formData.dateVisit || "(Not provided)", 140, 55);
 
             // Areas of Concern header
             doc.setFontSize(9);
-            doc.line(25, 58, 200, 58); // Draws a horizontal line from (25,30) to (180,30)
+            doc.line(25, 70, 185, 70); // Horizontal line
 
             doc.setFont("helvetica", "bold");
-            doc.text("Areas of Concern", 35, 62);
+            doc.text("Areas of Concern", 35, 75);
 
-            // Ratings columns
-            doc.text("5", 100, 65);
-            doc.text("4", 120, 65);
-            doc.text("3", 140, 65);
-            doc.text("2", 165, 65);
-            doc.text("1", 183, 65);
-
-            // Rating legend
+            // Rating scale header
             doc.setFontSize(7);
             doc.setFont("helvetica", "normal");
-            doc.text("Highly Satisfied", 90, 62);
-            doc.text("Very Satisfied", 113, 62);
-            doc.text("Moderately satisfied", 132, 62);
-            doc.text("Barely Satisfied", 158, 62);
-            doc.text("Not Satisfied", 178, 62);
+            doc.text("Highly Satisfied", 90, 75);
+            doc.text("Very Satisfied", 113, 75);
+            doc.text("Moderately Satisfied", 132, 75);
+            doc.text("Barely Satisfied", 158, 75);
+            doc.text("Not Satisfied", 178, 75);
 
-            // Areas items based on new structure
+            // Rating numbers
+            doc.setFontSize(9);
+            doc.setFont("helvetica", "bold");
+            doc.text("5", 100, 80);
+            doc.text("4", 120, 80);
+            doc.text("3", 140, 80);
+            doc.text("2", 165, 80);
+            doc.text("1", 183, 80);
+
+            // Areas items
             doc.setFontSize(8);
             const areas = [
                 { id: "courtesy", label: "A. Courtesy", indent: 0 },
@@ -139,7 +203,7 @@ const StakeholdersFeedbackForm = () => {
             ];
 
             // Draw areas and checkboxes
-            let startY = 70;
+            let startY = 85;
             areas.forEach((area, index) => {
                 // Area text with proper indentation
                 const indent = area.indent * 10;
@@ -147,15 +211,24 @@ const StakeholdersFeedbackForm = () => {
 
                 // Draw checkboxes for ratings only for items that should have ratings
                 if (area.id !== "service" && area.id !== "physical") {
-                    const ratings = ["Highly Satisfied", "Very Satisfied", "Satisfied", "Barely Satisfied", "Not Satisfied"];
-                    const xPositions = [102, 122, 142, 167, 185];
+                    const xPositions = [100, 120, 140, 165, 183];
+                    // Convert string ratings to numerical values for comparison
+                    let ratingValue = 0;
+                    switch (formData.ratings[area.id]) {
+                        case "Highly Satisfied": ratingValue = 5; break;
+                        case "Very Satisfied": ratingValue = 4; break;
+                        case "Moderately Satisfied": ratingValue = 3; break;
+                        case "Barely Satisfied": ratingValue = 2; break;
+                        case "Not Satisfied": ratingValue = 1; break;
+                    }
 
-                    ratings.forEach((rating, ratingIndex) => {
-                        const x = xPositions[ratingIndex];
+                    xPositions.forEach((x, ratingIndex) => {
+                        const checkboxValue = 5 - ratingIndex;
+                        // Draw checkbox
                         doc.rect(x - 3, startY + (index * 6) - 3, 4, 4);
 
                         // Fill checkbox if selected
-                        if (formData.ratings[area.id] === rating) {
+                        if (ratingValue === checkboxValue) {
                             doc.setFillColor(0, 0, 0);
                             doc.rect(x - 2, startY + (index * 6) - 2, 2, 2, 'F');
                             doc.setFillColor(0, 0, 0);
@@ -164,257 +237,109 @@ const StakeholdersFeedbackForm = () => {
                 }
             });
 
-            // Bottom section
-            const bottomY = startY + (areas.length * 6) + 10;
-            doc.setFontSize(9);
-
             // Comments section
+            doc.setFontSize(9);
             doc.setFont("helvetica", "bold");
-            doc.text("Comments/Suggestions:", 25, 125);
+            doc.text("Comments/Suggestions:", 25, 140);
             doc.setFont("helvetica", "normal");
 
             // Handle comments that might need to be wrapped
             if (formData.comments) {
-                const textLines = doc.splitTextToSize(formData.comments, 170);
-                doc.text(textLines, 25, 130);
+                const textLines = doc.splitTextToSize(formData.comments, 150);
+                doc.text(textLines, 25, 145);
             } else {
-                doc.text("(No comments provided)", 25, 130);
+                doc.text("(No comments provided)", 25, 145);
             }
 
-            // Draw lines for comments section even if there are comments
-            // doc.line(25, bottomY + 30, 170, bottomY + 30);
-            doc.line(25, 135, 200, 135);
+            // Draw lines for comments section
+            doc.line(25, 155, 185, 155);
+            // doc.line(25, 165, 185, 165);
+            // doc.line(25, 175, 185, 175);
 
             // Save PDF
             doc.save("Stakeholders_Feedback_Form.pdf");
+
+            // Close modal after download
+            handleClose();
         } catch (error) {
             console.error("Error generating PDF:", error);
-            alert("There was an error generating the PDF. Please check console for details.");
+            alert("There was an error generating the PDF. Please try again.");
         }
     };
 
     return (
-        <div className="p-4 max-w-lg mx-auto bg-white shadow-md rounded">
-            <div className="text-center mb-4">
-                <h3 className="text-sm">Republic of the Philippines</h3>
-                <h2 className="text-xl font-bold">CAVITE STATE UNIVERSITY</h2>
-                <h3 className="text-lg font-semibold">STAKEHOLDERS' FEEDBACK FORM</h3>
-                <p className="text-xs mt-1">
-                    Please tick your rating concerning our services (with corresponding time, date, place, person/s).
-                    Your honest feedback will help us improve. Thank you.
-                </p>
-            </div>
-            <div className="mb-3">
-                <label className="block text-gray-700">Name:</label>
-                <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full p-2 border rounded"
-                />
-            </div>
-            <div className="mb-3">
-                <label className="block text-gray-700">Agency:</label>
-                <input
-                    type="text"
-                    name="agency"
-                    value={formData.agency}
-                    onChange={handleChange}
-                    className="w-full p-2 border rounded"
-                />
-            </div>
-            <div className="mb-3">
-                <label className="block text-gray-700">Email Address:</label>
-                <input
-                    type="text"
-                    name="emailAddress"
-                    value={formData.emailAddress}
-                    onChange={handleChange}
-                    className="w-full p-2 border rounded"
-                />
-            </div>
-            <div className="mb-3">
-                <label className="block text-gray-700">Purpose of Visit:</label>
-                <input
-                    type="text"
-                    name="purposeOfVisit"
-                    value={formData.purposeOfVisit}
-                    onChange={handleChange}
-                    className="w-full p-2 border rounded"
-                />
-            </div>
-            <div className="mb-3">
-                <label className="block text-gray-700">Date of Visit:</label>
-                <input
-                    type="text"
-                    name="dateVisit"
-                    value={formData.dateVisit}
-                    onChange={handleChange}
-                    className="w-full p-2 border rounded"
-                />
-            </div>
-            <div className="mb-3">
-                <label className="block text-gray-700">Attending Staff:</label>
-                <input
-                    type="text"
-                    name="attendingStaff"
-                    value={formData.attendingStaff}
-                    onChange={handleChange}
-                    className="w-full p-2 border rounded"
-                />
-            </div>
-            <div className="mb-5">
-                <h3 className="text-md font-semibold mb-2">Areas of Concern</h3>
-                <table className="w-full border-collapse text-sm">
-                    <thead>
-                        <tr>
-                            <th className="border p-1 text-left" width="35%"></th>
-                            <th className="border p-1 text-center" colSpan="5">Rating</th>
-                        </tr>
-                        <tr>
-                            <th className="border p-1 text-left"></th>
-                            <th className="border p-1 text-center">Highly Satisfied</th>
-                            <th className="border p-1 text-center">Very Satisfied</th>
-                            <th className="border p-1 text-center">Satisfied</th>
-                            <th className="border p-1 text-center">Barely Satisfied</th>
-                            <th className="border p-1 text-center">Not Satisfied</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* Main Category A */}
-                        <tr>
-                            <td className="border p-1 font-semibold">A. Courtesy</td>
-                            {["Highly Satisfied", "Very Satisfied", "Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
-                                <td key={rating} className="border p-1 text-center">
-                                    <input
-                                        type="radio"
-                                        name="rating-courtesy"
-                                        value={rating}
-                                        onChange={handleChange}
-                                        checked={formData.ratings.courtesy === rating}
-                                    />
-                                </td>
-                            ))}
-                        </tr>
+        <>
+            <button className="btn btn-primary" onClick={handleShow}>
+                Open Feedback Form
+            </button>
 
-                        {/* Main Category B - Header */}
-                        <tr>
-                            <td className="border p-1 font-semibold">B. Service</td>
-                            <td className="border p-1" colSpan="5"></td>
-                        </tr>
+            {showModal && (
+                <div className="modal show d-block" tabIndex="-1">
+                    <div className="modal-dialog modal-lg">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <div className="modal-title text-center w-100">
+                                    <small>Republic of the Philippines</small>
+                                    <h4 className="fw-bold mb-0">CAVITE STATE UNIVERSITY</h4>
+                                </div>
+                                <button type="button" className="btn-close" onClick={handleClose}></button>
+                            </div>
 
-                        {/* Service subcategories */}
-                        <tr>
-                            <td className="border p-1 pl-6">1. Quality</td>
-                            {["Highly Satisfied", "Very Satisfied", "Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
-                                <td key={rating} className="border p-1 text-center">
-                                    <input
-                                        type="radio"
-                                        name="rating-service_quality"
-                                        value={rating}
-                                        onChange={handleChange}
-                                        checked={formData.ratings.service_quality === rating}
-                                    />
-                                </td>
-                            ))}
-                        </tr>
-                        <tr>
-                            <td className="border p-1 pl-6">2. Timeliness</td>
-                            {["Highly Satisfied", "Very Satisfied", "Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
-                                <td key={rating} className="border p-1 text-center">
-                                    <input
-                                        type="radio"
-                                        name="rating-service_timeliness"
-                                        value={rating}
-                                        onChange={handleChange}
-                                        checked={formData.ratings.service_timeliness === rating}
-                                    />
-                                </td>
-                            ))}
-                        </tr>
-                        <tr>
-                            <td className="border p-1 pl-6">3. Efficiency</td>
-                            {["Highly Satisfied", "Very Satisfied", "Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
-                                <td key={rating} className="border p-1 text-center">
-                                    <input
-                                        type="radio"
-                                        name="rating-service_efficiency"
-                                        value={rating}
-                                        onChange={handleChange}
-                                        checked={formData.ratings.service_efficiency === rating}
-                                    />
-                                </td>
-                            ))}
-                        </tr>
+                            <div className="modal-body">
+                                <div className="text-center mb-4">
+                                    <h5 className="fw-semibold">STAKEHOLDERS' FEEDBACK FORM</h5>
+                                    <p className="small">
+                                        Please complete this form to help us improve our services. Thank you.
+                                    </p>
+                                </div>
 
-                        {/* Main Category C - Header */}
-                        <tr>
-                            <td className="border p-1 font-semibold">C. Physical condition of office/work space</td>
-                            <td className="border p-1" colSpan="5"></td>
-                        </tr>
+                                {/* Progress Indicator */}
+                                <div className="mb-4">
+                                    <div className="progress">
+                                        <div
+                                            className="progress-bar"
+                                            role="progressbar"
+                                            style={{ width: `${(currentStep / 3) * 100}%` }}
+                                            aria-valuenow={(currentStep / 3) * 100}
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                        ></div>
+                                    </div>
+                                    <div className="d-flex justify-content-between mt-1">
+                                        <span className={`small ${currentStep === 1 ? 'fw-bold' : ''}`}>Step 1: Personal Information</span>
+                                        <span className={`small ${currentStep === 2 ? 'fw-bold' : ''}`}>Step 2: Service Ratings</span>
+                                        <span className={`small ${currentStep === 3 ? 'fw-bold' : ''}`}>Step 3: Comments</span>
+                                    </div>
+                                </div>
 
-                        {/* Physical condition subcategories */}
-                        <tr>
-                            <td className="border p-1 pl-6">1. Cleanliness</td>
-                            {["Highly Satisfied", "Very Satisfied", "Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
-                                <td key={rating} className="border p-1 text-center">
-                                    <input
-                                        type="radio"
-                                        name="rating-physical_cleanliness"
-                                        value={rating}
-                                        onChange={handleChange}
-                                        checked={formData.ratings.physical_cleanliness === rating}
-                                    />
-                                </td>
-                            ))}
-                        </tr>
-                        <tr>
-                            <td className="border p-1 pl-6">2. Comfort</td>
-                            {["Highly Satisfied", "Very Satisfied", "Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
-                                <td key={rating} className="border p-1 text-center">
-                                    <input
-                                        type="radio"
-                                        name="rating-physical_comfort"
-                                        value={rating}
-                                        onChange={handleChange}
-                                        checked={formData.ratings.physical_comfort === rating}
-                                    />
-                                </td>
-                            ))}
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                                <form>
+                                    {renderStep()}
+                                </form>
+                            </div>
 
-            <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Comments/Suggestions:</label>
-                <textarea
-                    name="comments"
-                    value={formData.comments}
-                    onChange={(e) => {
-                        // Limit to 500 characters (or your desired limit)
-                        if (e.target.value.length <= 150) {
-                            handleChange(e);
-                        }
-                    }}
-                    maxLength={150} // HTML5 attribute to prevent typing beyond limit
-                    className="w-full p-2 border rounded"
-                    rows="4"
-                    placeholder="Enter your comments or suggestions here (max 150 characters)..."
-                ></textarea>
-            </div>
+                            <div className="modal-footer">
+                                {currentStep > 1 && (
+                                    <button type="button" className="btn btn-secondary" onClick={prevStep}>
+                                        Previous
+                                    </button>
+                                )}
 
-            <div className="text-center">
-                <buttons
-                    onClick={downloadPDF}
-                    className="p-2 bg-dark text-white rounded hover:bg-blue-700 transition"
-                >
-                    Download PDF
-                </buttons>
-            </div>
-        </div>
+                                {currentStep < 3 ? (
+                                    <button type="button" className="btn btn-primary" onClick={nextStep}>
+                                        Next
+                                    </button>
+                                ) : (
+                                    <button type="button" className="btn btn-success" onClick={downloadPDF}>
+                                        Submit & Download PDF
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 
-export default StakeholdersFeedbackForm;
+export default Feedbacks;
