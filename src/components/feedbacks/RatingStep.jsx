@@ -1,38 +1,32 @@
 import React from 'react';
 
 const RatingStep = ({ formData, handleChange }) => {
-    // For debugging purposes
-    console.log("Current ratings:", formData.ratings);
-
     return (
-        <>
-            <h5 className="mb-3">Service Ratings</h5>
-            <p className="small mb-3">Please tick your rating concerning our services.</p>
+        <div className="table-responsive">
+            <h5 className="mb-3 fw-bold text-dark">Service Ratings</h5>
 
-            <table className="table table-bordered small">
-                <thead>
+            <table className="table table-striped table-bordered align-middle">
+                <thead className="table-light text-center">
                     <tr>
                         <th style={{ width: "35%" }}></th>
-                        <th colSpan="5" className="text-center">Rating</th>
+                        <th colSpan="5">Rating</th>
                     </tr>
                     <tr>
                         <th></th>
-                        <th className="text-center">Highly Satisfied</th>
-                        <th className="text-center">Very Satisfied</th>
-                        <th className="text-center">Moderately Satisfied</th>
-                        <th className="text-center">Barely Satisfied</th>
-                        <th className="text-center">Not Satisfied</th>
+                        {["Highly Satisfied", "Very Satisfied", "Moderately Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating, index) => (
+                            <th key={index} className="text-center small">{rating}</th>
+                        ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {/* Main Category A */}
-                    <tr>
-                        <td className="fw-semibold">A. Courtesy</td>
+                    {/* Courtesy */}
+                    <tr className="fw-semibold bg-light">
+                        <td>A. Courtesy</td>
                         {["Highly Satisfied", "Very Satisfied", "Moderately Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
                             <td key={rating} className="text-center">
                                 <input
                                     type="radio"
-                                    className="form-check-input"
+                                    className="form-check-input border border-dark"
                                     name="rating-courtesy"
                                     value={rating}
                                     onChange={handleChange}
@@ -42,99 +36,56 @@ const RatingStep = ({ formData, handleChange }) => {
                         ))}
                     </tr>
 
-                    {/* Main Category B - Header */}
-                    <tr>
-                        <td className="fw-semibold">B. Service</td>
+                    {/* Service Category */}
+                    <tr className="fw-semibold bg-light">
+                        <td>B. Service</td>
                         <td colSpan="5"></td>
                     </tr>
 
-                    {/* Service subcategories */}
-                    <tr>
-                        <td className="ps-4">1. Quality</td>
-                        {["Highly Satisfied", "Very Satisfied", "Moderately Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
-                            <td key={rating} className="text-center">
-                                <input
-                                    type="radio"
-                                    className="form-check-input"
-                                    name="rating-service_quality"
-                                    value={rating}
-                                    onChange={handleChange}
-                                    checked={formData.ratings.service_quality === rating}
-                                />
-                            </td>
-                        ))}
-                    </tr>
-                    <tr>
-                        <td className="ps-4">2. Timeliness</td>
-                        {["Highly Satisfied", "Very Satisfied", "Moderately Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
-                            <td key={rating} className="text-center">
-                                <input
-                                    type="radio"
-                                    className="form-check-input"
-                                    name="rating-service_timeliness"
-                                    value={rating}
-                                    onChange={handleChange}
-                                    checked={formData.ratings.service_timeliness === rating}
-                                />
-                            </td>
-                        ))}
-                    </tr>
-                    <tr>
-                        <td className="ps-4">3. Efficiency</td>
-                        {["Highly Satisfied", "Very Satisfied", "Moderately Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
-                            <td key={rating} className="text-center">
-                                <input
-                                    type="radio"
-                                    className="form-check-input"
-                                    name="rating-service_efficiency"
-                                    value={rating}
-                                    onChange={handleChange}
-                                    checked={formData.ratings.service_efficiency === rating}
-                                />
-                            </td>
-                        ))}
-                    </tr>
+                    {["Quality", "Timeliness", "Efficiency"].map((subCategory, index) => (
+                        <tr key={index}>
+                            <td className="ps-4">{index + 1}. {subCategory}</td>
+                            {["Highly Satisfied", "Very Satisfied", "Moderately Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
+                                <td key={rating} className="text-center">
+                                    <input
+                                        type="radio"
+                                        className="form-check-input border border-dark"
+                                        name={`rating-service_${subCategory.toLowerCase()}`}
+                                        value={rating}
+                                        onChange={handleChange}
+                                        checked={formData.ratings[`service_${subCategory.toLowerCase()}`] === rating}
+                                    />
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
 
-                    {/* Main Category C - Header */}
-                    <tr>
-                        <td className="fw-semibold">C. Physical condition of office/work space</td>
+                    {/* Physical Condition */}
+                    <tr className="fw-semibold bg-light">
+                        <td>C. Physical condition of office/work space</td>
                         <td colSpan="5"></td>
                     </tr>
 
-                    {/* Physical condition subcategories */}
-                    <tr>
-                        <td className="ps-4">1. Cleanliness</td>
-                        {["Highly Satisfied", "Very Satisfied", "Moderately Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
-                            <td key={rating} className="text-center">
-                                <input
-                                    type="radio"
-                                    className="form-check-input"
-                                    name="rating-physical_cleanliness"
-                                    value={rating}
-                                    onChange={handleChange}
-                                    checked={formData.ratings.physical_cleanliness === rating}
-                                />
-                            </td>
-                        ))}
-                    </tr>
-                    <tr>
-                        <td className="ps-4">2. Comfort</td>
-                        {["Highly Satisfied", "Very Satisfied", "Moderately Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
-                            <td key={rating} className="text-center">
-                                <input
-                                    type="radio"
-                                    className="form-check-input"
-                                    name="rating-physical_comfort"
-                                    value={rating}
-                                    onChange={handleChange}
-                                    checked={formData.ratings.physical_comfort === rating}
-                                />
-                            </td>
-                        ))}
-                    </tr>
+                    {["Cleanliness", "Comfort"].map((subCategory, index) => (
+                        <tr key={index}>
+                            <td className="ps-4">{index + 1}. {subCategory}</td>
+                            {["Highly Satisfied", "Very Satisfied", "Moderately Satisfied", "Barely Satisfied", "Not Satisfied"].map((rating) => (
+                                <td key={rating} className="text-center">
+                                    <input
+                                        type="radio"
+                                        className="form-check-input border border-dark"
+                                        name={`rating-physical_${subCategory.toLowerCase()}`}
+                                        value={rating}
+                                        onChange={handleChange}
+                                        checked={formData.ratings[`physical_${subCategory.toLowerCase()}`] === rating}
+                                    />
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
                 </tbody>
             </table>
-        </>
+        </div>
     );
 };
 

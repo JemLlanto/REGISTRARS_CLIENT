@@ -277,24 +277,17 @@ const Feedbacks = () => {
                 <div className="modal show d-block" tabIndex="-1">
                     <div className="modal-dialog modal-lg">
                         <div className="modal-content">
-                            <div className="modal-header">
+                            <div className="modal-header" style={{ backgroundColor: "var(--main-color)" }}>
                                 <div className="modal-title text-center w-100">
-                                    <small>Republic of the Philippines</small>
-                                    <h4 className="fw-bold mb-0">CAVITE STATE UNIVERSITY</h4>
+                                    <h4 className="fw-bold mb-0 text-white">STAKEHOLDERS' FEEDBACK FORM</h4>
                                 </div>
-                                <button type="button" className="btn-close" onClick={handleClose}></button>
+                                <button type="button" className="btn-close btn-close-white" onClick={handleClose}></button>
                             </div>
 
-                            <div className="modal-body">
-                                <div className="text-center mb-4">
-                                    <h5 className="fw-semibold">STAKEHOLDERS' FEEDBACK FORM</h5>
-                                    <p className="small">
-                                        Please complete this form to help us improve our services. Thank you.
-                                    </p>
-                                </div>
-
+                            <div className="modal-body ">
+                                {/* <h5 className="fw-semibold">STAKEHOLDERS' FEEDBACK FORM</h5> */}
                                 {/* Progress Indicator */}
-                                <div className="mb-4">
+                                {/* <div className="mb-4">
                                     <div className="progress">
                                         <div
                                             className="progress-bar"
@@ -310,14 +303,13 @@ const Feedbacks = () => {
                                         <span className={`small ${currentStep === 2 ? 'fw-bold' : ''}`}>Step 2: Service Ratings</span>
                                         <span className={`small ${currentStep === 3 ? 'fw-bold' : ''}`}>Step 3: Comments</span>
                                     </div>
-                                </div>
-
+                                </div> */}
                                 <form>
                                     {renderStep()}
                                 </form>
                             </div>
 
-                            <div className="modal-footer">
+                            <div className="modal-footer" style={{ backgroundColor: "var(--main-color)" }}>
                                 {currentStep > 1 && (
                                     <button type="button" className="btn btn-secondary" onClick={prevStep}>
                                         Previous
