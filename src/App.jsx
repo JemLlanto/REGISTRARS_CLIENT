@@ -37,7 +37,7 @@ const App = () => {
 
         {/* Routes that need MainLayout */}
         <Route element={<MainLayout />}>
-          <Route path="/profilesetup" element={<ProfileSetup />} />
+          <Route path="/profile-setup" element={<ProfileSetup />} />
           <Route
             path="/request-details/:requestID"
             element={<RequestDetails />}
