@@ -27,7 +27,6 @@ import AdminHome from "./pages/admin/Home";
 import StudentRequests from "./pages/admin/StudentRequests";
 import ManageRequestForm from "./pages/admin/ManageRequestForm";
 import ManageAdmin from "./pages/admin/ManageAdmin";
-import Reports from "./pages/admin/Reports";
 
 const App = () => {
   return (
@@ -52,7 +51,6 @@ const App = () => {
 
           {/* admin */}
           <Route path="/admin/home" element={<AdminHome />} />
-          <Route path="/admin/reports" element={<Reports />} />
           <Route path="/admin/manage-admin" element={<ManageAdmin />} />
           <Route
             path="/admin/manage-request-form"

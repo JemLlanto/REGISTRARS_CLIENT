@@ -85,6 +85,26 @@ const SideBar = ({ user }) => {
               </li>
             )}
 
+            {/* student request form */}
+            {user.isAdmin ? (
+              <li
+                className={`list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() === "/admin/student-requests"
+                    ? "active"
+                    : ""
+                }`}
+              >
+                <Link
+                  className="d-flex align-items-center"
+                  to="/admin/student-requests"
+                >
+                  <i className="bx bx-user-check me-2"></i>
+                  <p className="m-0">Student Requests</p>
+                </Link>
+                <span className="tooltip">Student Requests</span>
+              </li>
+            ) : null}
+
             {/* student requested list */}
             {user.isAdmin ? (
               <li
@@ -122,41 +142,20 @@ const SideBar = ({ user }) => {
                 <span className="tooltip">Request Form</span>
               </li>
             )}
-            {/* student request form */}
-            {user.isAdmin ? (
-              <li
-                className={`list-group-items rounded py-1 px-2 ${
-                  location.pathname.toLowerCase() === "/admin/student-requests"
-                    ? "active"
-                    : ""
-                }`}
-              >
-                <Link
-                  className="d-flex align-items-center"
-                  to="/admin/student-requests"
-                >
-                  <i className="bx bx-user-check me-2"></i>
-                  <p className="m-0">Student Requests</p>
-                </Link>
-                <span className="tooltip">Student Requests</span>
-              </li>
-            ) : null}
+
             {/* about us and reports */}
-            {user.isAdmin ? (
-              <li
-                className={`list-group-items rounded py-1 px-2 ${
-                  location.pathname.toLowerCase() === "/admin/reports"
-                    ? "active"
-                    : ""
-                }`}
-              >
-                <Link className="d-flex align-items-center" to="/admin/reports">
-                  <i className="bx bx-bar-chart-alt-2"></i>
-                  <p className="m-0">Reports</p>
-                </Link>
-                <span className="tooltip">Reports</span>
-              </li>
-            ) : (
+            {user.isAdmin ? //     location.pathname.toLowerCase() === "/admin/reports" //   className={`list-group-items rounded py-1 px-2 ${ // <li
+            //       ? "active"
+            //       : ""
+            //   }`}
+            // >
+            //   <Link className="d-flex align-items-center" to="/admin/reports">
+            //     <i className="bx bx-bar-chart-alt-2"></i>
+            //     <p className="m-0">Reports</p>
+            //   </Link>
+            //   <span className="tooltip">Reports</span>
+            // </li>
+            null : (
               <li
                 className={`list-group-items rounded py-1 px-2 ${
                   location.pathname.toLowerCase() === "/about" ? "active" : ""
