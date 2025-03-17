@@ -18,21 +18,23 @@ export default function Home() {
   const userID = user?.userID;
 
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:5000/api/fetchingDocuments/fetchRequestedDocuments/${userID}`
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          console.log(res.data.data);
-          setRequestedDocuments(res.data.data);
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
-        }
-      })
-      .catch((err) => {
-        console.log("Error fetching Programs: ", err);
-      });
+    if (userID) {
+      axios
+        .get(
+          `http://localhost:5000/api/fetchingDocuments/fetchRequestedDocuments/${userID}`
+        )
+        .then((res) => {
+          if (res.data.Status === "Success") {
+            console.log(res.data.data);
+            setRequestedDocuments(res.data.data);
+          } else if (res.data.Message) {
+            console.log("Error:", res.data.Message);
+          }
+        })
+        .catch((err) => {
+          console.log("Error fetching Programs: ", err);
+        });
+    }
   }, [userID]);
 
   return (
@@ -117,8 +119,8 @@ export default function Home() {
                     <p className="m-0 ">
                       {request?.created
                         ? new Intl.DateTimeFormat("en-US", {
-                          dateStyle: "medium",
-                        }).format(new Date(request?.created))
+                            dateStyle: "medium",
+                          }).format(new Date(request?.created))
                         : ""}
                     </p>
                   </div>

@@ -22,7 +22,7 @@ const MainLayout = () => {
       .then((res) => {
         if (res.data.Status === "Success") {
           setAuth(true);
-          setId(res.data.userID);
+          setUser(res.data.data);
         } else {
           setAuth(false);
           setMessage(res.data.Error);
@@ -55,7 +55,10 @@ const MainLayout = () => {
   return (
     <div
       className="w-100 d-flex flex-column"
-      style={{ backgroundColor: "var(--bodyBackground-color)", height: "100dvh" }}
+      style={{
+        backgroundColor: "var(--bodyBackground-color)",
+        height: "100dvh",
+      }}
     >
       {!user.isAdmin && user.isNewAccount ? (
         <NewAccountPopup user={user} />
