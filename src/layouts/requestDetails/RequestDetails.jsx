@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
 import CancelButton from "../../components/requestDetails/CancelButton";
 import ChangeStatusButton from "../../components/requestDetails/ChangeStatusButton";
-import ExternalFormModal from "../../components/FeedbackFormInternal/InternalForm";
 import Feedbacks from "../../components/feedbacks/feedbacks";
 
 const RequestDetails = () => {
@@ -167,11 +166,11 @@ const RequestDetails = () => {
         </div>
 
         {/* ExternalFormModal button */}
-        {documentDetails.status === "completed" && (
+        {/* {documentDetails.status === "completed" && (
           <div className="col-auto">
             <ExternalFormModal />
           </div>
-        )}
+        )} */}
       </div>
 
 
@@ -325,10 +324,11 @@ const RequestDetails = () => {
         )}
 
       </div>
-      <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
-        <Feedbacks></Feedbacks>
-      </div>
-
+      {!user.isAdmin ? (
+        <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
+          <Feedbacks />
+        </div>
+      ) : null}
 
     </div>
   );

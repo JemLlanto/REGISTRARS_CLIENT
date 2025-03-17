@@ -5,6 +5,7 @@ import DateSelection from "../../components/Dashboard/DateSelection";
 import RequestHeaders from "../../components/studentRequest/requestHeaders";
 import { Dropdown } from "react-bootstrap";
 import RequestDatepicker from "../../components/studentRequest/RequestDatepicker";
+import SearchBar from "./search";
 
 export default function StudentRequests() {
   const { user } = useOutletContext();
@@ -16,6 +17,7 @@ export default function StudentRequests() {
   const [endDate, setEndDate] = useState("");
   const location = useLocation();
   const [status, setStatus] = useState("all");
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {
@@ -171,23 +173,40 @@ export default function StudentRequests() {
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
           Student Request List
         </h5>
+
         {/* Search Bar */}
-        <div className="d-none d-md-block  rounded">
-          <div className="d-flex align-items-center rounded border ">
-            <div className="px-2">
+        <div className="d-none d-md-block ">
+          <div className="d-flex align-items-center  px-2">
+            {/* Search Icon - Click to toggle input field */}
+            <div
+              className="px-2"
+              onClick={() => setIsSearchVisible(!isSearchVisible)}
+              style={{ cursor: "pointer" }}
+            >
               <i className="bx bx-search-alt fw-bold mt-2"></i>
             </div>
+
+            {/* Search Input - Expands when icon is clicked */}
             <input
               type="text"
-              className="form-control rounded-0 border-0 shadow-none"
+              className="form-control border-0 shadow-none"
               id="searchInput"
               placeholder="Search by name or email"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ borderRadius: "8px" }}
+              style={{
+                borderRadius: "8px",
+                width: isSearchVisible ? "200px" : "0px",
+                opacity: isSearchVisible ? 1 : 0,
+                transition: "width 0.3s ease-in-out, opacity 0.3s ease-in-out",
+                padding: isSearchVisible ? "5px 10px" : "0",
+                overflow: "hidden"
+              }}
             />
           </div>
         </div>
+
+
         <div className="d-block d-md-none  rounded ">
           <div className="d-flex align-items-center rounded  ">
             <RequestDatepicker
@@ -203,30 +222,38 @@ export default function StudentRequests() {
         </div>
       </div>
       <div>
+
+
         {/* Search Bar phone*/}
         {/* Mobile layout container */}
         <div className="d-block d-md-none mb-2 mt-2">
-          <div className="d-flex justify-content-between align-items-center">
-            {/* Search Bar - left side */}
-            <div className="w-100 ">
-              <div
-                className="d-flex align-items-center rounded border"
-                style={{ backgroundColor: "var(--main-color)" }}
-              >
-                <div className="px-2">
-                  <i className="bx bx-search-alt fw-bold text-white"></i>
-                </div>
-                <input
-                  type="text"
-                  className="form-control rounded-0 border-0 shadow-none"
-                  id="searchInput"
-                  placeholder="Search by name or email"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  style={{ borderRadius: "8px" }}
-                />
-              </div>
+          <div className="d-flex align-items-center rounded border px-2">
+            {/* Search Icon - Click to toggle input field */}
+            <div
+              className="px-2"
+              onClick={() => setIsSearchVisible(!isSearchVisible)}
+              style={{ cursor: "pointer" }}
+            >
+              <i className="bx bx-search-alt fw-bold mt-2"></i>
             </div>
+
+            {/* Search Input - Expands when icon is clicked */}
+            <input
+              type="text"
+              className="form-control border-0 shadow-none"
+              id="searchInput"
+              placeholder="Search by name or email"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{
+                borderRadius: "8px",
+                width: isSearchVisible ? "200px" : "0px",
+                opacity: isSearchVisible ? 1 : 0,
+                transition: "width 0.3s ease-in-out, opacity 0.3s ease-in-out",
+                padding: isSearchVisible ? "5px 10px" : "0",
+                overflow: "hidden"
+              }}
+            />
           </div>
         </div>
         {/* large  device*/}
