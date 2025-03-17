@@ -54,6 +54,7 @@ const OtpConfirmation = ({
 
   const handleClose = () => {
     setShowOtpModal(false);
+    setGeneratedOtp();
   };
 
   const handleOtpChange = (event, index) => {
@@ -80,10 +81,8 @@ const OtpConfirmation = ({
   const sendOtp = async () => {
     try {
       setIsLoading(true);
-      setOtpTimer(60);
 
       const generatedOTP = Math.floor(100000 + Math.random() * 900000);
-      setGeneratedOtp(generatedOTP);
 
       const otpData = {
         receiverEmail: formData.receiverEmail,
@@ -97,6 +96,9 @@ const OtpConfirmation = ({
       );
 
       if (res.status === 200) {
+        setGeneratedOtp(generatedOTP);
+        alert("An OTP has been sent to your email.");
+        setOtpTimer(60);
         handleShow();
       } else if (res.status === 403) {
         alert(res.data.Message); // Display "Email is already in use" message
@@ -120,6 +122,7 @@ const OtpConfirmation = ({
 
       if (generatedOTP.toString() === formData.otp.toString()) {
         alert("OTP verified successfully.");
+        handleClose;
         handleRegister();
       } else {
         alert("OTP doesn't match, Please try again.");
@@ -130,6 +133,24 @@ const OtpConfirmation = ({
       setIsLoading(false); // Ensures loading state resets even if an error occurs
     }
   };
+
+  const resendOTP = async () => {
+    try {
+      setIsLoading(true);
+      setGeneratedOtp(null);
+    } catch (err) {
+      alert("An error occured: ", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // GENERATING NEW OTP
+  useEffect(() => {
+    if (!generatedOTP) {
+      sendOtp();
+    }
+  }, [generatedOTP]);
 
   // Check if all OTP inputs are filled
   const isOtpComplete = otpInputs.every((input) => input !== "");
@@ -153,7 +174,10 @@ const OtpConfirmation = ({
       </button>
       <Modal show={showOtpModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Email Verification</Modal.Title>
+          <Modal.Title>
+            Email Verification
+            {generatedOTP}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
@@ -184,15 +208,28 @@ const OtpConfirmation = ({
                 ))}
               </Row>
             </div>
-            <p>
-              {otpTimer === 0 ? (
-                <>Resend OTP</>
-              ) : (
-                <>
-                  <span className="text-secondary">Resend OTP({otpTimer})</span>
-                </>
-              )}
-            </p>
+            <button
+              type="button"
+              className="btn btn-light"
+              onClick={resendOTP}
+              disabled={otpTimer != 0 || isLoading}
+            >
+              <p className="m-0">
+                {isLoading ? (
+                  <>Sending OTP</>
+                ) : (
+                  <>
+                    {otpTimer === 0 ? (
+                      <>Resend OTP</>
+                    ) : (
+                      <>
+                        <>Resend OTP({otpTimer})</>
+                      </>
+                    )}
+                  </>
+                )}
+              </p>
+            </button>
           </div>
         </Modal.Body>
         <Modal.Footer>
