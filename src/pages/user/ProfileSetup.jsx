@@ -19,14 +19,29 @@ export default function ProfileSetup() {
   const [editingSecurity, setEditingSecurity] = useState(false);
   useEffect(() => {
     if (user) {
+      let formattedDate = "";
+      // Check if user.dateOfBirth exists and is valid
+      if (user.dateOfBirth) {
+        try {
+          const date = new Date(user.dateOfBirth);
+          if (!isNaN(date.getTime())) {
+            formattedDate = `${date.getFullYear()}-${String(
+              date.getMonth() + 1
+            ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+          }
+        } catch (error) {
+          console.error("Error formatting date:", error);
+        }
+      }
+
       setFormData({
-        firstName: user.firstName,
-        middleName: user.middleName,
-        lastName: user.lastName,
-        studentID: user.studentID,
-        dateOfBirth: user.dateOfBirth,
-        mobileNum: user.mobileNum,
-        email: user.email,
+        firstName: user.firstName || "",
+        middleName: user.middleName || "",
+        lastName: user.lastName || "",
+        studentID: user.studentID || "",
+        dateOfBirth: formattedDate,
+        mobileNum: user.mobileNum || "",
+        email: user.email || "",
       });
     }
   }, [user]);
@@ -37,6 +52,14 @@ export default function ProfileSetup() {
 
   const handleEditSecurity = () => {
     setEditingSecurity((prev) => !prev);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleUpdate = () => {
@@ -80,7 +103,7 @@ export default function ProfileSetup() {
                     placeholder="First name"
                     name="firstName"
                     value={formData.firstName}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={handleChange}
                     disabled={!editingInfo}
                   />
                 </Form.Group>
@@ -93,7 +116,7 @@ export default function ProfileSetup() {
                     placeholder="Middle name"
                     name="middleName"
                     value={formData.middleName}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={handleChange}
                     disabled={!editingInfo}
                   />
                 </Form.Group>
@@ -106,7 +129,7 @@ export default function ProfileSetup() {
                     placeholder="Last name"
                     name="lastName"
                     value={formData.lastName}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={handleChange}
                     disabled={!editingInfo}
                   />
                 </Form.Group>
@@ -121,7 +144,7 @@ export default function ProfileSetup() {
                     placeholder="Student ID"
                     name="studentID"
                     value={formData.studentID}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={handleChange}
                     disabled={!editingInfo}
                   />
                 </Form.Group>
@@ -134,7 +157,7 @@ export default function ProfileSetup() {
                     placeholder="Mobile Number"
                     name="mobileNum"
                     value={formData.mobileNum}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={handleChange}
                     disabled={!editingInfo}
                   />
                 </Form.Group>
@@ -144,9 +167,10 @@ export default function ProfileSetup() {
                   <Form.Label>Date of Birth</Form.Label>
                   <Form.Control
                     type="date"
-                    placeholder="Birthdate"
+                    placeholder="Date of Birth"
+                    name="dateOfBirth"
                     value={formData.dateOfBirth}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={handleChange}
                     disabled={!editingInfo}
                   />
                 </Form.Group>
@@ -184,7 +208,7 @@ export default function ProfileSetup() {
                     type="password"
                     placeholder="Enter new password"
                     name="newPassword"
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handleChange}
                     disabled={!editingSecurity}
                     autoComplete="newPassword"
                   />
@@ -199,7 +223,7 @@ export default function ProfileSetup() {
                     type="password"
                     placeholder="Confirm new password"
                     name="confPassword"
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    onChange={handleChange}
                     disabled={!editingSecurity}
                   />
                 </Form.Group>
