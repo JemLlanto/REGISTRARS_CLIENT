@@ -67,7 +67,7 @@ function programModal() {
       >
         <h5 className="m-0">Program/Course</h5>
         <h4 className="m-0 d-flex align-items-center">
-          <i class="bx bxs-chevron-right"></i>
+          <i className="bx bxs-chevron-right"></i>
         </h4>
       </Button>
 

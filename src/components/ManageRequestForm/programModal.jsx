@@ -125,16 +125,18 @@ function programModal() {
         >
           <h5 className="m-0 ms-3">customize</h5>
           <h4 className="m-0 d-flex align-items-center">
-            <i class="bx bxs-chevron-right me-2"></i>
+            <i className="bx bxs-chevron-right me-2"></i>
           </h4>
         </Button>
       </div>
 
-
       {/* MODAL FOR VIEWING PROGRAMS */}
-      <Modal show={showProgram} onHide={handleCloseProgram} centered size="lg" >
-        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
-          <Modal.Title >
+      <Modal show={showProgram} onHide={handleCloseProgram} centered size="lg">
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "var(--main-color)" }}
+        >
+          <Modal.Title>
             <h4 className="m-0 text-white">Manage Program and Course</h4>
           </Modal.Title>
         </Modal.Header>
@@ -231,7 +233,10 @@ function programModal() {
           <Button variant="secondary" onClick={handleCloseProgram}>
             <p className="m-0">Close</p>
           </Button>
-          <Button style={{ backgroundColor: "var(--main-color)" }} onClick={handleAddProgram}>
+          <Button
+            style={{ backgroundColor: "var(--main-color)" }}
+            onClick={handleAddProgram}
+          >
             <p className="m-0">Add new program</p>
           </Button>
         </Modal.Footer>
@@ -265,7 +270,10 @@ function programModal() {
           <Button variant="secondary" onClick={handleCancelAddProgram}>
             <p className="m-0">Cancel</p>
           </Button>
-          <Button style={{ backgroundColor: "var(--main-color)" }} onClick={handleSaveProgram}>
+          <Button
+            style={{ backgroundColor: "var(--main-color)" }}
+            onClick={handleSaveProgram}
+          >
             <p className="m-0">Save</p>
           </Button>
         </Modal.Footer>

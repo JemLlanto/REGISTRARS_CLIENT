@@ -15,8 +15,8 @@ const RequestDetails = () => {
   const [documentFile, setDocumentFile] = useState(null);
   const birthDate = documentDetails?.dateOfBirth
     ? new Intl.DateTimeFormat("en-US", {
-      dateStyle: "medium",
-    }).format(new Date(documentDetails?.dateOfBirth))
+        dateStyle: "medium",
+      }).format(new Date(documentDetails?.dateOfBirth))
     : "";
 
   const fetchDocumentDetails = () => {
@@ -110,7 +110,10 @@ const RequestDetails = () => {
       });
   }, [documentDetails.purposeID]);
   return (
-    <div className="p-0 p-md-4 w-100 overflow-auto" style={{ maxHeight: "90dvh" }}>
+    <div
+      className="p-0 p-md-4 w-100 overflow-auto"
+      style={{ maxHeight: "90dvh" }}
+    >
       {/* Header Section */}
       <div
         className="rounded-2 shadow-sm p-2 d-flex align-items-center justify-content-between"
@@ -154,7 +157,6 @@ const RequestDetails = () => {
         </div>
       ) : null}
 
-
       {/* purpose */}
       <div className="row shadow-sm bg-white d-flex align-items-center justify-content-between rounded-3 p-4 mt-2 mx-0">
         {/* Purpose and Status */}
@@ -172,7 +174,6 @@ const RequestDetails = () => {
           </div>
         )} */}
       </div>
-
 
       <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
         {/* Name */}
@@ -287,7 +288,7 @@ const RequestDetails = () => {
         )}
         {documentInputValues.length > 0 && (
           <div className="information bg-white w-100 mt-2 shadow-sm rounded-2 p-4">
-            <table class="table">
+            <table className="table">
               <thead>
                 <tr>
                   {documentInputs.map((input) => (
@@ -322,14 +323,12 @@ const RequestDetails = () => {
             </div>
           </div>
         )}
-
       </div>
       {!user.isAdmin ? (
         <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
           <Feedbacks />
         </div>
       ) : null}
-
     </div>
   );
 };

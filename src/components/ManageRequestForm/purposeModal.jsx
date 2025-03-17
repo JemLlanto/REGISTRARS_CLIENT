@@ -129,13 +129,16 @@ function purposeModal() {
       >
         <h5 className="m-0 ms-3">customize</h5>
         <h4 className="m-0 d-flex align-items-center">
-          <i class="bx bxs-chevron-right me-2"></i>
+          <i className="bx bxs-chevron-right me-2"></i>
         </h4>
       </Button>
 
       {/* MAIN MODAL FOR PURPOSE */}
       <Modal size="lg" show={showPurpose} onHide={handleClosePurpose} centered>
-        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "var(--main-color)" }}
+        >
           <Modal.Title>
             <h4 className="m-0 text-white">Manage Purposes</h4>
           </Modal.Title>
@@ -181,7 +184,7 @@ function purposeModal() {
                                 setEditPurpose(null);
                               }}
                             >
-                              <i class="bx bx-x"></i>
+                              <i className="bx bx-x"></i>
                             </button>
                             <button
                               className="btn btn-sm btn-success"
@@ -193,7 +196,7 @@ function purposeModal() {
                                 formData.purposeName === purpose.purposeName
                               }
                             >
-                              <i class="bx bx-check"></i>
+                              <i className="bx bx-check"></i>
                             </button>
                           </div>
                         </>
@@ -208,7 +211,7 @@ function purposeModal() {
                                 handleEditPurpose(purpose);
                               }}
                             >
-                              <i class="bx bx-edit-alt"></i>
+                              <i className="bx bx-edit-alt"></i>
                             </button>
                             <button
                               className="btn btn-sm btn-danger"
@@ -220,7 +223,7 @@ function purposeModal() {
                                 );
                               }}
                             >
-                              <i class="bx bx-trash"></i>
+                              <i className="bx bx-trash"></i>
                             </button>
                           </div>
                         </>
@@ -241,7 +244,10 @@ function purposeModal() {
           <Button variant="secondary" onClick={handleClosePurpose}>
             Close
           </Button>
-          <Button style={{ backgroundColor: "var(--main-color)" }} onClick={handleAddPurpose}>
+          <Button
+            style={{ backgroundColor: "var(--main-color)" }}
+            onClick={handleAddPurpose}
+          >
             Add Purpose
           </Button>
         </Modal.Footer>
@@ -250,7 +256,7 @@ function purposeModal() {
       {/* MODAL FOR ADDING PURPOSE */}
       <Modal show={addPurpose} onHide={handleCancelAddPurpose} centered size="">
         <Modal.Header style={{ backgroundColor: "var(--main-color)" }}>
-          <Modal.Title >
+          <Modal.Title>
             <h4 className="m-0 text-white">Add Purpose</h4>
           </Modal.Title>
         </Modal.Header>
@@ -275,7 +281,10 @@ function purposeModal() {
           <Button variant="secondary" onClick={handleCancelAddPurpose}>
             <p className="m-0">Cancel</p>
           </Button>
-          <Button style={{ backgroundColor: "var(--main-color)" }} onClick={handleSavePurpose}>
+          <Button
+            style={{ backgroundColor: "var(--main-color)" }}
+            onClick={handleSavePurpose}
+          >
             <p className="m-0">Save</p>
           </Button>
         </Modal.Footer>

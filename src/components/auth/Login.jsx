@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Background } from "../Background/Background";
 import Preloader from "../Preloader/Preloader";
+import ForgotPassword from "./ForgotPassword";
 
 const Login = ({ setActivePage }) => {
   const [inputs, setInputs] = useState({ email: "", password: "" });
@@ -86,7 +87,7 @@ const Login = ({ setActivePage }) => {
             REGISTRAR'S ONLINE REQUEST
           </h5>
           {/* Inputs */}
-          <form onSubmit={handleLogin}>
+          <div>
             <div className="mb-3 position-relative">
               <div className="input-group">
                 <span
@@ -137,8 +138,8 @@ const Login = ({ setActivePage }) => {
                 <div className="text-danger small">{errors.password}</div>
               )}
             </div>
-
-            <button type="submit" className="btn btn-warning w-100">
+            <ForgotPassword />
+            <button className="btn btn-warning w-100" onClick={handleLogin}>
               Login
             </button>
             <p className="text-white mt-2 text-center">
@@ -155,7 +156,7 @@ const Login = ({ setActivePage }) => {
               </span>
               .
             </p>
-          </form>
+          </div>
         </div>
       </div>
       <Background></Background>

@@ -328,7 +328,7 @@ export default function RequestDocument() {
                 style={{ opacity: currentStep === 1 ? 0 : 1, width: "10rem" }}
               >
                 <p className="m-0 d-flex align-items-center justify-content-center">
-                  <i class="bx bx-chevrons-left"></i> Back
+                  <i className="bx bx-chevrons-left"></i> Back
                 </p>
               </Button>
               {currentStep === 4 ? (
@@ -370,7 +370,7 @@ export default function RequestDocument() {
                   }
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
-                    Next Step <i class="bx bx-chevrons-right"></i>
+                    Next Step <i className="bx bx-chevrons-right"></i>
                   </p>
                 </button>
               )}

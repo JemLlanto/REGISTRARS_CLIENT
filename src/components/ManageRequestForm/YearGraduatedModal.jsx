@@ -124,13 +124,16 @@ function YearGraduatedModal() {
       >
         <h5 className="m-0 ms-3">customize</h5>
         <h4 className="m-0 d-flex align-items-center">
-          <i class="bx bxs-chevron-right me-2"></i>
+          <i className="bx bxs-chevron-right me-2"></i>
         </h4>
       </Button>
 
       {/* MODAL FOR VIEWING YEAR */}
       <Modal show={showYear} onHide={handleCloseYear} centered size="lg">
-        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "var(--main-color)" }}
+        >
           <Modal.Title>
             <h4 className="m-0 text-white">Manage Year Graduated</h4>
           </Modal.Title>
@@ -227,7 +230,10 @@ function YearGraduatedModal() {
           <Button variant="secondary" onClick={handleCloseYear}>
             <p className="m-0">Close</p>
           </Button>
-          <Button style={{ backgroundColor: "var(--main-color)" }} onClick={handleAddYear}>
+          <Button
+            style={{ backgroundColor: "var(--main-color)" }}
+            onClick={handleAddYear}
+          >
             <p className="m-0">Add Year</p>
           </Button>
         </Modal.Footer>
@@ -261,7 +267,10 @@ function YearGraduatedModal() {
           <Button variant="secondary" onClick={handleCancelAddYear}>
             <p className="m-0">Cancel</p>
           </Button>
-          <Button style={{ backgroundColor: "var(--main-color)" }} onClick={handleSaveYear}>
+          <Button
+            style={{ backgroundColor: "var(--main-color)" }}
+            onClick={handleSaveYear}
+          >
             <p className="m-0">Save</p>
           </Button>
         </Modal.Footer>
