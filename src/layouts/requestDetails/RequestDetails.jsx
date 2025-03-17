@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
 import CancelButton from "../../components/requestDetails/CancelButton";
 import ChangeStatusButton from "../../components/requestDetails/ChangeStatusButton";
-import Feedbacks from "../../components/feedbacks/feedbacks";
+import FeedbackInternal from "../../components/InternalFeedback/Internal";
+import FeedbackExternal from "../../components/ExternalFeedback/External";
 
 const RequestDetails = () => {
   const { user } = useOutletContext();
@@ -15,8 +16,8 @@ const RequestDetails = () => {
   const [documentFile, setDocumentFile] = useState(null);
   const birthDate = documentDetails?.dateOfBirth
     ? new Intl.DateTimeFormat("en-US", {
-        dateStyle: "medium",
-      }).format(new Date(documentDetails?.dateOfBirth))
+      dateStyle: "medium",
+    }).format(new Date(documentDetails?.dateOfBirth))
     : "";
 
   const fetchDocumentDetails = () => {
@@ -122,6 +123,7 @@ const RequestDetails = () => {
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
           Request Details
         </h5>
+
         {user.isAdmin ? (
           <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
             <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
@@ -168,11 +170,20 @@ const RequestDetails = () => {
         </div>
 
         {/* ExternalFormModal button */}
-        {/* {documentDetails.status === "completed" && (
+        {documentDetails.status === "completed" && (
           <div className="col-auto">
-            <ExternalFormModal />
+            {!user.isAdmin ? (
+              <div className="row  d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
+                <FeedbackInternal />
+              </div>
+            ) : null}
+            {!user.isAdmin ? (
+              <div className="row  d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
+                <FeedbackExternal></FeedbackExternal>
+              </div>
+            ) : null}
           </div>
-        )} */}
+        )}
       </div>
 
       <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
@@ -324,11 +335,8 @@ const RequestDetails = () => {
           </div>
         )}
       </div>
-      {!user.isAdmin ? (
-        <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
-          <Feedbacks />
-        </div>
-      ) : null}
+
+
     </div>
   );
 };
