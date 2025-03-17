@@ -7,7 +7,7 @@ import CommentsStep from "./CommentsStep";
 
 
 
-const Feedbacks = () => {
+const FeedbackInternal = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [showModal, setShowModal] = useState(false);
 
@@ -269,69 +269,56 @@ const Feedbacks = () => {
 
     return (
         <>
-            <button className="btn btn-primary" onClick={handleShow}>
-                Open Feedback Form
+            <button className="btn text-white" style={{ backgroundColor: "var(--main-color)" }} onClick={handleShow}>
+                Internal
             </button>
 
             {showModal && (
-                <div className="modal show d-block" tabIndex="-1">
-                    <div className="modal-dialog modal-lg">
-                        <div className="modal-content">
-                            <div className="modal-header" style={{ backgroundColor: "var(--main-color)" }}>
-                                <div className="modal-title text-center w-100">
-                                    <h4 className="fw-bold mb-0 text-white">STAKEHOLDERS' FEEDBACK FORM</h4>
+                <>
+                    {/* Backdrop Overlay */}
+                    <div className="modal-backdrop fade show"></div>
+
+                    {/* Modal */}
+                    <div className="modal fade show d-block" tabIndex="-1">
+                        <div className="modal-dialog modal-lg">
+                            <div className="modal-content">
+                                <div className="modal-header" style={{ backgroundColor: "var(--main-color)" }}>
+                                    <div className="modal-title text-center w-100">
+                                        <h4 className="fw-bold mb-0 text-white">STAKEHOLDERS' FEEDBACK FORM</h4>
+                                    </div>
+                                    <button type="button" className="btn-close btn-close-white" onClick={handleClose}></button>
                                 </div>
-                                <button type="button" className="btn-close btn-close-white" onClick={handleClose}></button>
-                            </div>
 
-                            <div className="modal-body ">
-                                {/* <h5 className="fw-semibold">STAKEHOLDERS' FEEDBACK FORM</h5> */}
-                                {/* Progress Indicator */}
-                                {/* <div className="mb-4">
-                                    <div className="progress">
-                                        <div
-                                            className="progress-bar"
-                                            role="progressbar"
-                                            style={{ width: `${(currentStep / 3) * 100}%` }}
-                                            aria-valuenow={(currentStep / 3) * 100}
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                        ></div>
-                                    </div>
-                                    <div className="d-flex justify-content-between mt-1">
-                                        <span className={`small ${currentStep === 1 ? 'fw-bold' : ''}`}>Step 1: Personal Information</span>
-                                        <span className={`small ${currentStep === 2 ? 'fw-bold' : ''}`}>Step 2: Service Ratings</span>
-                                        <span className={`small ${currentStep === 3 ? 'fw-bold' : ''}`}>Step 3: Comments</span>
-                                    </div>
-                                </div> */}
-                                <form>
-                                    {renderStep()}
-                                </form>
-                            </div>
+                                <div className="modal-body">
+                                    <form>
+                                        {renderStep()} {/* Ensure renderStep() is correctly defined */}
+                                    </form>
+                                </div>
 
-                            <div className="modal-footer" style={{ backgroundColor: "var(--main-color)" }}>
-                                {currentStep > 1 && (
-                                    <button type="button" className="btn btn-secondary" onClick={prevStep}>
-                                        Previous
-                                    </button>
-                                )}
+                                <div className="modal-footer" style={{ backgroundColor: "var(--main-color)" }}>
+                                    {currentStep > 1 && (
+                                        <button type="button" className="btn btn-secondary" onClick={prevStep}>
+                                            Previous
+                                        </button>
+                                    )}
 
-                                {currentStep < 3 ? (
-                                    <button type="button" className="btn btn-primary" onClick={nextStep}>
-                                        Next
-                                    </button>
-                                ) : (
-                                    <button type="button" className="btn btn-success" onClick={downloadPDF}>
-                                        Submit & Download PDF
-                                    </button>
-                                )}
+                                    {currentStep < 3 ? (
+                                        <button type="button" className="btn btn-primary" onClick={nextStep}>
+                                            Next
+                                        </button>
+                                    ) : (
+                                        <button type="button" className="btn btn-success" onClick={downloadPDF}>
+                                            Submit & Download PDF
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </>
             )}
         </>
     );
 };
 
-export default Feedbacks;
+export default FeedbackInternal;
