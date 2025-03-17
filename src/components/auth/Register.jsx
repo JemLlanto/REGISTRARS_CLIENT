@@ -71,8 +71,7 @@ const Register = ({ setActivePage }) => {
     );
   };
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+  const handleRegister = async () => {
     if (!isFormValid()) return;
 
     try {
@@ -252,6 +251,8 @@ const Register = ({ setActivePage }) => {
               inputs={inputs}
               isLoading={isLoading}
               setIsLoading={setIsLoading}
+              handleRegister={handleRegister}
+              isFormValid={isFormValid}
             />
 
             {/* <button

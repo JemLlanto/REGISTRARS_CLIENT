@@ -10,7 +10,13 @@ import {
   Spinner,
 } from "react-bootstrap";
 
-const OtpConfirmation = ({ inputs, isLoading, setIsLoading }) => {
+const OtpConfirmation = ({
+  inputs,
+  isLoading,
+  setIsLoading,
+  handleRegister,
+  isFormValid,
+}) => {
   const [showOtpModal, setShowOtpModal] = useState(false);
   const [formData, setFormData] = useState({ otp: "" });
   const [otpInputs, setOtpInputs] = useState(new Array(6).fill("")); // For 6-digit OTP
@@ -71,41 +77,58 @@ const OtpConfirmation = ({ inputs, isLoading, setIsLoading }) => {
     }
   };
 
-  const sendOtp = () => {
-    setIsLoading(true);
-    setOtpTimer(60);
-    const generatedOTP = Math.floor(100000 + Math.random() * 900000);
-    setGeneratedOtp(generatedOTP);
+  const sendOtp = async () => {
+    try {
+      setIsLoading(true);
+      setOtpTimer(60);
 
-    const otpData = {
-      receiverEmail: formData.receiverEmail,
-      firstName: formData.firstName,
-      otp: generatedOTP.toString(), // Convert OTP to string
-    };
+      const generatedOTP = Math.floor(100000 + Math.random() * 900000);
+      setGeneratedOtp(generatedOTP);
 
-    axios
-      .post(
+      const otpData = {
+        receiverEmail: formData.receiverEmail,
+        firstName: formData.firstName,
+        otp: generatedOTP.toString(), // Convert OTP to string
+      };
+
+      const res = await axios.post(
         "http://localhost:5000/api/emailNotification/sendRegistrationOTP",
         otpData
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          setIsLoading(false);
-          handleShow();
-        } else if (res.status === 403) {
-          alert(res.data.Message); // Display "Email is already in use" message
-          setIsLoading(false);
-        }
-      })
-      .catch((err) => {
-        alert(err.response?.data?.Message || "An unexpected error occurred.");
-        setIsLoading(false);
-      });
+      );
+
+      if (res.status === 200) {
+        handleShow();
+      } else if (res.status === 403) {
+        alert(res.data.Message); // Display "Email is already in use" message
+      }
+    } catch (err) {
+      alert(err.response?.data?.Message || "An unexpected error occurred.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleVerify = () => {
-    console.log(formData.otp); // Use the combined OTP here
-    // Add your verification logic here
+  const handleVerifyOTP = async () => {
+    try {
+      setIsLoading(true);
+
+      if (!generatedOTP || !formData.otp) {
+        // Check if either is missing
+        alert("OTP doesn't match, Please try again.");
+        return;
+      }
+
+      if (generatedOTP.toString() === formData.otp.toString()) {
+        alert("OTP verified successfully.");
+        handleRegister();
+      } else {
+        alert("OTP doesn't match, Please try again.");
+      }
+    } catch (err) {
+      alert("An error occurred.");
+    } finally {
+      setIsLoading(false); // Ensures loading state resets even if an error occurs
+    }
   };
 
   // Check if all OTP inputs are filled
@@ -113,9 +136,15 @@ const OtpConfirmation = ({ inputs, isLoading, setIsLoading }) => {
 
   return (
     <>
-      <button type="submit" className="btn btn-warning w-100" onClick={sendOtp}>
+      <button
+        type="button"
+        className="btn btn-warning w-100"
+        onClick={sendOtp}
+        disabled={!isFormValid()}
+      >
         {isLoading ? (
           <>
+            Sending OTP
             <Spinner animation="border" variant="light" />
           </>
         ) : (
@@ -171,8 +200,9 @@ const OtpConfirmation = ({ inputs, isLoading, setIsLoading }) => {
             Back
           </Button>
           <Button
+            type="button"
             variant="primary"
-            onClick={handleVerify}
+            onClick={handleVerifyOTP}
             disabled={!isOtpComplete}
           >
             Verify
