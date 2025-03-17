@@ -183,6 +183,7 @@ const Register = ({ setActivePage }) => {
                   onChange={handleChange}
                   className="form-control"
                   placeholder="Enter your email"
+                  autoComplete="new-email"
                 />
               </div>
               {errors.email && (
@@ -221,6 +222,7 @@ const Register = ({ setActivePage }) => {
                         onChange={handleChange}
                         className="form-control"
                         placeholder={placeholder}
+                        autoComplete={`new${name}`}
                       />
                       <span
                         className="input-group-text"

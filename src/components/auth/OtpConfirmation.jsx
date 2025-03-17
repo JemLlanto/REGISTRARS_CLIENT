@@ -137,20 +137,13 @@ const OtpConfirmation = ({
   const resendOTP = async () => {
     try {
       setIsLoading(true);
-      setGeneratedOtp(null);
+      sendOtp();
     } catch (err) {
       alert("An error occured: ", err);
     } finally {
       setIsLoading(false);
     }
   };
-
-  // GENERATING NEW OTP
-  useEffect(() => {
-    if (!generatedOTP) {
-      sendOtp();
-    }
-  }, [generatedOTP]);
 
   // Check if all OTP inputs are filled
   const isOtpComplete = otpInputs.every((input) => input !== "");
@@ -174,10 +167,7 @@ const OtpConfirmation = ({
       </button>
       <Modal show={showOtpModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>
-            Email Verification
-            {generatedOTP}
-          </Modal.Title>
+          <Modal.Title>Email Verification</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
@@ -212,7 +202,7 @@ const OtpConfirmation = ({
               type="button"
               className="btn btn-light"
               onClick={resendOTP}
-              disabled={otpTimer != 0 || isLoading}
+              // disabled={otpTimer != 0 || isLoading}
             >
               <p className="m-0">
                 {isLoading ? (
