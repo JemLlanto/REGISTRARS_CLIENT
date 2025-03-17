@@ -65,7 +65,7 @@ const NavBar = ({ user }) => {
             <Dropdown.Menu className="text-center">
               <Dropdown.Item className="btn btn-white btn-no-hover">
                 <Link
-                  to="/ProfileSetup"
+                  to="/profile-setup"
                   className="text-decoration-none text-dark border-0 bg-transparent "
                 >
                   Profile
