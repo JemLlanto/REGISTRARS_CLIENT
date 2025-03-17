@@ -10,6 +10,7 @@ import ForgotPassword from "./ForgotPassword";
 const Login = ({ setActivePage }) => {
   const [inputs, setInputs] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
+  const [isAdmin, setIsAdmin] = useState();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
@@ -39,7 +40,11 @@ const Login = ({ setActivePage }) => {
             confirmButtonColor: "#3085d6",
             confirmButtonText: "OK",
           }).then(() => {
-            navigate("/Home");
+            if (res.data.isAdmin === 0) {
+              navigate("/home");
+            } else {
+              navigate("/admin/home");
+            }
           });
         } else {
           Swal.fire({

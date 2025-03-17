@@ -23,7 +23,7 @@ const NotifButton = ({ user }) => {
       );
       if (response.data.Status === "Success") {
         setNotifications(response.data.data);
-        console.error(response.data.data);
+        // console.error(response.data.data);
       } else {
         console.error(response.data.Message);
       }
