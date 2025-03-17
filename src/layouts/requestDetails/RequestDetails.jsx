@@ -5,6 +5,7 @@ import CancelButton from "../../components/requestDetails/CancelButton";
 import ChangeStatusButton from "../../components/requestDetails/ChangeStatusButton";
 import FeedbackInternal from "../../components/InternalFeedback/Internal";
 import FeedbackExternal from "../../components/ExternalFeedback/External";
+import SQDFormComponent from "../../components/ExternalFeedback/SQDForm";
 
 const RequestDetails = () => {
   const { user } = useOutletContext();
@@ -335,8 +336,6 @@ const RequestDetails = () => {
           </div>
         )}
       </div>
-
-
     </div>
   );
 };
