@@ -11,23 +11,6 @@ const PersonalInfoStep = ({ formData, handleChange }) => {
                 </p>
             </div>
 
-            {/* Control No */}
-            <div className="row mb-3">
-                <div className="col-md-6">
-                    <div className="form-group mb-3">
-                        <label htmlFor="controlNo" className="form-label">Control No:</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="controlNo"
-                            name="controlNo"
-                            value={formData?.controlNo || ""}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-            </div>
-
             {/* Client Type */}
             <div className="row mb-3">
                 <div className="col-12">

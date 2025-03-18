@@ -3,13 +3,14 @@ import jsPDF from "jspdf";
 import cvsuLogo from "/cvsu-logo.png";
 import CitizensCharterStep from "./Citizen";
 import PersonalInfoStep from "./Personal";
+import SQDFormComponent from "./SQDForm";
 
 const FeedbackExternal = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [showModal, setShowModal] = useState(false);
 
     const [formData, setFormData] = useState({
-        controlNo: '',
+        // Step 1 & 2 data
         clientType: '',
         date: '',
         sex: '',
@@ -17,7 +18,19 @@ const FeedbackExternal = () => {
         serviceAvailed: '',
         cc1: '',
         cc2: '',
-        cc3: ''
+        cc3: '',
+        // Step 3 (SQD) data
+        sqd0: '',
+        sqd1: '',
+        sqd2: '',
+        sqd3: '',
+        sqd4: '',
+        sqd5: '',
+        sqd6: '',
+        sqd7: '',
+        sqd8: '',
+        suggestions: '',
+        email: ''
     });
 
     // Modal control functions
@@ -43,7 +56,6 @@ const FeedbackExternal = () => {
         setCurrentStep(1);
         // Reset form data when closing modal
         setFormData({
-            controlNo: '',
             clientType: '',
             date: '',
             sex: '',
@@ -51,7 +63,18 @@ const FeedbackExternal = () => {
             serviceAvailed: '',
             cc1: '',
             cc2: '',
-            cc3: ''
+            cc3: '',
+            sqd0: '',
+            sqd1: '',
+            sqd2: '',
+            sqd3: '',
+            sqd4: '',
+            sqd5: '',
+            sqd6: '',
+            sqd7: '',
+            sqd8: '',
+            suggestions: '',
+            email: ''
         });
     };
 
@@ -62,15 +85,17 @@ const FeedbackExternal = () => {
                 return <CitizensCharterStep formData={formData} handleChange={handleChange} />;
             case 2:
                 return <PersonalInfoStep formData={formData} handleChange={handleChange} />;
+            default:
+                return <SQDFormComponent formData={formData} handleChange={handleChange} />;
         }
     };
 
-    // PDF generation function
     // PDF generation function
     const downloadPDF = () => {
         try {
             const doc = new jsPDF();
 
+            // First page - Steps 1 & 2 (Personal Info & Citizen's Charter)
             // Add logo
             doc.addImage(cvsuLogo, "PNG", 50, 12, 18, 15);
 
@@ -90,11 +115,6 @@ const FeedbackExternal = () => {
             doc.setFontSize(8);
             doc.setFont("helvetica", "normal");
             doc.text("Rosario, Cavite", 105, 23, { align: "center" });
-
-            // Control number
-            doc.setFontSize(8);
-            doc.setFont("helvetica", "normal");
-            doc.text("Control No. " + (formData.controlNo || "_______"), 170, 13, { align: "left" });
 
             // Form title
             doc.setFontSize(10);
@@ -173,12 +193,12 @@ const FeedbackExternal = () => {
             // Instructions
             doc.setFontSize(8);
             doc.setFont("helvetica", "normal");
-            doc.text("INSTRUCTIONS: Check mark (') your answer to the Citize's Charter (CC) question. The Citizen's Charter is an Official", 25, 118);
+            doc.text("INSTRUCTIONS: Check mark (') your answer to the Citize's Charter (CC) question. The Citizen's Charter is an Official", 25, 118);
             doc.text("document that reflects the services of a government agency/office including its requirement, fees and processing times among others.", 25, 123);
 
             doc.setFontSize(8);
             doc.setFont("helvetica", "normal");
-            doc.text("PANUTO: UTO: Lagyan ng tsek (') ang tumutugon sa iyong sagot sa Citizen's Charter (CC). Ang Citizen's Charter (CC) ay opisyal na", 25, 128);
+            doc.text("PANUTO: UTO: Lagyan ng tsek (') ang tumutugon sa iyong sagot sa Citizen's Charter (CC). Ang Citizen's Charter (CC) ay opisyal na", 25, 128);
             doc.text("dokumento na nagsasaad ng mga serbisyo sa isang ahensya ng gobyerno, kasama ang mga kakailanganin na dokumento, bayarin,", 25, 132);
             doc.text("at panahong gagugulin sa pagpoproseso.", 25, 136);
 
@@ -222,6 +242,7 @@ const FeedbackExternal = () => {
             doc.setFont("helvetica", "italic");
             doc.text("(Hindi ko alam kung ano ang CC at wala akong nakita sa napuntahang tanggapan (Lagyan ng tsek at", 45, 189);
             doc.text("'N/A' sa CC2 at CC3))", 45, 193);
+
             // CC2 Question
             doc.setFontSize(9);
             doc.setFont("helvetica", "bold");
@@ -292,6 +313,193 @@ const FeedbackExternal = () => {
             doc.setFont("helvetica", "normal");
             doc.text("4. N/A", 127, 255);
 
+            // ========== ADD NEW PAGE FOR SQD FORM (STEP 3) ==========
+            doc.addPage();
+
+            // Page 2 header - Add logo and header section again
+            doc.addImage(cvsuLogo, "PNG", 50, 12, 18, 15);
+
+            doc.setFontSize(7);
+            doc.setFont("helvetica", "bold");
+            doc.text("Republic of the Philippines", 105, 13, { align: "center" });
+
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text("CAVITE STATE UNIVERSITY", 105, 17, { align: "center" });
+
+            doc.setFontSize(9);
+            doc.setFont("helvetica", "bold");
+            doc.text("CCAT Campus", 105, 20, { align: "center" });
+
+            doc.setFontSize(8);
+            doc.setFont("helvetica", "normal");
+            doc.text("Rosario, Cavite", 105, 23, { align: "center" });
+
+
+            // Form title
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "bold");
+            doc.text("CLIENT SATISFACTION MEASUREMENT", 105, 30, { align: "center" });
+
+            // Instructions
+            doc.setFontSize(8);
+            doc.setFont("helvetica", "bold");
+            doc.text("INSTRUCTIONS: For SQD 0-8, please put a check mark ( / ) on the column that best corresponds to you answer", 25, 40);
+            doc.setFontSize(7);
+            doc.setFont("helvetica", "italic");
+            doc.text("Panuto: Para sa SQD 0-8, langyan ng tsek ( / ) ang hanay na pinakaangkop sa inyong sagot.", 25, 45);
+
+            // Draw SQD table
+            const startY = 50;
+            const rowHeight = 20;
+
+            // Table border
+            doc.rect(25, startY, 160, rowHeight * 10); // Full table border
+
+            // Draw header row
+            doc.setFillColor(240, 240, 240);
+            doc.rect(25, startY, 70, rowHeight, 'F'); // Question column header
+
+            // Column dividers for header
+            doc.line(95, startY, 95, startY + rowHeight * 10); // After question column
+            doc.line(110, startY, 110, startY + rowHeight * 10); // After strongly disagree
+            doc.line(125, startY, 125, startY + rowHeight * 10); // After disagree
+            doc.line(140, startY, 140, startY + rowHeight * 10); // After neither
+            doc.line(155, startY, 155, startY + rowHeight * 10); // After agree
+            doc.line(170, startY, 170, startY + rowHeight * 10); // After strongly agree
+            doc.line(185, startY, 185, startY + rowHeight * 10); // After N/A
+
+            // Header row divider
+            doc.line(25, startY + rowHeight, 185, startY + rowHeight);
+
+            // Table headers text
+            doc.setFontSize(6);
+            doc.setFont("helvetica", "bold");
+
+            doc.text("Strongly\nDisagree\n(Lubos na\nhindi\nsumasang-\nayon)", 102.5, startY + 7, { align: "center" });
+            doc.text("Disagree\n(Hindi\nsumasang\n-ayon)", 117.5, startY + 7, { align: "center" });
+            doc.text("Neither Agree\nnor Disagree\n(Walang\nkinikilingan)", 132.5, startY + 7, { align: "center" });
+            doc.text("Agree\n(Sumasang\n-ayon)", 147.5, startY + 7, { align: "center" });
+            doc.text("Strongly\nAgree\n(Lubos na\nsumasang\n-ayon)", 162.5, startY + 7, { align: "center" });
+            doc.text("N/A\n(Not\napplicable)", 177.5, startY + 7, { align: "center" });
+
+            // SQD questions
+            const sqdQuestions = [
+                {
+                    id: "sqd0",
+                    text: "I am satisfied with the service that I availed.",
+                    italicText: "(Nasiyahan ako sa serbisyo na aking natanggap sa napuntahan na tanggapan.)"
+                },
+                {
+                    id: "sqd1",
+                    text: "I spent a reasonable amount of time for my transaction.",
+                    italicText: "(Makatwiran ang oras na aking ginugol para sa pagproseso ng aking transaksyon.)"
+                },
+                {
+                    id: "sqd2",
+                    text: "The office followed the transaction's requirements and steps based on the information provided.",
+                    italicText: "(Ang opisina ay sumunod sa mga kinakailangang dokumento at mga hakbang batay sa impormasyong ibinigay.)"
+                },
+                {
+                    id: "sqd3",
+                    text: "The steps (including payment) I needed to do for my transaction were easy and simple.",
+                    italicText: "(Ang mga hakbang sa pagproseso, kasama na ang pagbabayad ay madali at simple lamang.)"
+                },
+                {
+                    id: "sqd4",
+                    text: "I easily found information about my transaction from the office or its website.",
+                    italicText: "(Madali kong nahanap ang impormasyong tungkol sa aking transaksyon mula sa opisina o sa website nito.)"
+                },
+                {
+                    id: "sqd5",
+                    text: "I paid a reasonable amount of fees for my transaction. (If service was free, mark the column).",
+                    italicText: "(Nagbayad ako ng makatwiran halaga para sa aking transaksyon. (Kung ang serbisyo ay ibinigay ng libre, maglagay ng tsek sa hanay ng N/A.)"
+                },
+                {
+                    id: "sqd6",
+                    text: "I feel the office was fair to everyone, or, during my transaction.",
+                    italicText: "(Pakiramdam ko ay patas ang opisina sa lahat, o sa aking transaksyon.)"
+                },
+                {
+                    id: "sqd7",
+                    text: "I was treated courteously by the staff, and (if asked for help) the staff was helpful.",
+                    italicText: "(Magalang akong tratuhin ng mga tauhan, at (kung sakali na ako ay humingi ng tulong) alam ko na sila ay handang tumulong sa akin.)"
+                },
+                {
+                    id: "sqd8",
+                    text: "I got what I needed from the government office, or (if denied) denial of request was sufficiently explained to me.",
+                    italicText: "(Nakuha ko ang kailangan ko mula sa tanggapan ng gobyerno, kung tinanggihan man, ito ay sapat na ipinaliwanag sa akin.)"
+                }
+            ];
+
+            // Draw SQD question rows
+            sqdQuestions.forEach((question, index) => {
+                const y = startY + rowHeight + (rowHeight * index);
+
+                // Draw row dividers
+                doc.line(25, y + rowHeight, 185, y + rowHeight);
+
+                // Question text
+                doc.setFontSize(7);
+                doc.setFont("helvetica", "bold");
+                doc.text(`SQD${index}.`, 27, y + 3);
+                doc.setFont("helvetica", "normal");
+
+                // Split text to fit
+                const textLines = doc.splitTextToSize(question.text, 65);
+                for (let i = 0; i < textLines.length; i++) {
+                    doc.text(textLines[i], 28, y + 6 + (i * 3));
+                }
+
+                // Italic text
+                doc.setFont("helvetica", "italic");
+                const italicLines = doc.splitTextToSize(question.italicText, 65);
+                for (let i = 0; i < italicLines.length; i++) {
+                    doc.text(italicLines[i], 28, y + 12 + (i * 3));
+                }
+
+                // Draw checkboxes based on selection
+                drawCheckbox(102.5, y + 10, formData[question.id] === '1'); // Strongly Disagree
+                drawCheckbox(117.5, y + 10, formData[question.id] === '2'); // Disagree
+                drawCheckbox(132.5, y + 10, formData[question.id] === '3'); // Neither
+                drawCheckbox(147.5, y + 10, formData[question.id] === '4'); // Agree
+                drawCheckbox(162.5, y + 10, formData[question.id] === '5'); // Strongly Agree
+                drawCheckbox(177.5, y + 10, formData[question.id] === 'NA'); // N/A
+            });
+
+            // Suggestions section
+            const suggestionY = startY + (rowHeight * 10) + 10;
+            doc.setFontSize(8);
+            doc.setFont("helvetica", "normal");
+            doc.text("Suggestions on how we can further improve our services (optional):", 25, 255);
+            doc.setFont("helvetica", "italic");
+            doc.text("(Mga suhestiyon kung paano pa mapapabuti ang aming mga serbisyo (opsyonal)):", 25, 258);
+
+            // Display suggestions text if provided
+            if (formData.suggestions) {
+                doc.setFont("helvetica", "normal");
+                const suggestionLines = doc.splitTextToSize(formData.suggestions, 160);
+                for (let i = 0; i < Math.min(suggestionLines.length, 3); i++) {
+                    doc.text(suggestionLines[i], 110, 255);
+                }
+            }
+
+            // Email section
+            doc.setFontSize(8);
+            doc.setFont("helvetica", "normal");
+            doc.text("Email address (optional):", 25, suggestionY + 3);
+            if (formData.email) {
+                doc.text(formData.email, 60, suggestionY + 3);
+            }
+
+            // Thank you message
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "bold");
+            doc.text("THANK YOU!", 105, 280, { align: "center" });
+            doc.setFontSize(8);
+            doc.setFont("helvetica", "italic");
+            doc.text("(Salamat po!)", 105, 283, { align: "center" });
+
             // Save PDF
             doc.save("Client_Satisfaction_Measurement_Form.pdf");
 
@@ -332,17 +540,22 @@ const FeedbackExternal = () => {
                                 </div>
 
                                 <div className="modal-footer" style={{ backgroundColor: "var(--main-color)" }}>
+                                    {/* Show "Previous" button for Steps 2 & 3 */}
                                     {currentStep > 1 && (
                                         <button type="button" className="btn btn-secondary" onClick={prevStep}>
                                             Previous
                                         </button>
                                     )}
 
-                                    {currentStep < 2 ? (
+                                    {/* Show "Next" button for Steps 1 & 2 */}
+                                    {currentStep < 3 && (
                                         <button type="button" className="btn btn-primary" onClick={nextStep}>
                                             Next
                                         </button>
-                                    ) : (
+                                    )}
+
+                                    {/* Show "Submit & Download PDF" button only on Step 3 */}
+                                    {currentStep === 3 && (
                                         <button type="button" className="btn btn-success" onClick={downloadPDF}>
                                             Submit & Download PDF
                                         </button>
