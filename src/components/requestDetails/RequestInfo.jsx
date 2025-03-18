@@ -8,6 +8,8 @@ const RequestInfo = ({ documentDetails }) => {
     : "";
   return (
     <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mx-0">
+      <h5 className="text-muted">Request details</h5>
+
       {/* Name */}
       <div className="col-12 col-md-6 col-lg-4 mb-3">
         <p className="text-muted fw-bold">Name</p>
@@ -20,12 +22,63 @@ const RequestInfo = ({ documentDetails }) => {
         </div>
       </div>
 
+      {/* Birthday */}
+      <div className="col-12 col-md-6 col-lg-4 mb-3">
+        <p className="text-muted fw-bold">Birthday</p>
+        <div className="d-flex align-items-center">
+          <i className="bx bxs-cake text-dark fs-5 me-1"></i>
+          <h6 className="m-0">{birthDate}</h6>
+        </div>
+      </div>
+
+      {/* Gender */}
+      <div className="col-12 col-md-6 col-lg-4 mb-3">
+        <p className="text-muted fw-bold">Gender</p>
+        <div className="d-flex align-items-center">
+          <i className="bx bx-male-sign text-dark fs-5 me-1"></i>
+          <h6 className="m-0">{documentDetails.sex}</h6>
+        </div>
+      </div>
+
+      {/* Line */}
+      <div className="bg-dark w-100 mb-2" style={{ height: "1px" }}></div>
+
       {/* Course */}
       <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Course</p>
+        <p className="text-muted fw-bold">Program/Course</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-graduation text-dark fs-5 me-1"></i>
           <h6 className="m-0">{documentDetails.program}</h6>
+        </div>
+      </div>
+
+      {/* Student ID */}
+      <div className="col-12 col-md-6 col-lg-4 mb-3">
+        <p className="text-muted fw-bold">Student ID</p>
+        <div className="d-flex align-items-center">
+          <i className="bx bxs-id-card text-dark fs-5 me-1"></i>
+          <h6 className="m-0">{documentDetails.studentID}</h6>
+        </div>
+      </div>
+
+      {/* Phone Number */}
+      <div className="col-12 col-md-6 col-lg-4 mb-3">
+        <p className="text-muted fw-bold">Phone Number</p>
+        <div className="d-flex align-items-center">
+          <i className="bx bxs-phone text-dark fs-5 me-1"></i>
+          <h6 className="m-0">{documentDetails.mobileNum}</h6>
+        </div>
+      </div>
+
+      {/* Line */}
+      <div className="bg-dark w-100 mb-2" style={{ height: "1px" }}></div>
+
+      {/* Classification */}
+      <div className="col-12 col-md-6 col-lg-4 mb-3">
+        <p className="text-muted fw-bold">Classification</p>
+        <div className="d-flex align-items-center gap-2">
+          <i className="bx bxs-user-detail text-dark fs-5 me-1"></i>
+          <h6 className="m-0">{documentDetails.classification}</h6>
         </div>
       </div>
 
@@ -43,55 +96,6 @@ const RequestInfo = ({ documentDetails }) => {
               ? documentDetails.yearGraduated
               : documentDetails.yearLevel}
           </h6>
-        </div>
-      </div>
-
-      {/* Line */}
-      <div className="bg-dark w-100 mb-2" style={{ height: "1px" }}></div>
-
-      {/* Gender */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Gender</p>
-        <div className="d-flex align-items-center">
-          <i className="bx bx-male-sign text-dark fs-5 me-1"></i>
-          <h6 className="m-0">{documentDetails.sex}</h6>
-        </div>
-      </div>
-
-      {/* Student ID */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Student ID</p>
-        <div className="d-flex align-items-center">
-          <i className="bx bxs-id-card text-dark fs-5 me-1"></i>
-          <h6 className="m-0">{documentDetails.studentID}</h6>
-        </div>
-      </div>
-
-      {/* Classification */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Classification</p>
-        <div className="d-flex align-items-center gap-2">
-          <i className="bx bxs-user-detail text-dark fs-5 me-1"></i>
-          <h6 className="m-0">{documentDetails.classification}</h6>
-        </div>
-      </div>
-      {/* Line */}
-      <div className="bg-dark w-100 mb-2" style={{ height: "1px" }}></div>
-      {/* Phone Number */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Phone Number</p>
-        <div className="d-flex align-items-center">
-          <i className="bx bxs-phone text-dark fs-5 me-1"></i>
-          <h6 className="m-0">{documentDetails.mobileNum}</h6>
-        </div>
-      </div>
-
-      {/* Birthday */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Birthday</p>
-        <div className="d-flex align-items-center">
-          <i className="bx bxs-cake text-dark fs-5 me-1"></i>
-          <h6 className="m-0">{birthDate}</h6>
         </div>
       </div>
 
