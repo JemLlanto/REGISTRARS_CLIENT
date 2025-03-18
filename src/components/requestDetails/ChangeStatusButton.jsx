@@ -1,6 +1,8 @@
 import { Modal, FloatingLabel, Form } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
+
 
 const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
   const [showChangeStatusModal, setShowChangeStatusModal] = useState(false);
@@ -14,8 +16,8 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
           documentDetails.status === "pending"
             ? "processing"
             : documentDetails.status === "processing"
-            ? "completed"
-            : null,
+              ? "completed"
+              : null,
         userID: documentDetails.userID,
         receiverEmail: documentDetails.email,
       });
@@ -53,18 +55,40 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
               }
             })
             .catch((err) => {
-              console.log("An error occured: ", err);
+              console.log("An error occurred: ", err);
             });
-          handleCloseChangeStatusModal();
-          alert(res.data.Message);
-          fetchDocumentDetails();
+
+          Swal.fire({
+            title: "Success!",
+            text: res.data.Message,
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "OK",
+          }).then(() => {
+            handleCloseChangeStatusModal();
+            fetchDocumentDetails();
+          });
         } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
+          Swal.fire({
+            title: "Failed",
+            text: res.data.Message,
+            icon: "error",
+            confirmButtonColor: "#d33",
+            confirmButtonText: "Try Again",
+          });
         }
       })
       .catch((err) => {
         console.log("Error canceling request: ", err);
+        Swal.fire({
+          title: "Error",
+          text: "Something went wrong. Please try again later.",
+          icon: "error",
+          confirmButtonColor: "#d33",
+          confirmButtonText: "OK",
+        });
       });
+
   };
   return (
     <>

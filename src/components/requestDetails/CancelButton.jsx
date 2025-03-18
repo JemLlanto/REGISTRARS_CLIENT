@@ -1,6 +1,7 @@
 import { Modal, FloatingLabel, Form } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
   const [showCancelModal, setShowCancelModal] = useState(false);
@@ -18,47 +19,60 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
     }
   }, [documentDetails]);
 
-  const handleShowCancelModal = () => {
-    setShowCancelModal(true);
-  };
-  const handleCloseCancelModal = () => {
-    setShowCancelModal(false);
-  };
-  const handleCancelRequest = () => {
-    axios
-      .post("http://localhost:5000/api/managingRequest/cancelRequest", formData)
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          // FOR SENDING EMAIL TO THE USER
-          axios
-            .post(
-              "http://localhost:5000/api/emailNotification/sendStatusUpdate",
-              formData
-            )
-            .then((res) => {
-              if (res.status === 200) {
-                console.log(res.data.Message);
-              } else {
-                console.log(res.data.Message);
-              }
-            })
-            .catch((err) => {
-              console.log("An error occured: ", err);
-            });
-          handleCloseCancelModal();
-          alert(res.data.Message);
-          setFormData({
-            requestID: "",
-            reason: "",
-          });
-          fetchDocumentDetails();
-        } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
+  const handleShowCancelModal = () => setShowCancelModal(true);
+  const handleCloseCancelModal = () => setShowCancelModal(false);
+
+  const handleCancelRequest = async () => {
+    try {
+      console.log("Sending cancellation request with data:", formData); // Debugging log
+
+      const res = await axios.post(
+        "http://localhost:5000/api/managingRequest/cancelRequest",
+        formData
+      );
+
+      if (res.data.Status === "Success") {
+        try {
+          await axios.post(
+            "http://localhost:5000/api/emailNotification/sendStatusUpdate",
+            formData
+          );
+        } catch (emailErr) {
+          console.log("Email notification error:", emailErr);
         }
-      })
-      .catch((err) => {
-        console.log("Error canceling request: ", err);
+
+        Swal.fire({
+          title: "Request Cancelled!",
+          text: res.data.Message,
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "OK",
+        }).then(() => {
+          setShowCancelModal(false);
+          setFormData({ requestID: "", reason: "" }); // Reset form data
+          fetchDocumentDetails();
+        });
+
+      } else {
+        Swal.fire({
+          title: "Cancellation Failed",
+          text: res.data.Message,
+          icon: "error",
+          confirmButtonColor: "#d33",
+          confirmButtonText: "Try Again",
+        });
+      }
+    } catch (err) {
+      console.error("Error canceling request:", err);
+
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong. Please try again later.",
+        icon: "error",
+        confirmButtonColor: "#d33",
+        confirmButtonText: "OK",
       });
+    }
   };
   return (
     <>
