@@ -6,6 +6,7 @@ import ChangeStatusButton from "../../components/requestDetails/ChangeStatusButt
 import FeedbackInternal from "../../components/InternalFeedback/Internal";
 import FeedbackExternal from "../../components/ExternalFeedback/External";
 import SQDFormComponent from "../../components/ExternalFeedback/SQDForm";
+import RequestInfo from "../../components/requestDetails/RequestInfo";
 
 const RequestDetails = () => {
   const { user } = useOutletContext();
@@ -15,11 +16,6 @@ const RequestDetails = () => {
   const [documentInputValues, setDocumentInputValues] = useState([]);
   const [documentInputs, setDocumentInputs] = useState([]);
   const [documentFile, setDocumentFile] = useState(null);
-  const birthDate = documentDetails?.dateOfBirth
-    ? new Intl.DateTimeFormat("en-US", {
-      dateStyle: "medium",
-    }).format(new Date(documentDetails?.dateOfBirth))
-    : "";
 
   const fetchDocumentDetails = () => {
     axios
@@ -111,10 +107,13 @@ const RequestDetails = () => {
         console.log("Error fetching details: ", err);
       });
   }, [documentDetails.purposeID]);
+
+  const status = documentDetails.status;
+
   return (
     <div
       className="p-0 p-md-4 w-100 overflow-auto"
-      style={{ maxHeight: "90dvh" }}
+      // style={{ maxHeight: "90dvh" }}
     >
       {/* Header Section */}
       <div
@@ -122,7 +121,7 @@ const RequestDetails = () => {
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
-          Request Details
+          Request ID: {documentDetails.requestID}
         </h5>
 
         {user.isAdmin ? (
@@ -160,136 +159,72 @@ const RequestDetails = () => {
         </div>
       ) : null}
 
-      {/* purpose */}
-      <div className="row shadow-sm bg-white d-flex align-items-center justify-content-between rounded-3 p-4 mt-2 mx-0">
-        {/* Purpose and Status */}
-        <div className="col d-flex align-items-center gap-1">
-          <i className="bx bxs-notepad fs-2"></i>
-          <h4 className="m-0 px-2">
-            {documentDetails.purpose} - {documentDetails.status}
-          </h4>
+      <div
+        className="overflow-x-hidden overflow-y-auto mt-2 d-flex flex-column gap-2 pe-1 rounded"
+        style={{ height: "35rem" }}
+      >
+        {/* purpose */}
+        <div className="row shadow-sm bg-white d-flex align-items-center justify-content-between rounded-3 p-4 mx-0">
+          {/* Purpose and Status */}
+          <div className="col d-flex flex-column gap-1">
+            <div className="d-flex align-items-center gap-1">
+              <i className="bx bxs-notepad bx-sm"></i>
+              <h4 className="m-0 px-2">
+                {documentDetails.purpose}
+                <span
+                  className={`${
+                    status === "pending"
+                      ? "text-warning"
+                      : status === "processing"
+                      ? "text-primary"
+                      : status === "for release"
+                      ? "text-info"
+                      : status === "completed"
+                      ? "text-success"
+                      : status === "cancelled"
+                      ? "text-danger"
+                      : null
+                  }`}
+                >
+                  (
+                  {String(status).charAt(0).toUpperCase() +
+                    String(status).slice(1)}
+                  )
+                </span>
+              </h4>
+            </div>
+            <p className="m-0 text-secondary">
+              {documentDetails.reason && (
+                <>
+                  Reason:{" "}
+                  {documentDetails.reason ? documentDetails.reason : null}
+                </>
+              )}
+            </p>
+          </div>
+
+          {/* ExternalFormModal button */}
+          {documentDetails.status === "completed" && (
+            <div className="col-auto">
+              {!user.isAdmin ? (
+                <div className="row  d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
+                  <FeedbackInternal />
+                </div>
+              ) : null}
+              {!user.isAdmin ? (
+                <div className="row  d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
+                  <FeedbackExternal></FeedbackExternal>
+                </div>
+              ) : null}
+            </div>
+          )}
         </div>
 
-        {/* ExternalFormModal button */}
-        {documentDetails.status === "completed" && (
-          <div className="col-auto">
-            {!user.isAdmin ? (
-              <div className="row  d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
-                <FeedbackInternal />
-              </div>
-            ) : null}
-            {!user.isAdmin ? (
-              <div className="row  d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
-                <FeedbackExternal></FeedbackExternal>
-              </div>
-            ) : null}
-          </div>
-        )}
-      </div>
+        <RequestInfo documentDetails={documentDetails} />
 
-      <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
-        {/* Name */}
-        <div className="col-12 col-md-6 col-lg-4 mb-3">
-          <p className="text-muted fw-bold">Name</p>
-          <div className="d-flex align-items-center">
-            <i className="bx bxs-user text-dark fs-5 me-1"></i>
-            <h6 className="m-0">
-              {documentDetails.firstName} {documentDetails.middleName}{" "}
-              {documentDetails.lastName}
-            </h6>
-          </div>
-        </div>
-
-        {/* Course */}
-        <div className="col-12 col-md-6 col-lg-4 mb-3">
-          <p className="text-muted fw-bold">Course</p>
-          <div className="d-flex align-items-center">
-            <i className="bx bxs-graduation text-dark fs-5 me-1"></i>
-            <h6 className="m-0">{documentDetails.program}</h6>
-          </div>
-        </div>
-
-        {/* Year Level / Year Graduated */}
-        <div className="col-12 col-md-6 col-lg-4 mb-3">
-          <p className="text-muted fw-bold">
-            {documentDetails.classification === "graduated"
-              ? "Year Graduated"
-              : "Year Level"}
-          </p>
-          <div className="d-flex align-items-center">
-            <i className="bx bxs-calendar text-dark fs-5 me-1"></i>
-            <h6 className="m-0">
-              {documentDetails.classification === "graduated"
-                ? documentDetails.yearGraduated
-                : documentDetails.yearLevel}
-            </h6>
-          </div>
-        </div>
-
-        {/* Line */}
-        <div className="bg-dark w-100 mb-2" style={{ height: "1px" }}></div>
-
-        {/* Gender */}
-        <div className="col-12 col-md-6 col-lg-4 mb-3">
-          <p className="text-muted fw-bold">Gender</p>
-          <div className="d-flex align-items-center">
-            <i className="bx bx-male-sign text-dark fs-5 me-1"></i>
-            <h6 className="m-0">{documentDetails.sex}</h6>
-          </div>
-        </div>
-
-        {/* Student ID */}
-        <div className="col-12 col-md-6 col-lg-4 mb-3">
-          <p className="text-muted fw-bold">Student ID</p>
-          <div className="d-flex align-items-center">
-            <i className="bx bxs-id-card text-dark fs-5 me-1"></i>
-            <h6 className="m-0">{documentDetails.studentID}</h6>
-          </div>
-        </div>
-
-        {/* Classification */}
-        <div className="col-12 col-md-6 col-lg-4 mb-3">
-          <p className="text-muted fw-bold">Classification</p>
-          <div className="d-flex align-items-center gap-2">
-            <i className="bx bxs-user-detail text-dark fs-5 me-1"></i>
-            <h6 className="m-0">{documentDetails.classification}</h6>
-          </div>
-        </div>
-        {/* Line */}
-        <div className="bg-dark w-100 mb-2" style={{ height: "1px" }}></div>
-        {/* Phone Number */}
-        <div className="col-12 col-md-6 col-lg-4 mb-3">
-          <p className="text-muted fw-bold">Phone Number</p>
-          <div className="d-flex align-items-center">
-            <i className="bx bxs-phone text-dark fs-5 me-1"></i>
-            <h6 className="m-0">{documentDetails.mobileNum}</h6>
-          </div>
-        </div>
-
-        {/* Birthday */}
-        <div className="col-12 col-md-6 col-lg-4 mb-3">
-          <p className="text-muted fw-bold">Birthday</p>
-          <div className="d-flex align-items-center">
-            <i className="bx bxs-cake text-dark fs-5 me-1"></i>
-            <h6 className="m-0">{birthDate}</h6>
-          </div>
-        </div>
-
-        {/* Last School Year Attended */}
-        <div className="col-12 col-md-6 col-lg-4 mb-3">
-          <p className="text-muted fw-bold">Last School Year Attended</p>
-          <div className="d-flex align-items-center">
-            <i className="bx bxs-calendar-check text-dark fs-5 me-1"></i>
-            <h6 className="m-0">{documentDetails.schoolYearAttended}</h6>
-          </div>
-        </div>
-      </div>
-
-      {/* Document img */}
-      <div className="mx-0">
         {documentTypes.length > 0 && (
-          <div className="information bg-white w-100 mt-2 shadow-sm rounded-2 p-4">
-            <p className="text-muted">Document Type</p>
+          <div className="information bg-white w-100 shadow-sm rounded-2 p-4">
+            <h5 className="text-muted">Document requested</h5>
             <div className="d-flex align-items-center gap-2">
               <i className="bx bxs-file-pdf fs-5 me-1"></i>
               <h6 className="m-0">
@@ -299,7 +234,7 @@ const RequestDetails = () => {
           </div>
         )}
         {documentInputValues.length > 0 && (
-          <div className="information bg-white w-100 mt-2 shadow-sm rounded-2 p-4">
+          <div className="information bg-white w-100 shadow-sm rounded-2 p-4">
             <table className="table">
               <thead>
                 <tr>
@@ -319,14 +254,19 @@ const RequestDetails = () => {
           </div>
         )}
         {documentFile && (
-          <div className="row mx-0 bg-white w-100 mt-2 shadow-sm rounded-2 p-4 align-items-center">
-            <div className="col-12 col-md-4 col-lg-7 d-flex flex-column align-items-center ">
-              <div className="d-flex align-items-center gap-3">
+          <div className=" bg-white w-100 shadow-sm rounded-2 d-flex flex-column p-4">
+            <h5 className="text-muted">Uploaded document</h5>
+            <div className="w-100 d-flex align-items-center justify-content-center">
+              <div
+                className="d-flex align-items-center justify-content-center gap-3"
+                style={{ width: "20rem", height: "20rem" }}
+              >
                 <img
                   src={`http://localhost:5000/uploads/${documentFile.image_file}`}
                   alt="Document"
                   style={{
                     width: "100%",
+                    height: "100%",
                     objectFit: "cover",
                     borderRadius: "0.5rem",
                   }}

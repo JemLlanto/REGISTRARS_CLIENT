@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useLocation } from "react-router-dom";
 import DateSelection from "../../components/Dashboard/DateSelection";
 import RequestHeaders from "../../components/studentRequest/requestHeaders";
-import { Dropdown } from "react-bootstrap";
+import { Dropdown, InputGroup, Form } from "react-bootstrap";
 import RequestDatepicker from "../../components/studentRequest/RequestDatepicker";
 import SearchBar from "./search";
+import MainHeaders from "../../components/studentRequest/MainHeaders";
+import RequestedDocumentsDownload from "../../components/DownloadButton/RequestedDocumentsDownload";
 
 export default function StudentRequests() {
   const { user } = useOutletContext();
@@ -167,93 +169,90 @@ export default function StudentRequests() {
   return (
     <div className="p-1 p-sm-4 w-100 ">
       <div
-        className="rounded-2 shadow-sm text-white p-2 mb-3 d-flex align-items-center justify-content-between"
+        className="rounded-2 shadow-sm text-white p-2 mb-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
-          Student Request List
+          Student Request List ({filteredRequests.length})
         </h5>
 
-        {/* Search Bar */}
-        <div className="d-none d-md-block ">
-          <div className="d-flex align-items-center  px-2">
-            {/* Search Icon - Click to toggle input field */}
-            <div
-              className="px-2"
-              onClick={() => setIsSearchVisible(!isSearchVisible)}
-              style={{ cursor: "pointer" }}
-            >
-              <i className="bx bx-search-alt fw-bold mt-2"></i>
+        <div className="d-flex align-items-center gap-2">
+          {/* DATE SELECTION FOR SMALL SCREENS */}
+          <div className="d-block d-md-none  rounded ">
+            <div className="d-flex align-items-center rounded  ">
+              <RequestDatepicker
+                startDate={startDate}
+                endDate={endDate}
+                selectedPeriod={selectedPeriod}
+                handlePeriodChange={handlePeriodChange}
+                setSelectedPeriod={setSelectedPeriod}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+              />
             </div>
-
-            {/* Search Input - Expands when icon is clicked */}
-            <input
-              type="text"
-              className="form-control border-0 shadow-none"
-              id="searchInput"
-              placeholder="Search by name or email"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{
-                borderRadius: "8px",
-                width: isSearchVisible ? "200px" : "0px",
-                opacity: isSearchVisible ? 1 : 0,
-                transition: "width 0.3s ease-in-out, opacity 0.3s ease-in-out",
-                padding: isSearchVisible ? "5px 10px" : "0",
-                overflow: "hidden"
-              }}
-            />
           </div>
-        </div>
 
+          {/* Search Bar */}
+          <div className="d-none d-md-block">
+            <div className="d-flex align-items-center  px-2">
+              {/* Search Icon - Click to toggle input field */}
+              <div
+                className="d-flex align-items-center justify-content-center pe-2"
+                onClick={() => setIsSearchVisible(!isSearchVisible)}
+                style={{ cursor: "pointer", width: "2rem", height: "2rem" }}
+              >
+                <i className="bx bx-search-alt bx-sm"></i>
+              </div>
 
-        <div className="d-block d-md-none  rounded ">
-          <div className="d-flex align-items-center rounded  ">
-            <RequestDatepicker
+              <input
+                type="text"
+                className="form-control border-0 shadow-none"
+                id="searchInput"
+                placeholder="Search by name or email"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{
+                  borderRadius: "8px",
+                  width: isSearchVisible ? "15rem" : "0px",
+                  opacity: isSearchVisible ? 1 : 0,
+                  transition:
+                    "width 0.3s ease-in-out, opacity 0.3s ease-in-out",
+                  padding: isSearchVisible ? "5px 10px" : "0",
+                  overflow: "hidden",
+                }}
+              />
+            </div>
+          </div>
+          <div>
+            <RequestedDocumentsDownload
+              filteredRequests={filteredRequests}
               startDate={startDate}
               endDate={endDate}
-              selectedPeriod={selectedPeriod}
-              handlePeriodChange={handlePeriodChange}
-              setSelectedPeriod={setSelectedPeriod}
-              setStartDate={setStartDate}
-              setEndDate={setEndDate}
             />
           </div>
         </div>
       </div>
       <div>
-
-
         {/* Search Bar phone*/}
         {/* Mobile layout container */}
-        <div className="d-block d-md-none mb-2 mt-2">
-          <div className="d-flex align-items-center rounded border px-2">
+        <div className="d-block d-md-none">
+          <div className="d-flex align-items-center">
             {/* Search Icon - Click to toggle input field */}
-            <div
-              className="px-2"
-              onClick={() => setIsSearchVisible(!isSearchVisible)}
-              style={{ cursor: "pointer" }}
-            >
-              <i className="bx bx-search-alt fw-bold mt-2"></i>
-            </div>
-
-            {/* Search Input - Expands when icon is clicked */}
-            <input
-              type="text"
-              className="form-control border-0 shadow-none"
-              id="searchInput"
-              placeholder="Search by name or email"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{
-                borderRadius: "8px",
-                width: isSearchVisible ? "200px" : "0px",
-                opacity: isSearchVisible ? 1 : 0,
-                transition: "width 0.3s ease-in-out, opacity 0.3s ease-in-out",
-                padding: isSearchVisible ? "5px 10px" : "0",
-                overflow: "hidden"
-              }}
-            />
+            <InputGroup className="">
+              <InputGroup.Text id="basic-addon1">
+                <i className="bx bx-search-alt"></i>
+              </InputGroup.Text>
+              <Form.Control
+                type="text"
+                className=" shadow-none"
+                id="searchInputMobile"
+                placeholder="Search by name or email"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                aria-label="Username"
+                aria-describedby="basic-addon1"
+              />
+            </InputGroup>
           </div>
         </div>
         {/* large  device*/}
@@ -269,57 +268,7 @@ export default function StudentRequests() {
           />
         </div>
       </div>
-
-      <div
-        className="p-2 text-start w-100 rounded-2 p-2 d-none d-sm-block mt-3"
-        style={{ backgroundColor: "var(--yellow-color)" }}
-      >
-        <div
-          className="m-0 d-flex align-items-center justify-content-center"
-          style={{ color: "var(--background-color)" }}
-        >
-          <div className="w-100 d-flex align-items-center justify-content-center">
-            <h5 className="m-0">Name</h5>
-          </div>
-          <div className="w-100 d-flex align-items-center justify-content-center">
-            <h5 className="m-0">Purpose</h5>
-          </div>
-          <div className="w-100 d-flex align-items-center justify-content-center">
-            <h5 className="m-0">Date</h5>
-          </div>
-          <div className="w-100 d-flex align-items-center justify-content-center">
-            <Dropdown>
-              <Dropdown.Toggle
-                className="d-flex align-items-center text-white"
-                variant="transparent"
-                id="dropdown-basic"
-                bsPrefix=""
-              >
-                <h5 className="m-0">Status{status ? <>({status})</> : null}</h5>
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => handleSelect(null)}>
-                  All
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleSelect("pending")}>
-                  Pending
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleSelect("processing")}>
-                  Processing
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleSelect("completed")}>
-                  Completed
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleSelect("cancelled")}>
-                  cancelled
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-        </div>
-      </div>
-
+      <MainHeaders status={status} handleSelect={handleSelect} />
       <RequestHeaders filteredRequests={filteredRequests} />
     </div>
   );

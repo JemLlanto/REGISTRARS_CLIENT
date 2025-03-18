@@ -18,17 +18,17 @@ const getStatusColor = (status) => {
 const RequestHeaders = ({ filteredRequests }) => {
   return (
     <div
-      className="mt-3 d-flex flex-column gap-3 overflow-auto"
-      style={{ height: "50dvh" }}
+      className="mt-2 d-flex flex-column gap-2 overflow-auto pe-1 rounded"
+      style={{ height: "60dvh" }}
     >
       {filteredRequests.length > 0 ? (
-        filteredRequests.map((request) => (
+        filteredRequests.map((request, index) => (
           <Link
-            key={request.requestID}
-            className="text-decoration-none text-dark"
+            key={index}
+            className="text-decoration-none text-dark bg-light rounded shadow-sm "
             to={`/request-details/${request.requestID}`}
           >
-            <div className="row mx-auto g-2 bg-light rounded shadow-sm p-3">
+            <div className="row mx-auto g-2 p-3">
               <div className="col-12 col-sm d-flex align-items-center justify-content-center">
                 <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Name:</h5>
                 <p className="m-0 me-1">{request.firstName}</p>
