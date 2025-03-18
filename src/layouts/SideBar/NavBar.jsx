@@ -44,13 +44,15 @@ const NavBar = ({ user }) => {
           ) : (
             <NotifButton user={user} />
           )} */}
-          <NotifButton user={user} />
+          <div className="mb-1 mb-md-2">
+            <NotifButton user={user} />
+          </div>
 
           {/* User Dropdown */}
           <Dropdown align="end">
             <Dropdown.Toggle
               bsPrefix="custom-dropdown-toggle"
-              className="py-2 mt-1 d-flex align-items-center justify-content-end gap-2 shadow-none border-0"
+              className="py-2 px-4 mx-0 mx-md-2 mt-1 mb-2 d-flex align-items-center justify-content-end gap-2 shadow-none border-0"
               id="dropdown-basic"
               style={{ backgroundColor: "var(--main-color)" }}
             >
@@ -68,6 +70,7 @@ const NavBar = ({ user }) => {
                   to="/profile-setup"
                   className="text-decoration-none text-dark border-0 bg-transparent "
                 >
+                  <i class='bx bx-user me-2 m-0'></i>
                   Profile
                 </Link>
               </Dropdown.Item>
@@ -76,6 +79,7 @@ const NavBar = ({ user }) => {
                   className="btn btn-white btn-no-hover w-100 text-center border-0 bg-transparent "
                   onClick={handleLogout}
                 >
+                  <i class='bx bx-log-out me-2 m-0'></i>
                   Logout
                 </button>
               </Dropdown.Item>
