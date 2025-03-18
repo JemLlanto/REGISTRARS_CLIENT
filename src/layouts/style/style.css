@@ -102,3 +102,15 @@
   width: 100dvh;
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px; /* Very thin scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--main-color); /* Main theme color */
+  border-radius: 4px;
+}
+
+.unread-notif {
+  background-color: rgb(11, 3, 121)!important;
+}

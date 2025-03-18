@@ -37,6 +37,22 @@ export default function Home() {
     }
   }, [userID]);
 
+
+  const getStatusColor = (status) => {
+    switch (status?.toLowerCase()) { // Ensure it's case-insensitive and handles undefined values
+      case "pending":
+        return "text-warning"; // Yellow
+      case "processing":
+        return "text-primary"; // Blue
+      case "completed":
+        return "text-success"; // Green
+      case "cancelled":
+        return "text-danger"; // Red
+      default:
+        return "text-dark"; // Default color
+    }
+  };
+
   return (
     <div className="p-1 p-sm-4 w-100 overflow-auto" style={{ height: "90dvh" }}>
       <div
@@ -119,8 +135,8 @@ export default function Home() {
                     <p className="m-0 ">
                       {request?.created
                         ? new Intl.DateTimeFormat("en-US", {
-                            dateStyle: "medium",
-                          }).format(new Date(request?.created))
+                          dateStyle: "medium",
+                        }).format(new Date(request?.created))
                         : ""}
                     </p>
                   </div>
@@ -134,8 +150,11 @@ export default function Home() {
                     <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
                       Status:
                     </h5>
-                    <h5 className="m-0 text-warning "> {request.status}</h5>
+                    <h5 className={`m-0 ${getStatusColor(request.status)}`}>
+                      {request.status}
+                    </h5>
                   </div>
+
                 </div>
               </Link>
             ))}
