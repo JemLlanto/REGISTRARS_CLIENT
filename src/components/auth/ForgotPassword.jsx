@@ -201,7 +201,7 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <button onClick={handleShow}>Forgot password</button>
+      <button className="border-0 bg-transparent fw-bold d-flex align-items-end" style={{ color: "var(--yellow-color)" }} onClick={handleShow}>Forgot password</button>
       <Modal
         show={showForgotModal}
         onHide={handleClose}
@@ -209,7 +209,7 @@ const ForgotPassword = () => {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton>
+        <Modal.Header closeButton className="text-white" style={{ backgroundColor: "var(--main-color)" }}>
           <Modal.Title>Account Recovery</Modal.Title>
         </Modal.Header>
         <Modal.Body>

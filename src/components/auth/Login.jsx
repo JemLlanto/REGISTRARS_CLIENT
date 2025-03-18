@@ -115,7 +115,7 @@ const Login = ({ setActivePage }) => {
               )}
             </div>
 
-            <div className="mb-3 position-relative">
+            <div className="mb-2 position-relative">
               <div className="input-group">
                 <span
                   className="input-group-text"
@@ -143,7 +143,9 @@ const Login = ({ setActivePage }) => {
                 <div className="text-danger small">{errors.password}</div>
               )}
             </div>
-            <ForgotPassword />
+            <div className="d-flex justify-content-end align-items-end mb-2">
+              <ForgotPassword />
+            </div>
             <button className="btn btn-warning w-100" onClick={handleLogin}>
               Login
             </button>
