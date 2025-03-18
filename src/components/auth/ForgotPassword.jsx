@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Modal, InputGroup, Form, Row, Col } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import ForgotPassStep1 from "./ForgotPassStep1";
 import ForgotPassStep2 from "./ForgotPassStep2";
 import ForgotPassStep3 from "./ForgotPassStep3";
