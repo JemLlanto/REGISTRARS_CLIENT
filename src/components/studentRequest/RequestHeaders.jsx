@@ -30,7 +30,9 @@ const RequestHeaders = ({ filteredRequests }) => {
           >
             <div className="row mx-auto g-2 p-3">
               <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                <h5 className="m-0 fw-bold me-1 d-block d-sm-none">Name:</h5>
+                <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                  Name:asdasd
+                </h5>
                 <p className="m-0 me-1">{request.firstName}</p>
                 <p className="m-0">{request.lastName}</p>
               </div>
