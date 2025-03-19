@@ -162,16 +162,16 @@ const NotifButton = ({ user }) => {
       <Dropdown>
         <Dropdown.Toggle
           className="border rounded-circle p-0 d-flex align-items-center justify-content-center"
-          variant="light"
           id="dropdown-basic"
           bsPrefix="none"
-          style={{ width: "2.5rem", height: "2.5rem" }}
+          style={{ width: "2.5rem", height: "2.5rem", backgroundColor: "var(--main-color)" }}
         >
           <h5 className="m-0 d-flex align-items-center justify-content-center">
-            <i className="bx bx-bell"></i>
+            {notifications.filter((notif) => notif.isRead === 0).length === 0 ? (<i className="bx bx-bell"></i>) : (<i class='bx bx-bell bx-tada bx-sm'></i>)}
+
           </h5>
           {notifications.filter((notif) => notif.isRead === 0).length ===
-          0 ? null : (
+            0 ? null : (
             <div
               className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
               style={{
@@ -187,7 +187,7 @@ const NotifButton = ({ user }) => {
                 style={{ fontSize: "clamp(.5rem, .9dvw, .6rem)" }}
               >
                 {notifications.filter((notif) => notif.isRead === 0).length >
-                9 ? (
+                  9 ? (
                   <>9+</>
                 ) : (
                   <>
@@ -201,14 +201,21 @@ const NotifButton = ({ user }) => {
 
         <Dropdown.Menu
           align="end"
-          style={{ width: "300px", maxHeight: "400px", overflowY: "auto" }}
+          style={{
+            width: "300px",
+            maxHeight: "450px",
+          }}
+          className="custom-scrollbar"
         >
-          <div className="px-3 py-2 border-bottom d-flex justify-content-between align-items-center">
-            <h6 className="m-0">Notifications</h6>
+          {/* Fixed Header */}
+          <div className="px-3 py-2 border-bottom d-flex justify-content-between align-items-center bg-white sticky-top">
+            <div className="d-flex align-items-center">
+              <h6 className="m-0 fw-bold" style={{ color: "var(--main-color)" }}>Notifications</h6>
+            </div>
             {notifications.length > 0 && (
               <small
-                className="text-primary"
-                style={{ cursor: "pointer" }}
+                className="fw-bold"
+                style={{ cursor: "pointer", color: "var(--main-color)" }}
                 onClick={() => {
                   /* Add mark all as read functionality */
                 }}
@@ -218,13 +225,12 @@ const NotifButton = ({ user }) => {
             )}
           </div>
 
+          {/* Loading State */}
           {loading ? (
             <div className="text-center py-3">
-              <div
-                className="spinner-border spinner-border-sm text-primary"
-                role="status"
-              >
-                <span className="visually-hidden">Loading...</span>
+              <div className="d-flex flex-column align-items-center justify-content-center">
+                <div className="spinner-border" role="status" style={{ width: "3rem", height: "3rem", color: "var(--yellow-color)" }}></div>
+                <span className="mt-2 fw-bold" style={{ color: "var(--yellow-color)" }}>Loading...</span>
               </div>
             </div>
           ) : notifications.length === 0 ? (
@@ -232,33 +238,33 @@ const NotifButton = ({ user }) => {
               <p className="m-0">No notifications</p>
             </div>
           ) : (
-            notifications.map((notif, index) => (
-              <Dropdown.Item
-                key={notif.notificationID || index}
-                onClick={() => handleNotificationClick(notif)}
-                className={`border-bottom ${
-                  notif.isRead === 0 ? "bg-warning" : ""
-                }`}
-              >
-                <div className="d-flex flex-column">
-                  <p className="mb-1" style={{ fontSize: "0.875rem" }}>
-                    {notif.message}
-                  </p>
-                  <div className="d-flex justify-content-between gap-1">
-                    {notif.requestID && (
-                      <small className="text-muted">
-                        Request #{notif.requestID}
+            /* Scrollable Notification List */
+            <div style={{ maxHeight: "380px", overflowY: "auto" }} className="custom-scrollbar">
+              {notifications.map((notif, index) => (
+                <Dropdown.Item
+                  key={notif.notificationID || index}
+                  onClick={() => handleNotificationClick(notif)}
+                  className={`border-bottom p-2 ${notif.isRead === 0 ? "unread-notif text-white" : "bg-white"}`}
+                >
+                  <div className="d-flex flex-column text-wrap text-break" style={{ wordBreak: "break-word", whiteSpace: "normal" }}>
+                    <p className="mb-1" style={{ fontSize: "0.875rem" }}>{notif.message}</p>
+                    <div className="d-flex justify-content-between gap-1">
+                      {notif.requestID && (
+                        <small className="" style={{ fontSize: "clamp(.6rem, .8dvw, .9rem)" }}>
+                          Request No.{notif.requestID}
+                        </small>
+                      )}
+                      <small className=" ms-auto" style={{ fontSize: "10px" }}>
+                        {formatNotificationDate(notif.created)}
                       </small>
-                    )}
-                    <small className="text-muted ms-auto">
-                      {formatNotificationDate(notif.created)}
-                    </small>
+                    </div>
                   </div>
-                </div>
-              </Dropdown.Item>
-            ))
+                </Dropdown.Item>
+              ))}
+            </div>
           )}
         </Dropdown.Menu>
+
       </Dropdown>
     </>
   );

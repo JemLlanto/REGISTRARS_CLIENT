@@ -47,7 +47,7 @@ const PhoneSidebar = ({ user }) => {
                 { path: user.isAdmin ? "/admin/home" : "/home", icon: "bx-home", label: user.isAdmin ? "Dashboard" : "Homepage" },
                 { path: user.isAdmin ? "/admin/manage-request-form" : "/request-documents", icon: "bx-file", label: "Manage Requests" },
                 user.isAdmin && { path: "/admin/student-requests", icon: "bx-user-check me-2", label: "Student Requests" },
-                { path: user.isAdmin ? "/admin/reports" : "/about", icon: user.isAdmin ? "bx-file" : "bx-info-circle", label: user.isAdmin ? "Reports" : "About Us" }
+                { ...(user.isAdmin ? {} : { path: "/about", icon: "bx-info-circle", label: "About Us" }) }
               ].filter(Boolean).map(({ path, icon, label }) => (
                 <li key={path} className={`p-list-group-items ${location.pathname.toLowerCase() === path ? "active" : ""}`}>
                   <Link className="d-flex align-items-center" to={path} onClick={handleClose}>
