@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 const PurposeInput = ({ purpose }) => {
   const [inputs, setInputs] = useState([]);
@@ -66,17 +67,32 @@ const PurposeInput = ({ purpose }) => {
             purposeID: purpose.purposeID,
           });
           fetchInputs();
-          alert(res.data.Message);
+
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: res.data.Message,
+          });
         } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
+          Swal.fire({
+            icon: "error",
+            title: "Failed",
+            text: res.data.Message,
+          });
         } else if (res.data.Message) {
           console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
         console.log("Error adding inputs:", err);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong while adding inputs.",
+        });
       });
   };
+
   const handleUpdateInput = (e) => {
     e.preventDefault();
 
@@ -90,40 +106,71 @@ const PurposeInput = ({ purpose }) => {
             purposeID: purpose.purposeID,
           });
           fetchInputs();
-          alert(res.data.Message);
+
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: res.data.Message,
+          });
         } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
+          Swal.fire({
+            icon: "error",
+            title: "Failed",
+            text: res.data.Message,
+          });
         } else if (res.data.Message) {
           console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
-        console.log("Error adding inputs:", err);
+        console.log("Error updating inputs:", err);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong while updating inputs.",
+        });
       });
   };
   const handleDeleteInput = (inputID, inputDescription) => {
-    if (!window.confirm(`Are you sure you want to delete ${inputDescription}?`))
-      return;
-
-    axios
-      .post("http://localhost:5000/api/documents/deleteInput", {
-        inputID,
-      })
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          alert(res.data.Message);
-          fetchInputs();
-        } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
-        }
-      })
-      .catch((err) => {
-        console.log("Error adding purpose:", err);
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Do you really want to delete "${inputDescription}"? This action cannot be undone.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .post("http://localhost:5000/api/documents/deleteInput", { inputID })
+          .then((res) => {
+            if (res.data.Status === "Success") {
+              Swal.fire({
+                icon: "success",
+                title: "Deleted!",
+                text: res.data.Message,
+              });
+              fetchInputs();
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Failed",
+                text: res.data.Message,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log("Error deleting input:", err);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Something went wrong while deleting the input.",
+            });
+          });
+      }
+    });
   };
-
   return (
     <>
       <div className="border p-2 rounded">
@@ -179,11 +226,11 @@ const PurposeInput = ({ purpose }) => {
                               Cancel
                             </button>
                             <button
-                              className="btn btn-sm btn-primary"
+                              className="btn btn-sm btn-primary px-3"
                               disabled={
                                 formData.inputDescription === "" ||
                                 formData.inputDescription ===
-                                  input.inputDescription
+                                input.inputDescription
                               }
                               onClick={handleUpdateInput}
                             >
@@ -196,13 +243,13 @@ const PurposeInput = ({ purpose }) => {
                           <p className="m-0">{input.inputDescription}</p>
                           <div className="d-flex gap-1">
                             <button
-                              className="btn btn-sm btn-primary"
+                              className="btn btn-sm btn-primary px-3"
                               onClick={() => handleEditInput(input)}
                             >
                               Edit
                             </button>
                             <button
-                              className="btn btn-sm btn-danger"
+                              className="btn btn-sm btn-danger px-3"
                               onClick={() =>
                                 handleDeleteInput(
                                   input.inputID,
@@ -224,11 +271,11 @@ const PurposeInput = ({ purpose }) => {
         )}
 
         {/* FOR ADDING NEW INPUT */}
-        <div className="d-flex align-items-center justify-content-between mt-1">
+        <div className="d-flex align-items-end justify-content-end gap-2 mt-1">
           {addInput ? (
             <>
               <Form.Control
-                className="w-75"
+                className="w-100 mt-3"
                 placeholder="New Question"
                 name="inputDescription"
                 onChange={(e) =>
@@ -238,9 +285,9 @@ const PurposeInput = ({ purpose }) => {
                 aria-label="inputDescription"
                 aria-describedby="basic-addon1"
               />
-              <div className="d-flex gap-1">
+              <div className="d-flex gap-1  mb-1">
                 <button
-                  className="btn btn-sm btn-danger"
+                  className="btn btn-sm btn-danger px-1"
                   onClick={() => {
                     setAddInput(false), setFormData({ inputDescription: "" });
                   }}
@@ -248,7 +295,7 @@ const PurposeInput = ({ purpose }) => {
                   Cancel
                 </button>
                 <button
-                  className="btn btn-sm btn-primary"
+                  className="btn btn-sm btn-primary px-4"
                   onClick={handleAddInput}
                   disabled={formData.inputDescription === ""}
                 >
@@ -259,7 +306,8 @@ const PurposeInput = ({ purpose }) => {
           ) : (
             <>
               <button
-                className="w-100 btn btn-sm btn-primary"
+                className="btn btn-sm btn-primary"
+                style={{ width: "8.9rem" }}
                 onClick={() => {
                   setAddInput(true),
                     setEditInput(null),
