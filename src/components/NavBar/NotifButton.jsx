@@ -161,13 +161,13 @@ const NotifButton = ({ user }) => {
       </ToastContainer>
       <Dropdown>
         <Dropdown.Toggle
-          className="border rounded-circle p-0 d-flex align-items-center justify-content-center"
+          className="border rounded-circle p-0 d-flex align-items-center justify-content-center border-0"
           id="dropdown-basic"
           bsPrefix="none"
-          style={{ width: "2.5rem", height: "2.5rem", backgroundColor: "var(--main-color)" }}
+          style={{ width: "2.5rem", height: "2.5rem", backgroundColor: "white" }}
         >
-          <h5 className="m-0 d-flex align-items-center justify-content-center">
-            {notifications.filter((notif) => notif.isRead === 0).length === 0 ? (<i className="bx bx-bell"></i>) : (<i class='bx bx-bell bx-tada bx-sm'></i>)}
+          <h5 className="m-0 d-flex align-items-center justify-content-center " style={{ color: "var(--main-color)" }}>
+            {notifications.filter((notif) => notif.isRead === 0).length === 0 ? (<i class='bx bx-bell bx-sm'></i>) : (<i class='bx bxs-bell bx-tada bx-sm' ></i>)}
 
           </h5>
           {notifications.filter((notif) => notif.isRead === 0).length ===
@@ -215,7 +215,7 @@ const NotifButton = ({ user }) => {
             {notifications.length > 0 && (
               <small
                 className="fw-bold"
-                style={{ cursor: "pointer", color: "var(--main-color)" }}
+                style={{ cursor: "pointer", color: "var(--yellow-color)" }}
                 onClick={() => {
                   /* Add mark all as read functionality */
                 }}
@@ -244,7 +244,7 @@ const NotifButton = ({ user }) => {
                 <Dropdown.Item
                   key={notif.notificationID || index}
                   onClick={() => handleNotificationClick(notif)}
-                  className={`border-bottom p-2 ${notif.isRead === 0 ? "unread-notif text-white" : "bg-white"}`}
+                  className={`border-bottom p-2 ${notif.isRead === 0 ? "unread-notif" : "bg-white"}`}
                 >
                   <div className="d-flex flex-column text-wrap text-break" style={{ wordBreak: "break-word", whiteSpace: "normal" }}>
                     <p className="mb-1" style={{ fontSize: "0.875rem" }}>{notif.message}</p>

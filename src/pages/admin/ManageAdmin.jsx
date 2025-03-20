@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Modal, Button, ToggleButton } from "react-bootstrap";
 import AdminModal from "../../components/ManageAdmin/AdminModal";
 import axios from "axios";
+import Swal from 'sweetalert2';
 
 const ManageAdmin = () => {
   const [search, setSearch] = useState("");
@@ -38,36 +39,81 @@ const ManageAdmin = () => {
           setSelectedAdmin("");
           setSelectedProgram("");
           fetchProgramAdmins();
-          alert(res.data.Message);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: res.data.Message,
+          });
         } else {
-          alert(err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: res.data.Message || 'An error occurred. Please try again.',
+          });
         }
       })
       .catch((err) => {
         console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Something went wrong. Please try again later.',
+        });
       });
   };
+
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success',
+      cancelButton: 'btn btn-danger me-2',
+    },
+    buttonsStyling: false,
+  });
 
   const handleRemoveProgramAdmin = (program) => {
-    const isConfirmed = window.confirm(
-      `Remove ${program.firstName} as administrator for ${program.programName}`
-    );
-    if (!isConfirmed) return;
-
-    axios
-      .post(`http://localhost:5000/api/manageAdmin/removeProgramAdmin`, {
-        programID: program.programID,
+    swalWithBootstrapButtons
+      .fire({
+        title: 'Are you sure?',
+        text: `You won't be able to revert this! Remove ${program.firstName} as administrator for ${program.programName}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, remove it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true,
       })
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          fetchProgramAdmins();
-          alert(res.data.Message);
+      .then((result) => {
+        if (result.isConfirmed) {
+          axios
+            .post(`http://localhost:5000/api/manageAdmin/removeProgramAdmin`, {
+              programID: program.programID,
+            })
+            .then((res) => {
+              if (res.data.Status === 'Success') {
+                fetchProgramAdmins();
+                swalWithBootstrapButtons.fire({
+                  title: 'Removed!',
+                  text: res.data.Message,
+                  icon: 'success',
+                });
+              }
+            })
+            .catch((err) => {
+              swalWithBootstrapButtons.fire({
+                title: 'Error',
+                text: err.message || 'An error occurred.',
+                icon: 'error',
+              });
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire({
+            title: 'Cancelled',
+            text: 'The administrator was not removed.',
+            icon: 'error',
+          });
         }
-      })
-      .catch((err) => {
-        alert(err);
       });
   };
+
 
   const fetchProgramAdmins = () => {
     axios
@@ -107,17 +153,20 @@ const ManageAdmin = () => {
     <>
       <div className="w-100 p-4">
         <div
-          className="rounded-2 shadow-sm text-white p-2"
+          className="rounded-2 shadow-sm text-white p-2 d-flex justify-content-between"
           style={{ backgroundColor: "var(--main-color)" }}
         >
           <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
             Admin Panel
           </h5>
-          <AdminModal />
+          <div className="">
+            <AdminModal />
+          </div>
+
         </div>
 
         <div className="w-100 d-flex flex-column gap-2 p-3 mt-3 mx-0 bg-white shadow-sm rounded-2">
-          <div className="p-2 overflow-y-scroll" style={{ height: "30rem" }}>
+          <div className="custom-scrollbar p-2 overflow-y-scroll" style={{ height: "30rem" }}>
             <Table striped bordered hover>
               <thead>
                 <tr>
@@ -147,7 +196,7 @@ const ManageAdmin = () => {
                       {program.firstName ? (
                         <>
                           <button
-                            className="btn btn-danger"
+                            className="btn btn-danger w-100"
                             onClick={() => handleRemoveProgramAdmin(program)}
                           >
                             Remove admin
@@ -156,7 +205,7 @@ const ManageAdmin = () => {
                       ) : (
                         <>
                           <button
-                            className="btn btn-primary"
+                            className="btn btn-primary w-100"
                             onClick={() => {
                               setSelectedProgram(program.programID);
                               handleShowModal();

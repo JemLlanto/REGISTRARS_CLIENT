@@ -109,7 +109,7 @@ export default function Home() {
   return (
     <Container
       fluid
-      className="p-1 p-sm-4 w-100 overflow-y-scroll overflow-x-hidden mt-1"
+      className="custom-scrollbar p-1 p-sm-4 w-100 overflow-y-scroll overflow-x-hidden "
       style={{ height: "90dvh" }}
     >
       <div
@@ -117,7 +117,7 @@ export default function Home() {
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
-          Dashboard:
+          Dashboard
         </h5>
       </div>
 

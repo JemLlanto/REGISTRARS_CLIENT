@@ -4,12 +4,15 @@ import axios from "axios";
 import PurposeSelections from "./PurposeSelections";
 import PurposeInput from "./PurposeInput";
 import PurposeUpload from "./PurposeUpload";
+import Swal from "sweetalert2";
 
 function purposeModal() {
   const [showPurpose, setShowPurpose] = useState(false);
   const [purposes, setPurposes] = useState([]);
   const [editPurpose, setEditPurpose] = useState(null);
   const [addPurpose, setAddPurpose] = useState(false);
+  const [selectedPurpose, setSelectedPurpose] = useState(null);
+  const [showDetailModal, setShowDetailModal] = useState(false);
   const [formData, setFormData] = useState({
     purposeName: "",
   });
@@ -31,6 +34,20 @@ function purposeModal() {
       purposeName: purpose.purposeName,
       purposeID: purpose.purposeID,
     });
+  };
+
+  // New functions to handle the detail modal
+  const openDetailModal = (purpose, e) => {
+    e.stopPropagation(); // Prevent accordion from toggling
+    setSelectedPurpose(purpose);
+    setShowDetailModal(true);
+    setShowPurpose(false);
+  };
+
+  const closeDetailModal = () => {
+    setShowDetailModal(false);
+    setSelectedPurpose(null);
+    setShowPurpose(true)
   };
 
   const fetchPurposes = () => {
@@ -62,68 +79,133 @@ function purposeModal() {
       .post("http://localhost:5000/api/documents/addPurpose", formData)
       .then((res) => {
         if (res.data.Status === "Success") {
-          alert(res.data.Message);
+          Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: res.data.Message,
+            confirmButtonColor: "#3085d6",
+          });
+
           setAddPurpose(false);
           setShowPurpose(true);
           setFormData({ purposeName: "" });
           fetchPurposes();
         } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
+          Swal.fire({
+            icon: "error",
+            title: "Failed!",
+            text: res.data.Message,
+            confirmButtonColor: "#d33",
+          });
+
           setFormData({ purposeName: "" });
         } else if (res.data.Message) {
           console.log("Error:", res.data.Message);
         }
       })
       .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Something went wrong. Please try again.",
+          confirmButtonColor: "#d33",
+        });
+
         console.log("Error adding purpose:", err);
       });
   };
+
   const handleUpdatePurpose = () => {
     axios
       .post("http://localhost:5000/api/documents/updatePurpose", formData)
       .then((res) => {
         if (res.data.Status === "Success") {
-          alert(res.data.Message);
+          Swal.fire({
+            icon: "success",
+            title: "Updated!",
+            text: res.data.Message,
+            confirmButtonColor: "#3085d6",
+          });
+
           setEditPurpose(null);
           setFormData({ purposeName: "", purposeID: "" });
           fetchPurposes();
         } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
+          Swal.fire({
+            icon: "error",
+            title: "Update Failed!",
+            text: res.data.Message,
+            confirmButtonColor: "#d33",
+          });
         } else if (res.data.Message) {
           console.log("Error:", res.data.Message);
         }
       })
       .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Something went wrong while updating the purpose.",
+          confirmButtonColor: "#d33",
+        });
+
         console.log("Error updating purpose:", err);
       });
   };
-  const handleDeletePurpose = (purposeID, purposeName) => {
-    if (!window.confirm(`Are you sure you want to delete ${purposeName}?`))
-      return;
 
-    axios
-      .post("http://localhost:5000/api/documents/deletePurpose", {
-        purposeID,
-      })
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          alert(res.data.Message);
-          fetchPurposes();
-        } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
-        }
-      })
-      .catch((err) => {
-        console.log("Error adding purpose:", err);
-      });
+  const handleDeletePurpose = (purposeID, purposeName) => {
+    Swal.fire({
+      title: `Delete "${purposeName}"?`,
+      text: "This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .post("http://localhost:5000/api/documents/deletePurpose", {
+            purposeID,
+          })
+          .then((res) => {
+            if (res.data.Status === "Success") {
+              Swal.fire({
+                icon: "success",
+                title: "Deleted!",
+                text: res.data.Message,
+                confirmButtonColor: "#3085d6",
+              });
+
+              fetchPurposes();
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Deletion Failed!",
+                text: res.data.Message,
+                confirmButtonColor: "#d33",
+              });
+            }
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: "Error!",
+              text: "Something went wrong while deleting.",
+              confirmButtonColor: "#d33",
+            });
+
+            console.log("Error deleting purpose:", err);
+          });
+      }
+    });
   };
 
   return (
     <>
       <Button
-        className="shadow-sm p-2 w-100  d-flex justify-content-between align-items-center"
+        className="shadow-sm p-2 w-100 border-0 d-flex justify-content-between align-items-center"
         style={{ backgroundColor: "var(--main-color)" }}
         onClick={handleShowPurpose}
       >
@@ -145,101 +227,80 @@ function purposeModal() {
         </Modal.Header>
         <Modal.Body>
           <div
-            className="d-flex flex-column gap-1 overflow-y-scroll p-2"
+            className="custom-scrollbar d-flex flex-column gap-1 overflow-y-scroll p-2"
             style={{ height: "60dvh" }}
           >
-            <Accordion>
-              {purposes.map((purpose) => (
-                <Accordion.Item
-                  eventKey={`${purpose.purposeID}`}
-                  key={purpose.purposeID}
-                >
-                  <Accordion.Header>
-                    <div className="w-100 d-flex justify-content-between align-items-center pe-2">
-                      {editPurpose === purpose.purposeID ? (
-                        <>
-                          <FloatingLabel
-                            controlId="floatingInput"
-                            label="Purpose Name"
-                            className="w-75"
-                          >
-                            <Form.Control
-                              type="text"
-                              name="purposeName"
-                              value={formData.purposeName}
-                              onChange={(e) =>
-                                setFormData({
-                                  ...formData,
-                                  purposeName: e.target.value,
-                                })
-                              }
-                              placeholder=""
-                            />
-                          </FloatingLabel>
-                          <div className="d-flex gap-1">
-                            <button
-                              className="btn btn-sm btn-danger"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setEditPurpose(null);
-                              }}
-                            >
-                              <i className="bx bx-x"></i>
-                            </button>
-                            <button
-                              className="btn btn-sm btn-success"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleUpdatePurpose();
-                              }}
-                              disabled={
-                                formData.purposeName === purpose.purposeName
-                              }
-                            >
-                              <i className="bx bx-check"></i>
-                            </button>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <h5 className="m-0">{purpose.purposeName}</h5>
-                          <div className="d-flex gap-1">
-                            <button
-                              className="btn btn-sm btn-primary"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleEditPurpose(purpose);
-                              }}
-                            >
-                              <i className="bx bx-edit-alt"></i>
-                            </button>
-                            <button
-                              className="btn btn-sm btn-danger"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeletePurpose(
-                                  purpose.purposeID,
-                                  purpose.purposeName
-                                );
-                              }}
-                            >
-                              <i className="bx bx-trash"></i>
-                            </button>
-                          </div>
-                        </>
-                      )}
+            {purposes.map((purpose) => (
+              <div
+                key={purpose.purposeID}
+                className="d-flex justify-content-between align-items-center border rounded p-2"
+              >
+                {editPurpose === purpose.purposeID ? (
+                  <>
+                    <FloatingLabel
+                      controlId="floatingInput"
+                      label="Purpose Name"
+                      className="w-75"
+                    >
+                      <Form.Control
+                        type="text"
+                        name="purposeName"
+                        value={formData.purposeName}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            purposeName: e.target.value,
+                          })
+                        }
+                        placeholder=""
+                      />
+                    </FloatingLabel>
+                    <div className="d-flex gap-1">
+                      <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => setEditPurpose(null)}
+                      >
+                        <i className="bx bx-x"></i>
+                      </button>
+                      <button
+                        className="btn btn-sm btn-success"
+                        onClick={handleUpdatePurpose}
+                        disabled={formData.purposeName === purpose.purposeName}
+                      >
+                        <i className="bx bx-check"></i>
+                      </button>
                     </div>
-                  </Accordion.Header>
-                  <Accordion.Body>
-                    <PurposeSelections purpose={purpose} />
-                    <PurposeInput purpose={purpose} />
-                    <PurposeUpload purpose={purpose} />
-                  </Accordion.Body>
-                </Accordion.Item>
-              ))}
-            </Accordion>
+                  </>
+                ) : (
+                  <>
+                    <h5 className="m-0">{purpose.purposeName}</h5>
+                    <div className="d-flex gap-1">
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() => handleEditPurpose(purpose)}
+                      >
+                        <i className="bx bx-edit-alt"></i>
+                      </button>
+                      <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleDeletePurpose(purpose.purposeID, purpose.purposeName)}
+                      >
+                        <i className="bx bx-trash"></i>
+                      </button>
+                      <button
+                        className="primaryButton text-white border-0"
+                        onClick={(e) => openDetailModal(purpose, e)}
+                      >
+                        Manage
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))}
           </div>
         </Modal.Body>
+
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClosePurpose}>
             Close
@@ -286,6 +347,34 @@ function purposeModal() {
             onClick={handleSavePurpose}
           >
             <p className="m-0">Save</p>
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* NEW MODAL FOR PURPOSE DETAILS */}
+      <Modal size="lg" show={showDetailModal} onHide={closeDetailModal} centered>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "var(--main-color)" }}
+        >
+          <Modal.Title>
+            <h4 className="m-0 text-white">
+              {selectedPurpose?.purposeName} Details
+            </h4>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedPurpose && (
+            <>
+              <PurposeSelections purpose={selectedPurpose} />
+              <PurposeInput purpose={selectedPurpose} />
+              <PurposeUpload purpose={selectedPurpose} />
+            </>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeDetailModal}>
+            Close
           </Button>
         </Modal.Footer>
       </Modal>

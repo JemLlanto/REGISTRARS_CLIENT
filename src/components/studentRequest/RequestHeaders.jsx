@@ -22,7 +22,7 @@ const getStatusColor = (status) => {
 const RequestHeaders = ({ filteredRequests, isLoading }) => {
   return (
     <div
-      className="mt-2 d-flex flex-column gap-2 overflow-auto pe-1 rounded"
+      className="custom-scrollbar mt-2 d-flex flex-column gap-2 overflow-auto pe-1 rounded"
       style={{ height: "60dvh" }}
     >
       {isLoading ? (
@@ -79,8 +79,8 @@ const RequestHeaders = ({ filteredRequests, isLoading }) => {
                     <p className="m-0">
                       {request?.created
                         ? new Intl.DateTimeFormat("en-US", {
-                            dateStyle: "medium",
-                          }).format(new Date(request?.created))
+                          dateStyle: "medium",
+                        }).format(new Date(request?.created))
                         : ""}
                     </p>
                   </div>

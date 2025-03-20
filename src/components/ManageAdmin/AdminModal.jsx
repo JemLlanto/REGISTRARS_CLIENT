@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import AddingNewAdmin from "./AddingNewAdmin";
+import Swal from 'sweetalert2';
 
 const AdminModal = () => {
   const [adminModal, setAdminModal] = useState(false);
@@ -46,36 +47,83 @@ const AdminModal = () => {
           fetchAdmins();
           fetchUsers();
           setSelectedUser("");
-          alert(res.data.Message);
+          Swal.fire({
+            title: "Success!",
+            text: res.data.Message,
+            icon: "success",
+            confirmButtonText: "OK",
+          });
         } else {
-          alert(res.data.Message);
+          Swal.fire({
+            title: "Failed",
+            text: res.data.Message,
+            icon: "error",
+            confirmButtonText: "OK",
+          });
         }
       })
       .catch((err) => {
-        alert(err);
+        Swal.fire({
+          title: "Error",
+          text: err.message || "An error occurred.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       });
   };
+
   const handleRemoveAdmin = (userID, firstName) => {
-    const isConfirmed = window.confirm(
-      `Are you sure you want to remove ${firstName} as Administrator?`
-    );
-    if (!isConfirmed) return;
-    axios
-      .post(`http://localhost:5000/api/manageAdmin/removeAdmin/${userID}`)
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          fetchAdmins();
-          fetchUsers();
-          setSelectedUser("");
-          alert(res.data.Message);
-        } else {
-          alert(res.data.Message);
-        }
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You are about to remove ${firstName} as Administrator. This action cannot be undone!`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, remove!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .post(`http://localhost:5000/api/manageAdmin/removeAdmin/${userID}`)
+          .then((res) => {
+            if (res.data.Status === "Success") {
+              fetchAdmins();
+              fetchUsers();
+              setSelectedUser("");
+              Swal.fire({
+                title: "Removed!",
+                text: res.data.Message,
+                icon: "success",
+                confirmButtonText: "OK",
+              });
+            } else {
+              Swal.fire({
+                title: "Failed",
+                text: res.data.Message,
+                icon: "error",
+                confirmButtonText: "OK",
+              });
+            }
+          })
+          .catch((err) => {
+            Swal.fire({
+              title: "Error",
+              text: err.message || "An error occurred.",
+              icon: "error",
+              confirmButtonText: "OK",
+            });
+          });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+          title: "Cancelled",
+          text: "The administrator was not removed.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    });
   };
+
 
   const filteredUser = users.filter((user) => {
     const matchedUser = `${user.firstName} ${user.lastName} ${user.email}`
@@ -119,7 +167,7 @@ const AdminModal = () => {
   }, []);
   return (
     <>
-      <button className="btn btn-primary" onClick={() => handleShow()}>
+      <button className="btn btn-warning" onClick={() => handleShow()}>
         View admins
       </button>
       <Modal show={adminModal} onHide={handleClose} centered>
@@ -144,7 +192,7 @@ const AdminModal = () => {
                   </td>
                   <td>
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-danger w-100"
                       onClick={() =>
                         handleRemoveAdmin(admin.userID, admin.firstName)
                       }
@@ -172,54 +220,52 @@ const AdminModal = () => {
         <Modal.Header closeButton>
           <Modal.Title>Add Administrator</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="custom-scrollbar" style={{ maxHeight: "400px", overflowY: "auto" }}>
           <FloatingLabel
             controlId="floatingInput"
             label="Search user"
             className="mb-3"
-            value={searchName}
-            onChange={handleChange}
           >
-            <Form.Control type="text" placeholder="" />
+            <Form.Control
+              type="text"
+              placeholder=""
+              value={searchName}
+              onChange={handleChange}
+            />
           </FloatingLabel>
           <div className="d-flex flex-column gap-1">
             {filteredUser.length === 0 ? (
-              <>
-                <p>No matches.</p>
-              </>
+              <p>No matches.</p>
             ) : (
-              <>
-                {filteredUser.map((user, index) => (
-                  <>
-                    <ToggleButton
-                      key={index}
-                      type="radio"
-                      id={`radio-${user.userID}`}
-                      label={`${user.firstName} ${user.lastName}`}
-                      checked={selectedUser === user.userID}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedUser(user.userID);
-                        }
-                      }}
-                    >
-                      {user.firstName} {user.lastName}
-                    </ToggleButton>
-                  </>
-                ))}
-              </>
+              filteredUser.map((user, index) => (
+                <ToggleButton
+                  key={index}
+                  type="radio"
+                  id={`radio-${user.userID}`}
+                  label={`${user.firstName} ${user.lastName}`}
+                  checked={selectedUser === user.userID}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedUser(user.userID);
+                    }
+                  }}
+                >
+                  {user.firstName} {user.lastName}
+                </ToggleButton>
+              ))
             )}
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => handleCloseAddingModal()}>
+          <Button variant="secondary" onClick={handleCloseAddingModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => handleAddAdmin()}>
+          <Button variant="primary" onClick={handleAddAdmin}>
             Add admin
           </Button>
         </Modal.Footer>
       </Modal>
+
     </>
   );
 };

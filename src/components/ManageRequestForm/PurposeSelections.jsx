@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 const SelectionSelections = ({ purpose }) => {
   const [selections, setSelections] = useState([]);
@@ -66,15 +67,36 @@ const SelectionSelections = ({ purpose }) => {
             purposeID: purpose.purposeID,
           });
           fetchSelections();
-          alert(res.data.Message);
+
+          // Show success alert
+          Swal.fire({
+            title: "Success!",
+            text: res.data.Message,
+            icon: "success",
+            confirmButtonText: "OK",
+          });
         } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
+          // Show error alert
+          Swal.fire({
+            title: "Failed!",
+            text: res.data.Message,
+            icon: "error",
+            confirmButtonText: "OK",
+          });
         } else if (res.data.Message) {
           console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
         console.log("Error adding selection:", err);
+
+        // Show error alert
+        Swal.fire({
+          title: "Error!",
+          text: "An error occurred while adding the selection. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       });
   };
   const handleUpdateSelection = (e) => {
@@ -90,39 +112,86 @@ const SelectionSelections = ({ purpose }) => {
             purposeID: purpose.purposeID,
           });
           fetchSelections();
-          alert(res.data.Message);
+
+          // Show success alert
+          Swal.fire({
+            title: "Success!",
+            text: res.data.Message,
+            icon: "success",
+            confirmButtonText: "OK",
+          });
         } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
+          // Show error alert
+          Swal.fire({
+            title: "Failed!",
+            text: res.data.Message,
+            icon: "error",
+            confirmButtonText: "OK",
+          });
         } else if (res.data.Message) {
           console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
-        console.log("Error adding selection:", err);
+        console.log("Error updating selection:", err);
+
+        // Show error alert
+        Swal.fire({
+          title: "Error!",
+          text: "An error occurred while updating the selection. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       });
   };
   const handleDeleteSelection = (selectionID, selectionName) => {
-    if (!window.confirm(`Are you sure you want to delete ${selectionName}?`))
-      return;
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Do you really want to delete "${selectionName}"? This action cannot be undone.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .post("http://localhost:5000/api/documents/deleteSelection", {
+            selectionID,
+          })
+          .then((res) => {
+            if (res.data.Status === "Success") {
+              Swal.fire({
+                title: "Deleted!",
+                text: res.data.Message,
+                icon: "success",
+                confirmButtonText: "OK",
+              });
+              fetchSelections();
+            } else {
+              Swal.fire({
+                title: "Failed!",
+                text: res.data.Message,
+                icon: "error",
+                confirmButtonText: "OK",
+              });
+            }
+          })
+          .catch((err) => {
+            console.log("Error deleting selection:", err);
 
-    axios
-      .post("http://localhost:5000/api/documents/deleteSelection", {
-        selectionID,
-      })
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          alert(res.data.Message);
-          fetchSelections();
-        } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
-        }
-      })
-      .catch((err) => {
-        console.log("Error adding purpose:", err);
-      });
+            Swal.fire({
+              title: "Error!",
+              text: "An error occurred while deleting the selection. Please try again.",
+              icon: "error",
+              confirmButtonText: "OK",
+            });
+          });
+      }
+    });
   };
+
 
   return (
     <>
@@ -179,11 +248,11 @@ const SelectionSelections = ({ purpose }) => {
                               Cancel
                             </button>
                             <button
-                              className="btn btn-sm btn-primary"
+                              className="btn btn-sm btn-primary px-3"
                               disabled={
                                 formData.selectionName === "" ||
                                 formData.selectionName ===
-                                  selection.selectionName
+                                selection.selectionName
                               }
                               onClick={handleUpdateSelection}
                             >
@@ -196,13 +265,13 @@ const SelectionSelections = ({ purpose }) => {
                           <p className="m-0">{selection.selectionName}</p>
                           <div className="d-flex gap-1">
                             <button
-                              className="btn btn-sm btn-primary"
+                              className="btn btn-sm btn-primary px-3"
                               onClick={() => handleEditSelection(selection)}
                             >
                               Edit
                             </button>
                             <button
-                              className="btn btn-sm btn-danger"
+                              className="btn btn-sm btn-danger px-3"
                               onClick={() =>
                                 handleDeleteSelection(
                                   selection.selectionID,
@@ -224,11 +293,11 @@ const SelectionSelections = ({ purpose }) => {
         )}
 
         {/* FOR ADDING NEW SELECTION */}
-        <div className="d-flex align-items-center justify-content-between mt-1">
+        <div className="d-flex align-items-end justify-content-end gap-2 mt-1 ">
           {addSelection ? (
             <>
               <Form.Control
-                className="w-75"
+                className="w-100 mt-3"
                 placeholder="Selection Name"
                 name="selectionName"
                 onChange={(e) =>
@@ -238,9 +307,9 @@ const SelectionSelections = ({ purpose }) => {
                 aria-label="selectionName"
                 aria-describedby="basic-addon1"
               />
-              <div className="d-flex gap-1">
+              <div className="d-flex gap-1 mb-1">
                 <button
-                  className="btn btn-sm btn-danger"
+                  className="btn btn-sm btn-danger px-1"
                   onClick={() => {
                     setAddSelection(false), setFormData({ selectionName: "" });
                   }}
@@ -248,7 +317,7 @@ const SelectionSelections = ({ purpose }) => {
                   Cancel
                 </button>
                 <button
-                  className="btn btn-sm btn-primary"
+                  className="btn btn-sm btn-primary px-4"
                   onClick={handleAddSelection}
                   disabled={formData.selectionName === ""}
                 >
@@ -259,7 +328,8 @@ const SelectionSelections = ({ purpose }) => {
           ) : (
             <>
               <button
-                className="w-100 btn btn-sm btn-primary"
+                className="btn btn-sm btn-primary"
+                style={{ width: "8.9rem" }}
                 onClick={() => {
                   setAddSelection(true),
                     setEditSelection(null),

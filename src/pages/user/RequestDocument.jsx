@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ReqProgressBar from "../../components/requestingDocuments/ReqProgressBar";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function RequestDocument() {
   const { user } = useOutletContext();
@@ -197,19 +198,37 @@ export default function RequestDocument() {
         );
         console.log(response.data); // Handle success response
       } catch (error) {
-        console.error("Error sending request:", error);
+        console.error("Error inserting inputs:", error);
       }
+
       if (docType) {
         await insertDocTypes();
       }
       if (file) {
         await upload();
       }
-      alert("Requested document successfully");
-      navigate("/home");
+
+      // Use SweetAlert2 for success message
+      Swal.fire({
+        title: "Success!",
+        text: "Requested document successfully",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        navigate("/home"); // Redirect after confirmation
+      });
+
       console.log(response.data); // Handle success response
     } catch (error) {
       console.error("Error sending request:", error);
+
+      // Use SweetAlert2 for error message
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to request document. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -249,7 +268,7 @@ export default function RequestDocument() {
         <div className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded p-3 position-relative">
           <form className="w-100" onSubmit={handleSubmit}>
             <div
-              className="overflow-y-scroll overflow-x-hidden"
+              className="custom-scrollbar overflow-y-scroll overflow-x-hidden"
               style={{ height: "65dvh" }}
             >
               <AnimatePresence mode="wait" custom={direction}>
