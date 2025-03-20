@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
 import CancelButton from "../../components/requestDetails/CancelButton";
 import ChangeStatusButton from "../../components/requestDetails/ChangeStatusButton";
-import FeedbackInternal from "../../components/InternalFeedback/Internal";
-import FeedbackExternal from "../../components/ExternalFeedback/External";
-import SQDFormComponent from "../../components/ExternalFeedback/SQDForm";
+import FeedbackInternal from "../../components/requestDetails/InternalFeedback/Internal";
+import FeedbackExternal from "../../components/requestDetails/ExternalFeedback/External";
+import SQDFormComponent from "../../components/requestDetails/ExternalFeedback/SQDForm";
 import RequestInfo from "../../components/requestDetails/RequestInfo";
+import ViewScheduleSlip from "../../components/requestDetails/ViewScheduleSlip";
+import InternalFeedbackDownload from "../../components/DownloadButton/InternalFeedbackDownload";
 
 const RequestDetails = () => {
   const { user } = useOutletContext();
@@ -127,6 +129,7 @@ const RequestDetails = () => {
         {user.isAdmin ? (
           <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
             <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
+              <InternalFeedbackDownload documentDetails={documentDetails} />
               <CancelButton
                 fetchDocumentDetails={fetchDocumentDetails}
                 documentDetails={documentDetails}
@@ -139,7 +142,16 @@ const RequestDetails = () => {
               />
             </div>
           </div>
-        ) : null}
+        ) : (
+          <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
+            <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
+              <ViewScheduleSlip
+                fetchDocumentDetails={fetchDocumentDetails}
+                documentDetails={documentDetails}
+              />
+            </div>
+          </div>
+        )}
       </div>
       {/* buttons */}
       {user.isAdmin ? (
@@ -207,14 +219,14 @@ const RequestDetails = () => {
           {documentDetails.status === "completed" && (
             <div className="col-auto">
               {!user.isAdmin ? (
-                <div className="row  d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
-                  <FeedbackInternal />
-                </div>
-              ) : null}
-              {!user.isAdmin ? (
-                <div className="row  d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
-                  <FeedbackExternal></FeedbackExternal>
-                </div>
+                <>
+                  <div className="row  d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
+                    <FeedbackInternal />
+                  </div>
+                  <div className="row  d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
+                    <FeedbackExternal></FeedbackExternal>
+                  </div>
+                </>
               ) : null}
             </div>
           )}
