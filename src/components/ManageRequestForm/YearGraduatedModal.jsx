@@ -1,6 +1,7 @@
 import { use, useEffect, useState } from "react";
 import { Button, Table, Modal, FloatingLabel, Form } from "react-bootstrap";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function YearGraduatedModal() {
   const [showYear, setShowYear] = useState(false);
@@ -57,68 +58,75 @@ function YearGraduatedModal() {
       .post("http://localhost:5000/api/documents/addYear", formData)
       .then((res) => {
         if (res.data.Status === "Success") {
-          alert(res.data.Message);
+          Swal.fire("Success!", res.data.Message, "success");
           setAddYear(false);
           setShowYear(true);
           setFormData({ yearOption: "" });
           fetchYearGraduated();
-        } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
+        } else {
+          Swal.fire("Error!", res.data.Message, "error");
           setFormData({ yearOption: "" });
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
         }
       })
       .catch((err) => {
         console.log("Error adding year:", err);
+        Swal.fire("Error!", "Failed to add year.", "error");
       });
   };
+
   const handleUpdateYear = () => {
     axios
       .post("http://localhost:5000/api/documents/updateYear", formData)
       .then((res) => {
         if (res.data.Status === "Success") {
-          alert(res.data.Message);
+          Swal.fire("Updated!", res.data.Message, "success");
           setEditYear(null);
           setFormData({ yearOption: "", yearGraduatedID: "" });
           fetchYearGraduated();
-        } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
+        } else {
+          Swal.fire("Error!", res.data.Message, "error");
         }
       })
       .catch((err) => {
         console.log("Error updating year:", err);
+        Swal.fire("Error!", "Failed to update year.", "error");
       });
   };
-  const handleDeleteYear = (yearGraduatedID, yearOption) => {
-    if (!window.confirm(`Are you sure you want to delete ${yearOption}?`))
-      return;
 
-    axios
-      .post("http://localhost:5000/api/documents/deleteYear", {
-        yearGraduatedID,
-      })
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          alert(res.data.Message);
-          fetchYearGraduated();
-        } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
-        }
-      })
-      .catch((err) => {
-        console.log("Error adding year:", err);
-      });
+  const handleDeleteYear = (yearGraduatedID, yearOption) => {
+    Swal.fire({
+      title: `Are you sure?`,
+      text: `You are about to delete "${yearOption}". This action cannot be undone.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .post("http://localhost:5000/api/documents/deleteYear", { yearGraduatedID })
+          .then((res) => {
+            if (res.data.Status === "Success") {
+              Swal.fire("Deleted!", res.data.Message, "success");
+              fetchYearGraduated();
+            } else {
+              Swal.fire("Error!", res.data.Message, "error");
+            }
+          })
+          .catch((err) => {
+            console.log("Error deleting year:", err);
+            Swal.fire("Error!", "Failed to delete year.", "error");
+          });
+      }
+    });
   };
+
 
   return (
     <>
       <Button
-        className="shadow-sm p-2 w-100  d-flex justify-content-between align-items-center"
+        className="shadow-sm p-2 w-100 border-0 d-flex justify-content-between align-items-center"
         style={{ backgroundColor: "var(--main-color)" }}
         onClick={handleShowYear}
       >
@@ -140,7 +148,7 @@ function YearGraduatedModal() {
         </Modal.Header>
         <Modal.Body>
           <div
-            className="d-flex flex-column gap-1 overflow-y-scroll overflow-x-hidden"
+            className="custom-scrollbar d-flex flex-column gap-1 overflow-y-scroll overflow-x-hidden"
             style={{ height: "60dvh" }}
           >
             <Table striped bordered hover variant="white">
@@ -185,13 +193,13 @@ function YearGraduatedModal() {
                         {editYear === year.yearGraduatedID ? (
                           <>
                             <button
-                              className="btn btn-success text-white "
+                              className="btn btn-success text-white w-100"
                               onClick={() => setEditYear(false)}
                             >
                               <p className="m-0">Cancel</p>
                             </button>
                             <button
-                              className="btn btn-danger text-white "
+                              className="btn btn-danger text-white w-100"
                               onClick={() => handleUpdateYear()}
                             >
                               <p className="m-0">Save</p>
@@ -200,13 +208,13 @@ function YearGraduatedModal() {
                         ) : (
                           <>
                             <button
-                              className="btn btn-success text-white "
+                              className="btn btn-success text-white w-100"
                               onClick={() => handleEditYear(year)}
                             >
                               <p className="m-0">Edit</p>
                             </button>
                             <button
-                              className="btn btn-danger text-white "
+                              className="btn btn-danger text-white w-100"
                               onClick={() =>
                                 handleDeleteYear(
                                   year.yearGraduatedID,
@@ -231,7 +239,7 @@ function YearGraduatedModal() {
             <p className="m-0">Close</p>
           </Button>
           <Button
-            style={{ backgroundColor: "var(--main-color)" }}
+            style={{ backgroundColor: "var(--main-color)", border: "none" }}
             onClick={handleAddYear}
           >
             <p className="m-0">Add Year</p>
@@ -268,7 +276,7 @@ function YearGraduatedModal() {
             <p className="m-0">Cancel</p>
           </Button>
           <Button
-            style={{ backgroundColor: "var(--main-color)" }}
+            style={{ backgroundColor: "var(--main-color)", border: "none" }}
             onClick={handleSaveYear}
           >
             <p className="m-0">Save</p>
