@@ -28,7 +28,7 @@ body {
   filter: invert(1);
 }
 
-
+/* text */
 p {
   font-size: clamp(0.7rem, 1.3dvw, 1rem);
 }
@@ -47,4 +47,23 @@ h4 {
 
 h5 {
   font-size: clamp(0.9rem, 1.5dvw, 2rem) !important;
+}
+
+/* button */
+
+/* CUSTOM BUTTON */
+.primaryButton {
+  background-color: var(--main-color);
+  border-radius: 0.4rem;
+  color: #ffff;
+  width: 10rem;
+  transition: 0.3s;
+  border: none;
+}
+.primaryButton:hover {
+  background-color: var(--main-color-hover);
+}
+.primaryButton:disabled {
+  background-color: var(--main-color-disabled);
+  cursor: not-allowed;
 }
