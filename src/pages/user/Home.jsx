@@ -54,7 +54,7 @@ export default function Home() {
   };
 
   return (
-    <div className="p-1 p-sm-4 w-100 overflow-auto" style={{ height: "90dvh" }}>
+    <div className="p-1 p-sm-4 w-100">
       <div
         className="rounded-2 shadow-sm mb-2"
         style={{ backgroundColor: "var(--main-color)" }}
@@ -94,7 +94,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="mt-3 d-flex flex-column gap-3">
+      <div className="custom-scrollbar mt-3 d-flex flex-column gap-3 overflow-auto" style={{ height: "65dvh" }}>
         {requestedDocuments.length > 0 ? (
           <>
             {requestedDocuments.map((request) => (
