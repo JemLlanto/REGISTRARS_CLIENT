@@ -177,7 +177,7 @@ const RequestDetails = () => {
                       ? "text-warning"
                       : status === "processing"
                       ? "text-primary"
-                      : status === "for release"
+                      : status === "ready to pickup"
                       ? "text-info"
                       : status === "completed"
                       ? "text-success"

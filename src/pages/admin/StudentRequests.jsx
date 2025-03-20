@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useLocation } from "react-router-dom";
 import DateSelection from "../../components/Dashboard/DateSelection";
 import RequestHeaders from "../../components/studentRequest/RequestHeaders";
-import { Dropdown, InputGroup, Form } from "react-bootstrap";
+import { Spinner, InputGroup, Form } from "react-bootstrap";
 import RequestDatepicker from "../../components/studentRequest/RequestDatepicker";
 import SearchBar from "./search";
 import MainHeaders from "../../components/studentRequest/MainHeaders";
@@ -12,6 +12,7 @@ import RequestedDocumentsDownload from "../../components/DownloadButton/Requeste
 export default function StudentRequests() {
   const { user } = useOutletContext();
   const [requestedDocuments, setRequestedDocuments] = useState([]);
+  const [filteredRequests, setFilteredRequests] = useState([]);
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const navigate = useNavigate();
   const [selectedPeriod, setSelectedPeriod] = useState("month");
@@ -90,37 +91,43 @@ export default function StudentRequests() {
   }, [startDate, endDate]);
 
   // Filter documents based on search input
-  const filteredRequests = requestedDocuments
-    .filter((request) => {
-      const matchesSearch =
-        `${request.firstName} ${request.lastName} ${request.email}`
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
+  useEffect(() => {
+    setIsLoading(true); // Start loading
 
-      // If status is "all" or empty, show all requests
-      const matchesStatus =
-        !status ||
-        status.toLowerCase() === "all" ||
-        request.status.toLowerCase() === status.toLowerCase();
+    const timer = setTimeout(() => {
+      const filtered = requestedDocuments
+        .filter((request) => {
+          const matchesSearch =
+            `${request.firstName} ${request.lastName} ${request.email}`
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase());
 
-      return matchesSearch && matchesStatus;
-    })
-    .sort((a, b) => {
-      // Define the priority order
-      const statusPriority = {
-        pending: 1,
-        processing: 2,
-        completed: 3,
-      };
+          const matchesStatus =
+            !status ||
+            status.toLowerCase() === "all" ||
+            request.status.toLowerCase() === status.toLowerCase();
 
-      // Get the priority value for each request's status
-      // Use lowercase for case-insensitive comparison
-      const priorityA = statusPriority[a.status.toLowerCase()] || 999;
-      const priorityB = statusPriority[b.status.toLowerCase()] || 999;
+          return matchesSearch && matchesStatus;
+        })
+        .sort((a, b) => {
+          const statusPriority = {
+            pending: 1,
+            processing: 2,
+            completed: 3,
+          };
 
-      // Sort based on priority (lower number comes first)
-      return priorityA - priorityB;
-    });
+          const priorityA = statusPriority[a.status.toLowerCase()] || 999;
+          const priorityB = statusPriority[b.status.toLowerCase()] || 999;
+
+          return priorityA - priorityB;
+        });
+
+      setFilteredRequests(filtered);
+      setIsLoading(false); // Stop loading after processing
+    }, 500); // Simulate loading delay
+
+    return () => clearTimeout(timer); // Cleanup function to avoid race conditions
+  }, [requestedDocuments, searchTerm, status]); // Dependencies
 
   // Function to set date range based on period selection
   const handlePeriodChange = (e) => {
@@ -180,7 +187,15 @@ export default function StudentRequests() {
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
-          Student Request List ({filteredRequests.length})
+          Student Request List (
+          {isLoading ? (
+            <>
+              <Spinner animation="border" variant="light" size="sm" />
+            </>
+          ) : (
+            <>{filteredRequests.length}</>
+          )}
+          )
         </h5>
 
         <div className="d-flex align-items-center gap-2">

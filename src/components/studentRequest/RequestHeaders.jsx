@@ -8,6 +8,8 @@ const getStatusColor = (status) => {
       return "text-warning"; // Yellow
     case "processing":
       return "text-primary"; // Blue
+    case "ready to pickup":
+      return "text-info"; // Blue
     case "completed":
       return "text-success"; // Green
     case "cancelled":
@@ -25,10 +27,15 @@ const RequestHeaders = ({ filteredRequests, isLoading }) => {
     >
       {isLoading ? (
         <>
-          <p>
-            <Spinner animation="border" variant="primary" />
-            Loading...
-          </p>
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: "70%" }}
+          >
+            <p>
+              <Spinner animation="border" variant="primary" size="sm" /> Loading
+              request...
+            </p>
+          </div>
         </>
       ) : (
         <>
@@ -88,7 +95,8 @@ const RequestHeaders = ({ filteredRequests, isLoading }) => {
                       Status:
                     </h5>
                     <h5 className={`m-0 ${getStatusColor(request.status)}`}>
-                      {request.status}
+                      {String(request.status).charAt(0).toUpperCase() +
+                        String(request.status).slice(1)}
                     </h5>
                   </div>
                 </div>

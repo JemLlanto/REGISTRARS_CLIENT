@@ -28,7 +28,17 @@ const MainHeaders = ({ status, handleSelect }) => {
               id="dropdown-basic"
               bsPrefix=""
             >
-              <h5 className="m-0">Status{status ? <>({status})</> : null}</h5>
+              <h5 className="m-0">
+                Status
+                {status ? (
+                  <>
+                    (
+                    {String(status).charAt(0).toUpperCase() +
+                      String(status).slice(1)}
+                    )
+                  </>
+                ) : null}
+              </h5>
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -41,11 +51,14 @@ const MainHeaders = ({ status, handleSelect }) => {
               <Dropdown.Item onClick={() => handleSelect("processing")}>
                 Processing
               </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleSelect("ready to pickup")}>
+                For Pickup
+              </Dropdown.Item>
               <Dropdown.Item onClick={() => handleSelect("completed")}>
                 Completed
               </Dropdown.Item>
               <Dropdown.Item onClick={() => handleSelect("cancelled")}>
-                cancelled
+                Cancelled
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
