@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useLocation } from "react-router-dom";
 import DateSelection from "../../components/Dashboard/DateSelection";
-import RequestHeaders from "../../components/studentRequest/requestHeaders";
+import RequestHeaders from "../../components/studentRequest/RequestHeaders";
 import { Dropdown, InputGroup, Form } from "react-bootstrap";
 import RequestDatepicker from "../../components/studentRequest/RequestDatepicker";
 import SearchBar from "./search";
@@ -20,6 +20,7 @@ export default function StudentRequests() {
   const location = useLocation();
   const [status, setStatus] = useState("all");
   const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {
@@ -31,27 +32,33 @@ export default function StudentRequests() {
   }, [user, navigate]);
 
   // Separate function for the API call that can be called directly
-  const fetchRequestedDocuments = () => {
-    console.log(startDate, endDate);
+  const fetchRequestedDocuments = async () => {
     if (startDate && endDate) {
-      axios
-        .get("http://localhost:5000/api/dashboard/fetchRequestedDocuments", {
-          params: {
-            startDate: startDate,
-            endDate: endDate,
-          },
-        })
-        .then((res) => {
-          if (res.data.Status === "Success") {
-            setRequestedDocuments(res.data.data);
-            console.log("requestedDocuments", res.data.data);
-          } else {
-            setRequestedDocuments([]);
+      try {
+        setIsLoading(true);
+        const res = await axios.get(
+          "http://localhost:5000/api/dashboard/fetchRequestedDocuments",
+          {
+            params: {
+              startDate: startDate,
+              endDate: endDate,
+            },
           }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+        );
+
+        if (res.data.Status === "Success") {
+          setRequestedDocuments(res.data.data);
+          console.log("requestedDocuments", res.data.data);
+        } else {
+          setRequestedDocuments([]);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
+      }
     }
   };
 
@@ -269,7 +276,10 @@ export default function StudentRequests() {
         </div>
       </div>
       <MainHeaders status={status} handleSelect={handleSelect} />
-      <RequestHeaders filteredRequests={filteredRequests} />
+      <RequestHeaders
+        filteredRequests={filteredRequests}
+        isLoading={isLoading}
+      />
     </div>
   );
 }
