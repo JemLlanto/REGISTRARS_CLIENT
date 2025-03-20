@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Button, Table, Form, FloatingLabel } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { motion, AnimatePresence } from "framer-motion";
+import Swal from "sweetalert2";
+
 
 function programModal() {
   const [showProgram, setShowProgram] = useState(false);
@@ -59,67 +61,76 @@ function programModal() {
       .post("http://localhost:5000/api/documents/addProgram", formData)
       .then((res) => {
         if (res.data.Status === "Success") {
-          alert(res.data.Message);
+          Swal.fire("Success!", res.data.Message, "success");
           setAddProgram(false);
           setShowProgram(true);
           setFormData({ programName: "" });
           fetchPrograms();
-        } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
+        } else {
+          Swal.fire("Error!", res.data.Message, "error");
           setFormData({ programName: "" });
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
         }
       })
       .catch((err) => {
         console.log("Error adding program:", err);
+        Swal.fire("Error!", "Failed to add program.", "error");
       });
   };
+
   const handleUpdateProgram = () => {
     axios
       .post("http://localhost:5000/api/documents/updateProgram", formData)
       .then((res) => {
         if (res.data.Status === "Success") {
-          alert(res.data.Message);
+          Swal.fire("Updated!", res.data.Message, "success");
           setEditProgram(null);
           setFormData({ programName: "", programID: "" });
           fetchPrograms();
-        } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
+        } else {
+          Swal.fire("Error!", res.data.Message, "error");
         }
       })
       .catch((err) => {
         console.log("Error updating program:", err);
+        Swal.fire("Error!", "Failed to update program.", "error");
       });
   };
-  const handleDeleteProgram = (programID, programName) => {
-    if (!window.confirm(`Are you sure you want to delete ${programName}?`))
-      return;
 
-    axios
-      .post("http://localhost:5000/api/documents/deleteProgram", { programID })
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          alert(res.data.Message);
-          fetchPrograms();
-        } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
-        }
-      })
-      .catch((err) => {
-        console.log("Error adding program:", err);
-      });
+  const handleDeleteProgram = (programID, programName) => {
+    Swal.fire({
+      title: `Are you sure?`,
+      text: `You are about to delete "${programName}". This action cannot be undone.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .post("http://localhost:5000/api/documents/deleteProgram", { programID })
+          .then((res) => {
+            if (res.data.Status === "Success") {
+              Swal.fire("Deleted!", res.data.Message, "success");
+              fetchPrograms();
+            } else {
+              Swal.fire("Error!", res.data.Message, "error");
+            }
+          })
+          .catch((err) => {
+            console.log("Error deleting program:", err);
+            Swal.fire("Error!", "Failed to delete program.", "error");
+          });
+      }
+    });
   };
+
 
   return (
     <>
       <div className="w-100 mx-0">
         <Button
-          className="shadow-sm p-2 w-100  d-flex justify-content-between align-items-center"
+          className="shadow-sm p-2 w-100 border-0  d-flex justify-content-between align-items-center"
           style={{ backgroundColor: "var(--main-color)" }}
           onClick={handleShowProgram}
         >
@@ -142,7 +153,7 @@ function programModal() {
         </Modal.Header>
         <Modal.Body>
           <div
-            className="d-flex flex-column gap-1 overflow-y-scroll overflow-x-hidden"
+            className="custom-scrollbar d-flex flex-column gap-1 overflow-y-scroll overflow-x-hidden"
             style={{ height: "60dvh" }}
           >
             <Table striped bordered hover variant="white">
@@ -188,13 +199,13 @@ function programModal() {
                         {editProgram === program.programID ? (
                           <>
                             <button
-                              className="btn btn-success text-white "
+                              className="btn btn-success text-white w-100"
                               onClick={() => setEditProgram(false)}
                             >
                               <p className="m-0">Cancel</p>
                             </button>
                             <button
-                              className="btn btn-danger text-white "
+                              className="btn btn-danger text-white w-100"
                               onClick={() => handleUpdateProgram()}
                             >
                               <p className="m-0">Save</p>
@@ -203,13 +214,13 @@ function programModal() {
                         ) : (
                           <>
                             <button
-                              className="btn btn-success text-white "
+                              className="btn btn-success text-white w-100"
                               onClick={() => handleEditProgram(program)}
                             >
                               <p className="m-0">Edit</p>
                             </button>
                             <button
-                              className="btn btn-danger text-white "
+                              className="btn btn-danger text-white w-100"
                               onClick={() =>
                                 handleDeleteProgram(
                                   program.programID,
@@ -234,6 +245,7 @@ function programModal() {
             <p className="m-0">Close</p>
           </Button>
           <Button
+            className="border-0"
             style={{ backgroundColor: "var(--main-color)" }}
             onClick={handleAddProgram}
           >
@@ -271,6 +283,7 @@ function programModal() {
             <p className="m-0">Cancel</p>
           </Button>
           <Button
+            className="border-0"
             style={{ backgroundColor: "var(--main-color)" }}
             onClick={handleSaveProgram}
           >
