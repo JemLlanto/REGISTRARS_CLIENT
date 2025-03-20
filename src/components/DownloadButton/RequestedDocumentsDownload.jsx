@@ -30,9 +30,34 @@ const RequestedDocumentsDownload = ({
       CancellationReason: request.reason || "",
     }));
 
+
     // Create a worksheet from the data
     const worksheet = XLSX.utils.json_to_sheet(dataToExport);
 
+    // Set column widths
+    worksheet["!cols"] = [
+      { wch: 15 }, // RequestID
+      { wch: 20 }, // DataPrivacyConsent
+      { wch: 15 }, // FirstName
+      { wch: 15 }, // MiddleName
+      { wch: 15 }, // LastName
+      { wch: 15 }, // BirthDate
+      { wch: 10 }, // Sex
+      { wch: 15 }, // MobileNumber
+      { wch: 25 }, // Email
+      { wch: 15 }, // StudentID
+      { wch: 20 }, // RequestDate
+      { wch: 15 }, // Classification
+      { wch: 20 }, // SchoolYearAttended
+      { wch: 10 }, // YearLevel
+      { wch: 15 }, // YearGraduated
+      { wch: 25 }, // Program
+      { wch: 30 }, // Purpose
+      { wch: 15 }, // Status
+      { wch: 30 }, // CancellationReason
+    ];
+
+    worksheet["!rows"] = new Array(dataToExport.length + 1).fill({ hpx: 25 });
     // Create a workbook with the worksheet
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Requests");
