@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 const PurposeUpload = ({ purpose }) => {
   const [uploads, setUploads] = useState([]);
@@ -53,6 +54,7 @@ const PurposeUpload = ({ purpose }) => {
     setAddUpload(false);
   };
 
+
   const handleAddUpload = (e) => {
     e.preventDefault();
 
@@ -66,17 +68,30 @@ const PurposeUpload = ({ purpose }) => {
             purposeID: purpose.purposeID,
           });
           fetchUploads();
-          alert(res.data.Message);
-        } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
-        } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: res.data.Message,
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Failed",
+            text: res.data.Message,
+          });
         }
       })
       .catch((err) => {
         console.log("Error adding uploads:", err);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong while adding uploads.",
+        });
       });
   };
+
   const handleUpdateUpload = (e) => {
     e.preventDefault();
 
@@ -90,40 +105,69 @@ const PurposeUpload = ({ purpose }) => {
             purposeID: purpose.purposeID,
           });
           fetchUploads();
-          alert(res.data.Message);
-        } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
-        } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+
+          Swal.fire({
+            icon: "success",
+            title: "Updated!",
+            text: res.data.Message,
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Failed",
+            text: res.data.Message,
+          });
         }
       })
       .catch((err) => {
-        console.log("Error adding uploads:", err);
+        console.log("Error updating uploads:", err);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong while updating uploads.",
+        });
       });
   };
-  const handleDeleteUpload = (uploadID, uploadDescription) => {
-    if (
-      !window.confirm(`Are you sure you want to delete ${uploadDescription}?`)
-    )
-      return;
 
-    axios
-      .post("http://localhost:5000/api/documents/deleteUpload", {
-        uploadID,
-      })
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          alert(res.data.Message);
-          fetchUploads();
-        } else if (res.data.Status === "Failed") {
-          alert(res.data.Message);
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
-        }
-      })
-      .catch((err) => {
-        console.log("Error adding purpose:", err);
-      });
+  const handleDeleteUpload = (uploadID, uploadDescription) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Do you really want to delete "${uploadDescription}"? This action cannot be undone.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .post("http://localhost:5000/api/documents/deleteUpload", { uploadID })
+          .then((res) => {
+            if (res.data.Status === "Success") {
+              Swal.fire({
+                icon: "success",
+                title: "Deleted!",
+                text: res.data.Message,
+              });
+              fetchUploads();
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Failed",
+                text: res.data.Message,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log("Error deleting upload:", err);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Something went wrong while deleting the upload.",
+            });
+          });
+      }
+    });
   };
 
   return (
@@ -181,11 +225,11 @@ const PurposeUpload = ({ purpose }) => {
                               Cancel
                             </button>
                             <button
-                              className="btn btn-sm btn-primary"
+                              className="btn btn-sm btn-primary  px-3"
                               disabled={
                                 formData.uploadDescription === "" ||
                                 formData.uploadDescription ===
-                                  upload.uploadDescription
+                                upload.uploadDescription
                               }
                               onClick={handleUpdateUpload}
                             >
@@ -198,13 +242,13 @@ const PurposeUpload = ({ purpose }) => {
                           <p className="m-0">{upload.uploadDescription}</p>
                           <div className="d-flex gap-1">
                             <button
-                              className="btn btn-sm btn-primary"
+                              className="btn btn-sm btn-primary px-3"
                               onClick={() => handleEditUpload(upload)}
                             >
                               Edit
                             </button>
                             <button
-                              className="btn btn-sm btn-danger"
+                              className="btn btn-sm btn-danger px-3"
                               onClick={() =>
                                 handleDeleteUpload(
                                   upload.uploadID,
@@ -226,11 +270,11 @@ const PurposeUpload = ({ purpose }) => {
         )}
 
         {/* FOR ADDING NEW INPUT */}
-        <div className="d-flex align-items-center justify-content-between mt-1">
+        <div className="d-flex align-items-end justify-content-end gap-2 mt-1">
           {addUpload ? (
             <>
               <Form.Control
-                className="w-75"
+                className="w-100 mt-3"
                 placeholder="New Question"
                 name="uploadDescription"
                 onChange={(e) =>
@@ -243,9 +287,9 @@ const PurposeUpload = ({ purpose }) => {
                 aria-label="uploadDescription"
                 aria-describedby="basic-addon1"
               />
-              <div className="d-flex gap-1">
+              <div className="d-flex gap-1 mb-1">
                 <button
-                  className="btn btn-sm btn-danger"
+                  className="btn btn-sm btn-danger px-1"
                   onClick={() => {
                     setAddUpload(false), setFormData({ uploadDescription: "" });
                   }}
@@ -253,7 +297,7 @@ const PurposeUpload = ({ purpose }) => {
                   Cancel
                 </button>
                 <button
-                  className="btn btn-sm btn-primary"
+                  className="btn btn-sm btn-primary px-4"
                   onClick={handleAddUpload}
                   disabled={formData.uploadDescription === ""}
                 >
@@ -264,7 +308,8 @@ const PurposeUpload = ({ purpose }) => {
           ) : (
             <>
               <button
-                className="w-100 btn btn-sm btn-primary"
+                className="btn btn-sm btn-primary"
+                style={{ width: "8.9rem" }}
                 onClick={() => {
                   setAddUpload(true),
                     setEditUpload(null),
