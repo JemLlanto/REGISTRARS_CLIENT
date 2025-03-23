@@ -42,25 +42,39 @@ function PurposeStats({ requestedDocuments }) {
     "#2a458af7",
   ];
 
-  // Custom tooltip formatter
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
         <div
-          className="bg-white p-2 shadow-sm border"
-          style={{ borderRadius: "4px" }}
+          className="custom-tooltip p-3 shadow border"
+          style={{
+            borderRadius: "8px",
+            background: "rgba(255, 255, 255, 0.9)",
+            border: "1px solid #ddd",
+            color: "#333",
+            minWidth: "120px",
+            textAlign: "center",
+          }}
         >
-          <p className="mb-0">
-            <strong>{label}</strong>
+          <p className="mb-1 fw-bold" style={{ fontSize: "14px", color: "#555" }}>
+            {label}
           </p>
-          <p className="mb-0">
-            Documents: <strong>{payload[0].value}</strong>
+          <p
+            className="mb-0"
+            style={{
+              fontSize: "13px",
+              color: "var(--main-color)",
+              fontWeight: "600",
+            }}
+          >
+            Documents: <span style={{ color: "#333" }}>{payload[0].value}</span>
           </p>
         </div>
       );
     }
     return null;
   };
+
 
   return (
     <>

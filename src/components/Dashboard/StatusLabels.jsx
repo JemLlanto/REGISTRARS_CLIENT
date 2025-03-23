@@ -20,7 +20,7 @@ const StatusLabels = ({ requestedDocuments }) => {
           to="/admin/dashboard/new-request"
           className="text-decoration-none"
         >
-          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
+          <div className="card-hover shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
             <div
               className="text-white d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
@@ -43,7 +43,7 @@ const StatusLabels = ({ requestedDocuments }) => {
           to="/admin/student-requests?status=pending"
           className="text-decoration-none"
         >
-          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
+          <div className="card-hover shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
             <div
               className=" text-white  d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
@@ -66,7 +66,7 @@ const StatusLabels = ({ requestedDocuments }) => {
           to="/admin/student-requests?status=processing"
           className="text-decoration-none"
         >
-          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
+          <div className="card-hover shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
             <div
               className=" text-white  d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
@@ -90,7 +90,7 @@ const StatusLabels = ({ requestedDocuments }) => {
           to="/admin/student-requests?status=completed"
           className="text-decoration-none"
         >
-          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
+          <div className="card-hover shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
             <div
               className=" text-white  d-flex justify-content-center align-items-center p-3"
               style={{ width: "60px", height: "60px" }}
@@ -108,29 +108,6 @@ const StatusLabels = ({ requestedDocuments }) => {
           </div>
         </Link>
       </Col>
-
-      {/* <Col className="m-0 p-0">
-        <Link
-          to="/admin/dashboard/total-request"
-          className="text-decoration-none"
-        >
-          <div className="shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
-            <div
-              className=" text-white  d-flex justify-content-center align-items-center p-3"
-              style={{ width: "60px", height: "60px" }}
-            >
-              <i
-                className="bx bx-list-check fs-3 rounded-circle p-3"
-                style={{ backgroundColor: "var(--main-color)" }}
-              ></i>
-            </div>
-            <div className="ms-3">
-              <h5 className="text-success mb-1">{requestedDocuments.length}</h5>
-              <h5 className="text-dark">Total Request</h5>
-            </div>
-          </div>
-        </Link>
-      </Col> */}
     </Row>
   );
 };
