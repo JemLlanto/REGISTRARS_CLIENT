@@ -15,28 +15,6 @@ export default function About() {
         </h5>
       </div>
 
-      <div className="position-relative rounded mt-2">
-        {/* Background Image Container */}
-        <div>
-          <img
-            src="/adminbg.png"
-            alt="Registrar Background"
-            className="img-fluid w-100 rounded bg-black"
-            style={{ maxHeight: "30rem" }}
-          />
-        </div>
-
-        {/* Centered Text Overlay */}
-        <div className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
-          <div className="text-center px-4" style={{ maxWidth: "80%" }}>
-            <p className="m-0 text-white" style={{ padding: "20px", borderRadius: "8px" }}>
-              The Registrar's Office serves as the central hub for student academic records and administrative services. We manage course registration, maintain official transcripts, verify enrollment status, and oversee degree certification processes. Our dedicated team assists students throughout their academic journey, from initial enrollment to graduation, while ensuring compliance with institutional policies and educational regulations. We're committed to providing efficient, accurate, and supportive service to students, faculty, and staff, helping to facilitate a seamless educational experience.
-            </p>
-          </div>
-        </div>
-      </div>
-
-
 
 
       <div
