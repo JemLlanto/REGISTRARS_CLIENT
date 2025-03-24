@@ -208,6 +208,24 @@ export default function RequestDocument() {
         await upload();
       }
 
+      try {
+        const emailRes = await axios.post(
+          "http://localhost:5000/api/emailNotification/sendNewRequestEmail",
+          formData
+        );
+
+        if (emailRes.status === 200) {
+          console.log(emailRes.data.message);
+          // alert(emailRes.data.message);
+        } else {
+          console.log(emailRes.data.message);
+          // alert(emailRes.data.message);
+        }
+      } catch (emailErr) {
+        console.log("An error occurred while sending email: ", emailErr);
+        // alert("An error occurred while sending email: ", emailErr.err);
+      }
+
       // Use SweetAlert2 for success message
       Swal.fire({
         title: "Success!",
@@ -222,13 +240,28 @@ export default function RequestDocument() {
     } catch (error) {
       console.error("Error sending request:", error);
 
-      // Use SweetAlert2 for error message
-      Swal.fire({
-        title: "Error!",
-        text: "Failed to request document. Please try again.",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+      // Check if the error response contains missing fields
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.missingFields
+      ) {
+        const missingFields = error.response.data.missingFields.join(", ");
+
+        Swal.fire({
+          title: "Error!",
+          text: `Failed to request document. The following fields are missing: ${missingFields}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      } else {
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to request document. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
     }
   };
 
@@ -369,23 +402,23 @@ export default function RequestDocument() {
                     currentStep === 1
                       ? !privacyConsent
                       : currentStep === 2
-                        ? !formData.email ||
+                      ? !formData.email ||
                         !formData.studentID ||
                         !formData.firstName ||
                         !formData.lastName ||
                         !formData.dateOfBirth ||
                         !formData.sex ||
                         !formData.mobileNum
-                        : currentStep === 3
-                          ? !formData.program ||
-                          !formData.classification ||
-                          (formData.classification === "graduated" &&
-                            !formData.yearGraduated) ||
-                          (formData.classification === "undergraduate" &&
-                            !formData.yearLevel) ||
-                          !formData.schoolYearAttended ||
-                          !formData.purpose
-                          : false
+                      : currentStep === 3
+                      ? !formData.program ||
+                        !formData.classification ||
+                        (formData.classification === "graduated" &&
+                          !formData.yearGraduated) ||
+                        (formData.classification === "undergraduate" &&
+                          !formData.yearLevel) ||
+                        !formData.schoolYearAttended ||
+                        !formData.purpose
+                      : false
                   }
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">

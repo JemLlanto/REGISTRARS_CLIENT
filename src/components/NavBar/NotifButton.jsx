@@ -121,6 +121,22 @@ const NotifButton = ({ user }) => {
     }
   };
 
+  const handleMarkAllNotifAsRead = async () => {
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/api/notifications/markAllAsRead/${user.userID}`
+      );
+      if (res.status === 200) {
+        fetchNotifications();
+        alert(res.data.message);
+      } else {
+        alert(res.data.message);
+      }
+    } catch (err) {
+      alert("An error occured: ", err.message);
+    }
+  };
+
   return (
     <>
       <ToastContainer
@@ -164,14 +180,25 @@ const NotifButton = ({ user }) => {
           className="border rounded-circle p-0 d-flex align-items-center justify-content-center border-0"
           id="dropdown-basic"
           bsPrefix="none"
-          style={{ width: "2.5rem", height: "2.5rem", backgroundColor: "white" }}
+          style={{
+            width: "2.5rem",
+            height: "2.5rem",
+            backgroundColor: "white",
+          }}
         >
-          <h5 className="m-0 d-flex align-items-center justify-content-center " style={{ color: "var(--main-color)" }}>
-            {notifications.filter((notif) => notif.isRead === 0).length === 0 ? (<i class='bx bx-bell bx-sm'></i>) : (<i class='bx bxs-bell bx-tada bx-sm' ></i>)}
-
+          <h5
+            className="m-0 d-flex align-items-center justify-content-center "
+            style={{ color: "var(--main-color)" }}
+          >
+            {notifications.filter((notif) => notif.isRead === 0).length ===
+            0 ? (
+              <i class="bx bx-bell bx-sm"></i>
+            ) : (
+              <i class="bx bxs-bell bx-tada bx-sm"></i>
+            )}
           </h5>
           {notifications.filter((notif) => notif.isRead === 0).length ===
-            0 ? null : (
+          0 ? null : (
             <div
               className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
               style={{
@@ -187,7 +214,7 @@ const NotifButton = ({ user }) => {
                 style={{ fontSize: "clamp(.5rem, .9dvw, .6rem)" }}
               >
                 {notifications.filter((notif) => notif.isRead === 0).length >
-                  9 ? (
+                9 ? (
                   <>9+</>
                 ) : (
                   <>
@@ -210,15 +237,29 @@ const NotifButton = ({ user }) => {
           {/* Fixed Header */}
           <div className="px-3 py-2 border-bottom d-flex justify-content-between align-items-center bg-white sticky-top">
             <div className="d-flex align-items-center">
-              <h6 className="m-0 fw-bold" style={{ color: "var(--main-color)" }}>Notifications</h6>
+              <h6
+                className="m-0 fw-bold"
+                style={{ color: "var(--main-color)" }}
+              >
+                Notifications
+              </h6>
             </div>
-            {notifications.length > 0 && (
+            {notifications.filter((notif) => notif.isRead === 0).length > 0 ? (
               <small
                 className="fw-bold"
                 style={{ cursor: "pointer", color: "var(--yellow-color)" }}
-                onClick={() => {
-                  /* Add mark all as read functionality */
+                onClick={handleMarkAllNotifAsRead}
+              >
+                Mark all as read
+              </small>
+            ) : (
+              <small
+                className="fw-bold"
+                style={{
+                  cursor: "not-allowed",
+                  color: "var(--yellow-color-disabled)",
                 }}
+                // onClick={handleMarkAllNotifAsRead}
               >
                 Mark all as read
               </small>
@@ -229,8 +270,21 @@ const NotifButton = ({ user }) => {
           {loading ? (
             <div className="text-center py-3">
               <div className="d-flex flex-column align-items-center justify-content-center">
-                <div className="spinner-border" role="status" style={{ width: "3rem", height: "3rem", color: "var(--yellow-color)" }}></div>
-                <span className="mt-2 fw-bold" style={{ color: "var(--yellow-color)" }}>Loading...</span>
+                <div
+                  className="spinner-border"
+                  role="status"
+                  style={{
+                    width: "3rem",
+                    height: "3rem",
+                    color: "var(--yellow-color)",
+                  }}
+                ></div>
+                <span
+                  className="mt-2 fw-bold"
+                  style={{ color: "var(--yellow-color)" }}
+                >
+                  Loading...
+                </span>
               </div>
             </div>
           ) : notifications.length === 0 ? (
@@ -239,18 +293,31 @@ const NotifButton = ({ user }) => {
             </div>
           ) : (
             /* Scrollable Notification List */
-            <div style={{ maxHeight: "380px", overflowY: "auto" }} className="custom-scrollbar">
+            <div
+              style={{ maxHeight: "380px", overflowY: "auto" }}
+              className="custom-scrollbar"
+            >
               {notifications.map((notif, index) => (
                 <Dropdown.Item
                   key={notif.notificationID || index}
                   onClick={() => handleNotificationClick(notif)}
-                  className={`border-bottom p-2 ${notif.isRead === 0 ? "unread-notif" : "bg-white"}`}
+                  className={`border-bottom p-2 ${
+                    notif.isRead === 0 ? "unread-notif" : "bg-white"
+                  }`}
                 >
-                  <div className="d-flex flex-column text-wrap text-break" style={{ wordBreak: "break-word", whiteSpace: "normal" }}>
-                    <p className="mb-1" style={{ fontSize: "0.875rem" }}>{notif.message}</p>
+                  <div
+                    className="d-flex flex-column text-wrap text-break"
+                    style={{ wordBreak: "break-word", whiteSpace: "normal" }}
+                  >
+                    <p className="mb-1" style={{ fontSize: "0.875rem" }}>
+                      {notif.message}
+                    </p>
                     <div className="d-flex justify-content-between gap-1">
                       {notif.requestID && (
-                        <small className="" style={{ fontSize: "clamp(.6rem, .8dvw, .9rem)" }}>
+                        <small
+                          className=""
+                          style={{ fontSize: "clamp(.6rem, .8dvw, .9rem)" }}
+                        >
                           Request No.{notif.requestID}
                         </small>
                       )}
@@ -264,7 +331,6 @@ const NotifButton = ({ user }) => {
             </div>
           )}
         </Dropdown.Menu>
-
       </Dropdown>
     </>
   );

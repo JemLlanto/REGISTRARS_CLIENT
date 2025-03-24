@@ -79,8 +79,8 @@ const RequestHeaders = ({ filteredRequests, isLoading }) => {
                     <p className="m-0">
                       {request?.created
                         ? new Intl.DateTimeFormat("en-US", {
-                          dateStyle: "medium",
-                        }).format(new Date(request?.created))
+                            dateStyle: "medium",
+                          }).format(new Date(request?.created))
                         : ""}
                     </p>
                   </div>

@@ -4,7 +4,6 @@ import { Dropdown, Offcanvas, Button } from "react-bootstrap";
 import axios from "axios";
 import PhoneSidebar from "./PhoneSidebar";
 import NotifButton from "../../components/NavBar/NotifButton";
-import NotifButtonAdmin from "../../components/NavBar/NotifButtonAdmin";
 
 const NavBar = ({ user }) => {
   const [show, setShow] = useState(false);
@@ -70,7 +69,7 @@ const NavBar = ({ user }) => {
                   to="/profile-setup"
                   className="text-decoration-none text-dark border-0 bg-transparent "
                 >
-                  <i class='bx bx-user me-2 m-0'></i>
+                  <i class="bx bx-user me-2 m-0"></i>
                   Profile
                 </Link>
               </Dropdown.Item>
@@ -79,7 +78,7 @@ const NavBar = ({ user }) => {
                   className="btn btn-white btn-no-hover w-100 text-center border-0 bg-transparent "
                   onClick={handleLogout}
                 >
-                  <i class='bx bx-log-out me-2 m-0'></i>
+                  <i class="bx bx-log-out me-2 m-0"></i>
                   Logout
                 </button>
               </Dropdown.Item>

@@ -37,13 +37,14 @@ export default function Home() {
     }
   }, [userID]);
 
-
   const getStatusColor = (status) => {
-    switch (status?.toLowerCase()) { // Ensure it's case-insensitive and handles undefined values
+    switch (status.toLowerCase()) {
       case "pending":
         return "text-warning"; // Yellow
       case "processing":
         return "text-primary"; // Blue
+      case "ready to pickup":
+        return "text-info"; // Blue
       case "completed":
         return "text-success"; // Green
       case "cancelled":
@@ -94,7 +95,10 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="custom-scrollbar mt-3 d-flex flex-column gap-3 overflow-auto" style={{ height: "65dvh" }}>
+      <div
+        className="custom-scrollbar mt-3 d-flex flex-column gap-3 overflow-auto"
+        style={{ height: "65dvh" }}
+      >
         {requestedDocuments.length > 0 ? (
           <>
             {requestedDocuments.map((request) => (
@@ -135,8 +139,8 @@ export default function Home() {
                     <p className="m-0 ">
                       {request?.created
                         ? new Intl.DateTimeFormat("en-US", {
-                          dateStyle: "medium",
-                        }).format(new Date(request?.created))
+                            dateStyle: "medium",
+                          }).format(new Date(request?.created))
                         : ""}
                     </p>
                   </div>
@@ -151,10 +155,10 @@ export default function Home() {
                       Status:
                     </h5>
                     <h5 className={`m-0 ${getStatusColor(request.status)}`}>
-                      {request.status}
+                      {String(request.status).charAt(0).toUpperCase() +
+                        String(request.status).slice(1)}
                     </h5>
                   </div>
-
                 </div>
               </Link>
             ))}
