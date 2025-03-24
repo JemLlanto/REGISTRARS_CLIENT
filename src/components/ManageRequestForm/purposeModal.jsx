@@ -279,27 +279,21 @@ function purposeModal() {
                         className="btn btn-sm btn-primary"
                         onClick={() => handleEditPurpose(purpose)}
                       >
-                        <i className="bx bx-edit-alt"></i>
+                        <p className="m-0"><span className="d-none d-md-block">Edit</span><span className="d-md-none">  <i className="bx bx-edit-alt"></i></span></p>
                       </button>
                       <button
                         className="btn btn-sm btn-danger"
                         onClick={() => handleDeletePurpose(purpose.purposeID, purpose.purposeName)}
                       >
-                        <i className="bx bx-trash"></i>
+                        <p className="m-0"><span className="d-none d-md-block">remove</span><span className="d-md-none">  <i className="bx bx-trash"></i></span></p>
                       </button>
                       <button
-                        className="primaryButton d-none d-md-block text-white border-0"
+                        className="rounded-1 px-2 text-white border-0"
+                        style={{ backgroundColor: "var(--main-color)" }}
                         onClick={(e) => openDetailModal(purpose, e)}
                       >
-                        Manage
+                        <p className="m-0"><span className=" d-none d-md-block ">Manage</span><span className="d-block d-md-none"><i className="bx bx-edit"></i></span></p>
                       </button>
-                      <button
-                        className="bg-warning rounded d-block d-md-none text-white border-0"
-                        onClick={(e) => openDetailModal(purpose, e)}
-                      >
-                        <i className="bx bx-edit"></i>
-                      </button>
-
                     </div>
                   </>
                 )}
@@ -359,6 +353,7 @@ function purposeModal() {
       </Modal>
 
       {/* NEW MODAL FOR PURPOSE DETAILS */}
+      {/* exp: for transfer */}
       <Modal size="lg" show={showDetailModal} onHide={closeDetailModal} centered>
         <Modal.Header
           closeButton

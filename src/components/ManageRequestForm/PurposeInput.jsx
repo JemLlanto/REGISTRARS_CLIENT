@@ -173,7 +173,7 @@ const PurposeInput = ({ purpose }) => {
   };
   return (
     <>
-      <div className="border p-2 rounded">
+      <div className="border p-2 rounded mb-2">
         <div className="d-flex align-items-center justify-content-start gap-1">
           <h5 className="m-0 fw-bold">Required Questions</h5>
         </div>
@@ -215,7 +215,7 @@ const PurposeInput = ({ purpose }) => {
                           />
                           <div className="d-flex gap-1">
                             <button
-                              className="btn btn-sm btn-danger"
+                              className="btn btn-sm btn-danger  px-2 px-md-3"
                               onClick={() => {
                                 setEditInput(null),
                                   setFormData({
@@ -223,10 +223,12 @@ const PurposeInput = ({ purpose }) => {
                                   });
                               }}
                             >
-                              Cancel
+                              <p className="m-0"><span className="d-none d-md-block">Cancel</span><span className="d-md-none"> <i class='bx bx-x iconFont'></i></span></p>
+
+
                             </button>
                             <button
-                              className="btn btn-sm btn-primary px-3"
+                              className="btn btn-sm btn-success  px-2 px-md-3"
                               disabled={
                                 formData.inputDescription === "" ||
                                 formData.inputDescription ===
@@ -234,7 +236,8 @@ const PurposeInput = ({ purpose }) => {
                               }
                               onClick={handleUpdateInput}
                             >
-                              Save
+                              <p className="m-0"><span className="d-none d-md-block">Save</span><span className="d-md-none"> <i class='bx bx-save iconFont' ></i></span></p>
+
                             </button>
                           </div>
                         </>
@@ -243,13 +246,15 @@ const PurposeInput = ({ purpose }) => {
                           <p className="m-0">{input.inputDescription}</p>
                           <div className="d-flex gap-1">
                             <button
-                              className="btn btn-sm btn-primary px-3"
+                              className="btn btn-sm text-white px-2 px-md-3"
+                              style={{ backgroundColor: "var(--main-color)" }}
                               onClick={() => handleEditInput(input)}
                             >
-                              Edit
+                              <p className="m-0"><span className="d-none d-md-block">Edit</span><span className="d-md-none"><i class='bx bx-edit-alt iconFont' ></i></span></p>
+
                             </button>
                             <button
-                              className="btn btn-sm btn-danger px-3"
+                              className="btn btn-sm btn-danger px-2 px-md-3"
                               onClick={() =>
                                 handleDeleteInput(
                                   input.inputID,
@@ -257,7 +262,8 @@ const PurposeInput = ({ purpose }) => {
                                 )
                               }
                             >
-                              Delete
+                              <p className="m-0"><span className="d-none d-md-block">Delete</span><span className="d-md-none"><i class='bx bx-trash iconFont' ></i></span></p>
+
                             </button>
                           </div>
                         </>
@@ -287,27 +293,29 @@ const PurposeInput = ({ purpose }) => {
               />
               <div className="d-flex gap-1  mb-1">
                 <button
-                  className="btn btn-sm btn-danger px-1"
+                  className="btn btn-sm btn-danger  px-2 px-md-3"
                   onClick={() => {
                     setAddInput(false), setFormData({ inputDescription: "" });
                   }}
                 >
-                  Cancel
+                  <p className="m-0"><span className="d-none d-md-block">Cancel</span><span className="d-md-none"> <i class='bx bx-x iconFont'></i></span></p>
                 </button>
                 <button
-                  className="btn btn-sm btn-primary px-4"
+                  className="btn btn-sm btn-primary  px-2 px-md-3"
                   onClick={handleAddInput}
                   disabled={formData.inputDescription === ""}
                 >
-                  Add
+                  <p className="m-0"><span className="d-none d-md-block">Add</span><span className="d-md-none"><i class='bx bx-plus-circle iconFont' ></i></span></p>
+
+
                 </button>
               </div>
             </>
           ) : (
             <>
               <button
-                className="btn btn-sm btn-primary"
-                style={{ width: "8.9rem" }}
+                className="btn btn-sm btn-primary w-100"
+                style={{ backgroundColor: "var(--main-color)" }}
                 onClick={() => {
                   setAddInput(true),
                     setEditInput(null),
@@ -317,7 +325,8 @@ const PurposeInput = ({ purpose }) => {
                     });
                 }}
               >
-                Add
+                <p className="m-0">Add</p>
+
               </button>
             </>
           )}
