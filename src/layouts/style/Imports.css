@@ -46,7 +46,7 @@ h4 {
   font-size: clamp(1.5rem, 2dvw, 2rem) !important;
 }
 
-h5 {
+h5,.iconFont {
   font-size: clamp(0.9rem, 1.5dvw, 2rem) !important;
 }
 
