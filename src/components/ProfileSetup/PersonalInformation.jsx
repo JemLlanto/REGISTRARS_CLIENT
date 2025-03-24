@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 const PersonalInformation = ({
   handleEditInfo,
@@ -18,19 +19,30 @@ const PersonalInformation = ({
         "http://localhost:5000/api/updateProfile/updatePersonalInfo",
         formData
       );
+
       if (res.status === 200) {
-        alert(res.data.message);
-        handleCancelEditInfo();
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: res.data.message,
+        }).then(() => {
+          handleCancelEditInfo();
+        });
       }
     } catch (err) {
-      alert("An error occured: " + (err.response?.data?.error || err.message));
+      Swal.fire({
+        icon: "error",
+        title: "Error Occurred!",
+        text: err.response?.data?.error || err.message || "An unexpected error occurred.",
+      });
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <div>
-      <div className="d-flex align-items-center gap-2">
+      <div className="d-flex align-items-center justify-content-between gap-2">
         <h5 className="m-0">Personal Information</h5>
         <div className="d-flex align-items-center gap-1">
           {editingInfo ? (
@@ -42,14 +54,14 @@ const PersonalInformation = ({
                 Cancel
               </button>
               <button
-                className="btn btn-primary"
+                className="primaryButton py-2"
                 onClick={handleUpdatePersonalInfo}
               >
                 Save Changes
               </button>
             </>
           ) : (
-            <button className="btn btn-primary" onClick={handleEditInfo}>
+            <button className="primaryButton py-2" onClick={handleEditInfo}>
               Edit
             </button>
           )}

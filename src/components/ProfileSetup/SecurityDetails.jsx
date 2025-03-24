@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Col, Form, Row, InputGroup } from "react-bootstrap";
 import UserVerificationModal from "./UserVerificationModal";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const SecurityDetails = ({
   handleEditSecurity,
@@ -48,7 +49,7 @@ const SecurityDetails = ({
   };
   return (
     <div>
-      <div className="d-flex align-items-center gap-2">
+      <div className="d-flex align-items-center justify-content-between gap-2">
         <h5 className="m-0">Security Details</h5>
         <div className="d-flex align-items-center gap-1">
           {editingSecurity ? (
@@ -60,7 +61,7 @@ const SecurityDetails = ({
                 Cancel
               </button>
               <button
-                className="btn btn-primary"
+                className="primaryButton py-2"
                 onClick={handleChangePassword}
                 disabled={!isFormValid()}
               >

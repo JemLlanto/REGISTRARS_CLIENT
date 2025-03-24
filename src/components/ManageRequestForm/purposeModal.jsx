@@ -288,11 +288,18 @@ function purposeModal() {
                         <i className="bx bx-trash"></i>
                       </button>
                       <button
-                        className="primaryButton text-white border-0"
+                        className="primaryButton d-none d-md-block text-white border-0"
                         onClick={(e) => openDetailModal(purpose, e)}
                       >
                         Manage
                       </button>
+                      <button
+                        className="bg-warning rounded d-block d-md-none text-white border-0"
+                        onClick={(e) => openDetailModal(purpose, e)}
+                      >
+                        <i className="bx bx-edit"></i>
+                      </button>
+
                     </div>
                   </>
                 )}

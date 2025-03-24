@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 import ForgotPassStep1 from "./ForgotPassStep1";
 import ForgotPassStep2 from "./ForgotPassStep2";
 import ForgotPassStep3 from "./ForgotPassStep3";
+import Swal from "sweetalert2";
 
 const ForgotPassword = () => {
   const [showForgotModal, setShowForgotModal] = useState(false);
@@ -130,7 +131,11 @@ const ForgotPassword = () => {
 
       if (res.status === 200) {
         setGeneratedOtp(generatedOTP);
-        alert("An OTP has been sent to your email.");
+        Swal.fire({
+          icon: "success",
+          title: "OTP Sent!",
+          text: "An OTP has been sent to your email.",
+        });
         setOtpTimer(60);
         setAlreadySent(true);
         if (currentStep < 2) {
@@ -138,46 +143,80 @@ const ForgotPassword = () => {
         }
         handleShow();
       } else if (res.status === 403) {
-        alert(res.data.Message); // Display "Email is already in use" message
+        Swal.fire({
+          icon: "error",
+          title: "Email Already in Use",
+          text: res.data.Message,
+        });
       }
     } catch (err) {
-      alert(err.response?.data?.Message || "An unexpected error occurred.");
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: err.response?.data?.Message || "An unexpected error occurred.",
+      });
     } finally {
       setIsLoading(false);
     }
   };
+
   const resendOTP = async () => {
     try {
       setIsLoading(true);
       setGeneratedOtp(null);
-      sendOTP();
+      await sendOTP();
     } catch (err) {
-      alert("An error occured: ", err);
+      Swal.fire({
+        icon: "error",
+        title: "Resend Failed",
+        text: "An error occurred while resending OTP.",
+      });
     }
   };
+
   const verifyOTP = async () => {
     if (!generatedOTP || !formData.otp) {
-      return alert("No otp.");
+      return Swal.fire({
+        icon: "warning",
+        title: "Missing OTP!",
+        text: "Please enter the OTP.",
+      });
     }
+
     if (generatedOTP.toString() === formData.otp.toString()) {
       const res = await axios.post(
         "http://localhost:5000/api/auth/resetToken",
         formData
       );
+
       if (res.data.Status === "Success") {
-        alert(res.data.Message);
-        setCurrentStep(3);
-        setFormData((prev) => ({
-          ...prev,
-          token: res.data.token,
-        }));
+        Swal.fire({
+          icon: "success",
+          title: "OTP Verified!",
+          text: res.data.Message,
+        }).then(() => {
+          setCurrentStep(3);
+          setFormData((prev) => ({
+            ...prev,
+            token: res.data.token,
+          }));
+        });
       } else {
-        alert(res.data.message || "Failed to generate reset token");
+        Swal.fire({
+          icon: "error",
+          title: "Verification Failed",
+          text: res.data.message || "Failed to generate reset token.",
+        });
       }
     } else {
-      alert("OTP doesn't match, Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Invalid OTP!",
+        text: "OTP doesn't match, please try again.",
+      });
     }
   };
+
   const handleChangePassword = async () => {
     try {
       setIsLoading(true);
@@ -186,18 +225,33 @@ const ForgotPassword = () => {
         "http://localhost:5000/api/auth/forgotPassword",
         formData
       );
+
       if (res.data.status === "Success") {
-        alert(res.data.message);
-        handleClose();
+        Swal.fire({
+          icon: "success",
+          title: "Password Reset Successful",
+          text: res.data.message,
+        }).then(() => {
+          handleClose();
+        });
       } else {
-        alert("Password reset failed");
+        Swal.fire({
+          icon: "error",
+          title: "Password Reset Failed",
+          text: "Please try again.",
+        });
       }
     } catch (err) {
-      alert("An error occurred during password reset", err);
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: err.message || "An error occurred during password reset.",
+      });
     } finally {
       setIsLoading(false);
     }
   };
+
 
   return (
     <>
