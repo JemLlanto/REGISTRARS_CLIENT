@@ -45,6 +45,9 @@ const ExternalFeedbackTemplate = ({
         sqd8: "",
         suggestions: "",
         email: documentDetails.email,
+        program: documentDetails.program,
+        firstName: documentDetails.firstName,
+        lastName: documentDetails.lastName,
       });
     }
   }, [documentDetails]);
@@ -98,6 +101,23 @@ const ExternalFeedbackTemplate = ({
         formData
       );
       if (res.status === 200) {
+        try {
+          const emailRes = await axios.post(
+            "http://localhost:5000/api/emailNotification/sendFeedbackResponseEmail",
+            formData
+          );
+
+          if (emailRes.status === 200) {
+            console.log(emailRes.data.message);
+            // alert(emailRes.data.message);
+          } else {
+            console.log(emailRes.data.message);
+            // alert(emailRes.data.message);
+          }
+        } catch (emailErr) {
+          console.log("An error occurred while sending email: ", emailErr);
+          // alert("An error occurred while sending email: ", emailErr.err);
+        }
         handleCloseFeedbackModal();
         setFormData({
           // Step 1 data

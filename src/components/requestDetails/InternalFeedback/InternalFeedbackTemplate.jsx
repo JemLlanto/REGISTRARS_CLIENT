@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RatingStep from "./RatingStep";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
@@ -14,19 +14,29 @@ const InternalFeedbackTemplate = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    requestID: documentDetails.requestID,
-    userID: documentDetails.userID,
-    ratings: {
-      courtesy: "",
-      service_quality: "",
-      service_timeliness: "",
-      service_efficiency: "",
-      physical_cleanliness: "",
-      physical_comfort: "",
-    },
-    comments: "",
-  });
+  const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    if (documentDetails) {
+      setFormData({
+        requestID: documentDetails.requestID,
+        userID: documentDetails.userID,
+        ratings: {
+          courtesy: "",
+          service_quality: "",
+          service_timeliness: "",
+          service_efficiency: "",
+          physical_cleanliness: "",
+          physical_comfort: "",
+        },
+        comments: "",
+        email: documentDetails.email,
+        program: documentDetails.program,
+        firstName: documentDetails.firstName,
+        lastName: documentDetails.lastName,
+      });
+    }
+  }, [documentDetails]);
 
   const handleCloseFeedbackModal = () => {
     setShowFeedbackModal(false);
@@ -57,19 +67,19 @@ const InternalFeedbackTemplate = ({
   const handleClose = () => {
     setShowModal(false);
     // Reset form data when closing modal
-    setFormData({
-      requestID: "",
-      userID: "",
-      ratings: {
-        courtesy: "",
-        service_quality: "",
-        service_timeliness: "",
-        service_efficiency: "",
-        physical_cleanliness: "",
-        physical_comfort: "",
-      },
-      comments: "",
-    });
+    // setFormData({
+    //   requestID: "",
+    //   userID: "",
+    //   ratings: {
+    //     courtesy: "",
+    //     service_quality: "",
+    //     service_timeliness: "",
+    //     service_efficiency: "",
+    //     physical_cleanliness: "",
+    //     physical_comfort: "",
+    //   },
+    //   comments: "",
+    // });
   };
   const submitFeedback = async () => {
     try {
@@ -85,6 +95,23 @@ const InternalFeedbackTemplate = ({
         payload
       );
       if (res.status === 200) {
+        try {
+          const emailRes = await axios.post(
+            "http://localhost:5000/api/emailNotification/sendFeedbackResponseEmail",
+            formData
+          );
+
+          if (emailRes.status === 200) {
+            console.log(emailRes.data.message);
+            // alert(emailRes.data.message);
+          } else {
+            console.log(emailRes.data.message);
+            // alert(emailRes.data.message);
+          }
+        } catch (emailErr) {
+          console.log("An error occurred while sending email: ", emailErr);
+          // alert("An error occurred while sending email: ", emailErr.err);
+        }
         handleCloseFeedbackModal();
         setFormData({
           requestID: documentDetails.requestID,
