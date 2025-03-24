@@ -5,7 +5,7 @@ export default function About() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="p-4 w-100 overflow-auto" style={{ maxHeight: "90dvh" }}>
+    <div className="p-4 w-100 overflow-auto custom-scrollbar" style={{ maxHeight: "90dvh" }}>
       <div
         className="rounded-2 shadow-sm p-2"
         style={{ backgroundColor: "var(--main-color)" }}
@@ -18,7 +18,7 @@ export default function About() {
 
 
       <div
-        className="d-flex justify-content-between gap-2 mt-2 row mx-auto"
+        className="d-flex justify-content-between gap-2 mt-2 row mx-auto "
         style={{ maxHeight: "650px" }}
       >
         <div className="policy col-lg d-flex align-items-center justify-content-start w-100  shadow-sm rounded-2 flex-column  p-5">
