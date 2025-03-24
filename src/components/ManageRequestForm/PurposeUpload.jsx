@@ -222,10 +222,10 @@ const PurposeUpload = ({ purpose }) => {
                                   });
                               }}
                             >
-                              Cancel
+                              <p className="m-0"><span className="d-none d-md-block">Cancel</span><span className="d-md-none"> <i class='bx bx-x iconFont'></i></span></p>
                             </button>
                             <button
-                              className="btn btn-sm btn-primary  px-3"
+                              className="btn btn-sm btn-primary  px-2 px-md-3"
                               disabled={
                                 formData.uploadDescription === "" ||
                                 formData.uploadDescription ===
@@ -233,7 +233,7 @@ const PurposeUpload = ({ purpose }) => {
                               }
                               onClick={handleUpdateUpload}
                             >
-                              Save
+                              <p className="m-0"><span className="d-none d-md-block">Save</span><span className="d-md-none"> <i class='bx bx-save iconFont' ></i></span></p>
                             </button>
                           </div>
                         </>
@@ -242,13 +242,14 @@ const PurposeUpload = ({ purpose }) => {
                           <p className="m-0">{upload.uploadDescription}</p>
                           <div className="d-flex gap-1">
                             <button
-                              className="btn btn-sm btn-primary px-3"
+                              className="btn btn-sm text-white px-2 px-md-3"
+                              style={{ backgroundColor: "var(--main-color)" }}
                               onClick={() => handleEditUpload(upload)}
                             >
-                              Edit
+                              <p className="m-0"><span className="d-none d-md-block">Edit</span><span className="d-md-none"><i class='bx bx-edit-alt iconFont' ></i></span></p>
                             </button>
                             <button
-                              className="btn btn-sm btn-danger px-3"
+                              className="btn btn-sm btn-danger  px-2 px-md-3"
                               onClick={() =>
                                 handleDeleteUpload(
                                   upload.uploadID,
@@ -256,7 +257,7 @@ const PurposeUpload = ({ purpose }) => {
                                 )
                               }
                             >
-                              Delete
+                              <p className="m-0"><span className="d-none d-md-block">Delete</span><span className="d-md-none"><i class='bx bx-trash iconFont' ></i></span></p>
                             </button>
                           </div>
                         </>
@@ -289,27 +290,28 @@ const PurposeUpload = ({ purpose }) => {
               />
               <div className="d-flex gap-1 mb-1">
                 <button
-                  className="btn btn-sm btn-danger px-1"
+                  className="btn btn-sm btn-danger  px-2 px-md-3"
                   onClick={() => {
                     setAddUpload(false), setFormData({ uploadDescription: "" });
                   }}
                 >
-                  Cancel
+                  <p className="m-0"><span className="d-none d-md-block">Cancel</span><span className="d-md-none"> <i class='bx bx-x iconFont'></i></span></p>
                 </button>
                 <button
-                  className="btn btn-sm btn-primary px-4"
+                  className="btn btn-sm btn-primary px-2 px-md-3"
                   onClick={handleAddUpload}
                   disabled={formData.uploadDescription === ""}
                 >
-                  Add
+                  <p className="m-0"><span className="d-none d-md-block">Add</span><span className="d-md-none"><i class='bx bx-plus-circle iconFont' ></i></span></p>
+
                 </button>
               </div>
             </>
           ) : (
             <>
               <button
-                className="btn btn-sm btn-primary"
-                style={{ width: "8.9rem" }}
+                className="btn btn-sm w-100 text-white"
+                style={{ backgroundColor: "var(--main-color)" }}
                 onClick={() => {
                   setAddUpload(true),
                     setEditUpload(null),
@@ -320,7 +322,7 @@ const PurposeUpload = ({ purpose }) => {
                 }}
                 disabled={uploads.length > 0}
               >
-                Add
+                <p className="m-0">Add</p>
               </button>
             </>
           )}

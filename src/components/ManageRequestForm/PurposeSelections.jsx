@@ -195,7 +195,7 @@ const SelectionSelections = ({ purpose }) => {
 
   return (
     <>
-      <div className="border p-2 rounded">
+      <div className="border p-2 rounded mb-2">
         <div className="d-flex align-items-center justify-content-start gap-1">
           <h5 className="m-0 fw-bold">Type of Documents</h5>
         </div>
@@ -237,7 +237,7 @@ const SelectionSelections = ({ purpose }) => {
                           />
                           <div className="d-flex gap-1">
                             <button
-                              className="btn btn-sm btn-danger"
+                              className="btn btn-sm btn-danger  px-2 px-md-3"
                               onClick={() => {
                                 setEditSelection(null),
                                   setFormData({
@@ -245,10 +245,11 @@ const SelectionSelections = ({ purpose }) => {
                                   });
                               }}
                             >
-                              Cancel
+                              <p className="m-0"><span className="d-none d-md-block">Cancel</span><span className="d-md-none"> <i class='bx bx-x iconFont'></i></span></p>
+
                             </button>
                             <button
-                              className="btn btn-sm btn-primary px-3"
+                              className="btn btn-sm btn-primary  px-2 px-md-3"
                               disabled={
                                 formData.selectionName === "" ||
                                 formData.selectionName ===
@@ -256,7 +257,8 @@ const SelectionSelections = ({ purpose }) => {
                               }
                               onClick={handleUpdateSelection}
                             >
-                              Save
+                              <p className="m-0"><span className="d-none d-md-block">Save</span><span className="d-md-none"> <i class='bx bx-save iconFont' ></i></span></p>
+
                             </button>
                           </div>
                         </>
@@ -265,13 +267,14 @@ const SelectionSelections = ({ purpose }) => {
                           <p className="m-0">{selection.selectionName}</p>
                           <div className="d-flex gap-1">
                             <button
-                              className="btn btn-sm btn-primary px-3"
+                              className="btn btn-sm  px-2 px-md-3 text-white"
+                              style={{ backgroundColor: "var(--main-color)" }}
                               onClick={() => handleEditSelection(selection)}
                             >
-                              Edit
+                              <p className="m-0"><span className="d-none d-md-block">Edit</span><span className="d-md-none"><i class='bx bx-edit-alt iconFont' ></i></span></p>
                             </button>
                             <button
-                              className="btn btn-sm btn-danger px-3"
+                              className="btn btn-sm btn-danger  px-2 px-md-3"
                               onClick={() =>
                                 handleDeleteSelection(
                                   selection.selectionID,
@@ -279,7 +282,8 @@ const SelectionSelections = ({ purpose }) => {
                                 )
                               }
                             >
-                              Delete
+                              <p className="m-0"><span className="d-none d-md-block">Delete</span><span className="d-md-none"><i class='bx bx-trash iconFont' ></i></span></p>
+
                             </button>
                           </div>
                         </>
@@ -309,27 +313,27 @@ const SelectionSelections = ({ purpose }) => {
               />
               <div className="d-flex gap-1 mb-1">
                 <button
-                  className="btn btn-sm btn-danger px-1"
+                  className="btn btn-sm btn-danger  px-2 px-md-3"
                   onClick={() => {
                     setAddSelection(false), setFormData({ selectionName: "" });
                   }}
                 >
-                  Cancel
+                  <p className="m-0"><span className="d-none d-md-block">Cancel</span><span className="d-md-none"> <i class='bx bx-x iconFont'></i></span></p>
                 </button>
                 <button
-                  className="btn btn-sm btn-primary px-4"
+                  className="btn btn-sm btn-primary px-2 px-md-3"
                   onClick={handleAddSelection}
                   disabled={formData.selectionName === ""}
                 >
-                  Add
+                  <p className="m-0"><span className="d-none d-md-block">Add</span><span className="d-md-none"><i class='bx bx-plus-circle iconFont' ></i></span></p>
                 </button>
               </div>
             </>
           ) : (
             <>
               <button
-                className="btn btn-sm btn-primary"
-                style={{ width: "8.9rem" }}
+                className="btn btn-sm text-white w-100"
+                style={{ backgroundColor: "var(--main-color)" }}
                 onClick={() => {
                   setAddSelection(true),
                     setEditSelection(null),
@@ -339,7 +343,7 @@ const SelectionSelections = ({ purpose }) => {
                     });
                 }}
               >
-                Add
+                <p className="m-0">Add</p>
               </button>
             </>
           )}

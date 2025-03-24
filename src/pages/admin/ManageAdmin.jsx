@@ -178,7 +178,7 @@ const ManageAdmin = () => {
               <tbody>
                 {programAdmins.map((program, index) => (
                   <tr key={index}>
-                    <td> {program.programName} </td>
+                    <td><><p>{program.programName} </p></> </td>
                     <td>
                       {program.firstName ? (
                         <>
@@ -199,7 +199,7 @@ const ManageAdmin = () => {
                             className="btn btn-danger w-100"
                             onClick={() => handleRemoveProgramAdmin(program)}
                           >
-                            Remove admin
+                            <p className="m-0"><span className="d-none d-md-block"> Remove admin</span><span className="d-md-none "> <i class='bx bx-trash iconFont'></i></span></p>
                           </button>
                         </>
                       ) : (
@@ -211,7 +211,8 @@ const ManageAdmin = () => {
                               handleShowModal();
                             }}
                           >
-                            Add admin
+                            <p className="m-0"><span className="d-none d-md-block"> Add admin</span><span className="d-md-none "><i class='bx bx-plus-circle iconFont'></i></span></p>
+
                           </button>
                         </>
                       )}
