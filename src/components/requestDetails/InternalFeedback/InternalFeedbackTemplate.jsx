@@ -5,6 +5,7 @@ import axios from "axios";
 import CommentsStep from "./CommentsStep";
 
 const InternalFeedbackTemplate = ({
+  fetchDocumentDetails,
   documentDetails,
   showScheduleModal,
   setShowScheduleModal,
@@ -84,6 +85,21 @@ const InternalFeedbackTemplate = ({
         payload
       );
       if (res.status === 200) {
+        handleCloseFeedbackModal();
+        setFormData({
+          requestID: documentDetails.requestID,
+          userID: documentDetails.userID,
+          ratings: {
+            courtesy: "",
+            service_quality: "",
+            service_timeliness: "",
+            service_efficiency: "",
+            physical_cleanliness: "",
+            physical_comfort: "",
+          },
+          comments: "",
+        });
+        fetchDocumentDetails();
         alert(res.data.message);
       } else {
         alert(res.data.message);
@@ -105,10 +121,7 @@ const InternalFeedbackTemplate = ({
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            <h4 className="m-0">
-              Internal feedback form
-              {/* {formData.ratings.courtesy} */}
-            </h4>
+            <h4 className="m-0">Client Satisfaction Measurement(Internal)</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

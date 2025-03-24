@@ -1,0 +1,238 @@
+import React, { useEffect, useState } from "react";
+import { Modal } from "react-bootstrap";
+import axios from "axios";
+import CitizensCharterStep from "./Citizen";
+import PersonalInfoStep from "./Personal";
+import SQDFormComponent from "./SQDForm";
+
+const ExternalFeedbackTemplate = ({
+  fetchDocumentDetails,
+  documentDetails,
+  showScheduleModal,
+  setShowScheduleModal,
+  showFeedbackModal,
+  setShowFeedbackModal,
+}) => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    if (documentDetails) {
+      setFormData({
+        requestID: documentDetails.requestID,
+        userID: documentDetails.userID,
+        // Step 1 data
+        cc1: "",
+        cc2: "",
+        cc3: "",
+        // Step 2 data
+        clientType: "",
+        date: new Date().toISOString().split("T")[0], // Formats as "YYYY-MM-DD"
+        sex: "",
+        age: "",
+        serviceAvailed: "",
+        // Step 3 (SQD) data
+        sqd0: "",
+        sqd1: "",
+        sqd2: "",
+        sqd3: "",
+        sqd4: "",
+        sqd5: "",
+        sqd6: "",
+        sqd7: "",
+        sqd8: "",
+        suggestions: "",
+        email: documentDetails.email,
+      });
+    }
+  }, [documentDetails]);
+
+  const handleCloseFeedbackModal = () => {
+    setShowFeedbackModal(false);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      const updatedFormData = {
+        ...prev,
+        [name]: isNaN(value) ? value : Number(value), // Convert only numbers
+      };
+
+      // If cc1 is 4, set cc2 and cc3 to 5
+      if (updatedFormData.cc1 === 4) {
+        updatedFormData.cc2 = 5;
+        updatedFormData.cc3 = 5;
+      }
+
+      return updatedFormData;
+    });
+  };
+
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => {
+    setShowModal(false);
+    // Reset form data when closing modal
+    setFormData({
+      requestID: "",
+      userID: "",
+      ratings: {
+        courtesy: "",
+        service_quality: "",
+        service_timeliness: "",
+        service_efficiency: "",
+        physical_cleanliness: "",
+        physical_comfort: "",
+      },
+      comments: "",
+    });
+  };
+  const submitFeedback = async () => {
+    try {
+      setIsLoading(true);
+
+      const res = await axios.post(
+        "http://localhost:5000/api/feedbackForm/submitFeedbackExternal",
+        formData
+      );
+      if (res.status === 200) {
+        handleCloseFeedbackModal();
+        setFormData({
+          // Step 1 data
+          cc1: "",
+          cc2: "",
+          cc3: "",
+          // Step 2 data
+          clientType: "",
+          date: new Date().toISOString().split("T")[0], // Formats as "YYYY-MM-DD"
+          sex: "",
+          age: "",
+          serviceAvailed: "",
+          // Step 3 (SQD) data
+          sqd0: "",
+          sqd1: "",
+          sqd2: "",
+          sqd3: "",
+          sqd4: "",
+          sqd5: "",
+          sqd6: "",
+          sqd7: "",
+          sqd8: "",
+          suggestions: "",
+        });
+        fetchDocumentDetails();
+        alert(res.data.message);
+      } else {
+        alert(res.data.message);
+      }
+    } catch (err) {
+      alert("An error occured: " + (err.response?.data?.error || err.message));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const nextStep = () => {
+    setCurrentStep(currentStep + 1);
+  };
+
+  const prevStep = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const step1Complete = formData.cc1 && formData.cc2 && formData.cc3;
+  const step2Complete =
+    formData.clientType &&
+    formData.date &&
+    formData.sex &&
+    formData.age &&
+    formData.serviceAvailed;
+  const step3Complete =
+    formData.sqd0 &&
+    formData.sqd1 &&
+    formData.sqd2 &&
+    formData.sqd3 &&
+    formData.sqd4 &&
+    formData.sqd5 &&
+    formData.sqd6 &&
+    formData.sqd7 &&
+    formData.sqd8;
+
+  return (
+    <>
+      <Modal
+        show={showFeedbackModal}
+        onHide={handleCloseFeedbackModal}
+        centered
+        size="lg"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <h5 className="m-0">
+              Client Satisfaction Measurement(External)
+              {formData.email}
+            </h5>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div
+            className="overflow-x-hidden overflow-y-scroll"
+            style={{ height: "30rem" }}
+          >
+            {currentStep === 1 && (
+              <CitizensCharterStep
+                formData={formData}
+                handleChange={handleChange}
+              />
+            )}
+            {currentStep === 2 && (
+              <PersonalInfoStep
+                formData={formData}
+                handleChange={handleChange}
+              />
+            )}
+            {currentStep === 3 && (
+              <SQDFormComponent
+                documentDetails={documentDetails}
+                formData={formData}
+                handleChange={handleChange}
+              />
+            )}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          {currentStep > 1 && (
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={prevStep}
+            >
+              Previous
+            </button>
+          )}
+
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={currentStep < 3 ? nextStep : submitFeedback}
+            disabled={
+              currentStep === 1
+                ? !step1Complete
+                : currentStep === 2
+                ? !step2Complete
+                : currentStep === 3
+                ? !step3Complete
+                : false
+            }
+          >
+            {currentStep < 3 ? "Next" : "Submit"}
+          </button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
+
+export default ExternalFeedbackTemplate;

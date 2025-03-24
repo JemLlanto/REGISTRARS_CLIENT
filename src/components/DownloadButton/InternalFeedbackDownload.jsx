@@ -7,30 +7,31 @@ const InternalFeedbackDownload = ({ documentDetails }) => {
   const [feedbackData, setFeedbackData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (documentDetails) {
-        setIsLoading(true);
-        try {
-          const res = await axios.get(
-            `http://localhost:5000/api/feedbackForm/fetchFeedbackInternalData/${documentDetails.requestID}`
-          );
-          if (res.status === 200) {
-            console.log(res.data.result);
-            setFeedbackData(res.data.result);
-          } else {
-            alert(res.data.message);
-          }
-        } catch (err) {
-          alert(`An error occurred: ${err.message}`);
-        } finally {
-          setIsLoading(false);
+  const fetchData = async () => {
+    if (documentDetails.requestID) {
+      setIsLoading(true);
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/feedbackForm/fetchFeedbackInternalData?requestID=${documentDetails.requestID}`
+        );
+        if (res.status === 200) {
+          console.log(res.data.result);
+          setFeedbackData(res.data.result);
+        } else {
+          alert(res.data.message);
         }
+      } catch (err) {
+        alert(`An error occurred: ${err.message}`);
+      } finally {
+        setIsLoading(false);
       }
-    };
-
-    fetchData();
-  }, [documentDetails]);
+    }
+  };
+  useEffect(() => {
+    if (documentDetails.requestID) {
+      fetchData();
+    }
+  }, [documentDetails.requestID]);
   // PDF generation function
   const downloadPDF = () => {
     try {
@@ -217,7 +218,7 @@ const InternalFeedbackDownload = ({ documentDetails }) => {
         onClick={downloadPDF}
         disabled={!documentDetails.responded}
       >
-        Submit & Download PDF
+        <p className="m-0">Download feedback(Internal)</p>
       </button>
     </>
   );

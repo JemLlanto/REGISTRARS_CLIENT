@@ -9,6 +9,7 @@ import SQDFormComponent from "../../components/requestDetails/ExternalFeedback/S
 import RequestInfo from "../../components/requestDetails/RequestInfo";
 import ViewScheduleSlip from "../../components/requestDetails/ViewScheduleSlip";
 import InternalFeedbackDownload from "../../components/DownloadButton/InternalFeedbackDownload";
+import ExternalFeedbackDownload from "../../components/DownloadButton/ExternalFeedbackDownload";
 
 const RequestDetails = () => {
   const { user } = useOutletContext();
@@ -129,7 +130,13 @@ const RequestDetails = () => {
         {user.isAdmin ? (
           <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
             <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
-              <InternalFeedbackDownload documentDetails={documentDetails} />
+              {/* FOR DOWNLOAD BUTTONS */}
+              {documentDetails.feedbackType === "internal" ? (
+                <InternalFeedbackDownload documentDetails={documentDetails} />
+              ) : (
+                <ExternalFeedbackDownload documentDetails={documentDetails} />
+              )}
+
               <CancelButton
                 fetchDocumentDetails={fetchDocumentDetails}
                 documentDetails={documentDetails}
@@ -224,7 +231,7 @@ const RequestDetails = () => {
                     <FeedbackInternal />
                   </div>
                   <div className="row  d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
-                    <FeedbackExternal></FeedbackExternal>
+                    <FeedbackExternal />
                   </div>
                 </>
               ) : null}

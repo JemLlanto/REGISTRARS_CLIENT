@@ -272,7 +272,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
           <button
             className="btn btn-primary"
             onClick={() => handleChangeStatusRequest()}
-            disabled={!file}
+            disabled={documentDetails.status === "processing" && !file}
           >
             {isLoading ? (
               <>
