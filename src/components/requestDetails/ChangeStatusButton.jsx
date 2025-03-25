@@ -25,10 +25,10 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
           documentDetails.status === "pending"
             ? "processing"
             : documentDetails.status === "processing"
-            ? "ready to pickup"
-            : documentDetails.status === "ready to pickup"
-            ? "completed"
-            : null,
+              ? "ready to pickup"
+              : documentDetails.status === "ready to pickup"
+                ? "completed"
+                : null,
         userID: documentDetails.userID,
         receiverEmail: documentDetails.email,
         feedbackType: "",
@@ -132,13 +132,21 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
     const maxSize = 1 * 1024 * 1024; // 1MB
 
     if (file.size > maxSize) {
-      alert("File size should not exceed 1MB.");
+      Swal.fire({
+        icon: "warning",
+        title: "File Too Large",
+        text: "File size should not exceed 1MB.",
+      });
       setFile(null);
       return;
     }
 
     if (!allowedTypes.includes(file.type)) {
-      alert("Only JPEG, JPG, and PDF files are allowed.");
+      Swal.fire({
+        icon: "error",
+        title: "Invalid File Type",
+        text: "Only JPEG, JPG, and PDF files are allowed.",
+      });
       setFile(null);
       return;
     }
@@ -159,10 +167,10 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
         {documentDetails.status === "pending"
           ? "Processing"
           : documentDetails.status === "processing"
-          ? "Ready to Pickup"
-          : documentDetails.status === "ready to pickup"
-          ? "Completed"
-          : "Claimed"}
+            ? "Ready to Pickup"
+            : documentDetails.status === "ready to pickup"
+              ? "Completed"
+              : "Claimed"}
       </button>
 
       <Modal

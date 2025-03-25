@@ -4,6 +4,7 @@ import axios from "axios";
 import CitizensCharterStep from "./Citizen";
 import PersonalInfoStep from "./Personal";
 import SQDFormComponent from "./SQDForm";
+import Swal from "sweetalert2";
 
 const ExternalFeedbackTemplate = ({
   fetchDocumentDetails,
@@ -100,6 +101,7 @@ const ExternalFeedbackTemplate = ({
         "http://localhost:5000/api/feedbackForm/submitFeedbackExternal",
         formData
       );
+
       if (res.status === 200) {
         try {
           const emailRes = await axios.post(
@@ -109,15 +111,13 @@ const ExternalFeedbackTemplate = ({
 
           if (emailRes.status === 200) {
             console.log(emailRes.data.message);
-            // alert(emailRes.data.message);
           } else {
             console.log(emailRes.data.message);
-            // alert(emailRes.data.message);
           }
         } catch (emailErr) {
           console.log("An error occurred while sending email: ", emailErr);
-          // alert("An error occurred while sending email: ", emailErr.err);
         }
+
         handleCloseFeedbackModal();
         setFormData({
           // Step 1 data
@@ -143,12 +143,25 @@ const ExternalFeedbackTemplate = ({
           suggestions: "",
         });
         fetchDocumentDetails();
-        alert(res.data.message);
+
+        Swal.fire({
+          icon: "success",
+          title: "Feedback Submitted",
+          text: res.data.message,
+        });
       } else {
-        alert(res.data.message);
+        Swal.fire({
+          icon: "error",
+          title: "Submission Failed",
+          text: res.data.message,
+        });
       }
     } catch (err) {
-      alert("An error occured: " + (err.response?.data?.error || err.message));
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An error occurred: " + (err.response?.data?.error || err.message),
+      });
     } finally {
       setIsLoading(false);
     }
@@ -241,10 +254,10 @@ const ExternalFeedbackTemplate = ({
               currentStep === 1
                 ? !step1Complete
                 : currentStep === 2
-                ? !step2Complete
-                : currentStep === 3
-                ? !step3Complete
-                : false
+                  ? !step2Complete
+                  : currentStep === 3
+                    ? !step3Complete
+                    : false
             }
           >
             {currentStep < 3 ? "Next" : "Submit"}
