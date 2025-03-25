@@ -43,6 +43,41 @@
   font-size: 0.7rem;
 }
 
+/* titles pages */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+/* end */
+
+/* button in Manage request form */
+.customize {
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.customize h5,
+.customize h4 {
+  transition: transform 0.2s ease-in-out;
+}
+
+.customize:hover h5 {
+  transform: translateX(3px); /* Move text slightly */
+}
+
+.customize:hover h4 {
+  transform: translateX(3px); /* Move icon slightly */
+}
+/* end */
 
 /* Preloader Container */
 /* Preloader Container */

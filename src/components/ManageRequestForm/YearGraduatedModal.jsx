@@ -126,7 +126,7 @@ function YearGraduatedModal() {
   return (
     <>
       <Button
-        className="shadow-sm p-2 w-100 border-0 d-flex justify-content-between align-items-center"
+        className="customize shadow-sm p-2 w-100 border-0 d-flex justify-content-between align-items-center"
         style={{ backgroundColor: "var(--main-color)" }}
         onClick={handleShowYear}
       >

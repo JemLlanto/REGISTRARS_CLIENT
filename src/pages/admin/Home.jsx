@@ -116,7 +116,7 @@ export default function Home() {
         className="rounded-2 shadow-sm text-white p-2"
         style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
+        <h5 className="m-0 p-2 fade-in" style={{ color: "var(--secondMain-color)" }}>
           Dashboard
         </h5>
       </div>

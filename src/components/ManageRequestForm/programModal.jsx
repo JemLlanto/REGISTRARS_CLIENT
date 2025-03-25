@@ -130,7 +130,7 @@ function programModal() {
     <>
       <div className="w-100 mx-0">
         <Button
-          className="shadow-sm p-2 w-100 border-0  d-flex justify-content-between align-items-center"
+          className="customize shadow-sm p-2 w-100 border-0 d-flex justify-content-between align-items-center "
           style={{ backgroundColor: "var(--main-color)" }}
           onClick={handleShowProgram}
         >
@@ -139,6 +139,7 @@ function programModal() {
             <i className="bx bxs-chevron-right me-2"></i>
           </h4>
         </Button>
+
       </div>
 
       {/* MODAL FOR VIEWING PROGRAMS */}
@@ -214,13 +215,18 @@ function programModal() {
                         ) : (
                           <>
                             <button
-                              className="btn btn-success text-white w-100"
+                              className="btn btn-success text-white  px-2 px-md-3"
                               onClick={() => handleEditProgram(program)}
                             >
-                              <p className="m-0">Edit</p>
+                              <p className="m-0">
+                                <span className="d-none d-md-block">Edit</span>
+                                <span className="d-md-none">
+                                  <i className="bx bx-edit-alt iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                             <button
-                              className="btn btn-danger text-white w-100"
+                              className="btn btn-danger text-white  px-2 px-md-3 "
                               onClick={() =>
                                 handleDeleteProgram(
                                   program.programID,
@@ -228,7 +234,14 @@ function programModal() {
                                 )
                               }
                             >
-                              <p className="m-0">Delete</p>
+                              <p className="m-0">
+                                <span className="d-none d-md-block">
+                                  Delete
+                                </span>
+                                <span className="d-md-none">
+                                  <i className="bx bx-trash iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                           </>
                         )}

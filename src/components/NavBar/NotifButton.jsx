@@ -191,13 +191,12 @@ const NotifButton = ({ user }) => {
       </ToastContainer>
       <Dropdown>
         <Dropdown.Toggle
-          className="border rounded-circle p-0 d-flex align-items-center justify-content-center border-0"
+          className="btn btn-light border rounded-circle p-0 d-flex align-items-center justify-content-center border-0"
           id="dropdown-basic"
           bsPrefix="none"
           style={{
             width: "2.5rem",
             height: "2.5rem",
-            backgroundColor: "white",
           }}
         >
           <h5
