@@ -12,7 +12,7 @@ const ForgotPassStep3 = ({
 }) => {
   return (
     <div>
-      <Row>
+      <Row className="gap-2">
         {[
           {
             name: "password",
@@ -28,7 +28,7 @@ const ForgotPassStep3 = ({
           },
         ].map(({ name, show, setShow, placeholder }, index) => (
           <Col xs={12} md={12} key={index}>
-            <div className="mb-3 position-relative">
+            <div className="position-relative">
               <div className="input-group">
                 <span
                   className="input-group-text"

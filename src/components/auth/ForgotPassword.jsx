@@ -227,6 +227,15 @@ const ForgotPassword = () => {
       );
 
       if (res.data.status === "Success") {
+        setAlreadySent(false);
+        setOtpInputs(new Array(6).fill(""));
+        setFormData({
+          firstName: "",
+          receiverEmail: "",
+          token: "",
+          password: "",
+          conPassword: "",
+        });
         Swal.fire({
           icon: "success",
           title: "Password Reset Successful",
@@ -252,10 +261,15 @@ const ForgotPassword = () => {
     }
   };
 
-
   return (
     <>
-      <button className="border-0 bg-transparent fw-bold d-flex align-items-end" style={{ color: "var(--yellow-color)" }} onClick={handleShow}>Forgot password</button>
+      <button
+        className="border-0 bg-transparent fw-bold d-flex align-items-end"
+        style={{ color: "var(--yellow-color)" }}
+        onClick={handleShow}
+      >
+        Forgot password
+      </button>
       <Modal
         show={showForgotModal}
         onHide={handleClose}
@@ -263,7 +277,11 @@ const ForgotPassword = () => {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton className="text-white" style={{ backgroundColor: "var(--main-color)" }}>
+        <Modal.Header
+          closeButton
+          className="text-white"
+          style={{ backgroundColor: "var(--main-color)" }}
+        >
           <Modal.Title>Account Recovery</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -363,7 +381,9 @@ const ForgotPassword = () => {
                 Back
               </button>
               <button className="btn btn-primary" onClick={verifyOTP}>
-                Verify
+                <p className="m-0">
+                  {isLoading ? <>Verifying...</> : <>Verify</>}
+                </p>
               </button>
             </>
           ) : currentStep === 3 ? (
@@ -379,7 +399,9 @@ const ForgotPassword = () => {
                 disabled={!isFormValid()}
                 onClick={handleChangePassword}
               >
-                Save Changes
+                <p className="m-0">
+                  {isLoading ? <>Saving Changes...</> : <>Save Changes</>}
+                </p>
               </button>
             </>
           ) : null}
