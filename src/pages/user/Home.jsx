@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import MainHeaders from "../../components/studentRequest/MainHeaders";
-import { Spinner } from "react-bootstrap";
+import RequestList from "../../components/user/RequestList";
 
 export default function Home() {
   const { user } = useOutletContext();
@@ -46,23 +46,6 @@ export default function Home() {
         });
     }
   }, [userID]);
-
-  const getStatusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case "pending":
-        return "text-warning"; // Yellow
-      case "processing":
-        return "text-primary"; // Blue
-      case "ready to pickup":
-        return "text-info"; // Blue
-      case "completed":
-        return "text-success"; // Green
-      case "cancelled":
-        return "text-danger"; // Red
-      default:
-        return "text-dark"; // Default color
-    }
-  };
 
   // Filter documents based on search input
   useEffect(() => {
@@ -131,102 +114,7 @@ export default function Home() {
 
       <MainHeaders status={status} handleSelect={handleSelect} />
 
-      <div
-        className="custom-scrollbar mt-2 d-flex flex-column gap-2 pe-1 overflow-auto"
-        style={{ height: "65dvh" }}
-      >
-        {isLoading ? (
-          <>
-            <div
-              className="d-flex justify-content-center align-items-center"
-              style={{ height: "70%" }}
-            >
-              <p>
-                <Spinner animation="border" variant="primary" size="sm" />{" "}
-                Loading request...
-              </p>
-            </div>
-          </>
-        ) : (
-          <>
-            {filteredRequests.length > 0 ? (
-              <>
-                {filteredRequests.map((request, index) => (
-                  <Link
-                    key={index}
-                    className="text-decoration-none text-dark bg-light rounded shadow-sm "
-                    to={`/request-details/${request.requestID}`}
-                  >
-                    <div className="row mx-auto g-2 p-3">
-                      <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                        <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
-                          Name:
-                        </h5>
-                        <p className="m-0">{request.firstName}</p>
-                      </div>
-                      {/* Line */}
-                      <div
-                        className="bg-dark w-100  d-block d-sm-none"
-                        style={{ height: "1px" }}
-                      ></div>
-                      <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                        <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
-                          Purpose:
-                        </h5>
-                        <p className="m-0">{request.purpose}</p>
-                      </div>
-
-                      {/* Line */}
-                      <div
-                        className="bg-dark w-100  d-block d-sm-none"
-                        style={{ height: "1px" }}
-                      ></div>
-
-                      <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                        <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
-                          Date:
-                        </h5>
-                        <p className="m-0 ">
-                          {request?.created
-                            ? new Intl.DateTimeFormat("en-US", {
-                                dateStyle: "medium",
-                              }).format(new Date(request?.created))
-                            : ""}
-                        </p>
-                      </div>
-                      {/* Line */}
-                      <div
-                        className="bg-dark w-100 d-block d-sm-none"
-                        style={{ height: "1px" }}
-                      ></div>
-
-                      <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                        <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
-                          Status:
-                        </h5>
-                        <h5 className={`m-0 ${getStatusColor(request.status)}`}>
-                          {String(request.status).charAt(0).toUpperCase() +
-                            String(request.status).slice(1)}
-                        </h5>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </>
-            ) : (
-              <>
-                <p>No requested documents found...</p>
-              </>
-            )}
-          </>
-        )}
-      </div>
-
-      {/* <div className="w-100 h-50 bg-light shadow-sm rounded-2 p-5 mt-5">
-        <div className="d-flex align-items-center justify-content-around mt-5">
-          Free space
-        </div>
-      </div> */}
+      <RequestList filteredRequests={filteredRequests} isLoading={isLoading} />
     </div>
   );
 }
