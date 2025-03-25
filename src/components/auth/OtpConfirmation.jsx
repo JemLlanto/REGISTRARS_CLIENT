@@ -156,14 +156,16 @@ const OtpConfirmation = ({
         onClick={sendOtp}
         disabled={!isFormValid()}
       >
-        {isLoading ? (
-          <>
-            Sending OTP
-            <Spinner animation="border" variant="light" />
-          </>
-        ) : (
-          <>Register</>
-        )}
+        <p className="m-0">
+          {isLoading ? (
+            <>
+              <Spinner animation="border" variant="dark" size="sm" /> Verifying
+              Email...
+            </>
+          ) : (
+            <>Register</>
+          )}
+        </p>
       </button>
       <Modal show={showOtpModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
