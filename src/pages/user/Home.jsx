@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useOutletContext, Link, useNavigate } from "react-router-dom";
+import {
+  useOutletContext,
+  Link,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import axios from "axios";
-import NewAccountPopup from "../../components/NewAccount/NewAccountPopup";
+import MainHeaders from "../../components/studentRequest/MainHeaders";
+import { Spinner } from "react-bootstrap";
 
 export default function Home() {
   const { user } = useOutletContext();
+  const [isLoading, setIsLoading] = useState(false);
   const [requestedDocuments, setRequestedDocuments] = useState([]);
+  const [status, setStatus] = useState("all");
+  const [filteredRequests, setFilteredRequests] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (user.isAdmin) {
@@ -27,6 +36,7 @@ export default function Home() {
           if (res.data.Status === "Success") {
             console.log(res.data.data);
             setRequestedDocuments(res.data.data);
+            setFilteredRequests(res.data.data);
           } else if (res.data.Message) {
             console.log("Error:", res.data.Message);
           }
@@ -54,118 +64,160 @@ export default function Home() {
     }
   };
 
+  // Filter documents based on search input
+  useEffect(() => {
+    setIsLoading(true); // Start loading
+
+    const timer = setTimeout(() => {
+      const filtered = requestedDocuments
+        .filter((request) => {
+          const matchesStatus =
+            !status ||
+            status.toLowerCase() === "all" ||
+            request.status.toLowerCase() === status.toLowerCase();
+
+          return matchesStatus;
+        })
+        .sort((a, b) => {
+          const statusPriority = {
+            pending: 1,
+            processing: 2,
+            "ready to pickup": 3,
+            completed: 4,
+          };
+
+          const priorityA = statusPriority[a.status.toLowerCase()] || 999;
+          const priorityB = statusPriority[b.status.toLowerCase()] || 999;
+
+          return priorityA - priorityB;
+        });
+
+      setFilteredRequests(filtered);
+      setIsLoading(false); // Stop loading after processing
+    }, 500); // Simulate loading delay
+
+    return () => clearTimeout(timer); // Cleanup function to avoid race conditions
+  }, [requestedDocuments, status]); // Dependencies
+
+  // Read the status from URL on component mount
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const statusFromUrl = params.get("status");
+    if (statusFromUrl) {
+      setStatus(statusFromUrl);
+    }
+  }, [location.search]);
+
+  // Update state and URL when user selects a status
+  const handleSelect = (selectedStatus) => {
+    if (selectedStatus != null) {
+      navigate(`?status=${selectedStatus}`); // Updates the URL query param
+    } else {
+      setStatus("all");
+      navigate(``);
+    }
+  };
+
   return (
     <div className="p-1 p-sm-4 w-100">
       <div
-        className="rounded-2 shadow-sm mb-2"
+        className="rounded-2 shadow-sm mb-2 text-white p-2 mb-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="m-0 p-3" style={{ color: "var(--secondMain-color)" }}>
-          Pending Request
+        <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
+          Requested Documents
         </h5>
       </div>
 
+      <MainHeaders status={status} handleSelect={handleSelect} />
+
       <div
-        className="p-2 text-start w-100 rounded-2 p-3 d-none d-sm-block"
-        style={{ backgroundColor: "var(--yellow-color)" }}
-      >
-        <div
-          className="m-0 d-flex align-items-center justify-content-center"
-          style={{ color: "var(--background-color)" }}
-        >
-          <div className="w-100 d-flex align-items-center justify-content-center">
-            <h5 className="m-0">
-              <i className="bx bxs-user me-2 "></i>Name
-            </h5>
-          </div>
-          <div className="w-100 d-flex align-items-center justify-content-center">
-            <h5 className="m-0">
-              <i className="bx bxs-notepad me-2 m-0"></i>Purpose
-            </h5>
-          </div>
-          <div className="w-100 d-flex align-items-center justify-content-center">
-            <h5 className="m-0">
-              <i className="bx bxs-calendar-check me-2"></i>Date
-            </h5>
-          </div>
-          <div className="w-100 d-flex align-items-center justify-content-center">
-            <h5 className="m-0">
-              <i className="bx bxs-id-card me-2"></i>Status
-            </h5>
-          </div>
-        </div>
-      </div>
-      <div
-        className="custom-scrollbar mt-3 d-flex flex-column gap-3 overflow-auto"
+        className="custom-scrollbar mt-2 d-flex flex-column gap-2 pe-1 overflow-auto"
         style={{ height: "65dvh" }}
       >
-        {requestedDocuments.length > 0 ? (
+        {isLoading ? (
           <>
-            {requestedDocuments.map((request) => (
-              <Link
-                key={request.requestID}
-                className="text-decoration-none text-dark"
-                to={`/request-details/${request.requestID}`}
-              >
-                <div className="row mx-auto g-2 bg-light rounded shadow-sm p-3">
-                  <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
-                      Name:
-                    </h5>
-                    <p className="m-0">{request.firstName}</p>
-                  </div>
-                  {/* Line */}
-                  <div
-                    className="bg-dark w-100  d-block d-sm-none"
-                    style={{ height: "1px" }}
-                  ></div>
-                  <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
-                      Purpose:
-                    </h5>
-                    <p className="m-0">{request.purpose}</p>
-                  </div>
-
-                  {/* Line */}
-                  <div
-                    className="bg-dark w-100  d-block d-sm-none"
-                    style={{ height: "1px" }}
-                  ></div>
-
-                  <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
-                      Date:
-                    </h5>
-                    <p className="m-0 ">
-                      {request?.created
-                        ? new Intl.DateTimeFormat("en-US", {
-                            dateStyle: "medium",
-                          }).format(new Date(request?.created))
-                        : ""}
-                    </p>
-                  </div>
-                  {/* Line */}
-                  <div
-                    className="bg-dark w-100 d-block d-sm-none"
-                    style={{ height: "1px" }}
-                  ></div>
-
-                  <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                    <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
-                      Status:
-                    </h5>
-                    <h5 className={`m-0 ${getStatusColor(request.status)}`}>
-                      {String(request.status).charAt(0).toUpperCase() +
-                        String(request.status).slice(1)}
-                    </h5>
-                  </div>
-                </div>
-              </Link>
-            ))}
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ height: "70%" }}
+            >
+              <p>
+                <Spinner animation="border" variant="primary" size="sm" />{" "}
+                Loading request...
+              </p>
+            </div>
           </>
         ) : (
           <>
-            <p>No pending request</p>
+            {filteredRequests.length > 0 ? (
+              <>
+                {filteredRequests.map((request, index) => (
+                  <Link
+                    key={index}
+                    className="text-decoration-none text-dark bg-light rounded shadow-sm "
+                    to={`/request-details/${request.requestID}`}
+                  >
+                    <div className="row mx-auto g-2 p-3">
+                      <div className="col-12 col-sm d-flex align-items-center justify-content-center">
+                        <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                          Name:
+                        </h5>
+                        <p className="m-0">{request.firstName}</p>
+                      </div>
+                      {/* Line */}
+                      <div
+                        className="bg-dark w-100  d-block d-sm-none"
+                        style={{ height: "1px" }}
+                      ></div>
+                      <div className="col-12 col-sm d-flex align-items-center justify-content-center">
+                        <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                          Purpose:
+                        </h5>
+                        <p className="m-0">{request.purpose}</p>
+                      </div>
+
+                      {/* Line */}
+                      <div
+                        className="bg-dark w-100  d-block d-sm-none"
+                        style={{ height: "1px" }}
+                      ></div>
+
+                      <div className="col-12 col-sm d-flex align-items-center justify-content-center">
+                        <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                          Date:
+                        </h5>
+                        <p className="m-0 ">
+                          {request?.created
+                            ? new Intl.DateTimeFormat("en-US", {
+                                dateStyle: "medium",
+                              }).format(new Date(request?.created))
+                            : ""}
+                        </p>
+                      </div>
+                      {/* Line */}
+                      <div
+                        className="bg-dark w-100 d-block d-sm-none"
+                        style={{ height: "1px" }}
+                      ></div>
+
+                      <div className="col-12 col-sm d-flex align-items-center justify-content-center">
+                        <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                          Status:
+                        </h5>
+                        <h5 className={`m-0 ${getStatusColor(request.status)}`}>
+                          {String(request.status).charAt(0).toUpperCase() +
+                            String(request.status).slice(1)}
+                        </h5>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </>
+            ) : (
+              <>
+                <p>No requested documents found...</p>
+              </>
+            )}
           </>
         )}
       </div>

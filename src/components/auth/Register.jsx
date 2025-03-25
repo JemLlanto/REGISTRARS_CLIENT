@@ -151,6 +151,7 @@ const Register = ({ setActivePage }) => {
             setShowPassword={setShowPassword}
             showConPassword={showConPassword}
             setShowConPassword={setShowConPassword}
+            setActivePage={setActivePage}
           />
         </div>
       </div>

@@ -192,9 +192,9 @@ const NotifButton = ({ user }) => {
           >
             {notifications.filter((notif) => notif.isRead === 0).length ===
             0 ? (
-              <i class="bx bx-bell bx-sm"></i>
+              <i className="bx bx-bell bx-sm"></i>
             ) : (
-              <i class="bx bxs-bell bx-tada bx-sm"></i>
+              <i className="bx bxs-bell bx-tada bx-sm"></i>
             )}
           </h5>
           {notifications.filter((notif) => notif.isRead === 0).length ===

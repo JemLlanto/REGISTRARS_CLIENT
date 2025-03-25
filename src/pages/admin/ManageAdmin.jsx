@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Modal, Button, ToggleButton } from "react-bootstrap";
 import AdminModal from "../../components/ManageAdmin/AdminModal";
 import axios from "axios";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 const ManageAdmin = () => {
   const [search, setSearch] = useState("");
@@ -40,32 +40,32 @@ const ManageAdmin = () => {
           setSelectedProgram("");
           fetchProgramAdmins();
           Swal.fire({
-            icon: 'success',
-            title: 'Success',
+            icon: "success",
+            title: "Success",
             text: res.data.Message,
           });
         } else {
           Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: res.data.Message || 'An error occurred. Please try again.',
+            icon: "error",
+            title: "Error",
+            text: res.data.Message || "An error occurred. Please try again.",
           });
         }
       })
       .catch((err) => {
         console.log(err);
         Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Something went wrong. Please try again later.',
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong. Please try again later.",
         });
       });
   };
 
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
-      confirmButton: 'btn btn-success',
-      cancelButton: 'btn btn-danger me-2',
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger me-2",
     },
     buttonsStyling: false,
   });
@@ -73,12 +73,12 @@ const ManageAdmin = () => {
   const handleRemoveProgramAdmin = (program) => {
     swalWithBootstrapButtons
       .fire({
-        title: 'Are you sure?',
+        title: "Are you sure?",
         text: `You won't be able to revert this! Remove ${program.firstName} as administrator for ${program.programName}?`,
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonText: 'Yes, remove it!',
-        cancelButtonText: 'No, cancel!',
+        confirmButtonText: "Yes, remove it!",
+        cancelButtonText: "No, cancel!",
         reverseButtons: true,
       })
       .then((result) => {
@@ -88,32 +88,31 @@ const ManageAdmin = () => {
               programID: program.programID,
             })
             .then((res) => {
-              if (res.data.Status === 'Success') {
+              if (res.data.Status === "Success") {
                 fetchProgramAdmins();
                 swalWithBootstrapButtons.fire({
-                  title: 'Removed!',
+                  title: "Removed!",
                   text: res.data.Message,
-                  icon: 'success',
+                  icon: "success",
                 });
               }
             })
             .catch((err) => {
               swalWithBootstrapButtons.fire({
-                title: 'Error',
-                text: err.message || 'An error occurred.',
-                icon: 'error',
+                title: "Error",
+                text: err.message || "An error occurred.",
+                icon: "error",
               });
             });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire({
-            title: 'Cancelled',
-            text: 'The administrator was not removed.',
-            icon: 'error',
+            title: "Cancelled",
+            text: "The administrator was not removed.",
+            icon: "error",
           });
         }
       });
   };
-
 
   const fetchProgramAdmins = () => {
     axios
@@ -162,11 +161,13 @@ const ManageAdmin = () => {
           <div className="">
             <AdminModal />
           </div>
-
         </div>
 
         <div className="w-100 d-flex flex-column gap-2 p-3 mt-3 mx-0 bg-white shadow-sm rounded-2">
-          <div className="custom-scrollbar p-2 overflow-y-scroll" style={{ height: "30rem" }}>
+          <div
+            className="custom-scrollbar p-2 overflow-y-scroll"
+            style={{ height: "30rem" }}
+          >
             <Table striped bordered hover>
               <thead>
                 <tr>
@@ -178,7 +179,11 @@ const ManageAdmin = () => {
               <tbody>
                 {programAdmins.map((program, index) => (
                   <tr key={index}>
-                    <td><><p>{program.programName} </p></> </td>
+                    <td>
+                      <>
+                        <p>{program.programName} </p>
+                      </>{" "}
+                    </td>
                     <td>
                       {program.firstName ? (
                         <>
@@ -199,7 +204,16 @@ const ManageAdmin = () => {
                             className="btn btn-danger w-100"
                             onClick={() => handleRemoveProgramAdmin(program)}
                           >
-                            <p className="m-0"><span className="d-none d-md-block"> Remove admin</span><span className="d-md-none "> <i class='bx bx-trash iconFont'></i></span></p>
+                            <p className="m-0">
+                              <span className="d-none d-md-block">
+                                {" "}
+                                Remove admin
+                              </span>
+                              <span className="d-md-none ">
+                                {" "}
+                                <i className="bx bx-trash iconFont"></i>
+                              </span>
+                            </p>
                           </button>
                         </>
                       ) : (
@@ -211,8 +225,15 @@ const ManageAdmin = () => {
                               handleShowModal();
                             }}
                           >
-                            <p className="m-0"><span className="d-none d-md-block"> Add admin</span><span className="d-md-none "><i class='bx bx-plus-circle iconFont'></i></span></p>
-
+                            <p className="m-0">
+                              <span className="d-none d-md-block">
+                                {" "}
+                                Add admin
+                              </span>
+                              <span className="d-md-none ">
+                                <i className="bx bx-plus-circle iconFont"></i>
+                              </span>
+                            </p>
                           </button>
                         </>
                       )}

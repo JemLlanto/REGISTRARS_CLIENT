@@ -192,7 +192,6 @@ const SelectionSelections = ({ purpose }) => {
     });
   };
 
-
   return (
     <>
       <div className="border p-2 rounded mb-2">
@@ -245,20 +244,32 @@ const SelectionSelections = ({ purpose }) => {
                                   });
                               }}
                             >
-                              <p className="m-0"><span className="d-none d-md-block">Cancel</span><span className="d-md-none"> <i class='bx bx-x iconFont'></i></span></p>
-
+                              <p className="m-0">
+                                <span className="d-none d-md-block">
+                                  Cancel
+                                </span>
+                                <span className="d-md-none">
+                                  {" "}
+                                  <i className="bx bx-x iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                             <button
                               className="btn btn-sm btn-primary  px-2 px-md-3"
                               disabled={
                                 formData.selectionName === "" ||
                                 formData.selectionName ===
-                                selection.selectionName
+                                  selection.selectionName
                               }
                               onClick={handleUpdateSelection}
                             >
-                              <p className="m-0"><span className="d-none d-md-block">Save</span><span className="d-md-none"> <i class='bx bx-save iconFont' ></i></span></p>
-
+                              <p className="m-0">
+                                <span className="d-none d-md-block">Save</span>
+                                <span className="d-md-none">
+                                  {" "}
+                                  <i className="bx bx-save iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                           </div>
                         </>
@@ -271,7 +282,12 @@ const SelectionSelections = ({ purpose }) => {
                               style={{ backgroundColor: "var(--main-color)" }}
                               onClick={() => handleEditSelection(selection)}
                             >
-                              <p className="m-0"><span className="d-none d-md-block">Edit</span><span className="d-md-none"><i class='bx bx-edit-alt iconFont' ></i></span></p>
+                              <p className="m-0">
+                                <span className="d-none d-md-block">Edit</span>
+                                <span className="d-md-none">
+                                  <i className="bx bx-edit-alt iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                             <button
                               className="btn btn-sm btn-danger  px-2 px-md-3"
@@ -282,8 +298,14 @@ const SelectionSelections = ({ purpose }) => {
                                 )
                               }
                             >
-                              <p className="m-0"><span className="d-none d-md-block">Delete</span><span className="d-md-none"><i class='bx bx-trash iconFont' ></i></span></p>
-
+                              <p className="m-0">
+                                <span className="d-none d-md-block">
+                                  Delete
+                                </span>
+                                <span className="d-md-none">
+                                  <i className="bx bx-trash iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                           </div>
                         </>
@@ -318,14 +340,25 @@ const SelectionSelections = ({ purpose }) => {
                     setAddSelection(false), setFormData({ selectionName: "" });
                   }}
                 >
-                  <p className="m-0"><span className="d-none d-md-block">Cancel</span><span className="d-md-none"> <i class='bx bx-x iconFont'></i></span></p>
+                  <p className="m-0">
+                    <span className="d-none d-md-block">Cancel</span>
+                    <span className="d-md-none">
+                      {" "}
+                      <i className="bx bx-x iconFont"></i>
+                    </span>
+                  </p>
                 </button>
                 <button
                   className="btn btn-sm btn-primary px-2 px-md-3"
                   onClick={handleAddSelection}
                   disabled={formData.selectionName === ""}
                 >
-                  <p className="m-0"><span className="d-none d-md-block">Add</span><span className="d-md-none"><i class='bx bx-plus-circle iconFont' ></i></span></p>
+                  <p className="m-0">
+                    <span className="d-none d-md-block">Add</span>
+                    <span className="d-md-none">
+                      <i className="bx bx-plus-circle iconFont"></i>
+                    </span>
+                  </p>
                 </button>
               </div>
             </>

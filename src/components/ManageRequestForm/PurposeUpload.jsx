@@ -54,7 +54,6 @@ const PurposeUpload = ({ purpose }) => {
     setAddUpload(false);
   };
 
-
   const handleAddUpload = (e) => {
     e.preventDefault();
 
@@ -141,7 +140,9 @@ const PurposeUpload = ({ purpose }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .post("http://localhost:5000/api/documents/deleteUpload", { uploadID })
+          .post("http://localhost:5000/api/documents/deleteUpload", {
+            uploadID,
+          })
           .then((res) => {
             if (res.data.Status === "Success") {
               Swal.fire({
@@ -222,18 +223,32 @@ const PurposeUpload = ({ purpose }) => {
                                   });
                               }}
                             >
-                              <p className="m-0"><span className="d-none d-md-block">Cancel</span><span className="d-md-none"> <i class='bx bx-x iconFont'></i></span></p>
+                              <p className="m-0">
+                                <span className="d-none d-md-block">
+                                  Cancel
+                                </span>
+                                <span className="d-md-none">
+                                  {" "}
+                                  <i className="bx bx-x iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                             <button
                               className="btn btn-sm btn-primary  px-2 px-md-3"
                               disabled={
                                 formData.uploadDescription === "" ||
                                 formData.uploadDescription ===
-                                upload.uploadDescription
+                                  upload.uploadDescription
                               }
                               onClick={handleUpdateUpload}
                             >
-                              <p className="m-0"><span className="d-none d-md-block">Save</span><span className="d-md-none"> <i class='bx bx-save iconFont' ></i></span></p>
+                              <p className="m-0">
+                                <span className="d-none d-md-block">Save</span>
+                                <span className="d-md-none">
+                                  {" "}
+                                  <i className="bx bx-save iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                           </div>
                         </>
@@ -246,7 +261,12 @@ const PurposeUpload = ({ purpose }) => {
                               style={{ backgroundColor: "var(--main-color)" }}
                               onClick={() => handleEditUpload(upload)}
                             >
-                              <p className="m-0"><span className="d-none d-md-block">Edit</span><span className="d-md-none"><i class='bx bx-edit-alt iconFont' ></i></span></p>
+                              <p className="m-0">
+                                <span className="d-none d-md-block">Edit</span>
+                                <span className="d-md-none">
+                                  <i className="bx bx-edit-alt iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                             <button
                               className="btn btn-sm btn-danger  px-2 px-md-3"
@@ -257,7 +277,14 @@ const PurposeUpload = ({ purpose }) => {
                                 )
                               }
                             >
-                              <p className="m-0"><span className="d-none d-md-block">Delete</span><span className="d-md-none"><i class='bx bx-trash iconFont' ></i></span></p>
+                              <p className="m-0">
+                                <span className="d-none d-md-block">
+                                  Delete
+                                </span>
+                                <span className="d-md-none">
+                                  <i className="bx bx-trash iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                           </div>
                         </>
@@ -295,15 +322,25 @@ const PurposeUpload = ({ purpose }) => {
                     setAddUpload(false), setFormData({ uploadDescription: "" });
                   }}
                 >
-                  <p className="m-0"><span className="d-none d-md-block">Cancel</span><span className="d-md-none"> <i class='bx bx-x iconFont'></i></span></p>
+                  <p className="m-0">
+                    <span className="d-none d-md-block">Cancel</span>
+                    <span className="d-md-none">
+                      {" "}
+                      <i className="bx bx-x iconFont"></i>
+                    </span>
+                  </p>
                 </button>
                 <button
                   className="btn btn-sm btn-primary px-2 px-md-3"
                   onClick={handleAddUpload}
                   disabled={formData.uploadDescription === ""}
                 >
-                  <p className="m-0"><span className="d-none d-md-block">Add</span><span className="d-md-none"><i class='bx bx-plus-circle iconFont' ></i></span></p>
-
+                  <p className="m-0">
+                    <span className="d-none d-md-block">Add</span>
+                    <span className="d-md-none">
+                      <i className="bx bx-plus-circle iconFont"></i>
+                    </span>
+                  </p>
                 </button>
               </div>
             </>

@@ -14,6 +14,7 @@ const RegisterInputs = ({
   showPassword,
   setShowConPassword,
   showConPassword,
+  setActivePage,
 }) => {
   return (
     <div>
