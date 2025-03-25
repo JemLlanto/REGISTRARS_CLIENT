@@ -10,6 +10,9 @@ const Step3 = ({
   inputsLength,
   formData,
   handleChange,
+  setHasSelection,
+  setHasFile,
+  setHasInput,
 }) => {
   const [selectedOption, setSelectedOption] = useState(
     formData.selection || ""
@@ -77,12 +80,15 @@ const Step3 = ({
         if (!isActive.current) return;
 
         if (selectionsRes.data.Status === "Success") {
+          setHasSelection(true);
           setSelection(selectionsRes.data.data);
         }
         if (inputsRes.data.Status === "Success") {
+          setHasInput(true);
           setInputs(inputsRes.data.data);
         }
         if (uploadsRes.data.Status === "Success") {
+          setHasFile(true);
           const uploadData = uploadsRes.data.data;
           setUploads(uploadData);
           setUploadsState(uploadData); // Initialize uploadsState with the fetched data
@@ -111,7 +117,9 @@ const Step3 = ({
       reader.onload = () => {
         setUploadsState((prevUploads) =>
           prevUploads.map((upload) =>
-            upload.uploadID === uploadID ? { ...upload, preview: reader.result, file: file } : upload
+            upload.uploadID === uploadID
+              ? { ...upload, preview: reader.result, file: file }
+              : upload
           )
         );
       };
@@ -130,7 +138,9 @@ const Step3 = ({
     // Remove the preview and file from the upload state
     setUploadsState((prevUploads) =>
       prevUploads.map((upload) =>
-        upload.uploadID === uploadID ? { ...upload, preview: null, file: null } : upload
+        upload.uploadID === uploadID
+          ? { ...upload, preview: null, file: null }
+          : upload
       )
     );
 
@@ -146,10 +156,10 @@ const Step3 = ({
       <div className="d-flex flex-column gap-3">
         {selection?.length > 0 ? (
           <div className="d-flex flex-column gap-2">
-            <h5 className="mt-3">
+            {/* <h5 className="mt-3">
               <strong>Selected document types:</strong>{" "}
               {docType.length > 0 ? docType.join(", ") : "None"}
-            </h5>
+            </h5> */}
             {selection.map((select) => (
               <ToggleButton
                 key={select.selectionID}
@@ -239,15 +249,13 @@ const Step3 = ({
                               justifyContent: "center",
                               padding: "0",
                               fontWeight: "bold",
-                              boxShadow: "0 2px 5px rgba(0,0,0,0.2)"
+                              boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
                             }}
                           >
                             X
                           </Button>
                         </div>
-
                       </div>
-
                     </div>
                   )}
                 </div>

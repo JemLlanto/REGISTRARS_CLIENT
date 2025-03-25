@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import Step1 from "../../components/requestingDocuments/Step1";
 import Step2 from "../../components/requestingDocuments/Step2";
 import Step3 from "../../components/requestingDocuments/Step3";
@@ -17,8 +17,12 @@ export default function RequestDocument() {
   const [direction, setDirection] = useState(1);
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [hasInput, setHasInput] = useState(false);
   const [inputsLength, setInputsLength] = useState(0);
+  const [hasFile, setHasFile] = useState(false);
   const [file, setFile] = useState(null);
+  const [hasSelection, setHasSelection] = useState(false);
   const [docType, setDocType] = useState([]);
   const navigate = useNavigate();
 
@@ -46,7 +50,7 @@ export default function RequestDocument() {
       ...prevData,
       ...inputValue,
     }));
-    console.log(inputValue);
+    // console.log(inputValue);
   }, [inputsLength]);
 
   useEffect(() => {
@@ -147,6 +151,11 @@ export default function RequestDocument() {
 
   // Function to go to the previous step
   const prevStep = () => {
+    setDocType([]);
+    setHasSelection(false);
+    setHasFile(false);
+    setHasInput(false);
+    setInputsLength(0);
     setDirection(-1);
     setCurrentStep((prevStep) => (prevStep > 1 ? prevStep - 1 : prevStep));
   };
@@ -183,24 +192,43 @@ export default function RequestDocument() {
       throw err;
     }
   };
+  const insertInputs = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/documents/insertInputs",
+        formData
+      );
+      console.log(response.data); // Handle success response
+    } catch (error) {
+      console.error("Error inserting inputs:", error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const isConfirmed = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to submit the request?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, submit!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!isConfirmed.isConfirmed) {
+      return;
+    }
+
     try {
+      setIsLoading(true);
       const response = await axios.post(
         "http://localhost:5000/api/documents/sendRequest",
         formData
       );
-      try {
-        const response = await axios.post(
-          "http://localhost:5000/api/documents/insertInputs",
-          formData
-        );
-        console.log(response.data); // Handle success response
-      } catch (error) {
-        console.error("Error inserting inputs:", error);
+      if (inputsLength > 0) {
+        await insertInputs();
       }
-
       if (docType) {
         await insertDocTypes();
       }
@@ -262,6 +290,8 @@ export default function RequestDocument() {
           confirmButtonText: "OK",
         });
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -281,6 +311,37 @@ export default function RequestDocument() {
       opacity: 0,
       transition: { duration: 0.4, ease: "easeIn" },
     }),
+  };
+
+  const isSelectionFilled = () => {
+    if (!hasSelection) {
+      return true;
+    }
+    return docType.length != 0;
+  };
+
+  const isFileFilled = () => {
+    if (!hasFile) {
+      return true;
+    }
+    return !!file;
+  };
+
+  const isInputsFilled = () => {
+    if (!hasInput) {
+      return true; // If hasInput is false, inputs are not required
+    }
+
+    for (let i = 1; i <= inputsLength; i++) {
+      if (
+        !formData[`inputValue${i}`] ||
+        formData[`inputValue${i}`].trim() === ""
+      ) {
+        return false; // If any input is empty, return false
+      }
+    }
+
+    return true; // All inputs are filled
   };
 
   return (
@@ -365,6 +426,9 @@ export default function RequestDocument() {
                       inputsLength={inputsLength}
                       formData={formData}
                       handleChange={handleChange}
+                      setHasSelection={setHasSelection}
+                      setHasFile={setHasFile}
+                      setHasInput={setHasInput}
                     />
                   </motion.div>
                 )}
@@ -388,9 +452,19 @@ export default function RequestDocument() {
                   type="button"
                   className="primaryButton"
                   onClick={handleSubmit}
+                  disabled={
+                    !(isSelectionFilled() && isFileFilled() && isInputsFilled())
+                  }
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
-                    Submit
+                    {isLoading ? (
+                      <>
+                        <Spinner animation="border" variant="light" size="sm" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>Submit</>
+                    )}
                   </p>
                 </button>
               ) : (
