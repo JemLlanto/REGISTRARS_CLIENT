@@ -351,7 +351,7 @@ export default function RequestDocument() {
           className="rounded shadow-sm d-flex align-items-center p-3"
           style={{ backgroundColor: "var(--main-color)" }}
         >
-          <h5 className="m-0 px-2" style={{ color: "var(--secondMain-color)" }}>
+          <h5 className="m-0 px-2 fade-in" style={{ color: "var(--secondMain-color)" }}>
             Request Submission
           </h5>
           {/* <p className="m-0 text-light">
@@ -476,23 +476,23 @@ export default function RequestDocument() {
                     currentStep === 1
                       ? !privacyConsent
                       : currentStep === 2
-                      ? !formData.email ||
+                        ? !formData.email ||
                         !formData.studentID ||
                         !formData.firstName ||
                         !formData.lastName ||
                         !formData.dateOfBirth ||
                         !formData.sex ||
                         !formData.mobileNum
-                      : currentStep === 3
-                      ? !formData.program ||
-                        !formData.classification ||
-                        (formData.classification === "graduated" &&
-                          !formData.yearGraduated) ||
-                        (formData.classification === "undergraduate" &&
-                          !formData.yearLevel) ||
-                        !formData.schoolYearAttended ||
-                        !formData.purpose
-                      : false
+                        : currentStep === 3
+                          ? !formData.program ||
+                          !formData.classification ||
+                          (formData.classification === "graduated" &&
+                            !formData.yearGraduated) ||
+                          (formData.classification === "undergraduate" &&
+                            !formData.yearLevel) ||
+                          !formData.schoolYearAttended ||
+                          !formData.purpose
+                          : false
                   }
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
