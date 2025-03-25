@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MainLayout from "../../layouts/MainLayout";
 import { Button, Form, Row, Col } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 export default function ProfileSetup() {
   const [username, setUsername] = useState("");
@@ -10,10 +11,20 @@ export default function ProfileSetup() {
 
   const handleUpdate = () => {
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      Swal.fire({
+        icon: "error",
+        title: "Update Failed",
+        text: "Passwords do not match!",
+      });
       return;
     }
-    alert("Account details updated successfully!");
+
+    Swal.fire({
+      icon: "success",
+      title: "Update Successful!",
+      text: "Account details updated successfully!",
+      confirmButtonText: "OK",
+    });
   };
 
   return (

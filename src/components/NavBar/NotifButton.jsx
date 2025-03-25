@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Dropdown, Toast, ToastContainer } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import Swal from "sweetalert2";
 
 // Initialize socket connection
 const socket = io("http://localhost:5000"); // Match your server URL
@@ -126,14 +127,27 @@ const NotifButton = ({ user }) => {
       const res = await axios.post(
         `http://localhost:5000/api/notifications/markAllAsRead/${user.userID}`
       );
+
       if (res.status === 200) {
         fetchNotifications();
-        alert(res.data.message);
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: res.data.message,
+        });
       } else {
-        alert(res.data.message);
+        Swal.fire({
+          icon: "warning",
+          title: "Oops!",
+          text: res.data.message,
+        });
       }
     } catch (err) {
-      alert("An error occured: ", err.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `An error occurred: ${err.message}`,
+      });
     }
   };
 
@@ -141,7 +155,7 @@ const NotifButton = ({ user }) => {
     <>
       <ToastContainer
         position="top-end"
-        className="p-3 mt-5"
+        className=" p-3 mt-5"
         style={{ zIndex: 100 }}
       >
         {toasts.map((toast) => (
@@ -191,14 +205,14 @@ const NotifButton = ({ user }) => {
             style={{ color: "var(--main-color)" }}
           >
             {notifications.filter((notif) => notif.isRead === 0).length ===
-            0 ? (
+              0 ? (
               <i className="bx bx-bell bx-sm"></i>
             ) : (
               <i className="bx bxs-bell bx-tada bx-sm"></i>
             )}
           </h5>
           {notifications.filter((notif) => notif.isRead === 0).length ===
-          0 ? null : (
+            0 ? null : (
             <div
               className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
               style={{
@@ -214,7 +228,7 @@ const NotifButton = ({ user }) => {
                 style={{ fontSize: "clamp(.5rem, .9dvw, .6rem)" }}
               >
                 {notifications.filter((notif) => notif.isRead === 0).length >
-                9 ? (
+                  9 ? (
                   <>9+</>
                 ) : (
                   <>
@@ -259,7 +273,7 @@ const NotifButton = ({ user }) => {
                   cursor: "not-allowed",
                   color: "var(--yellow-color-disabled)",
                 }}
-                // onClick={handleMarkAllNotifAsRead}
+              // onClick={handleMarkAllNotifAsRead}
               >
                 Mark all as read
               </small>
@@ -301,9 +315,8 @@ const NotifButton = ({ user }) => {
                 <Dropdown.Item
                   key={notif.notificationID || index}
                   onClick={() => handleNotificationClick(notif)}
-                  className={`border-bottom p-2 ${
-                    notif.isRead === 0 ? "unread-notif" : "bg-white"
-                  }`}
+                  className={`border-bottom p-2 ${notif.isRead === 0 ? "unread-notif" : "bg-white"
+                    }`}
                 >
                   <div
                     className="d-flex flex-column text-wrap text-break"

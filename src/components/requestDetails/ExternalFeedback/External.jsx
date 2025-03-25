@@ -4,6 +4,7 @@ import cvsuLogo from "/cvsu-logo.png";
 import CitizensCharterStep from "./Citizen";
 import PersonalInfoStep from "./Personal";
 import SQDFormComponent from "./SQDForm";
+import Swal from "sweetalert2";
 
 const FeedbackExternal = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -507,7 +508,12 @@ const FeedbackExternal = () => {
             handleClose();
         } catch (error) {
             console.error("Error generating PDF:", error);
-            alert("There was an error generating the PDF. Please try again.");
+
+            Swal.fire({
+                icon: "error",
+                title: "PDF Generation Failed",
+                text: "There was an error generating the PDF. Please try again.",
+            });
         }
     };
 

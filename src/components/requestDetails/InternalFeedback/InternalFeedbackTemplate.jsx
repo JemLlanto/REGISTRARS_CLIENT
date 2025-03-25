@@ -3,6 +3,7 @@ import RatingStep from "./RatingStep";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
 import CommentsStep from "./CommentsStep";
+import Swal from "sweetalert2";
 
 const InternalFeedbackTemplate = ({
   fetchDocumentDetails,
@@ -90,10 +91,12 @@ const InternalFeedbackTemplate = ({
         ...formData.ratings, // Flatten ratings object
         comments: formData.comments,
       };
+
       const res = await axios.post(
         "http://localhost:5000/api/feedbackForm/submitFeedbackInternal",
         payload
       );
+
       if (res.status === 200) {
         try {
           const emailRes = await axios.post(
@@ -103,15 +106,13 @@ const InternalFeedbackTemplate = ({
 
           if (emailRes.status === 200) {
             console.log(emailRes.data.message);
-            // alert(emailRes.data.message);
           } else {
             console.log(emailRes.data.message);
-            // alert(emailRes.data.message);
           }
         } catch (emailErr) {
           console.log("An error occurred while sending email: ", emailErr);
-          // alert("An error occurred while sending email: ", emailErr.err);
         }
+
         handleCloseFeedbackModal();
         setFormData({
           requestID: documentDetails.requestID,
@@ -127,12 +128,26 @@ const InternalFeedbackTemplate = ({
           comments: "",
         });
         fetchDocumentDetails();
-        alert(res.data.message);
+
+        Swal.fire({
+          icon: "success",
+          title: "Feedback Submitted",
+          text: res.data.message,
+          confirmButtonText: "OK",
+        });
       } else {
-        alert(res.data.message);
+        Swal.fire({
+          icon: "error",
+          title: "Submission Failed",
+          text: res.data.message,
+        });
       }
     } catch (err) {
-      alert("An error occured: " + (err.response?.data?.error || err.message));
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An error occurred: " + (err.response?.data?.error || err.message),
+      });
     } finally {
       setIsLoading(false);
     }

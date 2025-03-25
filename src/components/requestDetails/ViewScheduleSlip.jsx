@@ -26,8 +26,14 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
     if (documentDetails.responded) {
       setShowScheduleModal(true);
     } else {
-      alert("Kindly complete our feedback form to access the schedule slip.");
-      setShowFeedbackModal(true);
+      Swal.fire({
+        icon: "info",
+        title: "Feedback Required",
+        text: "Kindly complete our feedback form to access the schedule slip.",
+        confirmButtonText: "OK",
+      }).then(() => {
+        setShowFeedbackModal(true);
+      });
     }
   };
   const handleCloseScheduleModal = () => setShowScheduleModal(false);

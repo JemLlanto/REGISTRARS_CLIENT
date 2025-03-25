@@ -4,6 +4,7 @@ import cvsuLogo from "/cvsu-logo.png";
 import RatingStep from "./RatingStep";
 import PersonalInfoStep from "./PersonalInfoStep";
 import CommentsStep from "./CommentsStep";
+import Swal from "sweetalert2";
 
 const FeedbackInternal = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -287,7 +288,13 @@ const FeedbackInternal = () => {
       handleClose();
     } catch (error) {
       console.error("Error generating PDF:", error);
-      alert("There was an error generating the PDF. Please try again.");
+
+      Swal.fire({
+        icon: "error",
+        title: "PDF Generation Failed",
+        text: "There was an error generating the PDF. Please try again.",
+        confirmButtonText: "OK",
+      });
     }
   };
 

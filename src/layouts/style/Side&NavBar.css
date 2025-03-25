@@ -153,3 +153,15 @@ display: none;
 .footer.toggled p {
   display: block;
 }
+
+
+
+/* nav bar */
+
+.notif{
+background-color: aqua;
+}
+
+.unread-notif {
+  background-color: rgb(137, 168, 223)!important;
+}

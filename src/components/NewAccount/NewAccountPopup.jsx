@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Modal, Button, FloatingLabel, Form } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 const NewAccountPopup = ({ user }) => {
   const [showAccountPopup, setShowAccountPopup] = useState(user.isNewAccount);
@@ -65,18 +66,32 @@ const NewAccountPopup = ({ user }) => {
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.Message);
-          alert(res.data.Message);
-          handleClosePopup();
-          window.location.reload();
+          Swal.fire({
+            icon: "success",
+            title: "Account Setup Successful",
+            text: res.data.Message,
+          }).then(() => {
+            handleClosePopup();
+            window.location.reload();
+          });
         } else if (res.data.Error) {
           console.log("Error:", res.data.Error);
+          Swal.fire({
+            icon: "error",
+            title: "Account Setup Failed",
+            text: res.data.Error,
+          });
         }
       })
       .catch((err) => {
         console.log("Error setting up account: ", err);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "An unexpected error occurred. Please try again.",
+        });
       });
   };
-
   return (
     <Modal
       show={showAccountPopup}

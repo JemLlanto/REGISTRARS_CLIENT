@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import {
   Modal,
   InputGroup,
@@ -78,6 +79,7 @@ const OtpConfirmation = ({
     }
   };
 
+
   const sendOtp = async () => {
     try {
       setIsLoading(true);
@@ -97,14 +99,26 @@ const OtpConfirmation = ({
 
       if (res.status === 200) {
         setGeneratedOtp(generatedOTP);
-        alert("An OTP has been sent to your email.");
+        Swal.fire({
+          icon: "success",
+          title: "OTP Sent!",
+          text: "An OTP has been sent to your email.",
+        });
         setOtpTimer(60);
         handleShow();
       } else if (res.status === 403) {
-        alert(res.data.Message); // Display "Email is already in use" message
+        Swal.fire({
+          icon: "error",
+          title: "Email Already in Use",
+          text: res.data.Message,
+        });
       }
     } catch (err) {
-      alert(err.response?.data?.Message || "An unexpected error occurred.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.response?.data?.Message || "An unexpected error occurred.",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -115,35 +129,56 @@ const OtpConfirmation = ({
       setIsLoading(true);
 
       if (!generatedOTP || !formData.otp) {
-        // Check if either is missing
-        alert("OTP doesn't match, Please try again.");
+        Swal.fire({
+          icon: "error",
+          title: "Invalid OTP",
+          text: "OTP doesn't match, Please try again.",
+        });
         return;
       }
 
       if (generatedOTP.toString() === formData.otp.toString()) {
-        alert("OTP verified successfully.");
-        handleClose;
-        handleRegister();
+        Swal.fire({
+          icon: "success",
+          title: "OTP Verified!",
+          text: "Your OTP has been successfully verified.",
+        }).then(() => {
+          handleClose();
+          handleRegister();
+        });
       } else {
-        alert("OTP doesn't match, Please try again.");
+        Swal.fire({
+          icon: "error",
+          title: "Incorrect OTP",
+          text: "OTP doesn't match, Please try again.",
+        });
       }
     } catch (err) {
-      alert("An error occurred.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An error occurred.",
+      });
     } finally {
-      setIsLoading(false); // Ensures loading state resets even if an error occurs
+      setIsLoading(false);
     }
   };
 
   const resendOTP = async () => {
     try {
       setIsLoading(true);
-      sendOtp();
+      await sendOtp();
     } catch (err) {
-      alert("An error occured: ", err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An error occurred while resending OTP.",
+      });
     } finally {
       setIsLoading(false);
     }
   };
+
 
   // Check if all OTP inputs are filled
   const isOtpComplete = otpInputs.every((input) => input !== "");
@@ -204,7 +239,7 @@ const OtpConfirmation = ({
               type="button"
               className="btn btn-light"
               onClick={resendOTP}
-              // disabled={otpTimer != 0 || isLoading}
+            // disabled={otpTimer != 0 || isLoading}
             >
               <p className="m-0">
                 {isLoading ? (

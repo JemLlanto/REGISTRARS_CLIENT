@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import cvsuLogo from "/cvsu-logo.png";
+import Swal from "sweetalert2";
 
 const InternalFeedbackDownload = ({ documentDetails }) => {
   const [feedbackData, setFeedbackData] = useState([]);
@@ -14,14 +15,23 @@ const InternalFeedbackDownload = ({ documentDetails }) => {
         const res = await axios.get(
           `http://localhost:5000/api/feedbackForm/fetchFeedbackInternalData?requestID=${documentDetails.requestID}`
         );
+
         if (res.status === 200) {
           console.log(res.data.result);
           setFeedbackData(res.data.result);
         } else {
-          alert(res.data.message);
+          Swal.fire({
+            icon: "warning",
+            title: "Oops!",
+            text: res.data.message,
+          });
         }
       } catch (err) {
-        alert(`An error occurred: ${err.message}`);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: `An error occurred: ${err.message}`,
+        });
       } finally {
         setIsLoading(false);
       }
@@ -204,10 +214,12 @@ const InternalFeedbackDownload = ({ documentDetails }) => {
       //   handleClose();
     } catch (error) {
       console.error("Error generating PDF:", error);
-      alert(
-        "There was an error generating the PDF. Please try again." +
-          error.message
-      );
+
+      Swal.fire({
+        icon: "error",
+        title: "PDF Generation Failed",
+        text: `There was an error generating the PDF. Please try again. ${error.message}`,
+      });
     }
   };
   return (
