@@ -192,7 +192,7 @@ const ExternalFeedbackTemplate = ({
           <Modal.Title>
             <h5 className="m-0">
               Client Satisfaction Measurement(External)
-              {formData.email}
+              {documentDetails.program}
             </h5>
           </Modal.Title>
         </Modal.Header>

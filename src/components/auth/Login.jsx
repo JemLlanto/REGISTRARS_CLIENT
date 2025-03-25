@@ -6,11 +6,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Background } from "../Background/Background";
 import Preloader from "../Preloader/Preloader";
 import ForgotPassword from "./ForgotPassword";
+import { Spinner } from "react-bootstrap";
 
 const Login = ({ setActivePage }) => {
   const [inputs, setInputs] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const [isAdmin, setIsAdmin] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
@@ -19,51 +20,60 @@ const Login = ({ setActivePage }) => {
   };
 
   axios.defaults.withCredentials = true;
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
     let validationErrors = {};
     if (!inputs.email.trim()) validationErrors.email = "Email is required";
     if (!inputs.password.trim())
       validationErrors.password = "Password is required";
 
     setErrors(validationErrors);
-    if (Object.keys(validationErrors).length > 0) return;
+    if (Object.keys(validationErrors).length > 0) {
+      setIsLoading(false);
+      return;
+    }
 
-    axios
-      .post("http://localhost:5000/api/auth/login", inputs)
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          Swal.fire({
-            title: "Login Successful!",
-            text: "Welcome back!",
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "OK",
-          }).then(() => {
-            if (res.data.isAdmin === 0) {
-              navigate("/home");
-            } else {
-              navigate("/admin/home");
-            }
-          });
-        } else {
-          Swal.fire({
-            title: "Login Failed",
-            text: res.data.Error,
-            icon: "error",
-            confirmButtonColor: "#d33",
-            confirmButtonText: "Try Again",
-          });
-        }
-      })
-      .catch((err) => {
-        Swal.fire({
-          title: "Error",
-          text: "Something went wrong. Please try again later.",
-          icon: "error",
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        inputs
+      );
+
+      if (res.data.Status === "Success") {
+        await Swal.fire({
+          title: "Login Successful!",
+          text: "Welcome back!",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "OK",
         });
-        console.log(err);
+
+        if (res.data.isAdmin === 0) {
+          navigate("/home");
+        } else {
+          navigate("/admin/home");
+        }
+      } else {
+        Swal.fire({
+          title: "Login Failed",
+          text: res.data.Error,
+          icon: "error",
+          confirmButtonColor: "#d33",
+          confirmButtonText: "Try Again",
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong. Please try again later.",
+        icon: "error",
       });
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -147,7 +157,17 @@ const Login = ({ setActivePage }) => {
               <ForgotPassword />
             </div>
             <button className="btn btn-warning w-100" onClick={handleLogin}>
-              Login
+              <p className="m-0">
+                {" "}
+                {isLoading ? (
+                  <>
+                    <Spinner animation="border" variant="dark" size="sm" />{" "}
+                    Verifying credentials...
+                  </>
+                ) : (
+                  "Login"
+                )}{" "}
+              </p>
             </button>
             <p className="text-white mt-2 text-center">
               Don't have an account?{" "}
