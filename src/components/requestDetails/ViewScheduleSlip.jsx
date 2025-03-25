@@ -94,6 +94,7 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
       <button
         className="btn btn-warning btn-sm btn-responsive"
         onClick={handleShowScheduleModal}
+        disabled={documentDetails.status === "completed"}
       >
         View schedule slip
       </button>

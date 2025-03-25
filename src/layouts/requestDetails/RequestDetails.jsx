@@ -150,14 +150,19 @@ const RequestDetails = () => {
             </div>
           </div>
         ) : (
-          <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
-            <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
-              <ViewScheduleSlip
-                fetchDocumentDetails={fetchDocumentDetails}
-                documentDetails={documentDetails}
-              />
-            </div>
-          </div>
+          <>
+            {documentDetails.status === "ready to pickup" ||
+            documentDetails.status === "completed" ? (
+              <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
+                <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
+                  <ViewScheduleSlip
+                    fetchDocumentDetails={fetchDocumentDetails}
+                    documentDetails={documentDetails}
+                  />
+                </div>
+              </div>
+            ) : null}
+          </>
         )}
       </div>
       {/* buttons */}
@@ -221,22 +226,6 @@ const RequestDetails = () => {
               )}
             </p>
           </div>
-
-          {/* ExternalFormModal button */}
-          {documentDetails.status === "completed" && (
-            <div className="col-auto">
-              {!user.isAdmin ? (
-                <>
-                  <div className="row  d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
-                    <FeedbackInternal />
-                  </div>
-                  <div className="row  d-flex align-items-center justify-content-center rounded-3 p-4 mt-2 mx-0">
-                    <FeedbackExternal />
-                  </div>
-                </>
-              ) : null}
-            </div>
-          )}
         </div>
 
         <RequestInfo documentDetails={documentDetails} />
