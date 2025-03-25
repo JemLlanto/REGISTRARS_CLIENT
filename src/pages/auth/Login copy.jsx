@@ -4,6 +4,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Background } from "../../components/Background/Background";
 import Preloader from "../../components/Preloader/Preloader";
+import Swal from "sweetalert2";
 
 const Login = ({ setActivePage }) => {
   const [inputs, setInputs] = useState({ email: "", password: "" });
@@ -19,9 +20,9 @@ const Login = ({ setActivePage }) => {
   const handleLogin = (e) => {
     e.preventDefault();
     let validationErrors = {};
+
     if (!inputs.email.trim()) validationErrors.email = "Email is required";
-    if (!inputs.password.trim())
-      validationErrors.password = "Password is required";
+    if (!inputs.password.trim()) validationErrors.password = "Password is required";
 
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length > 0) return;
@@ -30,13 +31,29 @@ const Login = ({ setActivePage }) => {
       .post("http://localhost:5000/api/auth/login", inputs)
       .then((res) => {
         if (res.data.Status === "Success") {
-          alert("Login successful!");
-          navigate("/Home");
+          Swal.fire({
+            icon: "success",
+            title: "Login Successful!",
+            text: "Welcome back!",
+            confirmButtonText: "OK",
+          }).then(() => {
+            navigate("/Home");
+          });
         } else {
-          alert(res.data.Error);
+          Swal.fire({
+            icon: "error",
+            title: "Login Failed",
+            text: res.data.Error,
+          });
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "An Error Occurred",
+          text: err.message || "Something went wrong. Please try again.",
+        });
+      });
   };
 
   return (
