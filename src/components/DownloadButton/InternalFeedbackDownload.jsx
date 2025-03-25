@@ -137,12 +137,11 @@ const InternalFeedbackDownload = ({ documentDetails }) => {
       // Rating numbers
       doc.setFontSize(9);
       doc.setFont("helvetica", "bold");
-      doc.text("5", 100, 80);
-      doc.text("4", 120, 80);
-      doc.text("3", 140, 80);
-      doc.text("2", 165, 80);
-      doc.text("1", 183, 80);
-
+      doc.text("5", 98, 80);
+      doc.text("4", 118, 80);
+      doc.text("3", 138, 80);
+      doc.text("2", 163, 80);
+      doc.text("1", 181, 80);
       // Areas items
       doc.setFontSize(8);
       const areas = [

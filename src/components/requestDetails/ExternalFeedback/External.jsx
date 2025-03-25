@@ -460,12 +460,12 @@ const FeedbackExternal = () => {
                 }
 
                 // Draw checkboxes based on selection
-                drawCheckbox(102.5, y + 10, formData[question.id] === '1'); // Strongly Disagree
-                drawCheckbox(117.5, y + 10, formData[question.id] === '2'); // Disagree
-                drawCheckbox(132.5, y + 10, formData[question.id] === '3'); // Neither
-                drawCheckbox(147.5, y + 10, formData[question.id] === '4'); // Agree
-                drawCheckbox(162.5, y + 10, formData[question.id] === '5'); // Strongly Agree
-                drawCheckbox(177.5, y + 10, formData[question.id] === 'NA'); // N/A
+                drawCheckbox(100.5, y + 10, formData[question.id] === '1'); // Strongly Disagree
+                drawCheckbox(115.5, y + 10, formData[question.id] === '2'); // Disagree
+                drawCheckbox(130.5, y + 10, formData[question.id] === '3'); // Neither
+                drawCheckbox(145.5, y + 10, formData[question.id] === '4'); // Agree
+                drawCheckbox(160.5, y + 10, formData[question.id] === '5'); // Strongly Agree
+                drawCheckbox(175.5, y + 10, formData[question.id] === 'NA'); // N/A
             });
 
             // Suggestions section
@@ -496,7 +496,7 @@ const FeedbackExternal = () => {
             // Thank you message
             doc.setFontSize(10);
             doc.setFont("helvetica", "bold");
-            doc.text("THANK YOU!", 105, 280, { align: "center" });
+            doc.text("THANK YOU!", 120, 280, { align: "center" });
             doc.setFontSize(8);
             doc.setFont("helvetica", "italic");
             doc.text("(Salamat po!)", 105, 283, { align: "center" });

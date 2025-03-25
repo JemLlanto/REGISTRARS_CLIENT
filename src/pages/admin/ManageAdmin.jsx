@@ -168,7 +168,7 @@ const ManageAdmin = () => {
             className="custom-scrollbar p-2 overflow-y-scroll"
             style={{ height: "30rem" }}
           >
-            <Table striped bordered hover>
+            <Table striped bordered hover className="table-fade-in">
               <thead>
                 <tr>
                   <th>Program/Courses</th>
@@ -180,68 +180,52 @@ const ManageAdmin = () => {
                 {programAdmins.map((program, index) => (
                   <tr key={index}>
                     <td>
-                      <>
-                        <p>{program.programName} </p>
-                      </>{" "}
+                      <p>{program.programName}</p>
                     </td>
                     <td>
                       {program.firstName ? (
-                        <>
-                          <p className="m-0">
-                            {program.firstName} {program.lastName}
-                          </p>
-                        </>
+                        <p className="m-0">
+                          {program.firstName} {program.lastName}
+                        </p>
                       ) : (
-                        <>
-                          <p className="text-secondary m-0">No Administrator</p>
-                        </>
+                        <p className="text-secondary m-0">No Administrator</p>
                       )}
                     </td>
                     <td>
                       {program.firstName ? (
-                        <>
-                          <button
-                            className="btn btn-danger w-100"
-                            onClick={() => handleRemoveProgramAdmin(program)}
-                          >
-                            <p className="m-0">
-                              <span className="d-none d-md-block">
-                                {" "}
-                                Remove admin
-                              </span>
-                              <span className="d-md-none ">
-                                {" "}
-                                <i className="bx bx-trash iconFont"></i>
-                              </span>
-                            </p>
-                          </button>
-                        </>
+                        <button
+                          className="btn btn-danger w-100"
+                          onClick={() => handleRemoveProgramAdmin(program)}
+                        >
+                          <p className="m-0">
+                            <span className="d-none d-md-block"> Remove admin</span>
+                            <span className="d-md-none">
+                              <i className="bx bx-trash iconFont"></i>
+                            </span>
+                          </p>
+                        </button>
                       ) : (
-                        <>
-                          <button
-                            className="btn btn-primary w-100"
-                            onClick={() => {
-                              setSelectedProgram(program.programID);
-                              handleShowModal();
-                            }}
-                          >
-                            <p className="m-0">
-                              <span className="d-none d-md-block">
-                                {" "}
-                                Add admin
-                              </span>
-                              <span className="d-md-none ">
-                                <i className="bx bx-plus-circle iconFont"></i>
-                              </span>
-                            </p>
-                          </button>
-                        </>
+                        <button
+                          className="btn btn-primary w-100"
+                          onClick={() => {
+                            setSelectedProgram(program.programID);
+                            handleShowModal();
+                          }}
+                        >
+                          <p className="m-0">
+                            <span className="d-none d-md-block"> Add admin</span>
+                            <span className="d-md-none">
+                              <i className="bx bx-plus-circle iconFont"></i>
+                            </span>
+                          </p>
+                        </button>
                       )}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </Table>
+
           </div>
         </div>
       </div>

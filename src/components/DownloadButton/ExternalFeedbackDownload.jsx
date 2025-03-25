@@ -559,13 +559,21 @@ const ExternalFeedbackDownload = ({ documentDetails }) => {
         }
 
         // Draw checkboxes based on selection
-        drawCheckbox(102.5, y + 10, feedbackData[question.id] === 1); // Strongly Disagree
-        drawCheckbox(117.5, y + 10, feedbackData[question.id] === 2); // Disagree
-        drawCheckbox(132.5, y + 10, feedbackData[question.id] === 3); // Neither
-        drawCheckbox(147.5, y + 10, feedbackData[question.id] === 4); // Agree
-        drawCheckbox(162.5, y + 10, feedbackData[question.id] === 5); // Strongly Agree
-        drawCheckbox(177.5, y + 10, feedbackData[question.id] === 6); // N/A
+        drawCheckbox(100.5, y + 10, feedbackData[question.id] === 1); // Strongly Disagree
+        drawCheckbox(115.5, y + 10, feedbackData[question.id] === 2); // Disagree
+        drawCheckbox(130.5, y + 10, feedbackData[question.id] === 3); // Neither
+        drawCheckbox(145.5, y + 10, feedbackData[question.id] === 4); // Agree
+        drawCheckbox(160.5, y + 10, feedbackData[question.id] === 5); // Strongly Agree
+        drawCheckbox(175.5, y + 10, feedbackData[question.id] === 6); // N/A
       });
+
+      // Email section
+      doc.setFontSize(8);
+      doc.setFont("helvetica", "normal");
+      doc.text("Email address (optional):", 25, 255);
+      if (feedbackData.email) {
+        doc.text(feedbackData.email, 60, 255);
+      }
 
       // Suggestions section
       const suggestionY = startY + rowHeight * 10 + 10;
@@ -574,34 +582,32 @@ const ExternalFeedbackDownload = ({ documentDetails }) => {
       doc.text(
         "Suggestions on how we can further improve our services (optional):",
         25,
-        255
+        258
       );
       doc.setFont("helvetica", "italic");
       doc.text(
         "(Mga suhestiyon kung paano pa mapapabuti ang aming mga serbisyo (opsyonal)):",
         25,
-        258
+        261
       );
 
       // Display suggestions text if provided
       if (feedbackData.suggestions) {
         doc.setFont("helvetica", "normal");
-        const suggestionLines = doc.splitTextToSize(
-          feedbackData.suggestions,
-          160
-        );
-        for (let i = 0; i < Math.min(suggestionLines.length, 3); i++) {
-          doc.text(suggestionLines[i], 110, 255);
-        }
+        const suggestionLines = doc.splitTextToSize(feedbackData.suggestions, 160);
+
+        let startY = 265; // Initial Y position
+        const lineHeight = 3; // Adjust line height for spacing
+
+        suggestionLines.forEach((line, index) => {
+          if (index < 3) { // Limit to 3 lines
+            doc.text(line, 25, startY);
+            startY += lineHeight; // Move to next line
+          }
+        });
       }
 
-      // Email section
-      doc.setFontSize(8);
-      doc.setFont("helvetica", "normal");
-      doc.text("Email address (optional):", 25, suggestionY + 3);
-      if (feedbackData.email) {
-        doc.text(feedbackData.email, 60, suggestionY + 3);
-      }
+
 
       // Thank you message
       doc.setFontSize(10);
