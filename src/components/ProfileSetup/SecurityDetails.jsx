@@ -34,15 +34,29 @@ const SecurityDetails = ({
         "http://localhost:5000/api/auth/forgotPassword",
         formData
       );
+
       if (res.data.status === "Success") {
-        alert(res.data.message);
-        handleEditSecurity();
-        setFormData({ ...formData, password: "", conPassword: "" });
+        Swal.fire({
+          icon: "success",
+          title: "Password Reset Successful",
+          text: res.data.message,
+        }).then(() => {
+          handleEditSecurity();
+          setFormData({ ...formData, password: "", conPassword: "" });
+        });
       } else {
-        alert("Password reset failed");
+        Swal.fire({
+          icon: "error",
+          title: "Password Reset Failed",
+          text: "Please try again.",
+        });
       }
     } catch (err) {
-      alert("An error occurred during password reset", err.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `An error occurred during password reset: ${err.message}`,
+      });
     } finally {
       setIsLoading(false);
     }
