@@ -18,54 +18,45 @@ export default function About() {
 
 
       <div
-        className="d-flex justify-content-between gap-2 mt-2 row mx-auto "
+        className="d-flex justify-content-between gap-2 mt-2 row mx-auto"
         style={{ maxHeight: "650px" }}
       >
-        <div className="policy col-lg d-flex align-items-center justify-content-start w-100  shadow-sm rounded-2 flex-column  p-5">
+        <div className="policy col-lg d-flex align-items-center justify-content-start w-100 shadow-sm rounded-2 flex-column p-5 fade-in-section">
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">QUALITY POLICY</h3>
           </div>
           <div className="mt-3">
             <p className="m-0 text-center text-white fw-bold">
-              We Commit to the highest standards of education, value our
-              stakeholders, Strive for continual improvement of our products and
-              services, and Uphold the University’s tenets of Truth, Excellence,
-              and Service to produce globally competitive and morally upright
-              individuals.
+              We Commit to the highest standards of education, value our stakeholders, Strive for continual improvement of our products and services, and Uphold the University’s tenets of Truth, Excellence, and Service to produce globally competitive and morally upright individuals.
             </p>
           </div>
         </div>
-        <div className=" policy col-lg d-flex align-items-center justify-content-start w-100  bg-success shadow-sm rounded-2 flex-column  p-5">
+
+        <div className="policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section">
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">VISION</h3>
           </div>
           <div className="mt-3">
             <p className="m-0 text-center text-white fw-bold">
-              The premier university in historic Cavite globally recognized for
-              excellence in character development, academics, research,
-              innovation, and sustainable community engagement.
+              The premier university in historic Cavite globally recognized for excellence in character development, academics, research, innovation, and sustainable community engagement.
             </p>
           </div>
         </div>
-        <div className=" policy col-lg d-flex align-items-center justify-content-start w-100  bg-success shadow-sm rounded-2 flex-column p-5">
+
+        <div className="policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section">
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">MISSION</h3>
           </div>
           <div className="mt-3">
             <p className="m-0 text-center text-white fw-bold">
-              CAVITE STATE UNIVERSITY shall provide excellent, equitable and
-              relevant educational opportunities in the arts, sciences, and
-              technology through quality instruction and responsive research and
-              development activities. It shall produce professional skilled and
-              morally upright individuals for global competitiveness.
+              CAVITE STATE UNIVERSITY shall provide excellent, equitable and relevant educational opportunities in the arts, sciences, and technology through quality instruction and responsive research and development activities. It shall produce professional skilled and morally upright individuals for global competitiveness.
             </p>
           </div>
         </div>
+
         <div
-          className="core row w-100  shadow-sm rounded-2 p-5 mt-2 mx-0 gap-3"
-          style={{
-            backgroundColor: "var(--main-color)",
-          }}
+          className="core row w-100 shadow-sm rounded-2 p-5 mt-2 mx-0 gap-3 fade-in-section"
+          style={{ backgroundColor: "var(--main-color)" }}
         >
           <div className="m-0 col-md d-flex justify-content-center">
             <h2 className="text-warning fw-bold">TRUTH</h2>
@@ -81,6 +72,7 @@ export default function About() {
           </div>
         </div>
       </div>
+
     </div >
   );
 }

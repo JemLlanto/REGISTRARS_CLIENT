@@ -32,7 +32,7 @@ const ReadyToPickup = ({ readyToPickupRequests }) => {
             <h5 className="text-success mb-1">
               {readyToPickupRequests.length}
             </h5>
-            <h5 className="text-dark">Ready to pickup</h5>
+            <h5 className="text-dark">For Pickup</h5>
           </div>
         </div>
       </button>

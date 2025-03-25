@@ -21,10 +21,10 @@ const ReqProgressBar = ({ currentStep }) => {
             currentStep === 1
               ? 0
               : currentStep === 2
-              ? 35
-              : currentStep === 3
-              ? 65
-              : currentStep === 4 && 100
+                ? 35
+                : currentStep === 3
+                  ? 65
+                  : currentStep === 4 && 100
           }
         />
       </div>
