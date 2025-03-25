@@ -141,7 +141,7 @@ const NotifButton = ({ user }) => {
     <>
       <ToastContainer
         position="top-end"
-        className="p-3 mt-5"
+        className=" p-3 mt-5"
         style={{ zIndex: 100 }}
       >
         {toasts.map((toast) => (
@@ -191,14 +191,19 @@ const NotifButton = ({ user }) => {
             style={{ color: "var(--main-color)" }}
           >
             {notifications.filter((notif) => notif.isRead === 0).length ===
+<<<<<<< Updated upstream
             0 ? (
               <i className="bx bx-bell bx-sm"></i>
+=======
+              0 ? (
+              <i class="bx bx-bell bx-sm"></i>
+>>>>>>> Stashed changes
             ) : (
               <i className="bx bxs-bell bx-tada bx-sm"></i>
             )}
           </h5>
           {notifications.filter((notif) => notif.isRead === 0).length ===
-          0 ? null : (
+            0 ? null : (
             <div
               className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
               style={{
@@ -214,7 +219,7 @@ const NotifButton = ({ user }) => {
                 style={{ fontSize: "clamp(.5rem, .9dvw, .6rem)" }}
               >
                 {notifications.filter((notif) => notif.isRead === 0).length >
-                9 ? (
+                  9 ? (
                   <>9+</>
                 ) : (
                   <>
@@ -259,7 +264,7 @@ const NotifButton = ({ user }) => {
                   cursor: "not-allowed",
                   color: "var(--yellow-color-disabled)",
                 }}
-                // onClick={handleMarkAllNotifAsRead}
+              // onClick={handleMarkAllNotifAsRead}
               >
                 Mark all as read
               </small>
@@ -301,9 +306,8 @@ const NotifButton = ({ user }) => {
                 <Dropdown.Item
                   key={notif.notificationID || index}
                   onClick={() => handleNotificationClick(notif)}
-                  className={`border-bottom p-2 ${
-                    notif.isRead === 0 ? "unread-notif" : "bg-white"
-                  }`}
+                  className={`border-bottom p-2 ${notif.isRead === 0 ? "unread-notif" : "bg-white"
+                    }`}
                 >
                   <div
                     className="d-flex flex-column text-wrap text-break"
