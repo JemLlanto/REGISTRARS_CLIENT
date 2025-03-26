@@ -136,7 +136,7 @@ const RequestHeaders = ({ filteredRequests, isLoading }) => {
         {isLoading ? (
           <>
             <div
-              className="d-flex justify-content-center align-items-center"
+              className="spinner-container d-flex justify-content-center align-items-center spinner-container"
               style={{ height: "70%" }}
             >
               <p>
@@ -151,7 +151,7 @@ const RequestHeaders = ({ filteredRequests, isLoading }) => {
               currentRequests.map((request, index) => (
                 <Link
                   key={index}
-                  className="text-decoration-none text-dark bg-light rounded shadow-sm "
+                  className="text-decoration-none text-dark bg-light rounded shadow-sm request-item"
                   to={`/request-details/${request.requestID}`}
                 >
                   <div className="row mx-auto g-2 p-3">
@@ -187,8 +187,8 @@ const RequestHeaders = ({ filteredRequests, isLoading }) => {
                       <p className="m-0">
                         {request?.created
                           ? new Intl.DateTimeFormat("en-US", {
-                              dateStyle: "medium",
-                            }).format(new Date(request?.created))
+                            dateStyle: "medium",
+                          }).format(new Date(request?.created))
                           : ""}
                       </p>
                     </div>
@@ -216,9 +216,10 @@ const RequestHeaders = ({ filteredRequests, isLoading }) => {
           </>
         )}
       </div>
-      <div className="d-flex align-items-center justify-content-center">
-        <Pagination>{renderPaginationItems()}</Pagination>
+      <div className="custom-pagination d-flex align-items-center justify-content-center">
+        <Pagination className="pagination">{renderPaginationItems()}</Pagination>
       </div>
+
     </div>
   );
 };

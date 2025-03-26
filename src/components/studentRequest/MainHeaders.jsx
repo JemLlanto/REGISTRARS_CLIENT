@@ -8,7 +8,7 @@ const MainHeaders = ({ status, handleSelect }) => {
       style={{ backgroundColor: "var(--yellow-color)" }}
     >
       <div
-        className="m-0 d-flex align-items-center justify-content-center"
+        className="fade-in  m-0 d-flex align-items-center justify-content-center"
         style={{ color: "var(--background-color)" }}
       >
         <div className="w-100 d-flex align-items-center justify-content-center">
@@ -20,7 +20,7 @@ const MainHeaders = ({ status, handleSelect }) => {
         <div className="w-100 d-flex align-items-center justify-content-center">
           <h5 className="m-0">Date</h5>
         </div>
-        <div className="w-100 d-flex align-items-center justify-content-center">
+        <div className="w-100  d-flex align-items-center justify-content-center">
           <Dropdown>
             <Dropdown.Toggle
               className="d-flex align-items-center text-white"
