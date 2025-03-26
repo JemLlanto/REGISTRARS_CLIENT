@@ -213,7 +213,7 @@
   animation: fadeIn 0.6s ease-in-out forwards;
 }
 
-/* end */
+/* ----------------------- end ------------------------------ */
 
 /* -------------------DASHBOARD------------------ */
 .card-hover {
@@ -235,7 +235,19 @@
 .card-hover:hover::after {
   width: 100%;
 }
-/* End */
+/*----------------------- End ---------------------*/
+
+
+/* Smooth hover effect */
+.core-value {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Move up when hovered */
+.core-value:hover {
+  transform: scale(1) translateY(-10px);
+  background-color: rgba(255,255,255,0.2);
+}
 
 /* ----------------------ABOUT US------------------- */
 /* Fade-in animation */

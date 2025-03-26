@@ -5,23 +5,23 @@ export default function About() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="p-4 w-100 overflow-auto custom-scrollbar" style={{ maxHeight: "90dvh" }}>
+    <div className="p-1 p-sm-4 w-100 overflow-auto custom-scrollbar" style={{ maxHeight: "90dvh" }}>
       <div
         className="rounded-2 shadow-sm p-2"
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5 className="m-0 p-2 fade-in " style={{ color: "var(--secondMain-color)" }}>
-          About Us:
+          About Us
         </h5>
       </div>
 
 
 
       <div
-        className="d-flex justify-content-between gap-2 mt-2 row mx-auto"
+        className="d-flex justify-content-between gap-2 mt-3 row mx-auto"
         style={{ maxHeight: "650px" }}
       >
-        <div className="policy col-lg d-flex align-items-center justify-content-start w-100 shadow-sm rounded-2 flex-column p-5 fade-in-section">
+        <div className="core-value policy col-lg d-flex align-items-center justify-content-start w-100 shadow-sm rounded-2 flex-column p-5 fade-in-section">
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">QUALITY POLICY</h3>
           </div>
@@ -32,7 +32,7 @@ export default function About() {
           </div>
         </div>
 
-        <div className="policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section">
+        <div className="core-value policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section">
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">VISION</h3>
           </div>
@@ -43,7 +43,7 @@ export default function About() {
           </div>
         </div>
 
-        <div className="policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section">
+        <div className="core-value policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section">
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">MISSION</h3>
           </div>
@@ -55,20 +55,41 @@ export default function About() {
         </div>
 
         <div
-          className="core row w-100 shadow-sm rounded-2 p-5 mt-2 mx-0 gap-3 fade-in-section"
+          className="mx-0 d-flex justify-content-center row w-100 shadow-sm rounded-2 p-2 mt-2 gap-2 fade-in-section"
           style={{ backgroundColor: "var(--main-color)" }}
         >
-          <div className="m-0 col-md d-flex justify-content-center">
-            <h2 className="text-warning fw-bold">TRUTH</h2>
+          <div className="text-center text-warning mt-3">
+            <h2 className="text-warning fw-bold">OUR CORE VALUES</h2>
           </div>
-          <div className="m-0 col-md d-flex justify-content-center">
-            <h2 className="text-warning fw-bold">INTEGRITY</h2>
-          </div>
-          <div className="m-0 col-md d-flex justify-content-center">
-            <h2 className="text-warning fw-bold">EXCELLENCE</h2>
-          </div>
-          <div className="m-0 col-md d-flex justify-content-center">
-            <h2 className="text-warning fw-bold">SERVICE</h2>
+
+          <div className="row g-3 d-flex justify-content-center mb-3">
+            <div className="col-12 col-sm-6 col-md-3 ">
+              <div className="core-value text-center p-3 rounded d-flex flex-column h-100" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} >
+                <h2 className="text-warning fw-bold">TRUTH</h2>
+                <h6 className="text-white">Commitment to honesty and transparency in all academic and institutional pursuits.</h6>
+              </div>
+            </div>
+
+            <div className="col-12 col-sm-6 col-md-3">
+              <div className="core-value text-center p-3 rounded d-flex flex-column h-100" style={{ backgroundColor: "rgba(255,255,255,0.1)" }}>
+                <h2 className="text-warning fw-bold">INTEGRITY</h2>
+                <h6 className="text-white">Maintaining ethical standards and moral principles in education and research.</h6>
+              </div>
+            </div>
+
+            <div className="col-12 col-sm-6 col-md-3">
+              <div className="core-value text-center p-3 rounded d-flex flex-column h-100" style={{ backgroundColor: "rgba(255,255,255,0.1)" }}>
+                <h2 className="text-warning fw-bold">EXCELLENCE</h2>
+                <h6 className="text-white">Striving for the highest quality in teaching, learning, and institutional performance.</h6>
+              </div>
+            </div>
+
+            <div className="col-12 col-sm-6 col-md-3">
+              <div className="core-value text-center p-3 rounded d-flex flex-column h-100" style={{ backgroundColor: "rgba(255,255,255,0.1)" }}>
+                <h2 className="text-warning fw-bold">SERVICE</h2>
+                <h6 className="text-white">Dedicating ourselves to community development and societal progress.</h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
