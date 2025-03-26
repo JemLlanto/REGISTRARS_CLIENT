@@ -32,7 +32,7 @@ export default function About() {
           </div>
         </div>
 
-        <div className="core-value policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section">
+        <div className="core-value policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section ">
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">VISION</h3>
           </div>
@@ -43,7 +43,7 @@ export default function About() {
           </div>
         </div>
 
-        <div className="core-value policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section">
+        <div className="core-value policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section ">
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">MISSION</h3>
           </div>
