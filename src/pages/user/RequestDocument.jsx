@@ -13,7 +13,7 @@ import Swal from "sweetalert2";
 // import ReqProgressBarSmall from "../../components/requestingDocuments/ReqProgressBarSmall";
 
 export default function RequestDocument() {
-  const { user } = useOutletContext();
+  const { user, fetchUserData } = useOutletContext();
   const [currentStep, setCurrentStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [privacyConsent, setPrivacyConsent] = useState(false);
@@ -147,12 +147,14 @@ export default function RequestDocument() {
   // Function to go to the next step
   const nextStep = () => {
     setDirection(1);
+    fetchUserData();
     setCurrentStep((prevStep) => prevStep + 1);
   };
 
   // Function to go to the previous step
   const prevStep = () => {
     setDocType([]);
+    fetchUserData();
     setHasSelection(false);
     setHasFile(false);
     setHasInput(false);
@@ -369,7 +371,53 @@ export default function RequestDocument() {
           className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded p-3 position-relative"
           style={{ zIndex: "1" }}
         >
-          <form className="w-100" onSubmit={handleSubmit}>
+          <form className="position-relative w-100" onSubmit={handleSubmit}>
+            {!user.isOn && (
+              <div
+                className="position-absolute rounded d-flex flex-column align-items-center justify-content-center"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgb(230, 230, 230, .95)",
+                  zIndex: "50",
+                }}
+              >
+                <h1 className="m-0 text-danger mb-2 fw-bold">
+                  Form Submission Temporarily Unavailable
+                </h1>
+                <div className="mb-4 d-flex flex-column align-items-center justify-content-center">
+                  <h2
+                    className="h5 mb-3"
+                    style={{ color: "var(--main-color)" }}
+                  >
+                    Current Operating Hours
+                  </h2>
+                  <p className="mb-2">
+                    <span className="fw-bold">Days:</span> Monday through
+                    Thursday
+                  </p>
+                  <p className="mb-0">
+                    <span className="fw-bold">Hours:</span> 8:00 AM to 4:00 PM
+                  </p>
+                </div>
+
+                <div className="d-flex flex-column align-items-center justify-content-center">
+                  <h2
+                    className="h5 mb-3"
+                    style={{ color: "var(--main-color)" }}
+                  >
+                    Closed On
+                  </h2>
+                  <ul className="list-unstyled d-flex flex-column align-items-center justify-content-center">
+                    <li className="mb-2">• Fridays</li>
+                    <li className="mb-2">• Saturdays</li>
+                    <li className="mb-2">• Sundays</li>
+                    <li className="mb-2">• Holidays (local and national)</li>
+                    <li>• Campus/University-wide events</li>
+                  </ul>
+                </div>
+              </div>
+            )}
             <div
               className="custom-scrollbar overflow-y-scroll overflow-x-hidden"
               style={{ height: "65dvh" }}

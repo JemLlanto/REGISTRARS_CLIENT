@@ -16,7 +16,7 @@ const MainLayout = () => {
 
   axios.defaults.withCredentials = true;
 
-  useEffect(() => {
+  const fetchUserData = () => {
     axios
       .get("http://localhost:5000")
       .then((res) => {
@@ -35,16 +35,20 @@ const MainLayout = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  };
 
   useEffect(() => {
-    if (id) {
-      axios
-        .get(`http://localhost:5000/api/auth/fetchUserData?userID=${id}`)
-        .then((res) => setUser(res.data))
-        .catch((err) => console.log("Error fetching user data:", err));
-    }
-  }, [id]);
+    fetchUserData();
+  }, []);
+
+  // useEffect(() => {
+  //   if (id) {
+  //     axios
+  //       .get(`http://localhost:5000/api/auth/fetchUserData?userID=${id}`)
+  //       .then((res) => setUser(res.data))
+  //       .catch((err) => console.log("Error fetching user data:", err));
+  //   }
+  // }, [id]);
 
   useEffect(() => {
     if (!isLoading && !auth) {
@@ -73,7 +77,7 @@ const MainLayout = () => {
             className="d-flex justify-content-center align-items-center"
             style={{ zIndex: "0" }}
           >
-            <Outlet context={{ user }} />
+            <Outlet context={{ user, fetchUserData }} />
           </div>
         </div>
       </div>
