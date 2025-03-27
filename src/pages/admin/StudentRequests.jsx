@@ -295,6 +295,7 @@ export default function StudentRequests() {
       </div>
       <MainHeaders status={status} handleSelect={handleSelect} />
       <RequestHeaders
+        status={status}
         filteredRequests={filteredRequests}
         isLoading={isLoading}
       />

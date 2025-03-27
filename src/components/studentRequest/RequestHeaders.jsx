@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Spinner, Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -19,7 +19,7 @@ const getStatusColor = (status) => {
   }
 };
 
-const RequestHeaders = ({ filteredRequests, isLoading }) => {
+const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const requestsPerPage = 10;
 
@@ -37,7 +37,9 @@ const RequestHeaders = ({ filteredRequests, isLoading }) => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [status]);
   // Render pagination items
   const renderPaginationItems = () => {
     let items = [];

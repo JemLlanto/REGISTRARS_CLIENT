@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Spinner, Pagination } from "react-bootstrap";
 
-const RequestList = ({ filteredRequests, isLoading }) => {
+const RequestList = ({ status, filteredRequests, isLoading }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const requestsPerPage = 10;
 
@@ -37,6 +37,10 @@ const RequestList = ({ filteredRequests, isLoading }) => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [status]);
 
   // Render pagination items
   const renderPaginationItems = () => {

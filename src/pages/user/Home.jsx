@@ -117,7 +117,11 @@ export default function Home() {
 
       <MainHeaders status={status} handleSelect={handleSelect} />
 
-      <RequestList filteredRequests={filteredRequests} isLoading={isLoading} />
+      <RequestList
+        status={status}
+        filteredRequests={filteredRequests}
+        isLoading={isLoading}
+      />
     </div>
   );
 }

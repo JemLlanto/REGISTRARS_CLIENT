@@ -10,6 +10,7 @@ import ReqProgressBar from "../../components/requestingDocuments/ReqProgressBar"
 import { useOutletContext, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+// import ReqProgressBarSmall from "../../components/requestingDocuments/ReqProgressBarSmall";
 
 export default function RequestDocument() {
   const { user } = useOutletContext();
@@ -345,7 +346,7 @@ export default function RequestDocument() {
   };
 
   return (
-    <div className="p-0 p-sm-4 w-100 row ">
+    <div className="p-0 p-sm-4 w-100 row justify-content-center ">
       <div className="col">
         <div
           className="rounded shadow-sm d-flex align-items-center p-3"
@@ -361,7 +362,9 @@ export default function RequestDocument() {
             (Please ensure all required fields are completed before submission.)
           </p> */}
         </div>
-
+        {/* <div>
+          <ReqProgressBarSmall currentStep={currentStep} />
+        </div> */}
         <div
           className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded p-3 position-relative"
           style={{ zIndex: "1" }}
@@ -441,7 +444,7 @@ export default function RequestDocument() {
               </AnimatePresence>
             </div>
 
-            <div className="d-flex justify-content-between mt-2">
+            <div className="d-flex justify-content-between gap-2 mt-2">
               <Button
                 type="button"
                 className="btn btn-secondary"
@@ -513,7 +516,7 @@ export default function RequestDocument() {
         </div>
       </div>
       <div
-        className="d-flex justify-content-center align-items-center col-1"
+        className="d-none d-md-flex justify-content-center align-items-center col-1"
         style={{}}
       >
         <ReqProgressBar currentStep={currentStep} />

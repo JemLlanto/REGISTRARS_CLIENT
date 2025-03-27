@@ -182,7 +182,7 @@ const Step3 = ({
         {selection?.length > 0 ? (
           <div className="customToggleButton d-flex flex-column gap-2">
             <h5 className="mt-3 fw-bold">
-              Selected document types:{" "}
+              Document types:{" "}
               {/* {docType.length > 0 ? docType.join(", ") : "None"} */}
             </h5>
             {selection.map((select, index) => (
