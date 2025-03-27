@@ -39,8 +39,10 @@ const RequestDetails = () => {
   };
 
   useEffect(() => {
-    fetchDocumentDetails();
-  }, []);
+    if (requestID) {
+      fetchDocumentDetails();
+    }
+  }, [requestID]);
   useEffect(() => {
     axios
       .get(
@@ -132,9 +134,15 @@ const RequestDetails = () => {
             <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
               {/* FOR DOWNLOAD BUTTONS */}
               {documentDetails.feedbackType === "internal" ? (
-                <InternalFeedbackDownload documentDetails={documentDetails} />
+                <InternalFeedbackDownload
+                  user={user}
+                  documentDetails={documentDetails}
+                />
               ) : (
-                <ExternalFeedbackDownload documentDetails={documentDetails} />
+                <ExternalFeedbackDownload
+                  user={user}
+                  documentDetails={documentDetails}
+                />
               )}
 
               <CancelButton

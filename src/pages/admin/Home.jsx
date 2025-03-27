@@ -124,7 +124,7 @@ export default function Home() {
         </h5>
       </div>
 
-      <div className="mt-3">
+      <div className="mt-3" style={{ zIndex: "0" }}>
         <DateSelection
           startDate={startDate}
           endDate={endDate}
