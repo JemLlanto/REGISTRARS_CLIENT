@@ -4,7 +4,7 @@ import jsPDF from "jspdf";
 import cvsuLogo from "/cvsu-logo.png";
 import Swal from "sweetalert2";
 
-const InternalFeedbackDownload = ({ documentDetails }) => {
+const InternalFeedbackDownload = ({ user, documentDetails }) => {
   const [feedbackData, setFeedbackData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,7 +30,7 @@ const InternalFeedbackDownload = ({ documentDetails }) => {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: `An error occurred: ${err.message}`,
+          text: `An error occurredasdasd: ${err.message}`,
         });
       } finally {
         setIsLoading(false);
@@ -42,6 +42,15 @@ const InternalFeedbackDownload = ({ documentDetails }) => {
       fetchData();
     }
   }, [documentDetails.requestID]);
+
+  const name = `${feedbackData.firstName} ${feedbackData.middleName} ${feedbackData.lastName}`;
+  const attendingStaff = `${user.firstName} ${user.middleName} ${user.lastName}`;
+  const formatDate = (date) =>
+    date.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
   // PDF generation function
   const downloadPDF = () => {
     try {
@@ -91,32 +100,32 @@ const InternalFeedbackDownload = ({ documentDetails }) => {
       doc.setFont("helvetica", "bold");
       doc.text("Name:", 25, 50);
       doc.setFont("helvetica", "normal");
-      doc.text(feedbackData.name || "(Not provided)", 55, 50);
+      doc.text(name || "(Not provided)", 55, 50);
 
       doc.setFont("helvetica", "bold");
       doc.text("Agency:", 25, 55);
       doc.setFont("helvetica", "normal");
-      doc.text(feedbackData.agency || "(Not provided)", 55, 55);
+      doc.text("Registrar's Office" || "(Not provided)", 55, 55);
 
       doc.setFont("helvetica", "bold");
       doc.text("Email Address:", 25, 60);
       doc.setFont("helvetica", "normal");
-      doc.text(feedbackData.emailAddress || "(Not provided)", 55, 60);
+      doc.text(feedbackData.email || "(Not provided)", 55, 60);
 
       doc.setFont("helvetica", "bold");
       doc.text("Purpose of Visit:", 25, 65);
       doc.setFont("helvetica", "normal");
-      doc.text(feedbackData.purposeOfVisit || "(Not provided)", 55, 65);
+      doc.text(`${documentDetails.purpose}` || "(Not provided)", 55, 65);
 
       doc.setFont("helvetica", "bold");
       doc.text("Attending Staff:", 110, 50);
       doc.setFont("helvetica", "normal");
-      doc.text(feedbackData.attendingStaff || "(Not provided)", 140, 50);
+      doc.text(attendingStaff || "(Not provided)", 140, 50);
 
       doc.setFont("helvetica", "bold");
       doc.text("Date of Visit:", 110, 55);
       doc.setFont("helvetica", "normal");
-      doc.text(feedbackData.dateVisit || "(Not provided)", 140, 55);
+      doc.text(formatDate(new Date()) || "(Not provided)", 140, 55);
 
       // Areas of Concern header
       doc.setFontSize(9);
@@ -207,7 +216,7 @@ const InternalFeedbackDownload = ({ documentDetails }) => {
       // doc.line(25, 175, 185, 175);
 
       // Save PDF
-      doc.save("Stakeholders_Feedback_Form.pdf");
+      doc.save(`${feedbackData.lastName}'s_Feedback_Form.pdf`);
 
       // Close modal after download
       //   handleClose();
