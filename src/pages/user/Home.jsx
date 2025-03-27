@@ -34,7 +34,7 @@ export default function Home() {
         )
         .then((res) => {
           if (res.data.Status === "Success") {
-            console.log(res.data.data);
+            // console.log(res.data.data);
             setRequestedDocuments(res.data.data);
             setFilteredRequests(res.data.data);
           } else if (res.data.Message) {

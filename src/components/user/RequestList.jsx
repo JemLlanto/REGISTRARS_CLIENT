@@ -138,13 +138,11 @@ const RequestList = ({ filteredRequests, isLoading }) => {
           {isLoading ? (
             <>
               <div
-                className="d-flex justify-content-center align-items-center"
+                className="d-flex justify-content-center align-items-center gap-1"
                 style={{ height: "70%" }}
               >
-                <p>
-                  <Spinner animation="border" variant="primary" size="sm" />{" "}
-                  Loading request...
-                </p>
+                <Spinner animation="border" variant="primary" size="sm" />
+                <p className="m-0">Loading request...</p>
               </div>
             </>
           ) : (

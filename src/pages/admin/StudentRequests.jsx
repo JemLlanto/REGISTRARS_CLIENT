@@ -158,7 +158,7 @@ export default function StudentRequests() {
     // Format dates as YYYY-MM-DD for input fields
     setStartDate(start.toISOString().split("T")[0]);
     setEndDate(end.toISOString().split("T")[0]);
-    fetchRequestedDocuments();
+    // fetchRequestedDocuments();
   };
 
   // Read the status from URL on component mount
@@ -186,7 +186,10 @@ export default function StudentRequests() {
         className="rounded-2 shadow-sm text-white p-2 mb-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="m-0 p-2 fade-in" style={{ color: "var(--secondMain-color)" }}>
+        <h5
+          className="m-0 p-2 fade-in"
+          style={{ color: "var(--secondMain-color)" }}
+        >
           Student Request List (
           {isLoading ? (
             <>
