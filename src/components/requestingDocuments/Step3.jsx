@@ -243,7 +243,7 @@ const Step3 = ({
                     <div className="d-flex justify-content-between align-items-center">
                       <p className="m-0">{upload.uploadDescription}</p>
                       <label
-                        className="primaryButton py-2 d-flex justify-content-center"
+                        className="primaryButton btn py-2 d-flex justify-content-center"
                         htmlFor={`inputGroupFile${upload.uploadID}`}
                       >
                         <p className="m-0">Upload</p>

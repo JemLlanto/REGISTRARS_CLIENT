@@ -35,16 +35,22 @@ const SideBar = ({ user }) => {
           style={{ height: "4rem", border: "white" }}
         >
           {/* Toggle Button - Registrar's Logo*/}
-          <div className="">
+          <div
+            className={`position-relative  ${
+              showSidebar ? "fade-in me-2" : "fade-out"
+            } ${!shouldRender ? "hidden" : ""}`}
+            style={{ width: "12rem", height: "80%" }}
+          >
             <img
               src="/Registrar.png"
               alt="Registrar Logo"
-              className={`${showSidebar ? "fade-in me-2" : "fade-out"} ${
-                !shouldRender ? "hidden" : ""
-              }`}
+              className={`position-absolute mt-1 ${
+                showSidebar ? "fade-in me-2" : "fade-out"
+              } ${!shouldRender ? "hidden" : ""}`}
               style={{
-                height: "80%",
-                width: "12rem",
+                top: "0",
+                // height: "80%",
+                width: "100%",
                 objectFit: "cover",
                 // display: showSidebar ? "block" : "none",
                 // opacity: showSidebar ? "1" : "0",
@@ -87,7 +93,9 @@ const SideBar = ({ user }) => {
                     Dashboard
                   </p>
                 </Link>
-                <span className="tooltip">Dashboard</span>
+                <div className="tooltip">
+                  <p className="m-0">Dashboard</p>
+                </div>
               </li>
             ) : (
               <li
@@ -105,7 +113,9 @@ const SideBar = ({ user }) => {
                     Homepage
                   </p>
                 </Link>
-                <span className="tooltip">Homepage</span>
+                <div className="tooltip">
+                  <p className="m-0">Homepage</p>
+                </div>
               </li>
             )}
 
@@ -131,7 +141,9 @@ const SideBar = ({ user }) => {
                     Student Requests
                   </p>
                 </Link>
-                <span className="tooltip">Student Requests</span>
+                <div className="tooltip">
+                  <p className="m-0">Student Requests</p>
+                </div>
               </li>
             ) : null}
 
@@ -158,7 +170,9 @@ const SideBar = ({ user }) => {
                     Manage Requests
                   </p>
                 </Link>
-                <span className="tooltip">Manage Requests</span>
+                <div className="tooltip">
+                  <p className="m-0">Manage Requests</p>
+                </div>
               </li>
             ) : (
               <li
@@ -181,7 +195,9 @@ const SideBar = ({ user }) => {
                     Request Form
                   </p>
                 </Link>
-                <span className="tooltip">Request Form</span>
+                <div className="tooltip">
+                  <p className="m-0">Request Form</p>
+                </div>
               </li>
             )}
 
@@ -202,7 +218,9 @@ const SideBar = ({ user }) => {
                     About Us
                   </p>
                 </Link>
-                <span className="tooltip">About Us</span>
+                <div className="tooltip">
+                  <p className="m-0">About Us</p>
+                </div>
               </li>
             )}
             {/* about us and reports */}
@@ -227,7 +245,9 @@ const SideBar = ({ user }) => {
                     Manage Admin
                   </p>
                 </Link>
-                <span className="tooltip">Manage Admin</span>
+                <div className="tooltip">
+                  <p className="m-0">Manage Admin</p>
+                </div>
               </li>
             ) : null}
           </ul>

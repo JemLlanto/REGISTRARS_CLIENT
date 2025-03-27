@@ -4,7 +4,8 @@
   background-color: #ffff;
   width: 5rem;
   height: 100vh;
-  transition: width 0.3s ease-in-out;
+  transition: width 0.4s ease-in-out;
+  z-index: 1000;
 }
 .sideBarToggler:focus {
   border: none;
@@ -76,8 +77,7 @@
   left: 100%;
   top: 50%;
   transform: translateY(-50%);
-  background: var(--main-color);
-  color: rgb(255, 255, 255);
+  background: rgb(0, 25, 87, 0.8);
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 16px;
@@ -86,6 +86,9 @@
   visibility: hidden;
   transition: opacity 0.2s ease, visibility 0.2s ease;
   margin-left: 20px;
+}
+.list-group-items .tooltip p {
+  color: rgb(255, 255, 255);
 }
 
 /* Show tooltip only when hovered */
@@ -107,12 +110,12 @@
   background-color: white;
 }
 
-.SideBar .list-group-items.active p {
+.SideBar .list-group-items.active a p {
   color: var(--main-color);
   font-weight: bold;
 }
 
-.SideBar .list-group-items:hover p {
+.SideBar .list-group-items:hover a p {
   color: var(--background-color);
 }
 
@@ -135,7 +138,7 @@
 .SideBar .list-group-items.active:hover {
   background-color: var(--background-color);
 }
-.SideBar .list-group-items.active:hover p {
+.SideBar .list-group-items.active:hover a p {
   color: var(--main-color);
   font-weight: bold;
 }

@@ -315,3 +315,28 @@
 .customToggleButton .btn-check:checked + .btn:hover {
   background-color: var(--main-color-hover) !important;
 }
+
+/* FOR FORM CONTROL */
+/* Hide number input arrows for Chrome, Safari, Edge, and Opera */
+
+.OTPContainer .col {
+  padding: 0;
+}
+.OTPContainer input[type="number"]::-webkit-outer-spin-button,
+.OTPContainer input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.OTPContainer input[type="number"] {
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+  text-align: center; /* Centers the text inside the input */
+  padding: 1.5rem 0 1.5rem 0;
+  height: 2rem;
+  width: 2rem;
+}
+
+/* Hide number input arrows for Firefox */
+.OTPContainer input[type="number"] {
+  -moz-appearance: textfield;
+}

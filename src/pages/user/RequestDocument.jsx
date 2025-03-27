@@ -351,7 +351,10 @@ export default function RequestDocument() {
           className="rounded shadow-sm d-flex align-items-center p-3"
           style={{ backgroundColor: "var(--main-color)" }}
         >
-          <h5 className="m-0 px-2 fade-in" style={{ color: "var(--secondMain-color)" }}>
+          <h5
+            className="m-0 px-2 fade-in"
+            style={{ color: "var(--secondMain-color)" }}
+          >
             Request Submission
           </h5>
           {/* <p className="m-0 text-light">
@@ -359,7 +362,10 @@ export default function RequestDocument() {
           </p> */}
         </div>
 
-        <div className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded p-3 position-relative">
+        <div
+          className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded p-3 position-relative"
+          style={{ zIndex: "1" }}
+        >
           <form className="w-100" onSubmit={handleSubmit}>
             <div
               className="custom-scrollbar overflow-y-scroll overflow-x-hidden"
@@ -450,11 +456,12 @@ export default function RequestDocument() {
               {currentStep === 4 ? (
                 <button
                   type="button"
-                  className="primaryButton"
+                  className="primaryButton btn"
                   onClick={handleSubmit}
                   disabled={
                     !(isSelectionFilled() && isFileFilled() && isInputsFilled())
                   }
+                  style={{ width: "10rem" }}
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
                     {isLoading ? (
@@ -470,30 +477,31 @@ export default function RequestDocument() {
               ) : (
                 <button
                   type="button"
-                  className="primaryButton"
+                  className="primaryButton btn"
                   onClick={nextStep}
                   disabled={
                     currentStep === 1
                       ? !privacyConsent
                       : currentStep === 2
-                        ? !formData.email ||
+                      ? !formData.email ||
                         !formData.studentID ||
                         !formData.firstName ||
                         !formData.lastName ||
                         !formData.dateOfBirth ||
                         !formData.sex ||
                         !formData.mobileNum
-                        : currentStep === 3
-                          ? !formData.program ||
-                          !formData.classification ||
-                          (formData.classification === "graduated" &&
-                            !formData.yearGraduated) ||
-                          (formData.classification === "undergraduate" &&
-                            !formData.yearLevel) ||
-                          !formData.schoolYearAttended ||
-                          !formData.purpose
-                          : false
+                      : currentStep === 3
+                      ? !formData.program ||
+                        !formData.classification ||
+                        (formData.classification === "graduated" &&
+                          !formData.yearGraduated) ||
+                        (formData.classification === "undergraduate" &&
+                          !formData.yearLevel) ||
+                        !formData.schoolYearAttended ||
+                        !formData.purpose
+                      : false
                   }
+                  style={{ width: "10rem" }}
                 >
                   <p className="m-0 d-flex align-items-center justify-content-center">
                     Next Step <i className="bx bx-chevrons-right"></i>
