@@ -1,6 +1,10 @@
 @import url("./Imports.css");
 
-.btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
+.btn-check:checked + .btn,
+.btn.active,
+.btn.show,
+.btn:first-child:active,
+:not(.btn-check) + .btn:active {
   color: var(--bs-btn-active-color);
   background-color: var(--main-color);
   border-color: var(--bs-btn-active-border-color);
@@ -60,8 +64,6 @@
 }
 /* end */
 
-
-
 /* Preloader Container */
 /* Preloader Container */
 .preloader-container {
@@ -112,8 +114,6 @@
   width: 100dvh;
 }
 
-
-
 /* Notification */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px; /* Very thin scrollbar */
@@ -123,8 +123,6 @@
   background-color: var(--main-color); /* Main theme color */
   border-radius: 4px;
 }
-
-
 
 /* Custom Scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
@@ -136,7 +134,6 @@
   border-radius: 4px;
 }
 
-
 .card-hover {
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
@@ -145,7 +142,6 @@
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
   transform: scale(1.05);
 }
-
 
 /*---------------------- manage admin page-------------------------- */
 
@@ -167,7 +163,6 @@
   transform: translateX(3px); /* Move icon slightly */
 }
 /* end */
-
 
 /* Define the fade-in animation */
 @keyframes fadeIn {
@@ -193,7 +188,6 @@
 
 /* end */
 
-
 /*--------------------------------Manage request--------------------------- */
 /* Fade-in animation */
 @keyframes fadeIn {
@@ -206,7 +200,6 @@
     transform: translateY(0);
   }
 }
-
 
 /* Apply the animation */
 .fade-in-container {
@@ -261,7 +254,6 @@
 }
 /*----------------------- End ---------------------*/
 
-
 /* Smooth hover effect */
 .core-value {
   transition: all 0.3s ease-in-out;
@@ -270,9 +262,8 @@
 /* Move up when hovered */
 .core-value:hover {
   transform: scale(1) translateY(-10px);
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(255, 255, 255, 0.2);
 }
-
 
 /* ----------------------ABOUT US------------------- */
 /* Fade-in animation */
@@ -307,3 +298,20 @@
   animation-delay: 0.8s;
 }
 /* END */
+
+/* FOR TOGGLE BUTTONS */
+.customToggleButton .btn {
+  color: var(--main-color);
+  border-color: var(--main-color) !important;
+  background-color: transparent;
+}
+.customToggleButton .btn-check + .btn:hover {
+  background-color: var(--main-color-disabled) !important;
+}
+.customToggleButton .btn-check:checked + .btn {
+  background-color: var(--main-color);
+  border-color: transparent;
+}
+.customToggleButton .btn-check:checked + .btn:hover {
+  background-color: var(--main-color-hover) !important;
+}
