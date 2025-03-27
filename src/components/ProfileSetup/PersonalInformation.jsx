@@ -1,6 +1,6 @@
 import axios from "axios";
-import React from "react";
-import { Col, Form, Row } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Col, Form, Row, InputGroup } from "react-bootstrap";
 import Swal from "sweetalert2";
 
 const PersonalInformation = ({
@@ -12,6 +12,23 @@ const PersonalInformation = ({
   setIsLoading,
   isLoading,
 }) => {
+  const [programs, setPrograms] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/fetchingDocuments/fetchPrograms")
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          console.log(res.data.data);
+          setPrograms(res.data.data);
+        } else if (res.data.Message) {
+          // console.log("Error:", res.data.Message);
+        }
+      })
+      .catch((err) => {
+        console.log("Error fetching Programs: ", err);
+      });
+  }, []);
   const handleUpdatePersonalInfo = async () => {
     try {
       setIsLoading(true);
@@ -33,7 +50,10 @@ const PersonalInformation = ({
       Swal.fire({
         icon: "error",
         title: "Error Occurred!",
-        text: err.response?.data?.error || err.message || "An unexpected error occurred.",
+        text:
+          err.response?.data?.error ||
+          err.message ||
+          "An unexpected error occurred.",
       });
     } finally {
       setIsLoading(false);
@@ -51,18 +71,18 @@ const PersonalInformation = ({
                 className="btn btn-secondary"
                 onClick={handleCancelEditInfo}
               >
-                Cancel
+                <p className="m-0">Cancel</p>
               </button>
               <button
-                className="primaryButton py-2"
+                className="primaryButton btn "
                 onClick={handleUpdatePersonalInfo}
               >
                 Save Changes
               </button>
             </>
           ) : (
-            <button className="primaryButton py-2" onClick={handleEditInfo}>
-              Edit
+            <button className="primaryButton btn " onClick={handleEditInfo}>
+              <p className="m-0">Edit</p>
             </button>
           )}
         </div>
@@ -71,11 +91,12 @@ const PersonalInformation = ({
         <Col lg={6}>
           {/* Username Input */}
           <Form.Group className="mb-3">
-            <Form.Label>First name</Form.Label>
+            <Form.Label htmlFor="firstName">First name</Form.Label>
             <Form.Control
               type="text"
               placeholder="First name"
               name="firstName"
+              id="firstName"
               value={formData.firstName}
               onChange={handleChange}
               disabled={!editingInfo}
@@ -84,11 +105,12 @@ const PersonalInformation = ({
         </Col>
         <Col lg={3}>
           <Form.Group className="mb-3">
-            <Form.Label>Middle name</Form.Label>
+            <Form.Label htmlFor="middleName">Middle name</Form.Label>
             <Form.Control
               type="text"
               placeholder="Middle name"
               name="middleName"
+              id="middleName"
               value={formData.middleName}
               onChange={handleChange}
               disabled={!editingInfo}
@@ -97,11 +119,12 @@ const PersonalInformation = ({
         </Col>
         <Col lg={3}>
           <Form.Group className="mb-3">
-            <Form.Label>Last name</Form.Label>
+            <Form.Label htmlFor="lastName">Last name</Form.Label>
             <Form.Control
               type="text"
               placeholder="Last name"
               name="lastName"
+              id="lastName"
               value={formData.lastName}
               onChange={handleChange}
               disabled={!editingInfo}
@@ -110,26 +133,47 @@ const PersonalInformation = ({
         </Col>
       </Row>
       <Row>
-        <Col lg={5}>
+        <Col lg={3}>
+          <Form.Group className="">
+            <Form.Label htmlFor="program-select">Program/Course</Form.Label>
+            <Form.Select
+              name="program"
+              id="program-select"
+              value={formData.program}
+              onChange={handleChange}
+              disabled={!editingInfo}
+            >
+              <option value="">Choose...</option>
+              {programs.map((program) => (
+                <option key={program.programID} value={program.programName}>
+                  {program.programName}
+                </option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+        </Col>
+        <Col lg={3}>
           <Form.Group className="mb-3">
-            <Form.Label>Student ID</Form.Label>
+            <Form.Label htmlFor="studentID">Student ID</Form.Label>
             <Form.Control
               type="text"
               placeholder="Student ID"
               name="studentID"
+              id="studentID"
               value={formData.studentID}
               onChange={handleChange}
               disabled={!editingInfo}
             />
           </Form.Group>
         </Col>
-        <Col lg={4}>
+        <Col lg={3}>
           <Form.Group className="mb-3">
-            <Form.Label>Mobile Number</Form.Label>
+            <Form.Label htmlFor="mobileNum">Mobile Number</Form.Label>
             <Form.Control
               type="text"
               placeholder="Mobile Number"
               name="mobileNum"
+              id="mobileNum"
               value={formData.mobileNum}
               onChange={handleChange}
               disabled={!editingInfo}
@@ -138,11 +182,12 @@ const PersonalInformation = ({
         </Col>
         <Col>
           <Form.Group className="mb-3">
-            <Form.Label>Date of Birth</Form.Label>
+            <Form.Label htmlFor="dateOfBirth">Date of Birth</Form.Label>
             <Form.Control
               type="date"
               placeholder="Date of Birth"
               name="dateOfBirth"
+              id="dateOfBirth"
               value={formData.dateOfBirth}
               onChange={handleChange}
               disabled={!editingInfo}

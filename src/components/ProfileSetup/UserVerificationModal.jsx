@@ -103,7 +103,10 @@ const UserVerificationModal = ({
       Swal.fire({
         icon: "error",
         title: "Error!",
-        text: err.response?.data?.Message || err.message || "An unexpected error occurred.",
+        text:
+          err.response?.data?.Message ||
+          err.message ||
+          "An unexpected error occurred.",
       });
     } finally {
       setIsLoading(false);
@@ -203,10 +206,9 @@ const UserVerificationModal = ({
     }
   };
 
-
   return (
     <>
-      <button className="primaryButton py-2" onClick={sendOTP}>
+      <button className="primaryButton btn " onClick={sendOTP}>
         {isLoading ? <>Sending OTP</> : <>Edit</>}
       </button>
       <Modal
@@ -218,8 +220,8 @@ const UserVerificationModal = ({
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            User Verification
-            {generatedOTP} {formData.otp}
+            <h5 className="m-0">User Verification</h5>{" "}
+            {/* {generatedOTP} {formData.otp} */}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -234,14 +236,14 @@ const UserVerificationModal = ({
         </Modal.Body>
         <Modal.Footer>
           <button className="btn btn-secondary" onClick={handleClose}>
-            Cancel
+            <p className="m-0">Cancel</p>
           </button>
           <button
-            className="btn btn-primary"
+            className="primaryButton btn "
             onClick={verifyOTP}
             disabled={otpInputs.includes("")}
           >
-            Verify
+            <p className="m-0">Verify</p>
           </button>
         </Modal.Footer>
       </Modal>
