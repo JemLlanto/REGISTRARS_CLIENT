@@ -148,11 +148,13 @@
   font-weight: bold;
 }
 /* Footer */
-.footer p {
-  display: none;
+.footer {
+  /* display: none; */
 }
-
-.footer.toggled p {
+.footer p {
+  white-space: nowrap !;
+}
+.footer.toggled {
   display: block;
 }
 

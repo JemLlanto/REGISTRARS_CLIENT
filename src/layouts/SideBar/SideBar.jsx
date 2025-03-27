@@ -132,7 +132,7 @@ const SideBar = ({ user }) => {
                   className="d-flex align-items-center"
                   to="/admin/student-requests"
                 >
-                  <i className="bx bx-user-check me-2"></i>
+                  <i className="bx bx-user-check "></i>
                   <p
                     className={`m-0 ${showSidebar ? "fade-in" : "fade-out"} ${
                       !shouldRender ? "hidden" : ""
