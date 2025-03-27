@@ -16,6 +16,7 @@ const Step1 = ({ formData, handleChange }) => {
               placeholder="name@example.com"
               onChange={handleChange}
               className="mb-2"
+              autoComplete="none"
             />
           </FloatingLabel>
         </Col>
@@ -38,7 +39,7 @@ const Step1 = ({ formData, handleChange }) => {
       </Row>
       {/* Name Fields in a Row */}
       <Row className="mb-1">
-        <Col md={"6"}>
+        <Col lg={"4"}>
           <FloatingLabel controlId="floatingFirstname" label="Firstname">
             <Form.Control
               type="text"
@@ -50,7 +51,7 @@ const Step1 = ({ formData, handleChange }) => {
             />
           </FloatingLabel>
         </Col>
-        <Col md={"6"}>
+        <Col lg={"4"}>
           <FloatingLabel controlId="floatingMiddlename" label="Middlename">
             <Form.Control
               type="text"
@@ -66,7 +67,7 @@ const Step1 = ({ formData, handleChange }) => {
             this field blank.
           </h6>
         </Col>
-        <Col md={""}>
+        <Col lg={"4"}>
           <FloatingLabel controlId="floatingLastname" label="Lastname">
             <Form.Control
               type="text"

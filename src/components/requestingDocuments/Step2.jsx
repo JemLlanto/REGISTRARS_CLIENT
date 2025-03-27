@@ -12,10 +12,10 @@ const Step2 = ({ formData, handleChange }) => {
       .get("http://localhost:5000/api/fetchingDocuments/fetchPrograms")
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setPrograms(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
+          // console.log("Error:", res.data.Message);
         }
       })
       .catch((err) => {
@@ -28,7 +28,7 @@ const Step2 = ({ formData, handleChange }) => {
       .get("http://localhost:5000/api/fetchingDocuments/fetchPurposes")
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setPurposes(res.data.data);
         } else if (res.data.Message) {
           console.log("Error: ", res.data.Message);
@@ -44,7 +44,7 @@ const Step2 = ({ formData, handleChange }) => {
       .get("http://localhost:5000/api/fetchingDocuments/fetchYearGraduated")
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setYearGraduated(res.data.data);
         } else if (res.data.Message) {
           console.log("Error: ", res.data.Message);
@@ -65,12 +65,13 @@ const Step2 = ({ formData, handleChange }) => {
     <div className="p-2 d-flex flex-column gap-2">
       {/* Program/Course & Major Dropdown */}
       <FloatingLabel
-        controlId="floatingProgram"
+        controlId="program-select"
         label="Program/Course & Major"
         className="mt-3"
       >
         <Form.Select
           name="program"
+          id="program-select"
           value={formData.program}
           onChange={handleChange}
         >
@@ -84,12 +85,13 @@ const Step2 = ({ formData, handleChange }) => {
       </FloatingLabel>
       {/* Step 2: Classification */}
       <FloatingLabel
-        controlId="floatingProgram"
+        controlId="classification-select"
         label="Classification"
         className=""
       >
         <Form.Select
           name="classification"
+          id="classification-select"
           value={formData.classification}
           onChange={handleChange}
         >
@@ -111,8 +113,8 @@ const Step2 = ({ formData, handleChange }) => {
             disabled={!formData.classification}
           >
             <option value="">Choose...</option>
-            {yearGraduated.map((year) => (
-              <option key={year.year_graduatedID} value={year.yearOption}>
+            {yearGraduated.map((year, index) => (
+              <option key={index} value={year.yearOption}>
                 {year.yearOption}
               </option>
             ))}
@@ -162,8 +164,8 @@ const Step2 = ({ formData, handleChange }) => {
           onChange={handleChange}
         >
           <option value="">Choose...</option>
-          {purposes.map((purpose) => (
-            <option key={purpose.purposeID} value={purpose.purposeName}>
+          {purposes.map((purpose, index) => (
+            <option key={index} value={purpose.purposeName}>
               {purpose.purposeName}
             </option>
           ))}

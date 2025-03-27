@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FloatingLabel, ToggleButton, Form, Button } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 const Step3 = ({
   docType,
@@ -46,10 +47,10 @@ const Step3 = ({
       })
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setPurposeData(res.data.data);
         } else if (res.data.Status === "Error") {
-          console.log("Error: ", res.data.Message);
+          // console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
@@ -104,13 +105,37 @@ const Step3 = ({
     };
   }, [purposeID]);
 
-  useEffect(() => {
-    console.log("formData updated:", formData);
-  }, [formData]);
+  // useEffect(() => {
+  //   console.log("formData updated:", formData);
+  // }, [formData]);
 
   const handleFileChange = (event, uploadID) => {
     const file = event.target.files[0];
     if (file) {
+      // Allowed file types
+      const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+      const maxSize = 2 * 1024 * 1024; // 1MB
+
+      if (file.size > maxSize) {
+        Swal.fire({
+          icon: "warning",
+          title: "File Too Large",
+          text: "File size should not exceed 2MB.",
+        });
+        setFile(null);
+        return;
+      }
+
+      if (!allowedTypes.includes(file.type)) {
+        Swal.fire({
+          icon: "error",
+          title: "Invalid File Type",
+          text: "Only JPEG, JPG, and PNG files are allowed.",
+        });
+        setFile(null);
+        return;
+      }
+
       setFile(file); // Set the file in parent component
 
       const reader = new FileReader();
@@ -149,22 +174,23 @@ const Step3 = ({
   };
 
   return (
-    <div className="mb-3 p-3">
+    <div className="p-3">
       <h3 className="fw-bold" style={{ color: "var(--main-color)" }}>
         {formData.purpose}
       </h3>
       <div className="d-flex flex-column gap-3">
         {selection?.length > 0 ? (
-          <div className="d-flex flex-column gap-2">
-            {/* <h5 className="mt-3">
-              <strong>Selected document types:</strong>{" "}
-              {docType.length > 0 ? docType.join(", ") : "None"}
-            </h5> */}
-            {selection.map((select) => (
+          <div className="customToggleButton d-flex flex-column gap-2">
+            <h5 className="mt-3 fw-bold">
+              Selected document types:{" "}
+              {/* {docType.length > 0 ? docType.join(", ") : "None"} */}
+            </h5>
+            {selection.map((select, index) => (
               <ToggleButton
-                key={select.selectionID}
+                key={index}
                 type="checkbox"
                 id={`checkbox-${select.selectionID}`}
+                value={select.selectionName}
                 label={select.selectionName}
                 checked={docType.includes(select.selectionName)}
                 onChange={(e) => {
@@ -185,11 +211,11 @@ const Step3 = ({
 
         {inputs.length > 0 && (
           <div className="d-flex flex-column gap-2">
-            <h5 className="m-0">Complete all fields:</h5>
+            <h5 className="m-0 fw-bold">Complete all fields:</h5>
             {inputs.map((input, index) => {
               return (
                 <FloatingLabel
-                  key={input.inputID}
+                  key={index}
                   controlId={`floatinginput${input.inputID}`}
                   label={input.inputDescription}
                 >
@@ -208,30 +234,37 @@ const Step3 = ({
 
         {uploadsState.length > 0 && (
           <div className="d-flex flex-column gap-2">
-            <h5 className="m-0">Upload necessary files:</h5>
-            {uploadsState.map((upload) => (
-              <div key={upload.uploadID} className="input-group mb-3">
+            <h5 className="m-0 fw-bold">Upload necessary files:</h5>
+            {uploadsState.map((upload, index) => (
+              <div key={index} className="input-group mb-3">
                 <div className="w-100 border rounded p-3">
                   {/* Show upload description and button only if no preview */}
                   {!upload.preview ? (
                     <div className="d-flex justify-content-between align-items-center">
-                      <h5 className="m-0">{upload.uploadDescription}</h5>
+                      <p className="m-0">{upload.uploadDescription}</p>
                       <label
-                        className="btn btn-md btn-primary m-0"
+                        className="primaryButton py-2 d-flex justify-content-center"
                         htmlFor={`inputGroupFile${upload.uploadID}`}
                       >
-                        Upload
+                        <p className="m-0">Upload</p>
                       </label>
                     </div>
                   ) : (
                     <div className="mt-3 position-relative">
                       <div className="d-flex justify-content-center position-relative">
-                        <div className="position-relative">
+                        <div
+                          className="position-relative overflow-hidden rounded bg-danger"
+                          style={{ height: "15rem", width: "15rem" }}
+                        >
                           <img
                             src={upload.preview}
                             alt="Uploaded Preview"
-                            className="img-fluid rounded shadow-sm"
-                            style={{ maxWidth: "clamp( 5rem , 40dvh, 15rem)" }}
+                            className="shadow-sm"
+                            style={{
+                              height: "100%",
+                              width: "100%",
+                              objectFit: "cover",
+                            }}
                           />
                           <Button
                             variant="danger"
@@ -239,20 +272,18 @@ const Step3 = ({
                             onClick={() => handleRemoveFile(upload.uploadID)}
                             style={{
                               position: "absolute",
-                              top: "0",
-                              right: "0",
-                              borderRadius: "50%",
-                              width: "30px",
-                              height: "30px",
+                              top: ".2rem",
+                              right: ".2rem",
+                              width: "1.5rem",
+                              height: "1.5rem",
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
                               padding: "0",
-                              fontWeight: "bold",
-                              boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+                              fontWeight: "",
                             }}
                           >
-                            X
+                            x
                           </Button>
                         </div>
                       </div>
