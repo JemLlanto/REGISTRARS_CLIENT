@@ -56,7 +56,10 @@ function PurposeStats({ requestedDocuments }) {
             textAlign: "center",
           }}
         >
-          <p className="mb-1 fw-bold" style={{ fontSize: "14px", color: "#555" }}>
+          <p
+            className="mb-1 fw-bold"
+            style={{ fontSize: "14px", color: "#555" }}
+          >
             {label}
           </p>
           <p
@@ -75,12 +78,11 @@ function PurposeStats({ requestedDocuments }) {
     return null;
   };
 
-
   return (
     <>
       <div className="bg-white  rounded mt-2 w-100">
         {data.length > 0 ? (
-          <div className="w-100" style={{ height: "300px" }}>
+          <div className="w-100" style={{ height: "48dvh" }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={data}
