@@ -162,7 +162,9 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
         disabled={
           documentDetails.status === "cancelled" ||
           documentDetails.status === "completed" ||
-          !documentDetails.responded
+          documentDetails.status === "ready to pickup"
+            ? !documentDetails.responded
+            : false
         }
       >
         {documentDetails.status === "pending"
