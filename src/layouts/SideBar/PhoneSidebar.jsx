@@ -52,14 +52,18 @@ const PhoneSidebar = ({ user }) => {
               </li>
 
               {/* Student Requests (Admin Only) */}
-              {user.isAdmin && (
-                <li className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/student-requests" ? "active" : ""}`}>
+              {user?.isAdmin ? (
+                <li
+                  className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/student-requests" ? "active" : ""
+                    }`}
+                >
                   <Link className="d-flex align-items-center" to="/admin/student-requests" onClick={handleClose}>
                     <i className="bx bx-user-check me-2"></i>
                     <p className="m-0">Student Requests</p>
                   </Link>
                 </li>
-              )}
+              ) : null}
+
 
               {/* Manage Requests / Request Form */}
               <li className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === (user.isAdmin ? "/admin/manage-request-form" : "/request-documents") ? "active" : ""}`}>

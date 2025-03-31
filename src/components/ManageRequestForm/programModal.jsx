@@ -200,16 +200,27 @@ function programModal() {
                         {editProgram === program.programID ? (
                           <>
                             <button
-                              className="btn btn-success text-white w-100"
+                              className="btn btn-secondary text-white w-100"
                               onClick={() => setEditProgram(false)}
                             >
-                              <p className="m-0">Cancel</p>
+                              <p className="m-0">
+                                <span className="d-none d-md-block">Cancel</span>
+                                <span className="d-md-none">
+                                  <i className="bx bx-x iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                             <button
-                              className="btn btn-danger text-white w-100"
+                              className="btn btn-success text-white w-100"
                               onClick={() => handleUpdateProgram()}
                             >
-                              <p className="m-0">Save</p>
+                              <p className="m-0">
+                                <span className="d-none d-md-block">Save</span>
+                                <span className="d-md-none">
+                                  {" "}
+                                  <i className="bx bx-save iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                           </>
                         ) : (
