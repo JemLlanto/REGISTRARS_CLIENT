@@ -58,12 +58,14 @@ const MainLayout = () => {
 
   return (
     <div
-      className="w-100 d-flex flex-column"
+      className="w-100 d-flex flex-column custom-scrollbar "
       style={{
         backgroundColor: "var(--bodyBackground-color)",
         height: "100dvh",
+        overflow: "auto", // Ensures scrolling when content overflows
       }}
     >
+
       {!user.isAdmin && user.isNewAccount ? (
         <NewAccountPopup user={user} />
       ) : null}{" "}

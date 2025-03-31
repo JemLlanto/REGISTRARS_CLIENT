@@ -128,7 +128,7 @@ function programModal() {
 
   return (
     <>
-      <div className="w-100 mx-0">
+      <div className="w-100 mx-0" >
         <Button
           className="customize-section customize shadow-sm p-2 w-100 border-0 d-flex justify-content-between align-items-center "
           style={{ backgroundColor: "var(--main-color)" }}
