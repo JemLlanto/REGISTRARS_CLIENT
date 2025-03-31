@@ -57,7 +57,11 @@ p {
 }
 
 /* button */
-
+@media (max-width: 768px) {
+  .scroll-container {
+    max-height: 60vh !important;
+  }
+}
 /* CUSTOM BUTTON */
 
 .primaryButton {

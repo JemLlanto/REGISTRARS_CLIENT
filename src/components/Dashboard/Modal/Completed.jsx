@@ -41,9 +41,9 @@ const Completed = ({ completedRequests }) => {
         centered
         size="lg"
       >
-        <Modal.Header closeButton>
+        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
           <Modal.Title>
-            <h5 className="m-0">
+            <h5 className="m-0 text-white">
               Completed request ({completedRequests.length})
             </h5>
           </Modal.Title>

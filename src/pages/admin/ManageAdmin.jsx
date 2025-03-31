@@ -212,14 +212,15 @@ const ManageAdmin = () => {
                         </button>
                       ) : (
                         <button
-                          className="btn btn-primary w-100"
+                          className="btn w-100"
+                          style={{ backgroundColor: "var(--main-color)" }}
                           onClick={() => {
                             setSelectedProgram(program.programID);
                             handleShowModal();
                           }}
                         >
                           <p className="m-0">
-                            <span className="d-none d-md-block">
+                            <span className="d-none d-md-block text-white">
                               {" "}
                               Add admin
                             </span>
