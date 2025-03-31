@@ -113,7 +113,7 @@ export default function Home() {
       style={{ height: "90dvh" }}
     >
       <div
-        className="rounded-2 shadow-sm text-white p-2"
+        className="rounded-2  text-white p-2"
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5
