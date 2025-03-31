@@ -238,7 +238,12 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         onClick={downloadPDF}
         disabled={!documentDetails.responded}
       >
-        <p className="m-0">Download feedback(Internal)</p>
+        <p className="m-0">
+          {" "}
+          {documentDetails.responded
+            ? "Download feedback(Internal)"
+            : "Download feedback"}
+        </p>
       </button>
     </>
   );
