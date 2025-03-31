@@ -2,7 +2,7 @@ import { Modal } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const FormSwitch = ({ user, fetchUserData }) => {
+const AutomaticSwitch = ({ user, fetchUserData }) => {
   const [switchModal, setSwitchModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({});
@@ -17,7 +17,7 @@ const FormSwitch = ({ user, fetchUserData }) => {
     if (user) {
       setFormData({
         userID: user.userID,
-        isOn: user.isOn,
+        isAutomatic: user.isAutomatic,
       });
     }
   }, [user]);
@@ -26,7 +26,7 @@ const FormSwitch = ({ user, fetchUserData }) => {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:5000/api/managingRequest/switchForm",
+        "http://localhost:5000/api/managingRequest/switchFormAutomatic",
         formData
       );
       if (res.status === 200) {
@@ -43,12 +43,8 @@ const FormSwitch = ({ user, fetchUserData }) => {
   };
   return (
     <>
-      <button
-        className="btn btn-warning"
-        onClick={handleShow}
-        disabled={user.isAutomatic}
-      >
-        <p className="m-0">Request form{user.isOn ? "(on)" : "(off)"}</p>
+      <button className="btn btn-light" onClick={handleShow}>
+        <p className="m-0">Automatic{user.isAutomatic ? "(on)" : "(off)"}</p>
       </button>
 
       <Modal show={switchModal} onHide={handleClose} centered>
@@ -59,9 +55,9 @@ const FormSwitch = ({ user, fetchUserData }) => {
         </Modal.Header>
         <Modal.Body>
           <p>
-            {user.isOn === 0
-              ? " Are you sure you want to open the form?"
-              : " Are you sure you want to close the form?"}
+            {user.isAutomatic === 0
+              ? "Are you sure you want to switch the form to automatic mode?"
+              : "Are you sure you want to switch the form to manual mode?"}
           </p>
         </Modal.Body>
         <Modal.Footer>
@@ -81,4 +77,4 @@ const FormSwitch = ({ user, fetchUserData }) => {
   );
 };
 
-export default FormSwitch;
+export default AutomaticSwitch;

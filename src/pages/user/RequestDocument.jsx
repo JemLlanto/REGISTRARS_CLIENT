@@ -10,6 +10,8 @@ import ReqProgressBar from "../../components/requestingDocuments/ReqProgressBar"
 import { useOutletContext, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import ClosedForm from "../../components/requestingDocuments/ClosedForm";
+import FormButtons from "../../components/requestingDocuments/FormButtons";
 // import ReqProgressBarSmall from "../../components/requestingDocuments/ReqProgressBarSmall";
 
 export default function RequestDocument() {
@@ -18,7 +20,6 @@ export default function RequestDocument() {
   const [direction, setDirection] = useState(1);
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const [hasInput, setHasInput] = useState(false);
   const [inputsLength, setInputsLength] = useState(0);
   const [hasFile, setHasFile] = useState(false);
@@ -372,52 +373,12 @@ export default function RequestDocument() {
           style={{ zIndex: "1" }}
         >
           <form className="position-relative w-100" onSubmit={handleSubmit}>
-            {!user.isOn && (
-              <div
-                className="position-absolute rounded d-flex flex-column align-items-center justify-content-center"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "rgb(230, 230, 230, .95)",
-                  zIndex: "50",
-                }}
-              >
-                <h1 className="m-0 text-danger mb-2 fw-bold">
-                  Form Submission Temporarily Unavailable
-                </h1>
-                <div className="mb-4 d-flex flex-column align-items-center justify-content-center">
-                  <h2
-                    className="h5 mb-3"
-                    style={{ color: "var(--main-color)" }}
-                  >
-                    Current Operating Hours
-                  </h2>
-                  <p className="mb-2">
-                    <span className="fw-bold">Days:</span> Monday through
-                    Thursday
-                  </p>
-                  <p className="mb-0">
-                    <span className="fw-bold">Hours:</span> 8:00 AM to 4:00 PM
-                  </p>
-                </div>
-
-                <div className="d-flex flex-column align-items-center justify-content-center">
-                  <h2
-                    className="h5 mb-3"
-                    style={{ color: "var(--main-color)" }}
-                  >
-                    Closed On
-                  </h2>
-                  <ul className="list-unstyled d-flex flex-column align-items-center justify-content-center">
-                    <li className="mb-2">• Fridays</li>
-                    <li className="mb-2">• Saturdays</li>
-                    <li className="mb-2">• Sundays</li>
-                    <li className="mb-2">• Holidays (local and national)</li>
-                    <li>• Campus/University-wide events</li>
-                  </ul>
-                </div>
-              </div>
-            )}
+            {/* {!user.isAutomatic ? (
+              <ClosedForm />
+            ) : (
+              !user.isAutomatic && (<ClosedForm />)()
+            )} */}
+            <ClosedForm user={user} fetchUserData={fetchUserData} />
             <div
               className="custom-scrollbar overflow-y-scroll overflow-x-hidden"
               style={{ height: "65dvh" }}
@@ -492,74 +453,18 @@ export default function RequestDocument() {
               </AnimatePresence>
             </div>
 
-            <div className="d-flex justify-content-between gap-2 mt-2">
-              <Button
-                type="button"
-                className="btn btn-secondary"
-                onClick={prevStep}
-                disabled={currentStep === 1}
-                style={{ opacity: currentStep === 1 ? 0 : 1, width: "10rem" }}
-              >
-                <p className="m-0 d-flex align-items-center justify-content-center">
-                  <i className="bx bx-chevrons-left"></i> Back
-                </p>
-              </Button>
-              {currentStep === 4 ? (
-                <button
-                  type="button"
-                  className="primaryButton btn"
-                  onClick={handleSubmit}
-                  disabled={
-                    !(isSelectionFilled() && isFileFilled() && isInputsFilled())
-                  }
-                  style={{ width: "10rem" }}
-                >
-                  <p className="m-0 d-flex align-items-center justify-content-center">
-                    {isLoading ? (
-                      <>
-                        <Spinner animation="border" variant="light" size="sm" />
-                        Submitting...
-                      </>
-                    ) : (
-                      <>Submit</>
-                    )}
-                  </p>
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="primaryButton btn"
-                  onClick={nextStep}
-                  disabled={
-                    currentStep === 1
-                      ? !privacyConsent
-                      : currentStep === 2
-                      ? !formData.email ||
-                        !formData.studentID ||
-                        !formData.firstName ||
-                        !formData.lastName ||
-                        !formData.dateOfBirth ||
-                        !formData.sex ||
-                        !formData.mobileNum
-                      : currentStep === 3
-                      ? !formData.program ||
-                        !formData.classification ||
-                        (formData.classification === "graduated" &&
-                          !formData.yearGraduated) ||
-                        (formData.classification === "undergraduate" &&
-                          !formData.yearLevel) ||
-                        !formData.schoolYearAttended ||
-                        !formData.purpose
-                      : false
-                  }
-                  style={{ width: "10rem" }}
-                >
-                  <p className="m-0 d-flex align-items-center justify-content-center">
-                    Next Step <i className="bx bx-chevrons-right"></i>
-                  </p>
-                </button>
-              )}
-            </div>
+            <FormButtons
+              formData={formData}
+              prevStep={prevStep}
+              nextStep={nextStep}
+              currentStep={currentStep}
+              handleSubmit={handleSubmit}
+              isLoading={isLoading}
+              privacyConsent={privacyConsent}
+              isSelectionFilled={isSelectionFilled}
+              isFileFilled={isFileFilled}
+              isInputsFilled={isInputsFilled}
+            />
           </form>
         </div>
       </div>

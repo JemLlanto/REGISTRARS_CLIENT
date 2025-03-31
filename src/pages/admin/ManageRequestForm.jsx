@@ -5,6 +5,7 @@ import PurposeModal from "../../components/ManageRequestForm/purposeModal";
 import YearGraduatedModal from "../../components/ManageRequestForm/yearGraduatedModal";
 import FormSwitch from "../../components/ManageRequestForm/FormSwitch";
 import { useOutletContext } from "react-router-dom";
+import AutomaticSwitch from "../../components/ManageRequestForm/AutomaticSwitch";
 
 const ManageRequestForm = () => {
   const { user, fetchUserData } = useOutletContext();
@@ -21,7 +22,8 @@ const ManageRequestForm = () => {
         >
           Manage Request Form
         </h5>
-        <div>
+        <div className="d-flex align-items-center gap-2">
+          <AutomaticSwitch user={user} fetchUserData={fetchUserData} />
           <FormSwitch user={user} fetchUserData={fetchUserData} />
         </div>
       </div>
