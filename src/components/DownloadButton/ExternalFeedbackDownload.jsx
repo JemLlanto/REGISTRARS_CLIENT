@@ -637,7 +637,11 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         onClick={downloadPDF}
         disabled={!documentDetails.responded}
       >
-        <p className="m-0">Download feedback(External)</p>
+        <p className="m-0">
+          {documentDetails.responded
+            ? "Download feedback(External)"
+            : "Download feedback"}
+        </p>
       </button>
     </>
   );
