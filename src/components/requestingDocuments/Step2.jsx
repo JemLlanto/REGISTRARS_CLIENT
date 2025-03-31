@@ -56,9 +56,9 @@ const Step2 = ({ formData, handleChange }) => {
   }, []);
 
   if (formData.classification === "graduated") {
-    formData.yearLevel = null;
+    formData.yearLevel = "";
   } else {
-    formData.yearGraduated = null;
+    formData.yearGraduated = "";
   }
 
   return (
@@ -92,7 +92,7 @@ const Step2 = ({ formData, handleChange }) => {
         <Form.Select
           name="classification"
           id="classification-select"
-          value={formData.classification}
+          value={formData.classification || ""}
           onChange={handleChange}
         >
           <option value="">Choose...</option>

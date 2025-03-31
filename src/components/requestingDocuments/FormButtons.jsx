@@ -54,7 +54,7 @@ const FormButtons = ({
           onClick={nextStep}
           disabled={
             currentStep === 1
-              ? !privacyConsent
+              ? formData.agree === "no"
               : currentStep === 2
               ? !formData.email ||
                 !formData.studentID ||
