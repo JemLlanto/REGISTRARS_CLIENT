@@ -297,6 +297,9 @@
 .fade-in-section:nth-child(4) {
   animation-delay: 0.8s;
 }
+.fade-in-section:nth-child(5) {
+  animation-delay: 1s;
+}
 /* END */
 
 /* FOR TOGGLE BUTTONS */
