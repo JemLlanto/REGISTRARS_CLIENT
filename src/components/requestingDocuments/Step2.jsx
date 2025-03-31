@@ -61,6 +61,24 @@ const Step2 = ({ formData, handleChange }) => {
     formData.yearGraduated = "";
   }
 
+  // Validate min/max when user finishes typing
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    let numericValue = Number(value);
+
+    if (name === "schoolYearAttended") {
+      if (numericValue < 1900) numericValue = 1900;
+      if (numericValue > new Date().getFullYear())
+        numericValue = new Date().getFullYear();
+
+      setFormData((prevData) => {
+        const updatedData = { ...prevData, [name]: numericValue };
+        localStorage.setItem("formData", JSON.stringify(updatedData));
+        return updatedData;
+      });
+    }
+  };
+
   return (
     <div className="p-2 d-flex flex-column gap-2">
       {/* Program/Course & Major Dropdown */}
@@ -92,7 +110,7 @@ const Step2 = ({ formData, handleChange }) => {
         <Form.Select
           name="classification"
           id="classification-select"
-          value={formData.classification || ""}
+          value={formData.classification}
           onChange={handleChange}
         >
           <option value="">Choose...</option>
@@ -152,9 +170,9 @@ const Step2 = ({ formData, handleChange }) => {
           name="schoolYearAttended"
           value={formData.schoolYearAttended}
           onChange={handleChange}
-          min="1900" // Set a reasonable minimum
-          max={new Date().getFullYear()} // Restrict to the current year
-          step="1" // Ensure whole numbers only
+          min="1900"
+          max={new Date().getFullYear()}
+          step="1"
         />
       </FloatingLabel>
       <FloatingLabel controlId="floatingPurpose" label="Purpose" className="">

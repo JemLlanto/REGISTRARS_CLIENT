@@ -28,16 +28,16 @@ export default function RequestDocument() {
     middleName: user.middleName || "",
     lastName: user.lastName || "",
     studentID: user.studentID || "",
-    dateOfBirth: user.dateOfBirth || "",
+    dateOfBirth: "",
     sex: user.sex || "",
     mobileNum: user.mobileNum || "+63",
-    classification: "",
-    schoolYearAttended: "",
-    yearGraduated: "",
-    yearLevel: "",
-    program: user.program || "",
-    purpose: "",
-    upload: "",
+    classification: storedFormData.classification || "",
+    schoolYearAttended: storedFormData.schoolYearAttended || "",
+    yearGraduated: storedFormData.yearGraduated || "",
+    yearLevel: storedFormData.yearLevel || "",
+    program: storedFormData.program || user.program || "",
+    purpose: storedFormData.purpose || "",
+    upload: storedFormData.upload || "",
   });
   const [currentStep, setCurrentStep] = useState(
     storedFormData.currentStep || 1
@@ -102,29 +102,17 @@ export default function RequestDocument() {
       ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
       setFormData((prevData) => ({
-        ...prevData,
-        dateOfBirth: formattedDate,
-        ...(storedFormData
-          ? storedFormData
-          : {
-              currentStep: 1,
-              agree: "Yes",
-              email: user.email || "",
-              userID: user.userID || "",
-              firstName: user.firstName || "",
-              middleName: user.middleName || "",
-              lastName: user.lastName || "",
-              studentID: user.studentID || "",
-              sex: user.sex || "",
-              mobileNum: user.mobileNum || "+63",
-              classification: "",
-              schoolYearAttended: "",
-              yearGraduated: "",
-              yearLevel: "",
-              program: user.program || "",
-              purpose: "",
-              upload: "",
-            }),
+        ...prevData, // Keep other existing fields
+        email: storedFormData.email || user.email || "",
+        userID: storedFormData.userID || user.userID || "",
+        firstName: storedFormData.firstName || user.firstName || "",
+        middleName: storedFormData.middleName || user.middleName || "",
+        lastName: storedFormData.lastName || user.lastName || "",
+        studentID: storedFormData.studentID || user.studentID || "",
+        dateOfBirth: formattedDate || storedFormData.dateOfBirth || "",
+        sex: storedFormData.sex || user.sex || "",
+        mobileNum: storedFormData.mobileNum || user.mobileNum || "+63",
+        program: storedFormData.program || user.program || "",
       }));
     }
   }, [user]);
