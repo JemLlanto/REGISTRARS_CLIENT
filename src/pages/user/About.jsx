@@ -92,8 +92,30 @@ export default function About() {
             </div>
           </div>
         </div>
-      </div>
+        <div
+          className="mx-0 d-flex justify-content-center row w-100 shadow-sm rounded-2 p-2  mt-2 gap-2 fade-in-section"
+          style={{ backgroundColor: "var(--thirdMain-color)" }}
+        >
+          <div className="text-center mt-3" style={{ color: "var(--main-color)" }}>
+            <h2 className=" fw-bold">OUR GOALS</h2>
+          </div>
 
+          <div className=" mb-2">
+            <div className="core-value flex-column p-3 rounded d-flex w-100" style={{ backgroundColor: "rgba(255,255,255,0.1)" }}>
+              {/* <h2 className="text-warning fw-bold">SERVICE</h2> */}
+              <h6 className="text-white">CvSU Rosario Campus aims to produce productive graduates, professionals, and experts marked by global excellence and moral uprightness through the following:</h6>
+              <div className="text-white">
+                <p>1. Offer various programs/courses relevant to the needs of the clients for global competitiveness.</p>
+                <p>2. Upgrade the qualification and competencies of the teaching and non-teaching personnel for quality service.</p>
+                <p>3. Improve facilities relevant for effective and efficient education and training.</p>
+                <p>4. Engage in research and extension projects/activities that will lead to instruction and community improvement.</p>
+                <p>5. Strengthen linkages with local and international agencies for instruction, research, development and production.</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div >
   );
 }
