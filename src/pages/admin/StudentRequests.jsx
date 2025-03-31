@@ -203,19 +203,7 @@ export default function StudentRequests() {
 
         <div className="d-flex align-items-center gap-2">
           {/* DATE SELECTION FOR SMALL SCREENS */}
-          <div className="d-block d-md-none  rounded ">
-            <div className="d-flex align-items-center rounded  ">
-              <RequestDatepicker
-                startDate={startDate}
-                endDate={endDate}
-                selectedPeriod={selectedPeriod}
-                handlePeriodChange={handlePeriodChange}
-                setSelectedPeriod={setSelectedPeriod}
-                setStartDate={setStartDate}
-                setEndDate={setEndDate}
-              />
-            </div>
-          </div>
+
 
           {/* Search Bar */}
           <div className="d-none d-md-block">
@@ -258,6 +246,19 @@ export default function StudentRequests() {
         </div>
       </div>
       <div>
+        <div className="d-block d-md-none rounded ">
+          <div className="d-flex align-items-center rounded  ">
+            <RequestDatepicker
+              startDate={startDate}
+              endDate={endDate}
+              selectedPeriod={selectedPeriod}
+              handlePeriodChange={handlePeriodChange}
+              setSelectedPeriod={setSelectedPeriod}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+            />
+          </div>
+        </div>
         {/* Search Bar phone*/}
         {/* Mobile layout container */}
         <div className="d-block d-md-none">
