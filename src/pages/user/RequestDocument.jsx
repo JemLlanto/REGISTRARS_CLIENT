@@ -16,7 +16,32 @@ import FormButtons from "../../components/requestingDocuments/FormButtons";
 
 export default function RequestDocument() {
   const { user, fetchUserData } = useOutletContext();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [storedFormData, setStoredFormData] = useState(
+    JSON.parse(localStorage.getItem("formData")) || {}
+  );
+  const [formData, setFormData] = useState({
+    currentStep: storedFormData.currentStep || 1,
+    agree: "Yes",
+    email: user.email || "",
+    userID: user.userID || "",
+    firstName: user.firstName || "",
+    middleName: user.middleName || "",
+    lastName: user.lastName || "",
+    studentID: user.studentID || "",
+    dateOfBirth: user.dateOfBirth || "",
+    sex: user.sex || "",
+    mobileNum: user.mobileNum || "+63",
+    classification: "",
+    schoolYearAttended: "",
+    yearGraduated: "",
+    yearLevel: "",
+    program: user.program || "",
+    purpose: "",
+    upload: "",
+  });
+  const [currentStep, setCurrentStep] = useState(
+    storedFormData.currentStep || 1
+  );
   const [direction, setDirection] = useState(1);
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -69,52 +94,37 @@ export default function RequestDocument() {
     }));
   }, [requestID]);
 
-  const [formData, setFormData] = useState({
-    agree: "Yes",
-    email: user.email || "",
-    userID: user.userID || "",
-    firstName: user.firstName || "",
-    middleName: user.middleName || "",
-    lastName: user.lastName || "",
-    studentID: user.studentID || "",
-    dateOfBirth: user.dateOfBirth || "",
-    sex: user.sex || "",
-    mobileNum: user.mobileNum || "+63",
-    classification: "",
-    schoolYearAttended: "",
-    yearGraduated: "",
-    yearLevel: "",
-    program: user.program || "",
-    purpose: "",
-    upload: "",
-  }); // State to store input value
-
   useEffect(() => {
     if (user) {
       const date = new Date(user.dateOfBirth);
       const formattedDate = `${date.getFullYear()}-${String(
         date.getMonth() + 1
       ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+
       setFormData((prevData) => ({
         ...prevData,
         dateOfBirth: formattedDate,
-      }));
-    }
-    if (user) {
-      setFormData((prevData) => ({
-        ...prevData,
-        email: user.email || "",
-        userID: user.userID || "",
-        firstName: user.firstName || "",
-        middleName: user.middleName || "",
-        lastName: user.lastName || "",
-        studentID: user.studentID || "",
-        // dateOfBirth: user.dateOfBirth || "",
-        sex: user.sex || "",
-        mobileNum: user.mobileNum || "+63",
-        program: user.program || "",
-
-        // Add any other user fields you want to pre-populate
+        ...(storedFormData
+          ? storedFormData
+          : {
+              currentStep: 1,
+              agree: "Yes",
+              email: user.email || "",
+              userID: user.userID || "",
+              firstName: user.firstName || "",
+              middleName: user.middleName || "",
+              lastName: user.lastName || "",
+              studentID: user.studentID || "",
+              sex: user.sex || "",
+              mobileNum: user.mobileNum || "+63",
+              classification: "",
+              schoolYearAttended: "",
+              yearGraduated: "",
+              yearLevel: "",
+              program: user.program || "",
+              purpose: "",
+              upload: "",
+            }),
       }));
     }
   }, [user]);
@@ -139,10 +149,14 @@ export default function RequestDocument() {
       newValue = "+" + newValue;
     }
 
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: newValue, // Use the properly formatted newValue
-    }));
+    setFormData((prevData) => {
+      const updatedData = { ...prevData, [name]: newValue };
+
+      // Save to localStorage
+      localStorage.setItem("formData", JSON.stringify(updatedData));
+
+      return updatedData;
+    });
   };
 
   // Function to go to the next step
@@ -150,6 +164,14 @@ export default function RequestDocument() {
     setDirection(1);
     fetchUserData();
     setCurrentStep((prevStep) => prevStep + 1);
+    setFormData((prevData) => {
+      const updatedData = { ...prevData, currentStep: currentStep + 1 };
+
+      // Save to localStorage
+      localStorage.setItem("formData", JSON.stringify(updatedData));
+
+      return updatedData;
+    });
   };
 
   // Function to go to the previous step
@@ -162,6 +184,14 @@ export default function RequestDocument() {
     setInputsLength(0);
     setDirection(-1);
     setCurrentStep((prevStep) => (prevStep > 1 ? prevStep - 1 : prevStep));
+    setFormData((prevData) => {
+      const updatedData = { ...prevData, currentStep: currentStep - 1 };
+
+      // Save to localStorage
+      localStorage.setItem("formData", JSON.stringify(updatedData));
+
+      return updatedData;
+    });
   };
 
   const upload = async () => {
@@ -265,6 +295,7 @@ export default function RequestDocument() {
         icon: "success",
         confirmButtonText: "OK",
       }).then(() => {
+        localStorage.removeItem("formData");
         navigate("/home"); // Redirect after confirmation
       });
 
@@ -398,6 +429,7 @@ export default function RequestDocument() {
                       setIsLoading={setIsLoading}
                       privacyConsent={privacyConsent}
                       setPrivacyConsent={setPrivacyConsent}
+                      setFormData={setFormData}
                       formData={formData}
                       handleChange={handleChange}
                     />
