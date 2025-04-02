@@ -31,7 +31,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
 
           <div className="form-check mb-2">
             <input
-              className="form-check-input"
+              className="form-check-input border-black"
               type="radio"
               name="cc1"
               id="cc1_1"
@@ -50,7 +50,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
 
           <div className="form-check mb-2">
             <input
-              className="form-check-input"
+              className="form-check-input border-black"
               type="radio"
               name="cc1"
               id="cc1_2"
@@ -70,7 +70,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
 
           <div className="form-check mb-2">
             <input
-              className="form-check-input"
+              className="form-check-input border-black"
               type="radio"
               name="cc1"
               id="cc1_3"
@@ -90,7 +90,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
 
           <div className="form-check mb-2">
             <input
-              className="form-check-input"
+              className="form-check-input border-black"
               type="radio"
               name="cc1"
               id="cc1_4"
@@ -127,7 +127,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
             <div className="col-md-6">
               <div className="form-check mb-2">
                 <input
-                  className="form-check-input"
+                  className="form-check-input border-black"
                   type="radio"
                   name="cc2"
                   id="cc2_1"
@@ -143,7 +143,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
 
               <div className="form-check mb-2">
                 <input
-                  className="form-check-input"
+                  className="form-check-input border-black"
                   type="radio"
                   name="cc2"
                   id="cc2_2"
@@ -159,7 +159,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
 
               <div className="form-check mb-2">
                 <input
-                  className="form-check-input"
+                  className="form-check-input border-black"
                   type="radio"
                   name="cc2"
                   id="cc2_3"
@@ -177,7 +177,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
             <div className="col-md-6">
               <div className="form-check mb-2">
                 <input
-                  className="form-check-input"
+                  className="form-check-input border-black"
                   type="radio"
                   name="cc2"
                   id="cc2_4"
@@ -193,7 +193,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
 
               <div className="form-check mb-2">
                 <input
-                  className="form-check-input"
+                  className="form-check-input border-black"
                   type="radio"
                   name="cc2"
                   id="cc2_5"
@@ -227,7 +227,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
             <div className="col-md-6">
               <div className="form-check mb-2">
                 <input
-                  className="form-check-input"
+                  className="form-check-input border-black"
                   type="radio"
                   name="cc3"
                   id="cc3_1"
@@ -243,7 +243,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
 
               <div className="form-check mb-2">
                 <input
-                  className="form-check-input"
+                  className="form-check-input border-black"
                   type="radio"
                   name="cc3"
                   id="cc3_2"
@@ -261,7 +261,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
             <div className="col-md-6">
               <div className="form-check mb-2">
                 <input
-                  className="form-check-input"
+                  className="form-check-input border-black"
                   type="radio"
                   name="cc3"
                   id="cc3_3"
@@ -277,7 +277,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
 
               <div className="form-check mb-2">
                 <input
-                  className="form-check-input"
+                  className="form-check-input border-black"
                   type="radio"
                   name="cc3"
                   id="cc3_4"
