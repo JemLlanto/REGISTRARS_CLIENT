@@ -132,7 +132,7 @@ const RequestDetails = () => {
         className="rounded-2  p-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
+        <h5 className="fade-in m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
           Request ID: {documentDetails.requestID}
         </h5>
 
@@ -209,7 +209,7 @@ const RequestDetails = () => {
       >
         {/* purpose */}
         <div
-          className="row bg-white d-flex align-items-center justify-content-between rounded-3 p-4 mx-0 shadow-sm"
+          className="fade-in-section row bg-white d-flex align-items-center justify-content-between rounded-3 p-4 mx-0 shadow-sm"
           style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
         >
           {/* Purpose and Status */}
@@ -240,7 +240,7 @@ const RequestDetails = () => {
                 </span>
               </h4>
             </div>
-            <p className="m-0 text-secondary">
+            <p className="fade-in-section m-0 text-secondary">
               {documentDetails.reason && (
                 <>
                   Reason:{" "}
@@ -250,14 +250,21 @@ const RequestDetails = () => {
             </p>
           </div>
         </div>
+        <div className="fade-in-section">
+          <RequestInfo documentDetails={documentDetails} />
+        </div>
 
-        <RequestInfo documentDetails={documentDetails} />
 
         {documentTypes.length > 0 && (
+<<<<<<< Updated upstream
           <div
             className="information bg-white w-100  rounded-2 p-4 mb-2"
             style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
           >
+=======
+          <div className="fade-in-section information bg-white w-100  rounded-2 p-4 mb-2"
+            style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}>
+>>>>>>> Stashed changes
             <h5 className="text-muted">Document requested</h5>
             <div className="d-flex align-items-center gap-2">
               <i className="bx bxs-file-pdf fs-5 me-1"></i>
@@ -268,10 +275,15 @@ const RequestDetails = () => {
           </div>
         )}
         {documentInputValues.length > 0 && (
+<<<<<<< Updated upstream
           <div
             className="information bg-white w-100 rounded-2 p-4"
             style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
           >
+=======
+          <div className="fade-in-section information bg-white w-100 rounded-2 p-4"
+            style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}>
+>>>>>>> Stashed changes
             <table className="table">
               <thead>
                 <tr>
@@ -291,10 +303,15 @@ const RequestDetails = () => {
           </div>
         )}
         {documentFile && (
+<<<<<<< Updated upstream
           <div
             className=" bg-white w-100  rounded-2 d-flex flex-column p-4 mb-2"
             style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
           >
+=======
+          <div className="fade-in-section bg-white w-100  rounded-2 d-flex flex-column p-4 mb-2"
+            style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}>
+>>>>>>> Stashed changes
             <h5 className="text-muted">Uploaded document</h5>
             <div className="w-100 d-flex align-items-center justify-content-center">
               <div
