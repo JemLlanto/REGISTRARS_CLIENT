@@ -59,23 +59,38 @@ const SQDFormComponent = ({ formData, handleChange, documentDetails }) => {
             {questions.map((question, index) => (
               <tr key={question.id}>
                 <td>
-                  <strong>{`SQD${index}.`}</strong> {question.label}
+                  <strong>{`SQD${index + 1}.`}</strong> {question.label}
                 </td>
                 {ratingOptions.map((option) => (
-                  <td key={option.value} className="text-center">
-                    <input
-                      type="radio"
-                      className="form-check-input"
-                      name={question.id}
-                      value={option.value}
-                      checked={formData[question.id] === option.value}
-                      onChange={handleChange}
-                    />
+                  <td
+                    key={option.value}
+                    className="text-center"
+                    style={{ cursor: "pointer", padding: "10px" }} // Makes the entire cell clickable
+                    onClick={() => handleChange({ target: { name: question.id, value: option.value } })}
+                  >
+                    <label className="w-100 h-100 d-flex justify-content-center align-items-center" style={{ cursor: "pointer" }}>
+                      <input
+                        type="radio"
+                        className="form-check-input position-absolute opacity-0"
+                        name={question.id}
+                        value={option.value}
+                        checked={formData[question.id] === option.value}
+                        onChange={handleChange}
+                      />
+                      <div className="border border-dark rounded-circle d-flex align-items-center justify-content-center"
+                        style={{ width: "24px", height: "24px" }}>
+                        {formData[question.id] === option.value && (
+                          <div className="bg-primary rounded-circle" style={{ width: "12px", height: "12px" }}></div>
+                        )}
+                      </div>
+                    </label>
                   </td>
                 ))}
               </tr>
             ))}
           </tbody>
+
+
         </table>
       </div>
 
@@ -84,7 +99,7 @@ const SQDFormComponent = ({ formData, handleChange, documentDetails }) => {
           Suggestions on how we can improve our services (optional):
         </label>
         <textarea
-          className="form-control"
+          className="form-control border-black"
           id="suggestions"
           name="suggestions"
           rows="3"
@@ -99,7 +114,7 @@ const SQDFormComponent = ({ formData, handleChange, documentDetails }) => {
         </label>
         <input
           type="email"
-          className="form-control"
+          className="form-control border-black"
           id="email"
           name="email"
           value={formData.email || documentDetails.email}

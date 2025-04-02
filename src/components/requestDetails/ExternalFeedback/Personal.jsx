@@ -4,7 +4,7 @@ const PersonalInfoStep = ({ formData, handleChange }) => {
     return (
         <div className="container p-4">
             <div className="mb-4">
-                <p className="text-center">
+                <p className="m-0">
                     This Client Satisfaction Measurement (CSM) tracks the customer experience of government offices.
                     Your feedback on your recently concluded transaction will help this office provide a better service.
                     Personal information shared will be kept confidential and you always have the option to not answer this form.
@@ -19,7 +19,7 @@ const PersonalInfoStep = ({ formData, handleChange }) => {
                         {["Citizen", "Business", "Government"].map((type) => (
                             <div className="form-check" key={type}>
                                 <input
-                                    className="form-check-input"
+                                    className="form-check-input  border-black"
                                     type="radio"
                                     name="clientType"
                                     id={type.toLowerCase()}
@@ -43,7 +43,7 @@ const PersonalInfoStep = ({ formData, handleChange }) => {
                         <label htmlFor="date" className="form-label">Date (Petsa):</label>
                         <input
                             type="date"
-                            className="form-control"
+                            className="form-control  border-black"
                             id="date"
                             name="date"
                             value={formData?.date || ""}
@@ -57,7 +57,7 @@ const PersonalInfoStep = ({ formData, handleChange }) => {
                         {["Male", "Female"].map((gender) => (
                             <div className="form-check" key={gender}>
                                 <input
-                                    className="form-check-input"
+                                    className="form-check-input border-black"
                                     type="radio"
                                     name="sex"
                                     id={gender.toLowerCase()}
@@ -77,7 +77,7 @@ const PersonalInfoStep = ({ formData, handleChange }) => {
                         <label htmlFor="age" className="form-label">Age (Edad):</label>
                         <input
                             type="number"
-                            className="form-control"
+                            className="form-control border-black"
                             id="age"
                             name="age"
                             value={formData?.age || ""}
@@ -94,7 +94,7 @@ const PersonalInfoStep = ({ formData, handleChange }) => {
                         <label htmlFor="serviceAvailed" className="form-label">Service Availed (Uri ng transaksyon o serbisyo):</label>
                         <input
                             type="text"
-                            className="form-control"
+                            className="form-control border-black"
                             id="serviceAvailed"
                             name="serviceAvailed"
                             value={formData?.serviceAvailed || ""}
