@@ -19,11 +19,16 @@ const SelectionSelections = ({ purpose }) => {
     setSelections([]);
 
     axios
-      .get("http://localhost:5000/api/fetchingDocuments/fetchSelections", {
-        params: {
-          purposeID: purpose.purposeID,
-        },
-      })
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchSelections`,
+        {
+          params: {
+            purposeID: purpose.purposeID,
+          },
+        }
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
@@ -58,7 +63,12 @@ const SelectionSelections = ({ purpose }) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:5000/api/documents/addSelection", formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/addSelection`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           setAddSelection(false);
@@ -103,7 +113,12 @@ const SelectionSelections = ({ purpose }) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:5000/api/documents/updateSelection", formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/updateSelection`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           setEditSelection(false);
@@ -157,9 +172,14 @@ const SelectionSelections = ({ purpose }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .post("http://localhost:5000/api/documents/deleteSelection", {
-            selectionID,
-          })
+          .post(
+            `${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            }/api/documents/deleteSelection`,
+            {
+              selectionID,
+            }
+          )
           .then((res) => {
             if (res.data.Status === "Success") {
               Swal.fire({

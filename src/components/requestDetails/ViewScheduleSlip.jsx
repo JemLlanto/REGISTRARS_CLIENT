@@ -42,7 +42,9 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
   const handleDownloadImage = async () => {
     try {
       // Get the image URL
-      const imageUrl = `http://localhost:5000/scheduleSlipUploads/${documentDetails.scheduleSlip}`;
+      const imageUrl = `${
+        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+      }/scheduleSlipUploads/${documentDetails.scheduleSlip}`;
 
       // Fetch the image as a blob
       const response = await fetch(imageUrl);
@@ -110,7 +112,9 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
             style={{ width: "100%", height: "100%" }}
           >
             <img
-              src={`http://localhost:5000/scheduleSlipUploads/${documentDetails.scheduleSlip}`}
+              src={`${
+                import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+              }/scheduleSlipUploads/${documentDetails.scheduleSlip}`}
               alt="Document"
               style={{
                 width: "100%",

@@ -19,11 +19,16 @@ const PurposeInput = ({ purpose }) => {
     setInputs([]);
 
     axios
-      .get("http://localhost:5000/api/fetchingDocuments/fetchInputs", {
-        params: {
-          purposeID: purpose.purposeID,
-        },
-      })
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchInputs`,
+        {
+          params: {
+            purposeID: purpose.purposeID,
+          },
+        }
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
@@ -58,7 +63,12 @@ const PurposeInput = ({ purpose }) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:5000/api/documents/addInput", formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/addInput`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           setAddInput(false);
@@ -97,7 +107,12 @@ const PurposeInput = ({ purpose }) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:5000/api/documents/updateInput", formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/updateInput`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           setEditInput(false);
@@ -143,7 +158,12 @@ const PurposeInput = ({ purpose }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .post("http://localhost:5000/api/documents/deleteInput", { inputID })
+          .post(
+            `${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            }/api/documents/deleteInput`,
+            { inputID }
+          )
           .then((res) => {
             if (res.data.Status === "Success") {
               Swal.fire({

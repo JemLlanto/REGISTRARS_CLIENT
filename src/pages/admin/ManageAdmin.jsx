@@ -32,7 +32,12 @@ const ManageAdmin = () => {
 
   const handleAddProgramAdmin = () => {
     axios
-      .post(`http://localhost:5000/api/manageAdmin/addProgramAdmin`, formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/manageAdmin/addProgramAdmin`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           setAddingModal(false);
@@ -84,9 +89,14 @@ const ManageAdmin = () => {
       .then((result) => {
         if (result.isConfirmed) {
           axios
-            .post(`http://localhost:5000/api/manageAdmin/removeProgramAdmin`, {
-              programID: program.programID,
-            })
+            .post(
+              `${
+                import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+              }/api/manageAdmin/removeProgramAdmin`,
+              {
+                programID: program.programID,
+              }
+            )
             .then((res) => {
               if (res.data.Status === "Success") {
                 fetchProgramAdmins();
@@ -116,7 +126,11 @@ const ManageAdmin = () => {
 
   const fetchProgramAdmins = () => {
     axios
-      .get("http://localhost:5000/api/manageAdmin/fetchProgramAdmins")
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/manageAdmin/fetchProgramAdmins`
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           setProgramAdmins(res.data.result);
@@ -133,7 +147,11 @@ const ManageAdmin = () => {
 
   const fetchAdmins = () => {
     axios
-      .get("http://localhost:5000/api/manageAdmin/fetchAdmin")
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/manageAdmin/fetchAdmin`
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           setAdmins(res.data.data);

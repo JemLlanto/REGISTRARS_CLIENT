@@ -18,7 +18,7 @@ const MainLayout = () => {
 
   const fetchUserData = () => {
     axios
-      .get("http://localhost:5000")
+      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`)
       .then((res) => {
         if (res.data.Status === "Success") {
           setAuth(true);
@@ -44,7 +44,9 @@ const MainLayout = () => {
   // useEffect(() => {
   //   if (id) {
   //     axios
-  //       .get(`http://localhost:5000/api/auth/fetchUserData?userID=${id}`)
+  //       .get(`${
+  //   import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+  // }/api/auth/fetchUserData?userID=${id}`)
   //       .then((res) => setUser(res.data))
   //       .catch((err) => console.log("Error fetching user data:", err));
   //   }
@@ -65,7 +67,6 @@ const MainLayout = () => {
         overflow: "auto", // Ensures scrolling when content overflows
       }}
     >
-
       {!user.isAdmin && user.isNewAccount ? (
         <NewAccountPopup user={user} />
       ) : null}{" "}

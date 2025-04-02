@@ -31,12 +31,17 @@ export default function StudentRequests() {
     console.log(startDate, endDate);
     if (startDate && endDate) {
       axios
-        .get("http://localhost:5000/api/dashboard/fetchRequestedDocuments", {
-          params: {
-            startDate: startDate,
-            endDate: endDate,
-          },
-        })
+        .get(
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/dashboard/fetchRequestedDocuments`,
+          {
+            params: {
+              startDate: startDate,
+              endDate: endDate,
+            },
+          }
+        )
         .then((res) => {
           if (res.data.Status === "Success") {
             setRequestedDocuments(res.data.data);
@@ -168,7 +173,10 @@ export default function StudentRequests() {
         className="rounded-2 shadow-sm text-white p-2 mb-3 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="m-0 p-2 fade-in" style={{ color: "var(--secondMain-color)" }}>
+        <h5
+          className="m-0 p-2 fade-in"
+          style={{ color: "var(--secondMain-color)" }}
+        >
           Student Request List
         </h5>
         {/* Search Bar */}

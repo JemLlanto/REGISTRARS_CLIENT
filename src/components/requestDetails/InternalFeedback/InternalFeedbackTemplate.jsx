@@ -93,14 +93,18 @@ const InternalFeedbackTemplate = ({
       };
 
       const res = await axios.post(
-        "http://localhost:5000/api/feedbackForm/submitFeedbackInternal",
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/feedbackForm/submitFeedbackInternal`,
         payload
       );
 
       if (res.status === 200) {
         try {
           const emailRes = await axios.post(
-            "http://localhost:5000/api/emailNotification/sendFeedbackResponseEmail",
+            `${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            }/api/emailNotification/sendFeedbackResponseEmail`,
             formData
           );
 
@@ -146,7 +150,8 @@ const InternalFeedbackTemplate = ({
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "An error occurred: " + (err.response?.data?.error || err.message),
+        text:
+          "An error occurred: " + (err.response?.data?.error || err.message),
       });
     } finally {
       setIsLoading(false);

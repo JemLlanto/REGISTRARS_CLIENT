@@ -79,7 +79,6 @@ const OtpConfirmation = ({
     }
   };
 
-
   const sendOtp = async () => {
     try {
       setIsLoading(true);
@@ -93,7 +92,9 @@ const OtpConfirmation = ({
       };
 
       const res = await axios.post(
-        "http://localhost:5000/api/emailNotification/sendRegistrationOTP",
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/emailNotification/sendRegistrationOTP`,
         otpData
       );
 
@@ -179,7 +180,6 @@ const OtpConfirmation = ({
     }
   };
 
-
   // Check if all OTP inputs are filled
   const isOtpComplete = otpInputs.every((input) => input !== "");
 
@@ -239,7 +239,7 @@ const OtpConfirmation = ({
               type="button"
               className="btn btn-light"
               onClick={resendOTP}
-            // disabled={otpTimer != 0 || isLoading}
+              // disabled={otpTimer != 0 || isLoading}
             >
               <p className="m-0">
                 {isLoading ? (

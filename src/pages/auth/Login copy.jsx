@@ -22,13 +22,17 @@ const Login = ({ setActivePage }) => {
     let validationErrors = {};
 
     if (!inputs.email.trim()) validationErrors.email = "Email is required";
-    if (!inputs.password.trim()) validationErrors.password = "Password is required";
+    if (!inputs.password.trim())
+      validationErrors.password = "Password is required";
 
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length > 0) return;
 
     axios
-      .post("http://localhost:5000/api/auth/login", inputs)
+      .post(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/login`,
+        inputs
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           Swal.fire({
@@ -65,7 +69,11 @@ const Login = ({ setActivePage }) => {
         >
           {/* Logo */}
           <div className="d-flex justify-content-center">
-            <img style={{ width: "20%" }} src="/cvsu-logo.png" alt="cvsu-logo" />
+            <img
+              style={{ width: "20%" }}
+              src="/cvsu-logo.png"
+              alt="cvsu-logo"
+            />
           </div>
           {/*  Title*/}
           <h4 className="text-center fw-bold text-white">
@@ -81,7 +89,10 @@ const Login = ({ setActivePage }) => {
           <form onSubmit={handleLogin}>
             <div className="mb-3 position-relative">
               <div className="input-group">
-                <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                <span
+                  className="input-group-text"
+                  style={{ backgroundColor: "var(--yellow-color)" }}
+                >
                   <i className="bx bx-user"></i> {/* Profile icon */}
                 </span>
                 <input
@@ -93,12 +104,17 @@ const Login = ({ setActivePage }) => {
                   placeholder="Enter your email"
                 />
               </div>
-              {errors.email && <div className="text-danger small">{errors.email}</div>}
+              {errors.email && (
+                <div className="text-danger small">{errors.email}</div>
+              )}
             </div>
 
             <div className="mb-3 position-relative">
               <div className="input-group">
-                <span className="input-group-text" style={{ backgroundColor: "var(--yellow-color)" }}>
+                <span
+                  className="input-group-text"
+                  style={{ backgroundColor: "var(--yellow-color)" }}
+                >
                   <i className="bx bx-lock"></i> {/* Lock icon */}
                 </span>
                 <input
@@ -117,7 +133,9 @@ const Login = ({ setActivePage }) => {
                   <i className={showPassword ? "bx bx-hide" : "bx bx-show"}></i>
                 </span>
               </div>
-              {errors.password && <div className="text-danger small">{errors.password}</div>}
+              {errors.password && (
+                <div className="text-danger small">{errors.password}</div>
+              )}
             </div>
 
             <button type="submit" className="btn btn-warning w-100">

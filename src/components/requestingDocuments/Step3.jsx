@@ -42,9 +42,14 @@ const Step3 = ({
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/fetchingDocuments/fetchPurposeData`, {
-        params: { purposeName: formData.purpose }, // Pass purposeName as a query param
-      })
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchPurposeData`,
+        {
+          params: { purposeName: formData.purpose }, // Pass purposeName as a query param
+        }
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           // console.log(res.data.data);
@@ -66,15 +71,30 @@ const Step3 = ({
     const isActive = { current: true };
 
     Promise.all([
-      axios.get(`http://localhost:5000/api/fetchingDocuments/fetchSelections`, {
-        params: { purposeID },
-      }),
-      axios.get(`http://localhost:5000/api/fetchingDocuments/fetchInputs`, {
-        params: { purposeID },
-      }),
-      axios.get(`http://localhost:5000/api/fetchingDocuments/fetchUploads`, {
-        params: { purposeID },
-      }),
+      axios.get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchSelections`,
+        {
+          params: { purposeID },
+        }
+      ),
+      axios.get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchInputs`,
+        {
+          params: { purposeID },
+        }
+      ),
+      axios.get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchUploads`,
+        {
+          params: { purposeID },
+        }
+      ),
     ])
       .then(([selectionsRes, inputsRes, uploadsRes]) => {
         // Only update state if component is still mounted

@@ -27,14 +27,18 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
       console.log("Sending cancellation request with data:", formData); // Debugging log
 
       const res = await axios.post(
-        "http://localhost:5000/api/managingRequest/cancelRequest",
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/managingRequest/cancelRequest`,
         formData
       );
 
       if (res.data.Status === "Success") {
         try {
           await axios.post(
-            "http://localhost:5000/api/emailNotification/sendStatusUpdate",
+            `${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            }/api/emailNotification/sendStatusUpdate`,
             formData
           );
         } catch (emailErr) {

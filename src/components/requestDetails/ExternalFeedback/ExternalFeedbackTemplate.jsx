@@ -98,14 +98,18 @@ const ExternalFeedbackTemplate = ({
       setIsLoading(true);
 
       const res = await axios.post(
-        "http://localhost:5000/api/feedbackForm/submitFeedbackExternal",
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/feedbackForm/submitFeedbackExternal`,
         formData
       );
 
       if (res.status === 200) {
         try {
           const emailRes = await axios.post(
-            "http://localhost:5000/api/emailNotification/sendFeedbackResponseEmail",
+            `${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            }/api/emailNotification/sendFeedbackResponseEmail`,
             formData
           );
 
@@ -160,7 +164,8 @@ const ExternalFeedbackTemplate = ({
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "An error occurred: " + (err.response?.data?.error || err.message),
+        text:
+          "An error occurred: " + (err.response?.data?.error || err.message),
       });
     } finally {
       setIsLoading(false);
@@ -254,10 +259,10 @@ const ExternalFeedbackTemplate = ({
               currentStep === 1
                 ? !step1Complete
                 : currentStep === 2
-                  ? !step2Complete
-                  : currentStep === 3
-                    ? !step3Complete
-                    : false
+                ? !step2Complete
+                : currentStep === 3
+                ? !step3Complete
+                : false
             }
           >
             {currentStep < 3 ? "Next" : "Submit"}

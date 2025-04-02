@@ -5,7 +5,6 @@ import Modal from "react-bootstrap/Modal";
 import { motion, AnimatePresence } from "framer-motion";
 import Swal from "sweetalert2";
 
-
 function programModal() {
   const [showProgram, setShowProgram] = useState(false);
   const [editProgram, setEditProgram] = useState(null);
@@ -17,7 +16,11 @@ function programModal() {
 
   const fetchPrograms = () => {
     axios
-      .get("http://localhost:5000/api/fetchingDocuments/fetchPrograms")
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchPrograms`
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
@@ -58,7 +61,12 @@ function programModal() {
   const handleSaveProgram = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/documents/addProgram", formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/addProgram`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           Swal.fire("Success!", res.data.Message, "success");
@@ -79,7 +87,12 @@ function programModal() {
 
   const handleUpdateProgram = () => {
     axios
-      .post("http://localhost:5000/api/documents/updateProgram", formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/updateProgram`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           Swal.fire("Updated!", res.data.Message, "success");
@@ -108,7 +121,12 @@ function programModal() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .post("http://localhost:5000/api/documents/deleteProgram", { programID })
+          .post(
+            `${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            }/api/documents/deleteProgram`,
+            { programID }
+          )
           .then((res) => {
             if (res.data.Status === "Success") {
               Swal.fire("Deleted!", res.data.Message, "success");
@@ -125,10 +143,9 @@ function programModal() {
     });
   };
 
-
   return (
     <>
-      <div className="w-100 mx-0" >
+      <div className="w-100 mx-0">
         <Button
           className="customize-section customize shadow-sm p-2 w-100 border-0 d-flex justify-content-between align-items-center "
           style={{ backgroundColor: "var(--main-color)" }}
@@ -139,7 +156,6 @@ function programModal() {
             <i className="bx bxs-chevron-right me-2"></i>
           </h4>
         </Button>
-
       </div>
 
       {/* MODAL FOR VIEWING PROGRAMS */}
@@ -204,7 +220,9 @@ function programModal() {
                               onClick={() => setEditProgram(false)}
                             >
                               <p className="m-0">
-                                <span className="d-none d-md-block">Cancel</span>
+                                <span className="d-none d-md-block">
+                                  Cancel
+                                </span>
                                 <span className="d-md-none">
                                   <i className="bx bx-x iconFont"></i>
                                 </span>

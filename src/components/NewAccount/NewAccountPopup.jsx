@@ -17,7 +17,11 @@ const NewAccountPopup = ({ user }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/fetchingDocuments/fetchPrograms")
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchPrograms`
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
@@ -62,7 +66,12 @@ const NewAccountPopup = ({ user }) => {
 
   const handleSaveChanges = () => {
     axios
-      .post("http://localhost:5000/api/manageAccount/setUpAccount", formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/manageAccount/setUpAccount`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.Message);

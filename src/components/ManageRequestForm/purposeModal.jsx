@@ -47,12 +47,16 @@ function purposeModal() {
   const closeDetailModal = () => {
     setShowDetailModal(false);
     setSelectedPurpose(null);
-    setShowPurpose(true)
+    setShowPurpose(true);
   };
 
   const fetchPurposes = () => {
     axios
-      .get("http://localhost:5000/api/fetchingDocuments/fetchPurposes")
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchPurposes`
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
@@ -76,7 +80,12 @@ function purposeModal() {
   const handleSavePurpose = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/documents/addPurpose", formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/addPurpose`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           Swal.fire({
@@ -117,7 +126,12 @@ function purposeModal() {
 
   const handleUpdatePurpose = () => {
     axios
-      .post("http://localhost:5000/api/documents/updatePurpose", formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/updatePurpose`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           Swal.fire({
@@ -166,9 +180,14 @@ function purposeModal() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .post("http://localhost:5000/api/documents/deletePurpose", {
-            purposeID,
-          })
+          .post(
+            `${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            }/api/documents/deletePurpose`,
+            {
+              purposeID,
+            }
+          )
           .then((res) => {
             if (res.data.Status === "Success") {
               Swal.fire({
@@ -279,20 +298,42 @@ function purposeModal() {
                         className="btn btn-sm btn-primary"
                         onClick={() => handleEditPurpose(purpose)}
                       >
-                        <p className="m-0"><span className="d-none d-md-block">Edit</span><span className="d-md-none">  <i className="bx bx-edit-alt"></i></span></p>
+                        <p className="m-0">
+                          <span className="d-none d-md-block">Edit</span>
+                          <span className="d-md-none">
+                            {" "}
+                            <i className="bx bx-edit-alt"></i>
+                          </span>
+                        </p>
                       </button>
                       <button
                         className="btn btn-sm btn-danger"
-                        onClick={() => handleDeletePurpose(purpose.purposeID, purpose.purposeName)}
+                        onClick={() =>
+                          handleDeletePurpose(
+                            purpose.purposeID,
+                            purpose.purposeName
+                          )
+                        }
                       >
-                        <p className="m-0"><span className="d-none d-md-block">remove</span><span className="d-md-none">  <i className="bx bx-trash"></i></span></p>
+                        <p className="m-0">
+                          <span className="d-none d-md-block">remove</span>
+                          <span className="d-md-none">
+                            {" "}
+                            <i className="bx bx-trash"></i>
+                          </span>
+                        </p>
                       </button>
                       <button
                         className="rounded-1 px-2 text-white border-0"
                         style={{ backgroundColor: "var(--main-color)" }}
                         onClick={(e) => openDetailModal(purpose, e)}
                       >
-                        <p className="m-0"><span className=" d-none d-md-block ">Manage</span><span className="d-block d-md-none"><i className="bx bx-edit"></i></span></p>
+                        <p className="m-0">
+                          <span className=" d-none d-md-block ">Manage</span>
+                          <span className="d-block d-md-none">
+                            <i className="bx bx-edit"></i>
+                          </span>
+                        </p>
                       </button>
                     </div>
                   </>
@@ -354,7 +395,12 @@ function purposeModal() {
 
       {/* NEW MODAL FOR PURPOSE DETAILS */}
       {/* exp: for transfer */}
-      <Modal size="lg" show={showDetailModal} onHide={closeDetailModal} centered>
+      <Modal
+        size="lg"
+        show={showDetailModal}
+        onHide={closeDetailModal}
+        centered
+      >
         <Modal.Header
           closeButton
           style={{ backgroundColor: "var(--main-color)" }}

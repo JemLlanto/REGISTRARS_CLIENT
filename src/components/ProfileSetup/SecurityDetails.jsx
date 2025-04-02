@@ -31,7 +31,9 @@ const SecurityDetails = ({
       setIsLoading(true);
 
       const res = await axios.post(
-        "http://localhost:5000/api/auth/forgotPassword",
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/auth/forgotPassword`,
         formData
       );
 

@@ -50,7 +50,9 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
     data.append("file", file);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/documents/uploadScheduleSlip",
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/uploadScheduleSlip`,
         data,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -64,7 +66,9 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:5000/api/managingRequest/changeStatus",
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/managingRequest/changeStatus`,
         formData,
         {
           headers: { "Content-Type": "application/json" },
@@ -74,7 +78,9 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
       if (res.data.Status === "Success") {
         try {
           const emailRes = await axios.post(
-            "http://localhost:5000/api/emailNotification/sendStatusUpdate",
+            `${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            }/api/emailNotification/sendStatusUpdate`,
             formData
           );
 

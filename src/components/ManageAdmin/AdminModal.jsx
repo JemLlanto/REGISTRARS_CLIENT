@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import AddingNewAdmin from "./AddingNewAdmin";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 const AdminModal = () => {
   const [adminModal, setAdminModal] = useState(false);
@@ -41,7 +41,11 @@ const AdminModal = () => {
 
   const handleAddAdmin = () => {
     axios
-      .post(`http://localhost:5000/api/manageAdmin/addAdmin/${selectedUser}`)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/manageAdmin/addAdmin/${selectedUser}`
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           fetchAdmins();
@@ -84,7 +88,11 @@ const AdminModal = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .post(`http://localhost:5000/api/manageAdmin/removeAdmin/${userID}`)
+          .post(
+            `${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            }/api/manageAdmin/removeAdmin/${userID}`
+          )
           .then((res) => {
             if (res.data.Status === "Success") {
               fetchAdmins();
@@ -124,7 +132,6 @@ const AdminModal = () => {
     });
   };
 
-
   const filteredUser = users.filter((user) => {
     const matchedUser = `${user.firstName} ${user.lastName} ${user.email}`
       .toLowerCase()
@@ -135,7 +142,11 @@ const AdminModal = () => {
 
   const fetchAdmins = () => {
     axios
-      .get("http://localhost:5000/api/manageAdmin/fetchAdmin")
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/manageAdmin/fetchAdmin`
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           setAdmins(res.data.data);
@@ -152,7 +163,11 @@ const AdminModal = () => {
 
   const fetchUsers = () => {
     axios
-      .get("http://localhost:5000/api/manageAdmin/fetchUser")
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/manageAdmin/fetchUser`
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           setUsers(res.data.data);
@@ -220,7 +235,10 @@ const AdminModal = () => {
         <Modal.Header closeButton>
           <Modal.Title>Add Administrator</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="custom-scrollbar" style={{ maxHeight: "400px", overflowY: "auto" }}>
+        <Modal.Body
+          className="custom-scrollbar"
+          style={{ maxHeight: "400px", overflowY: "auto" }}
+        >
           <FloatingLabel
             controlId="floatingInput"
             label="Search user"
@@ -265,7 +283,6 @@ const AdminModal = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
     </>
   );
 };

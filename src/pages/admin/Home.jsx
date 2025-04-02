@@ -54,12 +54,17 @@ export default function Home() {
     console.log(startDate, endDate);
     if (startDate && endDate) {
       axios
-        .get("http://localhost:5000/api/dashboard/fetchRequestedDocuments", {
-          params: {
-            startDate: startDate,
-            endDate: endDate,
-          },
-        })
+        .get(
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/dashboard/fetchRequestedDocuments`,
+          {
+            params: {
+              startDate: startDate,
+              endDate: endDate,
+            },
+          }
+        )
         .then((res) => {
           if (res.data.Status === "Success") {
             setRequestedDocuments(res.data.data);

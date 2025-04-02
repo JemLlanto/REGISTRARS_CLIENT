@@ -20,7 +20,9 @@ const RequestDetails = () => {
   const fetchDocumentDetails = () => {
     axios
       .get(
-        `http://localhost:5000/api/fetchingDocuments/fetchRequestedDocumentsDetails/${requestID}`
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchRequestedDocumentsDetails/${requestID}`
       )
       .then((res) => {
         if (res.data.Status === "Success") {
@@ -43,7 +45,9 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/api/fetchingDocuments/fetchRequestedDocumentTypes/${requestID}`
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchRequestedDocumentTypes/${requestID}`
       )
       .then((res) => {
         if (res.data.Status === "Success") {
@@ -60,7 +64,9 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/api/fetchingDocuments/fetchRequestedDocumentFiles/${requestID}`
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchRequestedDocumentFiles/${requestID}`
       )
       .then((res) => {
         if (res.data.Status === "Success") {
@@ -77,7 +83,9 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/api/fetchingDocuments/fetchRequestedDocumentInputs/${requestID}`
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchRequestedDocumentInputs/${requestID}`
       )
       .then((res) => {
         if (res.data.Status === "Success") {
@@ -94,9 +102,14 @@ const RequestDetails = () => {
   // fetching inputs
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/fetchingDocuments/fetchInputs`, {
-        params: { purposeID: documentDetails.purposeID },
-      })
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchInputs`,
+        {
+          params: { purposeID: documentDetails.purposeID },
+        }
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
@@ -289,7 +302,9 @@ const RequestDetails = () => {
                 style={{ width: "20rem", height: "20rem" }}
               >
                 <img
-                  src={`http://localhost:5000/uploads/${documentFile.image_file}`}
+                  src={`${
+                    import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+                  }/uploads/${documentFile.image_file}`}
                   alt="Document"
                   style={{
                     width: "100%",

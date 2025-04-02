@@ -31,7 +31,11 @@ function YearGraduatedModal() {
 
   const fetchYearGraduated = () => {
     axios
-      .get("http://localhost:5000/api/fetchingDocuments/fetchYearGraduated")
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchYearGraduated`
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
@@ -55,7 +59,12 @@ function YearGraduatedModal() {
   const handleSaveYear = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/documents/addYear", formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/addYear`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           Swal.fire("Success!", res.data.Message, "success");
@@ -76,7 +85,12 @@ function YearGraduatedModal() {
 
   const handleUpdateYear = () => {
     axios
-      .post("http://localhost:5000/api/documents/updateYear", formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/updateYear`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           Swal.fire("Updated!", res.data.Message, "success");
@@ -105,7 +119,12 @@ function YearGraduatedModal() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .post("http://localhost:5000/api/documents/deleteYear", { yearGraduatedID })
+          .post(
+            `${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            }/api/documents/deleteYear`,
+            { yearGraduatedID }
+          )
           .then((res) => {
             if (res.data.Status === "Success") {
               Swal.fire("Deleted!", res.data.Message, "success");
@@ -121,7 +140,6 @@ function YearGraduatedModal() {
       }
     });
   };
-
 
   return (
     <>
@@ -197,7 +215,9 @@ function YearGraduatedModal() {
                               onClick={() => setEditYear(false)}
                             >
                               <p className="m-0">
-                                <span className="d-none d-md-block">Cancel</span>
+                                <span className="d-none d-md-block">
+                                  Cancel
+                                </span>
                                 <span className="d-md-none">
                                   <i className="bx bx-x iconFont"></i>
                                 </span>

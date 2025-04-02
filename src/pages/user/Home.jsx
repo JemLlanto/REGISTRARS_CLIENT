@@ -30,7 +30,9 @@ export default function Home() {
     if (userID) {
       axios
         .get(
-          `http://localhost:5000/api/fetchingDocuments/fetchRequestedDocuments/${userID}`
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/fetchingDocuments/fetchRequestedDocuments/${userID}`
         )
         .then((res) => {
           if (res.data.Status === "Success") {

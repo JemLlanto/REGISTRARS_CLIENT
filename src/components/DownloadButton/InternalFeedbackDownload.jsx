@@ -13,7 +13,11 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
       setIsLoading(true);
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/feedbackForm/fetchFeedbackInternalData?requestID=${documentDetails.requestID}`
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/feedbackForm/fetchFeedbackInternalData?requestID=${
+            documentDetails.requestID
+          }`
         );
 
         if (res.status === 200) {

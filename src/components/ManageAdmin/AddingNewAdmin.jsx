@@ -15,7 +15,11 @@ const AddingNewAdmin = ({ setAdminModal }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/manageAdmin/fetchAdmin")
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/manageAdmin/fetchAdmin`
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           setAdmins(res.data.data);

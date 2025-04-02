@@ -38,7 +38,9 @@ export default function StudentRequests() {
       try {
         setIsLoading(true);
         const res = await axios.get(
-          "http://localhost:5000/api/dashboard/fetchRequestedDocuments",
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/dashboard/fetchRequestedDocuments`,
           {
             params: {
               startDate: startDate,
@@ -203,7 +205,6 @@ export default function StudentRequests() {
 
         <div className="d-flex align-items-center gap-2">
           {/* DATE SELECTION FOR SMALL SCREENS */}
-
 
           {/* Search Bar */}
           <div className="d-none d-md-block">

@@ -13,7 +13,11 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       setIsLoading(true);
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/feedbackForm/fetchFeedbackExternalData?requestID=${documentDetails.requestID}`
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/feedbackForm/fetchFeedbackExternalData?requestID=${
+            documentDetails.requestID
+          }`
         );
 
         if (res.status === 200) {

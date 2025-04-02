@@ -76,7 +76,7 @@ const Register = ({ setActivePage }) => {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/register`,
         inputs
       );
       if (res.data.Status === "Success") {

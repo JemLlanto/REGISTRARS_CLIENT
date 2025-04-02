@@ -14,7 +14,7 @@ const NavBar = ({ user }) => {
 
   const handleLogout = () => {
     axios
-      .get("http://localhost:5000/api/auth/logout")
+      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/logout`)
       .then(() => {
         window.location.reload();
       })

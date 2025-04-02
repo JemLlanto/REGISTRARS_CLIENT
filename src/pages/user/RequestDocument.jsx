@@ -188,7 +188,9 @@ export default function RequestDocument() {
     data.append("file", file);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/documents/uploadDocuments",
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/uploadDocuments`,
         data,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -201,7 +203,9 @@ export default function RequestDocument() {
   const insertDocTypes = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/documents/insertDocTypes",
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/insertDocTypes`,
         {
           documentTypes: docType,
           requestID: requestID,
@@ -217,7 +221,9 @@ export default function RequestDocument() {
   const insertInputs = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/documents/insertInputs",
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/insertInputs`,
         formData
       );
       console.log(response.data); // Handle success response
@@ -245,7 +251,9 @@ export default function RequestDocument() {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "http://localhost:5000/api/documents/sendRequest",
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/sendRequest`,
         formData
       );
       if (inputsLength > 0) {
@@ -260,7 +268,9 @@ export default function RequestDocument() {
 
       try {
         const emailRes = await axios.post(
-          "http://localhost:5000/api/emailNotification/sendNewRequestEmail",
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/emailNotification/sendNewRequestEmail`,
           formData
         );
 

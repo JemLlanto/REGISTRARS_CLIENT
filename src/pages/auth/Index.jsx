@@ -12,7 +12,7 @@ const Index = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000")
+      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`)
       .then((res) => {
         if (res.data.Status === "Success") {
           // If user is authenticated, redirect to home

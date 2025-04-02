@@ -125,7 +125,9 @@ const ForgotPassword = () => {
       };
 
       const res = await axios.post(
-        "http://localhost:5000/api/emailNotification/sendForgotPasswordOTP",
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/emailNotification/sendForgotPasswordOTP`,
         otpData
       );
 
@@ -185,7 +187,7 @@ const ForgotPassword = () => {
 
     if (generatedOTP.toString() === formData.otp.toString()) {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/resetToken",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/resetToken`,
         formData
       );
 
@@ -222,7 +224,9 @@ const ForgotPassword = () => {
       setIsLoading(true);
 
       const res = await axios.post(
-        "http://localhost:5000/api/auth/forgotPassword",
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/auth/forgotPassword`,
         formData
       );
 

@@ -19,11 +19,16 @@ const PurposeUpload = ({ purpose }) => {
     setUploads([]);
 
     axios
-      .get("http://localhost:5000/api/fetchingDocuments/fetchUploads", {
-        params: {
-          purposeID: purpose.purposeID,
-        },
-      })
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchUploads`,
+        {
+          params: {
+            purposeID: purpose.purposeID,
+          },
+        }
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           console.log(res.data.data);
@@ -58,7 +63,12 @@ const PurposeUpload = ({ purpose }) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:5000/api/documents/addUpload", formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/addUpload`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           setAddUpload(false);
@@ -95,7 +105,12 @@ const PurposeUpload = ({ purpose }) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:5000/api/documents/updateUpload", formData)
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/documents/updateUpload`,
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           setEditUpload(false);
@@ -140,9 +155,14 @@ const PurposeUpload = ({ purpose }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .post("http://localhost:5000/api/documents/deleteUpload", {
-            uploadID,
-          })
+          .post(
+            `${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            }/api/documents/deleteUpload`,
+            {
+              uploadID,
+            }
+          )
           .then((res) => {
             if (res.data.Status === "Success") {
               Swal.fire({
