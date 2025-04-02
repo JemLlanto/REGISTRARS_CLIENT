@@ -94,8 +94,8 @@ const RequestList = ({ status, filteredRequests, isLoading }) => {
       }
 
       // Always show last page
-      if (currentPage < totalPages - 2) {
-        if (currentPage < totalPages - 3) {
+      if (currentPage < totalPages - 1) {
+        if (currentPage < totalPages - 2) {
           pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
         }
 
@@ -137,7 +137,7 @@ const RequestList = ({ status, filteredRequests, isLoading }) => {
       <div className="d-flex flex-column gap-3">
         <div
           className="custom-scrollbar mt-2 d-flex flex-column gap-2 pe-1 overflow-auto"
-          style={{ height: "61dvh" }}
+          style={{ height: "58dvh" }}
         >
           {isLoading ? (
             <>
@@ -191,8 +191,8 @@ const RequestList = ({ status, filteredRequests, isLoading }) => {
                           <p className="m-0 ">
                             {request?.created
                               ? new Intl.DateTimeFormat("en-US", {
-                                  dateStyle: "medium",
-                                }).format(new Date(request?.created))
+                                dateStyle: "medium",
+                              }).format(new Date(request?.created))
                               : ""}
                           </p>
                         </div>
@@ -219,14 +219,22 @@ const RequestList = ({ status, filteredRequests, isLoading }) => {
                 </>
               ) : (
                 <>
-                  <p>No requested documents found...</p>
+                  <div
+                    className="spinner-container d-flex justify-content-center align-items-center spinner-container"
+                    style={{ height: "70%" }}
+                  >
+                    <p>No requested documents found...</p>
+                  </div>
+
                 </>
               )}
             </>
           )}
         </div>
-        <div className="d-flex align-items-center justify-content-center">
-          <Pagination>{renderPaginationItems()}</Pagination>
+        <div className="custom-pagination d-flex align-items-center justify-content-center">
+          <Pagination className="pagination">
+            {renderPaginationItems()}
+          </Pagination>
         </div>
       </div>
     </>
