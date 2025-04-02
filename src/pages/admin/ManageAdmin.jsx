@@ -266,7 +266,13 @@ const ManageAdmin = () => {
           <div className="d-flex flex-column gap-1">
             {admins.length === 0 ? (
               <>
-                <p>No admins.</p>
+                <div
+                  className="spinner-container d-flex justify-content-center align-items-center spinner-container"
+                  style={{ height: "70%" }}
+                >
+                  <p>No admins.</p>
+                </div>
+
               </>
             ) : (
               admins.map((admin) => (

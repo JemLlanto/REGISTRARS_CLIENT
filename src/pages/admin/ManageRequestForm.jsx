@@ -21,13 +21,16 @@ const ManageRequestForm = () => {
         >
           Manage Request Form
         </h5>
-        <div className="d-flex align-items-center gap-2">
+
+      </div>
+      <div className="w-100 d-flex flex-column gap-2 p-3 mt-3 mx-0 bg-white shadow-sm rounded-2 fade-in-section">
+        <div className="d-flex  flex-column gap-2 mb-3" style={{ border: "2px black" }}>
+          <label>Form Open and Close switch</label>
           <AutomaticSwitch user={user} fetchUserData={fetchUserData} />
           <FormSwitch user={user} fetchUserData={fetchUserData} />
         </div>
       </div>
-
-      <div className="w-100 d-flex flex-column gap-2 p-3 mt-3 mx-0 bg-white shadow-sm rounded-2 fade-in-container">
+      <div className="w-100 d-flex flex-column gap-2 p-3 mt-3 mx-0 bg-white shadow-sm rounded-2 fade-in-section">
         <label>Programs and Courses</label>
         <ProgramModal />
 

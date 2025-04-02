@@ -103,7 +103,7 @@ export default function About() {
         >
 
 
-          <div className="fade-in-section mb-2  text-dark bg-white rounded" style={{ border: "2px solid green" }}>
+          <div className="fade-in-section  mb-2  text-dark bg-white rounded" style={{ border: "2px solid green" }}>
             <div className=" flex-column p-3 rounded d-flex w-100">
               {/* <h2 className="text-warning fw-bold">SERVICE</h2> */}
               <div className="">
