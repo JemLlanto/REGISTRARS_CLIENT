@@ -18,7 +18,7 @@ const MainHeaders = ({ status, handleSelect }) => {
           <h5 className="m-0">Purpose</h5>
         </div>
         <div className="w-100 d-flex align-items-center justify-content-center">
-          <h5 className="m-0">Date</h5>
+          <h5 className="m-0">Request Date</h5>
         </div>
         <div className="w-100  d-flex align-items-center justify-content-center">
           <Dropdown>

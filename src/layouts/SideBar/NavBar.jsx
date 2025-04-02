@@ -51,11 +51,14 @@ const NavBar = ({ user }) => {
           <Dropdown align="end">
             <Dropdown.Toggle
               bsPrefix="custom-dropdown-toggle"
-              className="py-2 px-4 mx-0 mx-md-2 mt-1 mb-2 d-flex align-items-center justify-content-end gap-2 shadow-none border-0"
+              className="py-2 px-3 mx-0 mx-md-2 mt-1 mb-2 d-flex align-items-center justify-content-end gap-2 shadow-none border-0"
               id="dropdown-basic"
               style={{ backgroundColor: "var(--main-color)" }}
             >
-              <p className="m-0" style={{ color: "var(--secondMain-color)" }}>
+              <p
+                className="m-0 d-none d-md-block"
+                style={{ color: "var(--secondMain-color)" }}
+              >
                 {user.firstName}
               </p>
               <i

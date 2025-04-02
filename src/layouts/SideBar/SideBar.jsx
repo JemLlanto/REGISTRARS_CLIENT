@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "boxicons/css/boxicons.min.css";
 import Footer from "../../components/Footer/Footer";
@@ -6,47 +6,67 @@ import Footer from "../../components/Footer/Footer";
 const SideBar = ({ user }) => {
   const [showSidebar, setShowSidebar] = useState(true);
   const location = useLocation(); // Get current route for active menu
+  const [shouldRender, setShouldRender] = useState(showSidebar);
 
   const toggleSidebar = () => {
     setShowSidebar((prev) => !prev);
   };
 
+  useEffect(() => {
+    if (showSidebar) {
+      setShouldRender(true);
+    } else {
+      // Wait for the fade-out animation to complete before hiding
+      setTimeout(() => setShouldRender(false), 150); // Match animation duration
+    }
+  }, [showSidebar]);
+
   return (
     <div
-      className={`SideBar d-flex flex-column justify-content-between ${showSidebar ? "toggled" : ""
-        }`}
+      className={`SideBar d-flex flex-column justify-content-between ${
+        showSidebar ? "toggled" : ""
+      }`}
       style={{ backgroundColor: "var(--main-color)" }}
     >
       <div>
         {/* Navbar/Header */}
         <div
-          className="image-container d-flex align-items-center justify-content-center border-bottom"
+          className="d-flex align-items-center justify-content-center border-bottom"
           style={{ height: "4rem", border: "white" }}
         >
           {/* Toggle Button - Registrar's Logo*/}
-          <div className={`${showSidebar ? "fade-in" : "fade-out"}`}>
+          <div
+            className={`position-relative  ${
+              showSidebar ? "fade-in me-2" : "fade-out"
+            } ${!shouldRender ? "hidden" : ""}`}
+            style={{ width: "12rem", height: "80%" }}
+          >
             <img
               src="/Registrar.png"
               alt="Registrar Logo"
-              className="logo-img"
+              className={`position-absolute mt-1 ${
+                showSidebar ? "fade-in me-2" : "fade-out"
+              } ${!shouldRender ? "hidden" : ""}`}
               style={{
-                height: "80%",
-                width: "12rem",
+                top: "0",
+                // height: "80%",
+                width: "100%",
                 objectFit: "cover",
-                display: showSidebar ? "block" : "none",
-                opacity: showSidebar ? "1" : "0",
+                // display: showSidebar ? "block" : "none",
+                // opacity: showSidebar ? "1" : "0",
               }}
             />
           </div>
 
           <button
-            className="btn m-0 d-flex align-items-center justify-content-center"
+            className="sideBarToggler btn bg-transparent m-0 d-flex align-items-center justify-content-center"
             onClick={toggleSidebar}
-            style={{ marginRight: "auto" }}
+            style={{ height: "3rem", width: "3rem" }}
           >
             <i
-              className={`bx ${showSidebar ? "bx-x" : "bx-menu"
-                } transition-icon`}
+              className={`bx ${
+                showSidebar ? "bx-x" : "bx-menu"
+              } transition-icon`}
               style={{ color: "white" }}
             ></i>
           </button>
@@ -57,125 +77,177 @@ const SideBar = ({ user }) => {
             {/* homepage and dashboard */}
             {user.isAdmin ? (
               <li
-                className={`list-group-items rounded py-1 px-2 position-relative ${location.pathname.toLowerCase() === "/admin/home"
+                className={`list-group-items rounded py-1 px-2 position-relative ${
+                  location.pathname.toLowerCase() === "/admin/home"
                     ? "active"
                     : ""
-                  }`}
+                }`}
               >
                 <Link className="d-flex align-items-center" to="/admin/home">
                   <i className="bx bx-home"></i>
-                  <p className="m-0">Dashboard</p>
+                  <p
+                    className={`m-0 ${showSidebar ? "fade-in" : "fade-out"} ${
+                      !shouldRender ? "hidden" : ""
+                    }`}
+                  >
+                    Dashboard
+                  </p>
                 </Link>
-                <span className="tooltip">Dashboard</span>
+                <div className="tooltip">
+                  <p className="m-0">Dashboard</p>
+                </div>
               </li>
             ) : (
               <li
-                className={`list-group-items rounded py-1 px-2 position-relative ${location.pathname.toLowerCase() === "/home" ? "active" : ""
-                  }`}
+                className={`list-group-items rounded py-1 px-2 position-relative ${
+                  location.pathname.toLowerCase() === "/home" ? "active" : ""
+                }`}
               >
                 <Link className="d-flex align-items-center" to="/home">
                   <i className="bx bx-home"></i>
-                  <p className="m-0">Homepage</p>
+                  <p
+                    className={`m-0 ${showSidebar ? "fade-in" : "fade-out"} ${
+                      !shouldRender ? "hidden" : ""
+                    }`}
+                  >
+                    Homepage
+                  </p>
                 </Link>
-                <span className="tooltip">Homepage</span>
+                <div className="tooltip">
+                  <p className="m-0">Homepage</p>
+                </div>
               </li>
             )}
 
             {/* student request form */}
             {user.isAdmin ? (
               <li
-                className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/student-requests"
+                className={`list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() === "/admin/student-requests"
                     ? "active"
                     : ""
-                  }`}
+                }`}
               >
                 <Link
                   className="d-flex align-items-center"
                   to="/admin/student-requests"
                 >
-                  <i className="bx bx-user-check me-2"></i>
-                  <p className="m-0">Student Requests</p>
+                  <i className="bx bx-user-check "></i>
+                  <p
+                    className={`m-0 ${showSidebar ? "fade-in" : "fade-out"} ${
+                      !shouldRender ? "hidden" : ""
+                    }`}
+                  >
+                    Student Requests
+                  </p>
                 </Link>
-                <span className="tooltip">Student Requests</span>
+                <div className="tooltip">
+                  <p className="m-0">Student Requests</p>
+                </div>
               </li>
             ) : null}
 
             {/* student requested list */}
             {user.isAdmin ? (
               <li
-                className={`list-group-items  rounded py-1 px-2  ${location.pathname.toLowerCase() ===
-                    "/admin/manage-request-form"
+                className={`list-group-items  rounded py-1 px-2  ${
+                  location.pathname.toLowerCase() ===
+                  "/admin/manage-request-form"
                     ? "active"
                     : ""
-                  }`}
+                }`}
               >
                 <Link
                   className="d-flex align-items-center"
                   to="/admin/manage-request-form"
                 >
                   <i className="bx bx-file"></i>
-                  <p className="m-0">Manage Requests</p>
+                  <p
+                    className={`m-0 ${showSidebar ? "fade-in" : "fade-out"} ${
+                      !shouldRender ? "hidden" : ""
+                    }`}
+                  >
+                    Manage Requests
+                  </p>
                 </Link>
-                <span className="tooltip">Manage Requests</span>
+                <div className="tooltip">
+                  <p className="m-0">Manage Requests</p>
+                </div>
               </li>
             ) : (
               <li
-                className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/request-documents"
+                className={`list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() === "/request-documents"
                     ? "active"
                     : ""
-                  }`}
+                }`}
               >
                 <Link
                   className="d-flex align-items-center"
                   to="/request-documents"
                 >
                   <i className="bx bx-file"></i>
-                  <p className="m-0">Request Form</p>
+                  <p
+                    className={`m-0 ${showSidebar ? "fade-in" : "fade-out"} ${
+                      !shouldRender ? "hidden" : ""
+                    }`}
+                  >
+                    Request Form
+                  </p>
                 </Link>
-                <span className="tooltip">Request Form</span>
+                <div className="tooltip">
+                  <p className="m-0">Request Form</p>
+                </div>
               </li>
             )}
 
             {/* about us and reports */}
-            {user.isAdmin ? //     location.pathname.toLowerCase() === "/admin/reports" //   className={`list-group-items rounded py-1 px-2 ${ // <li
-              //       ? "active"
-              //       : ""
-              //   }`}
-              // >
-              //   <Link className="d-flex align-items-center" to="/admin/reports">
-              //     <i className="bx bx-bar-chart-alt-2"></i>
-              //     <p className="m-0">Reports</p>
-              //   </Link>
-              //   <span className="tooltip">Reports</span>
-              // </li>
-              null : (
-                <li
-                  className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/about" ? "active" : ""
+            {user.isAdmin ? null : ( // </li> //   <span className="tooltip">Reports</span> //   </Link> //     <p className="m-0">Reports</p> //     <i className="bx bx-bar-chart-alt-2"></i> //   <Link className="d-flex align-items-center" to="/admin/reports"> // > //   }`} //       : "" //       ? "active" //     location.pathname.toLowerCase() === "/admin/reports" //   className={`list-group-items rounded py-1 px-2 ${ // <li
+              <li
+                className={`list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() === "/about" ? "active" : ""
+                }`}
+              >
+                <Link className="d-flex align-items-center" to="/about">
+                  <i className="bx bx-info-circle"></i>
+                  <p
+                    className={`m-0 ${showSidebar ? "fade-in" : "fade-out"} ${
+                      !shouldRender ? "hidden" : ""
                     }`}
-                >
-                  <Link className="d-flex align-items-center" to="/about">
-                    <i className="bx bx-info-circle"></i>
-                    <p className="m-0">About Us</p>
-                  </Link>
-                  <span className="tooltip">About Us</span>
-                </li>
-              )}
+                  >
+                    About Us
+                  </p>
+                </Link>
+                <div className="tooltip">
+                  <p className="m-0">About Us</p>
+                </div>
+              </li>
+            )}
             {/* about us and reports */}
             {user.isAdmin === 2 ? (
               <li
-                className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/manage-admin"
+                className={`list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() === "/admin/manage-admin"
                     ? "active"
                     : ""
-                  }`}
+                }`}
               >
                 <Link
                   className="d-flex align-items-center"
                   to="/admin/manage-admin"
                 >
                   <i className="bx bx-bar-chart-alt-2"></i>
-                  <p className="m-0">Manage Admin</p>
+                  <p
+                    className={`m-0 ${showSidebar ? "fade-in" : "fade-out"} ${
+                      !shouldRender ? "hidden" : ""
+                    }`}
+                  >
+                    Manage Admin
+                  </p>
                 </Link>
-                <span className="tooltip">Manage Admin</span>
+                <div className="tooltip">
+                  <p className="m-0">Manage Admin</p>
+                </div>
               </li>
             ) : null}
           </ul>

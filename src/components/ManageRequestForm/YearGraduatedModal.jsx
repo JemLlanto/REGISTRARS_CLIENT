@@ -193,16 +193,26 @@ function YearGraduatedModal() {
                         {editYear === year.yearGraduatedID ? (
                           <>
                             <button
-                              className="btn btn-success text-white w-100"
+                              className="btn btn-secondary text-white w-100"
                               onClick={() => setEditYear(false)}
                             >
-                              <p className="m-0">Cancel</p>
+                              <p className="m-0">
+                                <span className="d-none d-md-block">Cancel</span>
+                                <span className="d-md-none">
+                                  <i className="bx bx-x iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                             <button
-                              className="btn btn-danger text-white w-100"
+                              className="btn btn-success text-white w-100"
                               onClick={() => handleUpdateYear()}
                             >
-                              <p className="m-0">Save</p>
+                              <p className="m-0">
+                                <span className="d-none d-md-block">Save</span>
+                                <span className="d-md-none">
+                                  <i className="bx bx-save iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                           </>
                         ) : (
@@ -211,7 +221,12 @@ function YearGraduatedModal() {
                               className="btn btn-success text-white w-100"
                               onClick={() => handleEditYear(year)}
                             >
-                              <p className="m-0">Edit</p>
+                              <p className="m-0">
+                                <span className="d-none d-md-block">Edit</span>
+                                <span className="d-md-none">
+                                  <i className="bx bx-edit-alt iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                             <button
                               className="btn btn-danger text-white w-100"
@@ -222,7 +237,14 @@ function YearGraduatedModal() {
                                 )
                               }
                             >
-                              <p className="m-0">Delete</p>
+                              <p className="m-0">
+                                <span className="d-none d-md-block">
+                                  Delete
+                                </span>
+                                <span className="d-md-none">
+                                  <i className="bx bx-trash iconFont"></i>
+                                </span>
+                              </p>
                             </button>
                           </>
                         )}

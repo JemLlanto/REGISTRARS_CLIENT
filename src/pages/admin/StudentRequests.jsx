@@ -158,7 +158,7 @@ export default function StudentRequests() {
     // Format dates as YYYY-MM-DD for input fields
     setStartDate(start.toISOString().split("T")[0]);
     setEndDate(end.toISOString().split("T")[0]);
-    fetchRequestedDocuments();
+    // fetchRequestedDocuments();
   };
 
   // Read the status from URL on component mount
@@ -186,7 +186,10 @@ export default function StudentRequests() {
         className="rounded-2 shadow-sm text-white p-2 mb-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="m-0 p-2 fade-in" style={{ color: "var(--secondMain-color)" }}>
+        <h5
+          className="m-0 p-2 fade-in"
+          style={{ color: "var(--secondMain-color)" }}
+        >
           Student Request List (
           {isLoading ? (
             <>
@@ -200,19 +203,7 @@ export default function StudentRequests() {
 
         <div className="d-flex align-items-center gap-2">
           {/* DATE SELECTION FOR SMALL SCREENS */}
-          <div className="d-block d-md-none  rounded ">
-            <div className="d-flex align-items-center rounded  ">
-              <RequestDatepicker
-                startDate={startDate}
-                endDate={endDate}
-                selectedPeriod={selectedPeriod}
-                handlePeriodChange={handlePeriodChange}
-                setSelectedPeriod={setSelectedPeriod}
-                setStartDate={setStartDate}
-                setEndDate={setEndDate}
-              />
-            </div>
-          </div>
+
 
           {/* Search Bar */}
           <div className="d-none d-md-block">
@@ -255,6 +246,19 @@ export default function StudentRequests() {
         </div>
       </div>
       <div>
+        <div className="d-block d-md-none rounded ">
+          <div className="d-flex align-items-center rounded  ">
+            <RequestDatepicker
+              startDate={startDate}
+              endDate={endDate}
+              selectedPeriod={selectedPeriod}
+              handlePeriodChange={handlePeriodChange}
+              setSelectedPeriod={setSelectedPeriod}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+            />
+          </div>
+        </div>
         {/* Search Bar phone*/}
         {/* Mobile layout container */}
         <div className="d-block d-md-none">
@@ -292,6 +296,7 @@ export default function StudentRequests() {
       </div>
       <MainHeaders status={status} handleSelect={handleSelect} />
       <RequestHeaders
+        status={status}
         filteredRequests={filteredRequests}
         isLoading={isLoading}
       />

@@ -75,7 +75,7 @@ const SecurityDetails = ({
                 Cancel
               </button>
               <button
-                className="primaryButton py-2"
+                className="primaryButton btn "
                 onClick={handleChangePassword}
                 disabled={!isFormValid()}
               >
@@ -96,12 +96,15 @@ const SecurityDetails = ({
           <Col>
             {/* Username Input */}
             <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
+              <Form.Label htmlFor="email">Email</Form.Label>
               <Form.Control
                 type="text"
+                name="email"
+                id="email"
                 placeholder="Email"
                 value={formData.email}
                 disabled
+                autoComplete="none"
               />
             </Form.Group>
           </Col>
@@ -112,6 +115,7 @@ const SecurityDetails = ({
             {
               label: "New Password",
               name: "password",
+              id: "password",
               show: showPassword,
               setShow: setShowPassword,
               placeholder: "Enter your new password",
@@ -119,19 +123,21 @@ const SecurityDetails = ({
             {
               label: "Confirm Password",
               name: "conPassword",
+              id: "conPassword",
               show: showConPassword,
               setShow: setShowConPassword,
               placeholder: "Verify your new Password",
             },
-          ].map(({ label, name, show, setShow, placeholder }, index) => (
+          ].map(({ label, name, id, show, setShow, placeholder }, index) => (
             <Col xs={12} lg={6} key={index}>
               <div className="mb-3 position-relative">
-                <Form.Label>{label}</Form.Label>
+                <Form.Label htmlFor={id}>{label}</Form.Label>
                 <InputGroup>
                   <Form.Control
                     type={show ? "text" : "password"}
                     placeholder={placeholder}
                     name={name}
+                    id={id}
                     value={formData[name]}
                     onChange={handleChange}
                     disabled={!editingSecurity}

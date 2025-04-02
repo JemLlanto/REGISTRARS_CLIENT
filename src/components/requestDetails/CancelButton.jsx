@@ -52,7 +52,6 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
           setFormData({ requestID: "", reason: "" }); // Reset form data
           fetchDocumentDetails();
         });
-
       } else {
         Swal.fire({
           title: "Cancellation Failed",
@@ -89,17 +88,25 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
 
       <Modal show={showCancelModal} onHide={handleCloseCancelModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Cancel this request.</Modal.Title>
+          <Modal.Title>
+            <h5 className="m-0">Cancel this request</h5>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FloatingLabel controlId="floatingTextarea2" label="Reason">
+          <FloatingLabel
+            controlId="floatingTextarea2"
+            label={`Reason ${formData.reason?.length}/150`}
+          >
             <Form.Control
               as="textarea"
               placeholder="Enter the reason for cancelation."
               style={{ height: "100px" }}
               name="reason"
+              maxLength={150}
               onChange={(e) => {
-                setFormData({ ...formData, reason: e.target.value });
+                if (e.target.value.length <= 150) {
+                  setFormData({ ...formData, reason: e.target.value });
+                }
               }}
             />
           </FloatingLabel>
@@ -109,14 +116,14 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
             className="btn btn-secondary"
             onClick={handleCloseCancelModal}
           >
-            Back
+            <p className="m-0">Back</p>
           </button>
           <button
-            className="btn btn-primary"
+            className="btn primaryButton"
             onClick={() => handleCancelRequest(documentDetails.requestID)}
             disabled={formData.reason === ""}
           >
-            Confirm
+            <p className="m-0">Confirm</p>
           </button>
         </Modal.Footer>
       </Modal>

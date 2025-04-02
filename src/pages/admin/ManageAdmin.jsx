@@ -155,7 +155,10 @@ const ManageAdmin = () => {
           className="rounded-2 shadow-sm text-white p-2 d-flex justify-content-between"
           style={{ backgroundColor: "var(--main-color)" }}
         >
-          <h5 className="m-0 p-2 fade-in" style={{ color: "var(--secondMain-color)" }}>
+          <h5
+            className="m-0 p-2 fade-in"
+            style={{ color: "var(--secondMain-color)" }}
+          >
             Admin Panel
           </h5>
           <div className="">
@@ -198,7 +201,10 @@ const ManageAdmin = () => {
                           onClick={() => handleRemoveProgramAdmin(program)}
                         >
                           <p className="m-0">
-                            <span className="d-none d-md-block"> Remove admin</span>
+                            <span className="d-none d-md-block">
+                              {" "}
+                              Remove admin
+                            </span>
                             <span className="d-md-none">
                               <i className="bx bx-trash iconFont"></i>
                             </span>
@@ -206,14 +212,18 @@ const ManageAdmin = () => {
                         </button>
                       ) : (
                         <button
-                          className="btn btn-primary w-100"
+                          className="btn w-100"
+                          style={{ backgroundColor: "var(--main-color)" }}
                           onClick={() => {
                             setSelectedProgram(program.programID);
                             handleShowModal();
                           }}
                         >
                           <p className="m-0">
-                            <span className="d-none d-md-block"> Add admin</span>
+                            <span className="d-none d-md-block text-white">
+                              {" "}
+                              Add admin
+                            </span>
                             <span className="d-md-none">
                               <i className="bx bx-plus-circle iconFont"></i>
                             </span>
@@ -225,7 +235,6 @@ const ManageAdmin = () => {
                 ))}
               </tbody>
             </Table>
-
           </div>
         </div>
       </div>
@@ -242,26 +251,22 @@ const ManageAdmin = () => {
                 <p>No admins.</p>
               </>
             ) : (
-              <>
-                {admins.map((admin, index) => (
-                  <>
-                    <ToggleButton
-                      key={index}
-                      type="radio"
-                      id={`radio-${admin.userID}`}
-                      label={`${admin.firstName} ${admin.lastName}`}
-                      checked={selectedAdmin === admin.userID}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedAdmin(admin.userID);
-                        }
-                      }}
-                    >
-                      {admin.firstName} {admin.lastName}
-                    </ToggleButton>
-                  </>
-                ))}
-              </>
+              admins.map((admin) => (
+                <ToggleButton
+                  key={admin.userID}
+                  type="radio"
+                  id={`radio-${admin.userID}`}
+                  label={`${admin.firstName} ${admin.lastName}`}
+                  checked={selectedAdmin === admin.userID}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedAdmin(admin.userID);
+                    }
+                  }}
+                >
+                  {admin.firstName} {admin.lastName}
+                </ToggleButton>
+              ))
             )}
           </div>
         </Modal.Body>

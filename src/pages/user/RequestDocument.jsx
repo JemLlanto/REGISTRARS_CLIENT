@@ -10,14 +10,41 @@ import ReqProgressBar from "../../components/requestingDocuments/ReqProgressBar"
 import { useOutletContext, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import ClosedForm from "../../components/requestingDocuments/ClosedForm";
+import FormButtons from "../../components/requestingDocuments/FormButtons";
+// import ReqProgressBarSmall from "../../components/requestingDocuments/ReqProgressBarSmall";
 
 export default function RequestDocument() {
-  const { user } = useOutletContext();
-  const [currentStep, setCurrentStep] = useState(1);
+  const { user, fetchUserData } = useOutletContext();
+  const [storedFormData, setStoredFormData] = useState(
+    JSON.parse(localStorage.getItem("formData")) || {}
+  );
+  const [formData, setFormData] = useState({
+    currentStep: storedFormData.currentStep || 1,
+    agree: "Yes",
+    email: user.email || "",
+    userID: user.userID || "",
+    firstName: user.firstName || "",
+    middleName: user.middleName || "",
+    lastName: user.lastName || "",
+    studentID: user.studentID || "",
+    dateOfBirth: "",
+    sex: user.sex || "",
+    mobileNum: user.mobileNum || "+63",
+    classification: storedFormData.classification || "",
+    schoolYearAttended: storedFormData.schoolYearAttended || "",
+    yearGraduated: storedFormData.yearGraduated || "",
+    yearLevel: storedFormData.yearLevel || "",
+    program: storedFormData.program || user.program || "",
+    purpose: storedFormData.purpose || "",
+    upload: storedFormData.upload || "",
+  });
+  const [currentStep, setCurrentStep] = useState(
+    storedFormData.currentStep || 1
+  );
   const [direction, setDirection] = useState(1);
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const [hasInput, setHasInput] = useState(false);
   const [inputsLength, setInputsLength] = useState(0);
   const [hasFile, setHasFile] = useState(false);
@@ -67,52 +94,25 @@ export default function RequestDocument() {
     }));
   }, [requestID]);
 
-  const [formData, setFormData] = useState({
-    agree: "Yes",
-    email: user.email || "",
-    userID: user.userID || "",
-    firstName: user.firstName || "",
-    middleName: user.middleName || "",
-    lastName: user.lastName || "",
-    studentID: user.studentID || "",
-    dateOfBirth: user.dateOfBirth || "",
-    sex: user.sex || "",
-    mobileNum: user.mobileNum || "+63",
-    classification: "",
-    schoolYearAttended: "",
-    yearGraduated: "",
-    yearLevel: "",
-    program: user.program || "",
-    purpose: "",
-    upload: "",
-  }); // State to store input value
-
   useEffect(() => {
     if (user) {
       const date = new Date(user.dateOfBirth);
       const formattedDate = `${date.getFullYear()}-${String(
         date.getMonth() + 1
       ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-      setFormData((prevData) => ({
-        ...prevData,
-        dateOfBirth: formattedDate,
-      }));
-    }
-    if (user) {
-      setFormData((prevData) => ({
-        ...prevData,
-        email: user.email || "",
-        userID: user.userID || "",
-        firstName: user.firstName || "",
-        middleName: user.middleName || "",
-        lastName: user.lastName || "",
-        studentID: user.studentID || "",
-        // dateOfBirth: user.dateOfBirth || "",
-        sex: user.sex || "",
-        mobileNum: user.mobileNum || "+63",
-        program: user.program || "",
 
-        // Add any other user fields you want to pre-populate
+      setFormData((prevData) => ({
+        ...prevData, // Keep other existing fields
+        email: storedFormData.email || user.email || "",
+        userID: storedFormData.userID || user.userID || "",
+        firstName: storedFormData.firstName || user.firstName || "",
+        middleName: storedFormData.middleName || user.middleName || "",
+        lastName: storedFormData.lastName || user.lastName || "",
+        studentID: storedFormData.studentID || user.studentID || "",
+        dateOfBirth: formattedDate || storedFormData.dateOfBirth || "",
+        sex: storedFormData.sex || user.sex || "",
+        mobileNum: storedFormData.mobileNum || user.mobileNum || "+63",
+        program: storedFormData.program || user.program || "",
       }));
     }
   }, [user]);
@@ -137,27 +137,49 @@ export default function RequestDocument() {
       newValue = "+" + newValue;
     }
 
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: newValue, // Use the properly formatted newValue
-    }));
+    setFormData((prevData) => {
+      const updatedData = { ...prevData, [name]: newValue };
+
+      // Save to localStorage
+      localStorage.setItem("formData", JSON.stringify(updatedData));
+
+      return updatedData;
+    });
   };
 
   // Function to go to the next step
   const nextStep = () => {
     setDirection(1);
+    fetchUserData();
     setCurrentStep((prevStep) => prevStep + 1);
+    setFormData((prevData) => {
+      const updatedData = { ...prevData, currentStep: currentStep + 1 };
+
+      // Save to localStorage
+      localStorage.setItem("formData", JSON.stringify(updatedData));
+
+      return updatedData;
+    });
   };
 
   // Function to go to the previous step
   const prevStep = () => {
     setDocType([]);
+    fetchUserData();
     setHasSelection(false);
     setHasFile(false);
     setHasInput(false);
     setInputsLength(0);
     setDirection(-1);
     setCurrentStep((prevStep) => (prevStep > 1 ? prevStep - 1 : prevStep));
+    setFormData((prevData) => {
+      const updatedData = { ...prevData, currentStep: currentStep - 1 };
+
+      // Save to localStorage
+      localStorage.setItem("formData", JSON.stringify(updatedData));
+
+      return updatedData;
+    });
   };
 
   const upload = async () => {
@@ -261,6 +283,7 @@ export default function RequestDocument() {
         icon: "success",
         confirmButtonText: "OK",
       }).then(() => {
+        localStorage.removeItem("formData");
         navigate("/home"); // Redirect after confirmation
       });
 
@@ -345,22 +368,36 @@ export default function RequestDocument() {
   };
 
   return (
-    <div className="p-0 p-sm-4 w-100 row ">
+    <div className="p-0 p-sm-4 w-100 row justify-content-center ">
       <div className="col">
         <div
           className="rounded shadow-sm d-flex align-items-center p-3"
           style={{ backgroundColor: "var(--main-color)" }}
         >
-          <h5 className="m-0 px-2 fade-in" style={{ color: "var(--secondMain-color)" }}>
+          <h5
+            className="m-0 px-2 fade-in"
+            style={{ color: "var(--secondMain-color)" }}
+          >
             Request Submission
           </h5>
           {/* <p className="m-0 text-light">
             (Please ensure all required fields are completed before submission.)
           </p> */}
         </div>
-
-        <div className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded p-3 position-relative">
-          <form className="w-100" onSubmit={handleSubmit}>
+        {/* <div>
+          <ReqProgressBarSmall currentStep={currentStep} />
+        </div> */}
+        <div
+          className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded p-3 position-relative"
+          style={{ zIndex: "1" }}
+        >
+          <form className="position-relative w-100" onSubmit={handleSubmit}>
+            {/* {!user.isAutomatic ? (
+              <ClosedForm />
+            ) : (
+              !user.isAutomatic && (<ClosedForm />)()
+            )} */}
+            <ClosedForm user={user} fetchUserData={fetchUserData} />
             <div
               className="custom-scrollbar overflow-y-scroll overflow-x-hidden"
               style={{ height: "65dvh" }}
@@ -380,6 +417,7 @@ export default function RequestDocument() {
                       setIsLoading={setIsLoading}
                       privacyConsent={privacyConsent}
                       setPrivacyConsent={setPrivacyConsent}
+                      setFormData={setFormData}
                       formData={formData}
                       handleChange={handleChange}
                     />
@@ -435,77 +473,23 @@ export default function RequestDocument() {
               </AnimatePresence>
             </div>
 
-            <div className="d-flex justify-content-between mt-2">
-              <Button
-                type="button"
-                className="btn btn-secondary"
-                onClick={prevStep}
-                disabled={currentStep === 1}
-                style={{ opacity: currentStep === 1 ? 0 : 1, width: "10rem" }}
-              >
-                <p className="m-0 d-flex align-items-center justify-content-center">
-                  <i className="bx bx-chevrons-left"></i> Back
-                </p>
-              </Button>
-              {currentStep === 4 ? (
-                <button
-                  type="button"
-                  className="primaryButton"
-                  onClick={handleSubmit}
-                  disabled={
-                    !(isSelectionFilled() && isFileFilled() && isInputsFilled())
-                  }
-                >
-                  <p className="m-0 d-flex align-items-center justify-content-center">
-                    {isLoading ? (
-                      <>
-                        <Spinner animation="border" variant="light" size="sm" />
-                        Submitting...
-                      </>
-                    ) : (
-                      <>Submit</>
-                    )}
-                  </p>
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="primaryButton"
-                  onClick={nextStep}
-                  disabled={
-                    currentStep === 1
-                      ? !privacyConsent
-                      : currentStep === 2
-                        ? !formData.email ||
-                        !formData.studentID ||
-                        !formData.firstName ||
-                        !formData.lastName ||
-                        !formData.dateOfBirth ||
-                        !formData.sex ||
-                        !formData.mobileNum
-                        : currentStep === 3
-                          ? !formData.program ||
-                          !formData.classification ||
-                          (formData.classification === "graduated" &&
-                            !formData.yearGraduated) ||
-                          (formData.classification === "undergraduate" &&
-                            !formData.yearLevel) ||
-                          !formData.schoolYearAttended ||
-                          !formData.purpose
-                          : false
-                  }
-                >
-                  <p className="m-0 d-flex align-items-center justify-content-center">
-                    Next Step <i className="bx bx-chevrons-right"></i>
-                  </p>
-                </button>
-              )}
-            </div>
+            <FormButtons
+              formData={formData}
+              prevStep={prevStep}
+              nextStep={nextStep}
+              currentStep={currentStep}
+              handleSubmit={handleSubmit}
+              isLoading={isLoading}
+              privacyConsent={privacyConsent}
+              isSelectionFilled={isSelectionFilled}
+              isFileFilled={isFileFilled}
+              isInputsFilled={isInputsFilled}
+            />
           </form>
         </div>
       </div>
       <div
-        className="d-flex justify-content-center align-items-center col-1"
+        className="d-none d-md-flex justify-content-center align-items-center col-1"
         style={{}}
       >
         <ReqProgressBar currentStep={currentStep} />

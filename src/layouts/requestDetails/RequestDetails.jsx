@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
 import CancelButton from "../../components/requestDetails/CancelButton";
 import ChangeStatusButton from "../../components/requestDetails/ChangeStatusButton";
-import FeedbackInternal from "../../components/requestDetails/InternalFeedback/Internal";
-import FeedbackExternal from "../../components/requestDetails/ExternalFeedback/External";
-import SQDFormComponent from "../../components/requestDetails/ExternalFeedback/SQDForm";
 import RequestInfo from "../../components/requestDetails/RequestInfo";
 import ViewScheduleSlip from "../../components/requestDetails/ViewScheduleSlip";
 import InternalFeedbackDownload from "../../components/DownloadButton/InternalFeedbackDownload";
@@ -39,8 +36,10 @@ const RequestDetails = () => {
   };
 
   useEffect(() => {
-    fetchDocumentDetails();
-  }, []);
+    if (requestID) {
+      fetchDocumentDetails();
+    }
+  }, [requestID]);
   useEffect(() => {
     axios
       .get(
@@ -114,13 +113,10 @@ const RequestDetails = () => {
   const status = documentDetails.status;
 
   return (
-    <div
-      className="p-0 p-md-4 w-100 overflow-auto"
-      // style={{ maxHeight: "90dvh" }}
-    >
+    <div className="p-0 p-md-4 w-100 overflow-auto">
       {/* Header Section */}
       <div
-        className="rounded-2 shadow-sm p-2 d-flex align-items-center justify-content-between"
+        className="rounded-2  p-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5 className="m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
@@ -132,9 +128,15 @@ const RequestDetails = () => {
             <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
               {/* FOR DOWNLOAD BUTTONS */}
               {documentDetails.feedbackType === "internal" ? (
-                <InternalFeedbackDownload documentDetails={documentDetails} />
+                <InternalFeedbackDownload
+                  user={user}
+                  documentDetails={documentDetails}
+                />
               ) : (
-                <ExternalFeedbackDownload documentDetails={documentDetails} />
+                <ExternalFeedbackDownload
+                  user={user}
+                  documentDetails={documentDetails}
+                />
               )}
 
               <CancelButton
@@ -184,11 +186,19 @@ const RequestDetails = () => {
       ) : null}
 
       <div
-        className="overflow-x-hidden overflow-y-auto mt-2 d-flex flex-column gap-2 pe-1 rounded"
-        style={{ height: "35rem" }}
+        className="custom-scrollbar overflow-x-hidden overflow-y-auto mt-2 d-flex flex-column gap-2 pe-1 rounded scroll-container"
+        style={{
+          maxHeight: "75vh",
+          minHeight: "50vh",
+          overflowY: "auto",
+          overflowX: "hidden",
+        }}
       >
         {/* purpose */}
-        <div className="row shadow-sm bg-white d-flex align-items-center justify-content-between rounded-3 p-4 mx-0">
+        <div
+          className="row bg-white d-flex align-items-center justify-content-between rounded-3 p-4 mx-0 shadow-sm"
+          style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
+        >
           {/* Purpose and Status */}
           <div className="col d-flex flex-column gap-1">
             <div className="d-flex align-items-center gap-1">
@@ -231,7 +241,10 @@ const RequestDetails = () => {
         <RequestInfo documentDetails={documentDetails} />
 
         {documentTypes.length > 0 && (
-          <div className="information bg-white w-100 shadow-sm rounded-2 p-4">
+          <div
+            className="information bg-white w-100  rounded-2 p-4 mb-2"
+            style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
+          >
             <h5 className="text-muted">Document requested</h5>
             <div className="d-flex align-items-center gap-2">
               <i className="bx bxs-file-pdf fs-5 me-1"></i>
@@ -242,7 +255,10 @@ const RequestDetails = () => {
           </div>
         )}
         {documentInputValues.length > 0 && (
-          <div className="information bg-white w-100 shadow-sm rounded-2 p-4">
+          <div
+            className="information bg-white w-100 rounded-2 p-4"
+            style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
+          >
             <table className="table">
               <thead>
                 <tr>
@@ -262,7 +278,10 @@ const RequestDetails = () => {
           </div>
         )}
         {documentFile && (
-          <div className=" bg-white w-100 shadow-sm rounded-2 d-flex flex-column p-4">
+          <div
+            className=" bg-white w-100  rounded-2 d-flex flex-column p-4 mb-2"
+            style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
+          >
             <h5 className="text-muted">Uploaded document</h5>
             <div className="w-100 d-flex align-items-center justify-content-center">
               <div

@@ -4,10 +4,9 @@ import jsPDF from "jspdf";
 import cvsuLogo from "/cvsu-logo.png";
 import Swal from "sweetalert2";
 
-const ExternalFeedbackDownload = ({ documentDetails }) => {
+const ExternalFeedbackDownload = ({ user, documentDetails }) => {
   const [feedbackData, setFeedbackData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
 
   const fetchData = async () => {
     if (documentDetails.requestID) {
@@ -177,7 +176,7 @@ const ExternalFeedbackDownload = ({ documentDetails }) => {
       // Service Availed
       doc.text(
         "Service Availed (Uri ng transaksyon o serbisyo): " +
-        (feedbackData.serviceAvailed || "_________________"),
+          (feedbackData.serviceAvailed || "_________________"),
         25,
         105
       );
@@ -594,20 +593,22 @@ const ExternalFeedbackDownload = ({ documentDetails }) => {
       // Display suggestions text if provided
       if (feedbackData.suggestions) {
         doc.setFont("helvetica", "normal");
-        const suggestionLines = doc.splitTextToSize(feedbackData.suggestions, 160);
+        const suggestionLines = doc.splitTextToSize(
+          feedbackData.suggestions,
+          160
+        );
 
         let startY = 265; // Initial Y position
         const lineHeight = 3; // Adjust line height for spacing
 
         suggestionLines.forEach((line, index) => {
-          if (index < 3) { // Limit to 3 lines
+          if (index < 3) {
+            // Limit to 3 lines
             doc.text(line, 25, startY);
             startY += lineHeight; // Move to next line
           }
         });
       }
-
-
 
       // Thank you message
       doc.setFontSize(10);
@@ -618,7 +619,7 @@ const ExternalFeedbackDownload = ({ documentDetails }) => {
       doc.text("(Salamat po!)", 105, 283, { align: "center" });
 
       // Save PDF
-      doc.save("Client_Satisfaction_Measurement_Form.pdf");
+      doc.save(`${user.lastName}'s_Feedback_Form.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
       Swal.fire({
@@ -636,7 +637,11 @@ const ExternalFeedbackDownload = ({ documentDetails }) => {
         onClick={downloadPDF}
         disabled={!documentDetails.responded}
       >
-        <p className="m-0">Download feedback(External)</p>
+        <p className="m-0">
+          {documentDetails.responded
+            ? "Download feedback(External)"
+            : "Download feedback"}
+        </p>
       </button>
     </>
   );

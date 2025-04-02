@@ -5,14 +5,22 @@ const Reminder = ({
   isLoading,
   setIsLoading,
   privacyConsent,
-  setPrivacyConsent,
-  inputValues,
+  setFormData,
+  formData,
 }) => {
   const handlePrivacyChange = () => {
     setIsLoading(true); // Show loading spinner
 
     setTimeout(() => {
-      setPrivacyConsent((prev) => !prev); // Toggle state after delay
+      setFormData((prevData) => {
+        const updatedAgree = prevData.agree === "yes" ? "no" : "yes"; // Toggle correctly
+        const updatedData = { ...prevData, agree: updatedAgree };
+
+        // Save to localStorage
+        localStorage.setItem("formData", JSON.stringify(updatedData));
+
+        return updatedData;
+      });
       setIsLoading(false); // Hide spinner after change
     }, 500); // Simulate a delay (adjust as needed)
   };
@@ -66,26 +74,20 @@ const Reminder = ({
           <ToggleButton
             id="privacy-consent"
             type="checkbox" // Acts as a checkbox
-            variant={privacyConsent ? "success" : "outline-success"} // Green when selected
-            checked={privacyConsent}
+            variant={formData.agree === "yes" ? "success" : "outline-success"} // Green when selected
+            checked={formData.agree === "yes"}
             onChange={handlePrivacyChange}
           >
-            {privacyConsent ? (
-              <>
-                {isLoading ? (
-                  <Spinner animation="border" variant="light" size="sm" />
-                ) : (
-                  "Yes, I agree"
-                )}
-              </>
+            {isLoading ? (
+              <Spinner
+                animation="border"
+                variant={formData.agree === "yes" ? "light" : "success"}
+                size="sm"
+              />
+            ) : formData.agree === "yes" ? (
+              "Agreed"
             ) : (
-              <>
-                {isLoading ? (
-                  <Spinner animation="border" variant="success" size="sm" />
-                ) : (
-                  "Agreed "
-                )}
-              </>
+              "yes, I agree"
             )}
           </ToggleButton>
         </ButtonGroup>

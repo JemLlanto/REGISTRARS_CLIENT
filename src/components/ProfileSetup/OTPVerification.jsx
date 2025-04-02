@@ -17,10 +17,10 @@ const OTPVerification = ({
         <span className="text-success fw-bold">{formData.receiverEmail}</span>.
         Please check your inbox to proceed.{" "}
       </p>
-      <Row>
+      <Row className="OTPContainer gap-1 px-2">
         {otpInputs.map((input, index) => (
           <Col key={index}>
-            <InputGroup className="mb-3">
+            <InputGroup className="mb-3 ">
               <Form.Control
                 type="number"
                 maxLength={1}

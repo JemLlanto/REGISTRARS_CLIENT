@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Spinner, Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -19,7 +19,7 @@ const getStatusColor = (status) => {
   }
 };
 
-const RequestHeaders = ({ filteredRequests, isLoading }) => {
+const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const requestsPerPage = 10;
 
@@ -37,7 +37,9 @@ const RequestHeaders = ({ filteredRequests, isLoading }) => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [status]);
   // Render pagination items
   const renderPaginationItems = () => {
     let items = [];
@@ -136,13 +138,11 @@ const RequestHeaders = ({ filteredRequests, isLoading }) => {
         {isLoading ? (
           <>
             <div
-              className="spinner-container d-flex justify-content-center align-items-center spinner-container"
+              className="spinner-container d-flex justify-content-center align-items-center spinner-container gap-1"
               style={{ height: "70%" }}
             >
-              <p>
-                <Spinner animation="border" variant="primary" size="sm" />{" "}
-                Loading request...
-              </p>
+              <Spinner animation="border" variant="primary" size="sm" />
+              <p className="m-0">Loading request...</p>
             </div>
           </>
         ) : (
@@ -187,8 +187,8 @@ const RequestHeaders = ({ filteredRequests, isLoading }) => {
                       <p className="m-0">
                         {request?.created
                           ? new Intl.DateTimeFormat("en-US", {
-                            dateStyle: "medium",
-                          }).format(new Date(request?.created))
+                              dateStyle: "medium",
+                            }).format(new Date(request?.created))
                           : ""}
                       </p>
                     </div>
@@ -211,15 +211,21 @@ const RequestHeaders = ({ filteredRequests, isLoading }) => {
                 </Link>
               ))
             ) : (
-              <p>No pending request</p>
+              <div
+                className="spinner-container d-flex justify-content-center align-items-center spinner-container"
+                style={{ height: "70%" }}
+              >
+                <p className="m-0">No pending request</p>
+              </div>
             )}
           </>
         )}
       </div>
       <div className="custom-pagination d-flex align-items-center justify-content-center">
-        <Pagination className="pagination">{renderPaginationItems()}</Pagination>
+        <Pagination className="pagination">
+          {renderPaginationItems()}
+        </Pagination>
       </div>
-
     </div>
   );
 };

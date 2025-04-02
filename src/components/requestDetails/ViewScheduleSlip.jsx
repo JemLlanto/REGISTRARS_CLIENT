@@ -38,51 +38,46 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
   };
   const handleCloseScheduleModal = () => setShowScheduleModal(false);
 
-  const handleCancelRequest = async () => {
+  // Add this function to your component
+  const handleDownloadImage = async () => {
     try {
-      console.log("Sending cancellation request with data:", formData); // Debugging log
+      // Get the image URL
+      const imageUrl = `http://localhost:5000/scheduleSlipUploads/${documentDetails.scheduleSlip}`;
 
-      const res = await axios.post(
-        "http://localhost:5000/api/managingRequest/cancelRequest",
-        formData
-      );
-
-      if (res.data.Status === "Success") {
-        try {
-          await axios.post(
-            "http://localhost:5000/api/emailNotification/sendStatusUpdate",
-            formData
-          );
-        } catch (emailErr) {
-          console.log("Email notification error:", emailErr);
-        }
-
-        Swal.fire({
-          title: "Request Cancelled!",
-          text: res.data.Message,
-          icon: "success",
-          confirmButtonColor: "#3085d6",
-          confirmButtonText: "OK",
-        }).then(() => {
-          setShowScheduleModal(false);
-          setFormData({ requestID: "", reason: "" }); // Reset form data
-          fetchDocumentDetails();
-        });
-      } else {
-        Swal.fire({
-          title: "Cancellation Failed",
-          text: res.data.Message,
-          icon: "error",
-          confirmButtonColor: "#d33",
-          confirmButtonText: "Try Again",
-        });
+      // Fetch the image as a blob
+      const response = await fetch(imageUrl);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-    } catch (err) {
-      console.error("Error canceling request:", err);
 
+      const blob = await response.blob();
+
+      // Create a blob URL
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      // Create a link element
+      const link = document.createElement("a");
+
+      // Set the href to the blob URL
+      link.href = blobUrl;
+
+      // Set the download attribute with a filename
+      link.download = `${documentDetails.lastName}-${documentDetails.requestID}-schedule-slip.jpg`;
+
+      // Append to the document
+      document.body.appendChild(link);
+
+      // Trigger the click event
+      link.click();
+
+      // Clean up
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Download failed:", error);
       Swal.fire({
-        title: "Error",
-        text: "Something went wrong. Please try again later.",
+        title: "Download Failed",
+        text: "Could not download the image. Please try again later.",
         icon: "error",
         confirmButtonColor: "#d33",
         confirmButtonText: "OK",
@@ -109,10 +104,10 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
             <h4 className="m-0">Schedule slip </h4>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ height: "25rem" }}>
           <div
             className="d-flex align-items-center justify-content-center gap-3"
-            style={{ width: "20rem", height: "20rem" }}
+            style={{ width: "100%", height: "100%" }}
           >
             <img
               src={`http://localhost:5000/scheduleSlipUploads/${documentDetails.scheduleSlip}`}
@@ -131,14 +126,10 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
             className="btn btn-secondary"
             onClick={handleCloseScheduleModal}
           >
-            Back
+            <p className="m-0">Back</p>
           </button>
-          <button
-            className="btn btn-primary"
-            // onClick={() => handleCancelRequest(documentDetails.requestID)}
-            disabled={formData.reason === ""}
-          >
-            Confirm
+          <button className="btn primaryButton" onClick={handleDownloadImage}>
+            <p className="m-0">Download</p>
           </button>
         </Modal.Footer>
       </Modal>

@@ -13,6 +13,7 @@ export default function ProfileSetup() {
     firstName: "",
     middleName: "",
     lastName: "",
+    program: "",
     studentID: "",
     dateOfBirth: "",
     mobileNum: "",
@@ -45,17 +46,19 @@ export default function ProfileSetup() {
         }
       }
 
-      setFormData({
+      setFormData((prev) => ({
+        ...prev,
         userID: user.userID || "",
         firstName: user.firstName || "",
         middleName: user.middleName || "",
         lastName: user.lastName || "",
+        program: user.program || "",
         studentID: user.studentID || "",
         dateOfBirth: formattedDate,
         mobileNum: user.mobileNum || "",
         email: user.email || "",
         receiverEmail: user.email || "",
-      });
+      }));
     }
   }, [user]);
 
@@ -112,8 +115,11 @@ export default function ProfileSetup() {
         className="rounded-2 shadow-sm p-2"
         style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="m-0 p-2 fade-in" style={{ color: "var(--secondMain-color)" }}>
-          Account Settings
+        <h5
+          className="m-0 p-2 fade-in"
+          style={{ color: "var(--secondMain-color)" }}
+        >
+          Account Settings {formData.program}
         </h5>
       </div>
 
@@ -121,10 +127,7 @@ export default function ProfileSetup() {
         className="w-100 bg-light shadow-sm rounded-2 p-4 mt-3 overflow-x-hidden overflow-y-auto"
         style={{ maxHeight: "35rem" }}
       >
-        <div
-          className="overflow-x-hidden overflow-y-auto"
-          style={{ maxHeight: "50rem" }}
-        >
+        <div className="" style={{ maxHeight: "50rem" }}>
           <PersonalInformation
             handleEditInfo={handleEditInfo}
             handleCancelEditInfo={handleCancelEditInfo}

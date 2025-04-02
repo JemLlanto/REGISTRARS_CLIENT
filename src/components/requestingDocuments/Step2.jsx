@@ -12,10 +12,10 @@ const Step2 = ({ formData, handleChange }) => {
       .get("http://localhost:5000/api/fetchingDocuments/fetchPrograms")
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setPrograms(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
+          // console.log("Error:", res.data.Message);
         }
       })
       .catch((err) => {
@@ -28,7 +28,7 @@ const Step2 = ({ formData, handleChange }) => {
       .get("http://localhost:5000/api/fetchingDocuments/fetchPurposes")
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setPurposes(res.data.data);
         } else if (res.data.Message) {
           console.log("Error: ", res.data.Message);
@@ -44,7 +44,7 @@ const Step2 = ({ formData, handleChange }) => {
       .get("http://localhost:5000/api/fetchingDocuments/fetchYearGraduated")
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setYearGraduated(res.data.data);
         } else if (res.data.Message) {
           console.log("Error: ", res.data.Message);
@@ -56,21 +56,40 @@ const Step2 = ({ formData, handleChange }) => {
   }, []);
 
   if (formData.classification === "graduated") {
-    formData.yearLevel = null;
+    formData.yearLevel = "";
   } else {
-    formData.yearGraduated = null;
+    formData.yearGraduated = "";
   }
+
+  // Validate min/max when user finishes typing
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    let numericValue = Number(value);
+
+    if (name === "schoolYearAttended") {
+      if (numericValue < 1900) numericValue = 1900;
+      if (numericValue > new Date().getFullYear())
+        numericValue = new Date().getFullYear();
+
+      setFormData((prevData) => {
+        const updatedData = { ...prevData, [name]: numericValue };
+        localStorage.setItem("formData", JSON.stringify(updatedData));
+        return updatedData;
+      });
+    }
+  };
 
   return (
     <div className="p-2 d-flex flex-column gap-2">
       {/* Program/Course & Major Dropdown */}
       <FloatingLabel
-        controlId="floatingProgram"
+        controlId="program-select"
         label="Program/Course & Major"
         className="mt-3"
       >
         <Form.Select
           name="program"
+          id="program-select"
           value={formData.program}
           onChange={handleChange}
         >
@@ -84,12 +103,13 @@ const Step2 = ({ formData, handleChange }) => {
       </FloatingLabel>
       {/* Step 2: Classification */}
       <FloatingLabel
-        controlId="floatingProgram"
+        controlId="classification-select"
         label="Classification"
         className=""
       >
         <Form.Select
           name="classification"
+          id="classification-select"
           value={formData.classification}
           onChange={handleChange}
         >
@@ -111,8 +131,8 @@ const Step2 = ({ formData, handleChange }) => {
             disabled={!formData.classification}
           >
             <option value="">Choose...</option>
-            {yearGraduated.map((year) => (
-              <option key={year.year_graduatedID} value={year.yearOption}>
+            {yearGraduated.map((year, index) => (
+              <option key={index} value={year.yearOption}>
                 {year.yearOption}
               </option>
             ))}
@@ -150,9 +170,9 @@ const Step2 = ({ formData, handleChange }) => {
           name="schoolYearAttended"
           value={formData.schoolYearAttended}
           onChange={handleChange}
-          min="1900" // Set a reasonable minimum
-          max={new Date().getFullYear()} // Restrict to the current year
-          step="1" // Ensure whole numbers only
+          min="1900"
+          max={new Date().getFullYear()}
+          step="1"
         />
       </FloatingLabel>
       <FloatingLabel controlId="floatingPurpose" label="Purpose" className="">
@@ -162,8 +182,8 @@ const Step2 = ({ formData, handleChange }) => {
           onChange={handleChange}
         >
           <option value="">Choose...</option>
-          {purposes.map((purpose) => (
-            <option key={purpose.purposeID} value={purpose.purposeName}>
+          {purposes.map((purpose, index) => (
+            <option key={index} value={purpose.purposeName}>
               {purpose.purposeName}
             </option>
           ))}

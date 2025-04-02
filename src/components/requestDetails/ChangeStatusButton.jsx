@@ -25,10 +25,10 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
           documentDetails.status === "pending"
             ? "processing"
             : documentDetails.status === "processing"
-              ? "ready to pickup"
-              : documentDetails.status === "ready to pickup"
-                ? "completed"
-                : null,
+            ? "ready to pickup"
+            : documentDetails.status === "ready to pickup"
+            ? "completed"
+            : null,
         userID: documentDetails.userID,
         receiverEmail: documentDetails.email,
         feedbackType: "",
@@ -161,16 +161,19 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
         onClick={handleShowChangeStatusModal}
         disabled={
           documentDetails.status === "cancelled" ||
-          documentDetails.status === "completed"
+          documentDetails.status === "completed" ||
+          documentDetails.status === "ready to pickup"
+            ? !documentDetails.responded
+            : false
         }
       >
         {documentDetails.status === "pending"
           ? "Processing"
           : documentDetails.status === "processing"
-            ? "Ready to Pickup"
-            : documentDetails.status === "ready to pickup"
-              ? "Completed"
-              : "Claimed"}
+          ? "Ready to Pickup"
+          : documentDetails.status === "ready to pickup"
+          ? "Completed"
+          : "Claimed"}
       </button>
 
       <Modal
@@ -180,7 +183,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            Update request status
+            <h5 className="m-0">Update request status</h5>{" "}
             {/* {documentDetails.userID} */}
           </Modal.Title>
         </Modal.Header>
@@ -203,58 +206,60 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
                   />
                 </InputGroup>
               </div>
-              <div>
+              <div className="customToggleButton">
                 <p className="m-0">Feedback Form Type</p>
-                <ToggleButton
-                  type="radio"
-                  id={`radioInternalButtons`}
-                  label="Internal"
-                  checked={formData.feedbackType === "internal"}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setFormData({ ...formData, feedbackType: "internal" });
-                    } else {
-                      setFormData({ ...formData, feedbackType: "" });
-                    }
-                  }}
-                >
-                  Internal
-                </ToggleButton>
-                <ToggleButton
-                  type="radio"
-                  id={`radioExternalButtons`}
-                  label="External"
-                  checked={formData.feedbackType === "external"}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setFormData({ ...formData, feedbackType: "external" });
-                    } else {
-                      setFormData({ ...formData, feedbackType: "" });
-                    }
-                  }}
-                >
-                  External
-                </ToggleButton>
-                <ToggleButton
-                  type="radio"
-                  id={`radioNoneButtons`}
-                  label="None"
-                  checked={formData.feedbackType === ""}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setFormData({ ...formData, feedbackType: "" });
-                    } else {
-                      setFormData({ ...formData, feedbackType: "" });
-                    }
-                  }}
-                >
-                  None
-                </ToggleButton>
+                <div className="d-flex align-items-center gap-1">
+                  <ToggleButton
+                    type="radio"
+                    id={`radioInternalButtons`}
+                    label="Internal"
+                    checked={formData.feedbackType === "internal"}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setFormData({ ...formData, feedbackType: "internal" });
+                      } else {
+                        setFormData({ ...formData, feedbackType: "" });
+                      }
+                    }}
+                  >
+                    Internal
+                  </ToggleButton>
+                  <ToggleButton
+                    type="radio"
+                    id={`radioExternalButtons`}
+                    label="External"
+                    checked={formData.feedbackType === "external"}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setFormData({ ...formData, feedbackType: "external" });
+                      } else {
+                        setFormData({ ...formData, feedbackType: "" });
+                      }
+                    }}
+                  >
+                    External
+                  </ToggleButton>
+                  <ToggleButton
+                    type="radio"
+                    id={`radioNoneButtons`}
+                    label="None"
+                    checked={formData.feedbackType === ""}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setFormData({ ...formData, feedbackType: "" });
+                      } else {
+                        setFormData({ ...formData, feedbackType: "" });
+                      }
+                    }}
+                  >
+                    None
+                  </ToggleButton>
+                </div>
               </div>
             </>
           ) : (
             <>
-              <h5>
+              <p className="m-0">
                 Are you sure you want to mark this request as{" "}
                 {documentDetails.status === "pending" ? (
                   <>being processed</>
@@ -266,7 +271,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
                   <></>
                 )}
                 ?
-              </h5>
+              </p>
             </>
           )}
         </Modal.Body>
@@ -275,21 +280,23 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
             className="btn btn-secondary"
             onClick={handleCloseChangeStatusModal}
           >
-            Back
+            <p className="m-0">Back</p>
           </button>
           <button
-            className="btn btn-primary"
+            className="btn primaryButton"
             onClick={() => handleChangeStatusRequest()}
             disabled={documentDetails.status === "processing" && !file}
           >
-            {isLoading ? (
-              <>
-                <Spinner animation="border" variant="light" size="sm" />{" "}
-                Saving...
-              </>
-            ) : (
-              <>Confirm</>
-            )}
+            <p className="m-0">
+              {isLoading ? (
+                <>
+                  <Spinner animation="border" variant="light" size="sm" />{" "}
+                  Saving...
+                </>
+              ) : (
+                <>Confirm</>
+              )}
+            </p>
           </button>
         </Modal.Footer>
       </Modal>

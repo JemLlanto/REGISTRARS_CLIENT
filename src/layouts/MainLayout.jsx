@@ -16,7 +16,7 @@ const MainLayout = () => {
 
   axios.defaults.withCredentials = true;
 
-  useEffect(() => {
+  const fetchUserData = () => {
     axios
       .get("http://localhost:5000")
       .then((res) => {
@@ -35,16 +35,20 @@ const MainLayout = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  };
 
   useEffect(() => {
-    if (id) {
-      axios
-        .get(`http://localhost:5000/api/auth/fetchUserData?userID=${id}`)
-        .then((res) => setUser(res.data))
-        .catch((err) => console.log("Error fetching user data:", err));
-    }
-  }, [id]);
+    fetchUserData();
+  }, []);
+
+  // useEffect(() => {
+  //   if (id) {
+  //     axios
+  //       .get(`http://localhost:5000/api/auth/fetchUserData?userID=${id}`)
+  //       .then((res) => setUser(res.data))
+  //       .catch((err) => console.log("Error fetching user data:", err));
+  //   }
+  // }, [id]);
 
   useEffect(() => {
     if (!isLoading && !auth) {
@@ -54,23 +58,28 @@ const MainLayout = () => {
 
   return (
     <div
-      className="w-100 d-flex flex-column"
+      className="w-100 d-flex flex-column custom-scrollbar "
       style={{
         backgroundColor: "var(--bodyBackground-color)",
         height: "100dvh",
+        overflow: "auto", // Ensures scrolling when content overflows
       }}
     >
+
       {!user.isAdmin && user.isNewAccount ? (
         <NewAccountPopup user={user} />
       ) : null}{" "}
       <div className="d-flex overflow-hidden" style={{ height: "100dvh" }}>
-        <div className="d-none d-md-block">
+        <div className="d-none d-md-block" style={{ zIndex: "1000" }}>
           <SideBar user={user} />
         </div>
         <div className="w-100">
           <NavBar user={user} />
-          <div className="d-flex justify-content-center align-items-center">
-            <Outlet context={{ user }} />
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ zIndex: "0" }}
+          >
+            <Outlet context={{ user, fetchUserData }} />
           </div>
         </div>
       </div>

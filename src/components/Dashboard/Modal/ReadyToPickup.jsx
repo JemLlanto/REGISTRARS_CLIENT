@@ -43,9 +43,9 @@ const ReadyToPickup = ({ readyToPickupRequests }) => {
         centered
         size="lg"
       >
-        <Modal.Header closeButton>
+        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
           <Modal.Title>
-            <h5 className="m-0">
+            <h5 className="m-0 text-white">
               Ready to pickup request ({readyToPickupRequests.length})
             </h5>
           </Modal.Title>
