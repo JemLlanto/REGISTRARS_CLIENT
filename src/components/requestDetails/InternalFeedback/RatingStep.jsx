@@ -8,6 +8,17 @@ const RatingStep = ({ formData, handleChange }) => {
     "Barely Satisfied",
     "Not Satisfied",
   ];
+
+  // Add this function to handle clicks on the entire cell
+  const handleCellClick = (name, value) => {
+    handleChange({
+      target: {
+        name: name,
+        value: value
+      }
+    });
+  };
+
   return (
     <div className="table-responsive">
       <h5 className="mb-3 fw-bold text-dark">Service Ratings</h5>
@@ -32,7 +43,12 @@ const RatingStep = ({ formData, handleChange }) => {
           <tr className="fw-semibold bg-light">
             <td>A. Courtesy</td>
             {ratings.map((rating) => (
-              <td key={rating} className="text-center">
+              <td
+                key={rating}
+                className="text-center"
+                onClick={() => handleCellClick("rating-courtesy", rating)}
+                style={{ cursor: "pointer" }}
+              >
                 <input
                   type="radio"
                   className="form-check-input border border-dark"
@@ -63,7 +79,12 @@ const RatingStep = ({ formData, handleChange }) => {
                 "Barely Satisfied",
                 "Not Satisfied",
               ].map((rating) => (
-                <td key={rating} className="text-center">
+                <td
+                  key={rating}
+                  className="text-center"
+                  onClick={() => handleCellClick(`rating-service_${subCategory.toLowerCase()}`, rating)}
+                  style={{ cursor: "pointer" }}
+                >
                   <input
                     type="radio"
                     className="form-check-input border border-dark"
@@ -72,7 +93,7 @@ const RatingStep = ({ formData, handleChange }) => {
                     onChange={handleChange}
                     checked={
                       formData.ratings[
-                        `service_${subCategory.toLowerCase()}`
+                      `service_${subCategory.toLowerCase()}`
                       ] === rating
                     }
                   />
@@ -99,7 +120,12 @@ const RatingStep = ({ formData, handleChange }) => {
                 "Barely Satisfied",
                 "Not Satisfied",
               ].map((rating) => (
-                <td key={rating} className="text-center">
+                <td
+                  key={rating}
+                  className="text-center"
+                  onClick={() => handleCellClick(`rating-physical_${subCategory.toLowerCase()}`, rating)}
+                  style={{ cursor: "pointer" }}
+                >
                   <input
                     type="radio"
                     className="form-check-input border border-dark"
@@ -108,7 +134,7 @@ const RatingStep = ({ formData, handleChange }) => {
                     onChange={handleChange}
                     checked={
                       formData.ratings[
-                        `physical_${subCategory.toLowerCase()}`
+                      `physical_${subCategory.toLowerCase()}`
                       ] === rating
                     }
                   />

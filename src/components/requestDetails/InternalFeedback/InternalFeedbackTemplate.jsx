@@ -166,21 +166,21 @@ const InternalFeedbackTemplate = ({
         centered
         size="lg"
       >
-        <Modal.Header closeButton>
+        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
           <Modal.Title>
-            <h4 className="m-0">Client Satisfaction Measurement(Internal)</h4>
+            <h4 className="m-0 text-white">Client Satisfaction Measurement(Internal)</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div
-            className="overflow-x-hidden overflow-y-scroll"
+            className="custom-scrollbar overflow-x-hidden overflow-y-scroll"
             style={{ height: "30rem" }}
           >
             <RatingStep formData={formData} handleChange={handleChange} />
             <CommentsStep formData={formData} handleChange={handleChange} />
           </div>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer style={{ backgroundColor: "var(--main-color)" }}>
           <button className="btn btn-primary" onClick={submitFeedback}>
             Submit
           </button>
