@@ -1,8 +1,7 @@
-import { Modal } from "bootstrap";
 import React from "react";
 import ProgramModal from "../../components/ManageRequestForm/programModal";
 import PurposeModal from "../../components/ManageRequestForm/purposeModal";
-import YearGraduatedModal from "../../components/ManageRequestForm/yearGraduatedModal";
+import YearGraduatedModal from "../../components/ManageRequestForm/YearGraduatedModal";
 import FormSwitch from "../../components/ManageRequestForm/FormSwitch";
 import { useOutletContext } from "react-router-dom";
 import AutomaticSwitch from "../../components/ManageRequestForm/AutomaticSwitch";
