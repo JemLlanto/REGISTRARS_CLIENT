@@ -115,9 +115,15 @@ function PurposeStats({ requestedDocuments }) {
             </ResponsiveContainer>
           </div>
         ) : (
-          <p className="text-muted m-0">
-            No document purposes to display for the selected period.
-          </p>
+          <div
+            className="spinner-container d-flex justify-content-center align-items-center spinner-container"
+            style={{ height: "70%" }}
+          >
+            <p className="text-muted m-0 p-3 mt-3">
+              No document purposes to display for the selected period.
+            </p>
+          </div>
+
         )}
       </div>
     </>

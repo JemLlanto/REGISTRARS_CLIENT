@@ -227,7 +227,13 @@ const SelectionSelections = ({ purpose }) => {
           <>
             {selections.length === 0 ? (
               <>
-                <p className="m-0">No Selections</p>
+                <div
+                  className="spinner-container d-flex justify-content-center align-items-center spinner-container"
+                  style={{ height: "70%" }}
+                >
+                  <p className="m-0">No Selections</p>
+                </div>
+
               </>
             ) : (
               <>
@@ -279,7 +285,7 @@ const SelectionSelections = ({ purpose }) => {
                               disabled={
                                 formData.selectionName === "" ||
                                 formData.selectionName ===
-                                  selection.selectionName
+                                selection.selectionName
                               }
                               onClick={handleUpdateSelection}
                             >
