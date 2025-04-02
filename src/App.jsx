@@ -14,7 +14,7 @@ import "./layouts/style/PhoneSidebar.css";
 // UNIVERSAL ROUTES
 import Index from "./pages/auth/Index";
 import MainLayout from "./layouts/MainLayout";
-import RequestDetails from "./layouts/requestDetails/requestDetails";
+import RequestDetails from "./layouts/requestDetails/RequestDetails";
 import ProfileSetup from "./pages/user/ProfileSetup";
 
 // USER ROUTES
