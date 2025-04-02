@@ -1,6 +1,6 @@
 @import url("./Imports.css");
 
-.btn-check:checked + .btn,
+/* .btn-check:checked + .btn,
 .btn.active,
 .btn.show,
 .btn:first-child:active,
@@ -8,7 +8,7 @@
   color: var(--bs-btn-active-color);
   background-color: var(--main-color);
   border-color: var(--bs-btn-active-border-color);
-}
+} */
 
 .step {
   width: clamp(2rem, 5dvh, 2.5rem);
@@ -342,4 +342,67 @@
 /* Hide number input arrows for Firefox */
 .OTPContainer input[type="number"] {
   -moz-appearance: textfield;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Responsive Pagination */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  justify-content: center;
+}
+
+/* Page Items */
+.pagination .page-item .page-link {
+  color: #001344f7;
+  border: none;
+  padding: 6px 14px;
+  font-size: clamp(0.7rem, 1.5vw, 1rem);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Active Page */
+.pagination .page-item.active .page-link {
+  background-color: #001344f7;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 3px 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Hover Effect */
+.pagination .page-item .page-link:hover {
+  background-color: #001957f7;
+  color: #ffffff;
+}
+
+/* Mobile Friendly */
+@media (max-width: 600px) {
+  .pagination {
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+
+  .pagination .page-item .page-link {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+  }
 }
