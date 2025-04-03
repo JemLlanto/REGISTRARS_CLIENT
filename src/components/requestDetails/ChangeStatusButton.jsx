@@ -167,10 +167,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
         onClick={handleShowChangeStatusModal}
         disabled={
           documentDetails.status === "cancelled" ||
-          documentDetails.status === "completed" ||
-          documentDetails.status === "ready to pickup"
-            ? !documentDetails.responded
-            : false
+          documentDetails.status === "completed"
         }
       >
         {documentDetails.status === "pending"
