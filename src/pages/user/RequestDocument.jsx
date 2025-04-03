@@ -21,7 +21,7 @@ export default function RequestDocument() {
   );
   const [formData, setFormData] = useState({
     currentStep: storedFormData.currentStep || 1,
-    agree: "Yes",
+    agree: storedFormData.agree || "no",
     email: user.email || "",
     userID: user.userID || "",
     firstName: user.firstName || "",
