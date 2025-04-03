@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Dropdown, Offcanvas, Button } from "react-bootstrap";
 import axios from "axios";
 import PhoneSidebar from "./PhoneSidebar";
@@ -8,6 +8,7 @@ import NotifButton from "../../components/NavBar/NotifButton";
 const NavBar = ({ user }) => {
   const [show, setShow] = useState(false);
   const location = useLocation(); // Get current route
+  const navigate = useNavigate(); // For navigation
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
@@ -16,8 +17,9 @@ const NavBar = ({ user }) => {
     axios
       .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/logout`)
       .then(() => {
-        window.location.reload();
-      })
+        localStorage.removeItem("formData");
+        navigate("/");
+      }) // Redirect to login page after logout})
       .catch((err) => console.log(err));
   };
 
