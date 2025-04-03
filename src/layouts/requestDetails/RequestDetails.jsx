@@ -131,7 +131,10 @@ const RequestDetails = () => {
         className="rounded-2  p-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="fade-in m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
+        <h5
+          className="fade-in m-0 p-2"
+          style={{ color: "var(--secondMain-color)" }}
+        >
           Request ID: {documentDetails.requestID}
         </h5>
 
@@ -253,17 +256,11 @@ const RequestDetails = () => {
           <RequestInfo documentDetails={documentDetails} />
         </div>
 
-
         {documentTypes.length > 0 && (
-<<<<<<< Updated upstream
           <div
-            className="information bg-white w-100  rounded-2 p-4 mb-2"
+            className="fade-in-section information bg-white w-100  rounded-2 p-4 mb-2"
             style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
           >
-=======
-          <div className="fade-in-section information bg-white w-100  rounded-2 p-4 mb-2"
-            style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}>
->>>>>>> Stashed changes
             <h5 className="text-muted">Document requested</h5>
             <div className="d-flex align-items-center gap-2">
               <i className="bx bxs-file-pdf fs-5 me-1"></i>
@@ -274,15 +271,10 @@ const RequestDetails = () => {
           </div>
         )}
         {documentInputValues.length > 0 && (
-<<<<<<< Updated upstream
           <div
-            className="information bg-white w-100 rounded-2 p-4"
+            className="fade-in-section information bg-white w-100 rounded-2 p-4"
             style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
           >
-=======
-          <div className="fade-in-section information bg-white w-100 rounded-2 p-4"
-            style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}>
->>>>>>> Stashed changes
             <table className="table">
               <thead>
                 <tr>
@@ -302,15 +294,10 @@ const RequestDetails = () => {
           </div>
         )}
         {documentFile && (
-<<<<<<< Updated upstream
           <div
-            className=" bg-white w-100  rounded-2 d-flex flex-column p-4 mb-2"
+            className="fade-in-section bg-white w-100  rounded-2 d-flex flex-column p-4 mb-2"
             style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
           >
-=======
-          <div className="fade-in-section bg-white w-100  rounded-2 d-flex flex-column p-4 mb-2"
-            style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}>
->>>>>>> Stashed changes
             <h5 className="text-muted">Uploaded document</h5>
             <div className="w-100 d-flex align-items-center justify-content-center">
               <div
