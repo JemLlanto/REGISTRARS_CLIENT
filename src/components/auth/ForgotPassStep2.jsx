@@ -17,7 +17,7 @@ const ForgotPassStep2 = ({
         <span className="text-success fw-bold">{formData.receiverEmail}</span>.
         Please check your inbox to proceed.{" "}
       </p>
-      <Row>
+      <Row className="OTPContainer gap-1 px-2">
         {otpInputs.map((input, index) => (
           <Col key={index}>
             <InputGroup className="mb-3">
@@ -31,7 +31,7 @@ const ForgotPassStep2 = ({
                 aria-describedby="basic-addon1"
                 autoFocus={index === 0} // Focus on the first input initially
                 onFocus={(e) => e.target.select()} // Select the input on focus
-                // disabled={}
+              // disabled={}
               />
             </InputGroup>
           </Col>
