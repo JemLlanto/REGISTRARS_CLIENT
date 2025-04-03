@@ -70,7 +70,6 @@ const RequestDetails = () => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
           setDocumentFile(res.data.data);
         } else if (res.data.Message) {
           console.log("Error: ", res.data.Message);
@@ -302,9 +301,7 @@ const RequestDetails = () => {
                 style={{ width: "20rem", height: "20rem" }}
               >
                 <img
-                  src={`${
-                    import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-                  }/uploads/${documentFile.image_file}`}
+                  src={documentFile.cloudinary_url}
                   alt="Document"
                   style={{
                     width: "100%",

@@ -42,9 +42,7 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
   const handleDownloadImage = async () => {
     try {
       // Get the image URL
-      const imageUrl = `${
-        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-      }/scheduleSlipUploads/${documentDetails.scheduleSlip}`;
+      const imageUrl = `${documentDetails.cloudinary_url}`;
 
       // Fetch the image as a blob
       const response = await fetch(imageUrl);
@@ -112,9 +110,7 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
             style={{ width: "100%", height: "100%" }}
           >
             <img
-              src={`${
-                import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-              }/scheduleSlipUploads/${documentDetails.scheduleSlip}`}
+              src={documentDetails.cloudinary_url}
               alt="Document"
               style={{
                 width: "100%",

@@ -318,7 +318,7 @@ export default function RequestDocument() {
       } else {
         Swal.fire({
           title: "Error!",
-          text: "Failed to request document. Please try again.",
+          text: `Failed to request document. Please try again. ${error}`,
           icon: "error",
           confirmButtonText: "OK",
         });
