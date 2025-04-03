@@ -59,7 +59,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
       return res.data;
     } catch (err) {
       console.log(err);
-      throw err;
+      alert(err.message);
     }
   };
   const handleChangeStatusRequest = async () => {
@@ -75,6 +75,9 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
         }
       );
 
+      if (file) {
+        await uploadScheduleSlip();
+      }
       if (res.data.Status === "Success") {
         try {
           const emailRes = await axios.post(
@@ -111,9 +114,6 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
           confirmButtonColor: "#d33",
           confirmButtonText: "Try Again",
         });
-      }
-      if (file) {
-        await uploadScheduleSlip();
       }
     } catch (err) {
       console.log("Error changing status: ", err);
@@ -167,10 +167,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
         onClick={handleShowChangeStatusModal}
         disabled={
           documentDetails.status === "cancelled" ||
-          documentDetails.status === "completed" ||
-          documentDetails.status === "ready to pickup"
-            ? !documentDetails.responded
-            : false
+          documentDetails.status === "completed"
         }
       >
         {documentDetails.status === "pending"

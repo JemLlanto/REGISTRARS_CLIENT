@@ -643,8 +643,10 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       >
         <p className="m-0">
           {documentDetails.responded
-            ? "Download feedback(External)"
-            : "Download feedback"}
+            ? `Download feedback(External)`
+            : documentDetails.feedbackType === ""
+            ? `Download feedback(None)`
+            : `Download feedback`}
         </p>
       </button>
     </>

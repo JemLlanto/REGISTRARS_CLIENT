@@ -67,7 +67,6 @@ const RequestDetails = () => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
           setDocumentFile(res.data.data);
         } else if (res.data.Message) {
           console.log("Error: ", res.data.Message);
@@ -127,7 +126,10 @@ const RequestDetails = () => {
         className="rounded-2  p-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="fade-in m-0 p-2" style={{ color: "var(--secondMain-color)" }}>
+        <h5
+          className="fade-in m-0 p-2"
+          style={{ color: "var(--secondMain-color)" }}
+        >
           Request ID: {documentDetails.requestID}
         </h5>
 
@@ -248,7 +250,6 @@ const RequestDetails = () => {
           <RequestInfo documentDetails={documentDetails} />
         </div>
 
-
         {documentTypes.length > 0 && (
           <div className="fade-in-section information bg-white w-100  rounded-2 p-4 mb-2"
             style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}>
@@ -292,8 +293,7 @@ const RequestDetails = () => {
                 style={{ width: "20rem", height: "20rem" }}
               >
                 <img
-                  src={`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-                    }/uploads/${documentFile.image_file}`}
+                  src={documentFile.cloudinary_url}
                   alt="Document"
                   style={{
                     width: "100%",

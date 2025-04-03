@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, Spinner } from "react-bootstrap";
 import axios from "axios";
 import CitizensCharterStep from "./Citizen";
 import PersonalInfoStep from "./Personal";
@@ -18,7 +18,6 @@ const ExternalFeedbackTemplate = ({
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({});
-
 
   useEffect(() => {
     if (documentDetails) {
@@ -207,7 +206,10 @@ const ExternalFeedbackTemplate = ({
         centered
         size="lg"
       >
-        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "var(--main-color)" }}
+        >
           <Modal.Title>
             <h5 className="m-0 text-white">
               Client Satisfaction Measurement(External)
@@ -268,13 +270,15 @@ const ExternalFeedbackTemplate = ({
           >
             {isLoading ? (
               <>
-                <Spinner animation="border" variant="light" size="sm" /> Saving...
+                <Spinner animation="border" variant="light" size="sm" />{" "}
+                Saving...
               </>
+            ) : currentStep < 3 ? (
+              "Next"
             ) : (
-              currentStep < 3 ? "Next" : "Submit"
+              "Submit"
             )}
           </button>
-
         </Modal.Footer>
       </Modal>
     </>

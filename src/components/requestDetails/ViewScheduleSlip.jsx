@@ -26,14 +26,18 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
     if (documentDetails.responded) {
       setShowScheduleModal(true);
     } else {
-      Swal.fire({
-        icon: "info",
-        title: "Feedback Required",
-        text: "Kindly complete our feedback form to access the schedule slip.",
-        confirmButtonText: "OK",
-      }).then(() => {
-        setShowFeedbackModal(true);
-      });
+      if (documentDetails.feedbackType === "") {
+        setShowScheduleModal(true);
+      } else {
+        Swal.fire({
+          icon: "info",
+          title: "Feedback Required",
+          text: "Kindly complete our feedback form to access the schedule slip.",
+          confirmButtonText: "OK",
+        }).then(() => {
+          setShowFeedbackModal(true);
+        });
+      }
     }
   };
   const handleCloseScheduleModal = () => setShowScheduleModal(false);
@@ -42,9 +46,7 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
   const handleDownloadImage = async () => {
     try {
       // Get the image URL
-      const imageUrl = `${
-        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-      }/scheduleSlipUploads/${documentDetails.scheduleSlip}`;
+      const imageUrl = `${documentDetails.cloudinary_url}`;
 
       // Fetch the image as a blob
       const response = await fetch(imageUrl);
@@ -112,9 +114,7 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
             style={{ width: "100%", height: "100%" }}
           >
             <img
-              src={`${
-                import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-              }/scheduleSlipUploads/${documentDetails.scheduleSlip}`}
+              src={documentDetails.cloudinary_url}
               alt="Document"
               style={{
                 width: "100%",
