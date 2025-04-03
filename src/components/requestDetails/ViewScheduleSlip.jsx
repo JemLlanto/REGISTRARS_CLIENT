@@ -1,6 +1,5 @@
-import { Modal, FloatingLabel, Form } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import InternalFeedbackTemplate from "./InternalFeedback/InternalFeedbackTemplate";
 import ExternalFeedbackTemplate from "./ExternalFeedback/ExternalFeedbackTemplate";
@@ -95,7 +94,7 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
         onClick={handleShowScheduleModal}
         disabled={documentDetails.status === "completed"}
       >
-        View schedule slip
+        <p className="m-0">View schedule slip</p>
       </button>
 
       <Modal

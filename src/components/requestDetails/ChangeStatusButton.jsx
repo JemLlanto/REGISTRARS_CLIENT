@@ -170,13 +170,15 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
           documentDetails.status === "completed"
         }
       >
-        {documentDetails.status === "pending"
-          ? "Processing"
-          : documentDetails.status === "processing"
-          ? "Ready to Pickup"
-          : documentDetails.status === "ready to pickup"
-          ? "Completed"
-          : "Claimed"}
+        <p className="m-0">
+          {documentDetails.status === "pending"
+            ? "Processing"
+            : documentDetails.status === "processing"
+            ? "Ready to Pickup"
+            : documentDetails.status === "ready to pickup"
+            ? "Completed"
+            : "Claimed"}
+        </p>
       </button>
 
       <Modal

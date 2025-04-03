@@ -238,7 +238,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
     <>
       <button
         type="button"
-        className="btn btn-success"
+        className="btn btn-warning"
         onClick={downloadPDF}
         disabled={!documentDetails.responded}
       >

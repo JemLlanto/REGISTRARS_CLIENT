@@ -87,7 +87,7 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
           documentDetails.status !== "pending"
         }
       >
-        Cancel
+        <p className="m-0">Cancel</p>
       </button>
 
       <Modal show={showCancelModal} onHide={handleCloseCancelModal} centered>

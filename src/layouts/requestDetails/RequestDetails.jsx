@@ -7,6 +7,8 @@ import RequestInfo from "../../components/requestDetails/RequestInfo";
 import ViewScheduleSlip from "../../components/requestDetails/ViewScheduleSlip";
 import InternalFeedbackDownload from "../../components/DownloadButton/InternalFeedbackDownload";
 import ExternalFeedbackDownload from "../../components/DownloadButton/ExternalFeedbackDownload";
+import DocumentFileModal from "../../components/requestDetails/DocumentFileModal";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const RequestDetails = () => {
   const { user } = useOutletContext();
@@ -37,11 +39,13 @@ const RequestDetails = () => {
       });
   };
 
+  // FETCHING DOCUMENT DETAILS
   useEffect(() => {
     if (requestID) {
       fetchDocumentDetails();
     }
   }, [requestID]);
+  //FETCHING DOCUMENT TYPES
   useEffect(() => {
     axios
       .get(
@@ -61,6 +65,7 @@ const RequestDetails = () => {
         console.log("Error fetching details: ", err);
       });
   }, [requestID]);
+  //FETCHING DOCUMENT FILES
   useEffect(() => {
     axios
       .get(
@@ -79,6 +84,7 @@ const RequestDetails = () => {
         console.log("Error fetching details: ", err);
       });
   }, [requestID]);
+  //FETCHING DOCUMENT INPUTS
   useEffect(() => {
     axios
       .get(
@@ -98,7 +104,7 @@ const RequestDetails = () => {
         console.log("Error fetching details: ", err);
       });
   }, [requestID]);
-  // fetching inputs
+  // FETCHING INPUTS
   useEffect(() => {
     axios
       .get(
@@ -212,13 +218,16 @@ const RequestDetails = () => {
         {/* purpose */}
         <div
           className="fade-in-section row bg-white d-flex align-items-center justify-content-between rounded-3 p-4 mx-0 shadow-sm"
-          style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
+          style={{
+            boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+            zIndex: "1",
+          }}
         >
           {/* Purpose and Status */}
           <div className="col d-flex flex-column gap-1">
             <div className="d-flex align-items-center gap-1">
               <i className="bx bxs-notepad bx-sm"></i>
-              <h4 className="m-0 px-2">
+              <h4 className="m-0">
                 {documentDetails.purpose}
                 <span
                   className={`${
@@ -233,7 +242,7 @@ const RequestDetails = () => {
                       : status === "cancelled"
                       ? "text-danger"
                       : null
-                  }`}
+                  } `}
                 >
                   (
                   {String(status).charAt(0).toUpperCase() +
@@ -241,6 +250,34 @@ const RequestDetails = () => {
                   )
                 </span>
               </h4>
+              {!user.isAdmin ? (
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={
+                    <Tooltip>
+                      <p className="m-0">
+                        {documentDetails.status === "pending"
+                          ? "Your request has been received and is awaiting further updates."
+                          : documentDetails.status === "processing"
+                          ? "Your request is currently being processed. Please wait for further updates."
+                          : documentDetails.status === "ready to pickup"
+                          ? "Your request is ready for pick-up. Please download your schedule slip."
+                          : documentDetails.status === "completed"
+                          ? "Your request has been successfully completed."
+                          : documentDetails.status === "cancelled"
+                          ? "Your request has been cancelled. Please review the details below."
+                          : ""}
+                      </p>
+                    </Tooltip>
+                  }
+                >
+                  <button className="btn px-0">
+                    <p className="m-0 text-secondary">
+                      <i class="bx bx-info-circle"></i>
+                    </p>
+                  </button>
+                </OverlayTrigger>
+              ) : null}
             </div>
             <p className="fade-in-section m-0 text-secondary">
               {documentDetails.reason && (
@@ -252,7 +289,7 @@ const RequestDetails = () => {
             </p>
           </div>
         </div>
-        <div className="fade-in-section">
+        <div className="fade-in-section" style={{ zIndex: 0 }}>
           <RequestInfo documentDetails={documentDetails} />
         </div>
 
@@ -262,7 +299,7 @@ const RequestDetails = () => {
             style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
           >
             <h5 className="text-muted">Document requested</h5>
-            <div className="d-flex align-items-center gap-2">
+            <div className="d-flex align-items-center gap-2 p-2">
               <i className="bx bxs-file-pdf fs-5 me-1"></i>
               <h6 className="m-0">
                 {documentTypes.map((type) => type.documentType).join(", ")}
@@ -300,21 +337,11 @@ const RequestDetails = () => {
           >
             <h5 className="text-muted">Uploaded document</h5>
             <div className="w-100 d-flex align-items-center justify-content-center">
-              <div
-                className="d-flex align-items-center justify-content-center gap-3"
-                style={{ width: "20rem", height: "20rem" }}
-              >
-                <img
-                  src={documentFile.cloudinary_url}
-                  alt="Document"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    borderRadius: "0.5rem",
-                  }}
-                />
-              </div>
+              <DocumentFileModal
+                documentFile={documentFile}
+                documentDetails={documentDetails}
+                user={user}
+              />
             </div>
           </div>
         )}
