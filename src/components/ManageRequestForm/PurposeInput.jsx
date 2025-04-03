@@ -206,7 +206,12 @@ const PurposeInput = ({ purpose }) => {
           <>
             {inputs.length === 0 ? (
               <>
-                <p className="m-0">No questions</p>
+                <div
+                  className="spinner-container d-flex justify-content-center align-items-center spinner-container"
+                  style={{ height: "70%" }}
+                >
+                  <p className="m-0">No questions</p>
+                </div>
               </>
             ) : (
               <>
@@ -258,7 +263,7 @@ const PurposeInput = ({ purpose }) => {
                               disabled={
                                 formData.inputDescription === "" ||
                                 formData.inputDescription ===
-                                  input.inputDescription
+                                input.inputDescription
                               }
                               onClick={handleUpdateInput}
                             >

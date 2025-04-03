@@ -19,6 +19,7 @@ const ExternalFeedbackTemplate = ({
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({});
 
+
   useEffect(() => {
     if (documentDetails) {
       setFormData({
@@ -206,9 +207,9 @@ const ExternalFeedbackTemplate = ({
         centered
         size="lg"
       >
-        <Modal.Header closeButton>
+        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
           <Modal.Title>
-            <h5 className="m-0">
+            <h5 className="m-0 text-white">
               Client Satisfaction Measurement(External)
               {documentDetails.program}
             </h5>
@@ -216,7 +217,7 @@ const ExternalFeedbackTemplate = ({
         </Modal.Header>
         <Modal.Body>
           <div
-            className="overflow-x-hidden overflow-y-scroll"
+            className="custom-scrollbar overflow-x-hidden overflow-y-scroll"
             style={{ height: "30rem" }}
           >
             {currentStep === 1 && (
@@ -240,7 +241,7 @@ const ExternalFeedbackTemplate = ({
             )}
           </div>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer style={{ backgroundColor: "var(--main-color)" }}>
           {currentStep > 1 && (
             <button
               type="button"
@@ -265,8 +266,15 @@ const ExternalFeedbackTemplate = ({
                 : false
             }
           >
-            {currentStep < 3 ? "Next" : "Submit"}
+            {isLoading ? (
+              <>
+                <Spinner animation="border" variant="light" size="sm" /> Saving...
+              </>
+            ) : (
+              currentStep < 3 ? "Next" : "Submit"
+            )}
           </button>
+
         </Modal.Footer>
       </Modal>
     </>

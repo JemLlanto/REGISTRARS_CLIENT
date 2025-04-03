@@ -253,7 +253,12 @@ const AdminModal = () => {
           </FloatingLabel>
           <div className="d-flex flex-column gap-1">
             {filteredUser.length === 0 ? (
-              <p>No matches.</p>
+              <div
+                className="spinner-container d-flex justify-content-center align-items-center spinner-container"
+                style={{ height: "70%" }}
+              >
+                <p>No matches.</p>
+              </div>
             ) : (
               filteredUser.map((user, index) => (
                 <ToggleButton

@@ -206,7 +206,12 @@ const PurposeUpload = ({ purpose }) => {
           <>
             {uploads.length === 0 ? (
               <>
-                <p className="m-0">No questions</p>
+                <div
+                  className="spinner-container d-flex justify-content-center align-items-center spinner-container"
+                  style={{ height: "70%" }}
+                >
+                  <p className="m-0">No questions</p>
+                </div>
               </>
             ) : (
               <>
@@ -258,7 +263,7 @@ const PurposeUpload = ({ purpose }) => {
                               disabled={
                                 formData.uploadDescription === "" ||
                                 formData.uploadDescription ===
-                                  upload.uploadDescription
+                                upload.uploadDescription
                               }
                               onClick={handleUpdateUpload}
                             >

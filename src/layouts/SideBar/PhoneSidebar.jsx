@@ -69,7 +69,7 @@ const PhoneSidebar = ({ user }) => {
               <li className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === (user.isAdmin ? "/admin/manage-request-form" : "/request-documents") ? "active" : ""}`}>
                 <Link className="d-flex align-items-center" to={user.isAdmin ? "/admin/manage-request-form" : "/request-documents"} onClick={handleClose}>
                   <i className="bx bx-file"></i>
-                  <p className="m-0">{user.isAdmin ? "Manage Requests" : "Request Form"}</p>
+                  <p className="m-0">{user.isAdmin ? "Manage Form" : "Request Form"}</p>
                 </Link>
               </li>
 
