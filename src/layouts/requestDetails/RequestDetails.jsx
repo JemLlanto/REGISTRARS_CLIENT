@@ -20,8 +20,7 @@ const RequestDetails = () => {
   const fetchDocumentDetails = () => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchRequestedDocumentsDetails/${requestID}`
       )
       .then((res) => {
@@ -45,8 +44,7 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchRequestedDocumentTypes/${requestID}`
       )
       .then((res) => {
@@ -64,8 +62,7 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchRequestedDocumentFiles/${requestID}`
       )
       .then((res) => {
@@ -83,8 +80,7 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchRequestedDocumentInputs/${requestID}`
       )
       .then((res) => {
@@ -103,8 +99,7 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchInputs`,
         {
           params: { purposeID: documentDetails.purposeID },
@@ -167,7 +162,7 @@ const RequestDetails = () => {
         ) : (
           <>
             {documentDetails.status === "ready to pickup" ||
-            documentDetails.status === "completed" ? (
+              documentDetails.status === "completed" ? (
               <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
                 <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
                   <ViewScheduleSlip
@@ -219,19 +214,18 @@ const RequestDetails = () => {
               <h4 className="m-0 px-2">
                 {documentDetails.purpose}
                 <span
-                  className={`${
-                    status === "pending"
-                      ? "text-warning"
-                      : status === "processing"
+                  className={`${status === "pending"
+                    ? "text-warning"
+                    : status === "processing"
                       ? "text-primary"
                       : status === "ready to pickup"
-                      ? "text-info"
-                      : status === "completed"
-                      ? "text-success"
-                      : status === "cancelled"
-                      ? "text-danger"
-                      : null
-                  }`}
+                        ? "text-info"
+                        : status === "completed"
+                          ? "text-success"
+                          : status === "cancelled"
+                            ? "text-danger"
+                            : null
+                    }`}
                 >
                   (
                   {String(status).charAt(0).toUpperCase() +
@@ -256,15 +250,8 @@ const RequestDetails = () => {
 
 
         {documentTypes.length > 0 && (
-<<<<<<< Updated upstream
-          <div
-            className="information bg-white w-100  rounded-2 p-4 mb-2"
-            style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
-          >
-=======
           <div className="fade-in-section information bg-white w-100  rounded-2 p-4 mb-2"
             style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}>
->>>>>>> Stashed changes
             <h5 className="text-muted">Document requested</h5>
             <div className="d-flex align-items-center gap-2">
               <i className="bx bxs-file-pdf fs-5 me-1"></i>
@@ -275,15 +262,8 @@ const RequestDetails = () => {
           </div>
         )}
         {documentInputValues.length > 0 && (
-<<<<<<< Updated upstream
-          <div
-            className="information bg-white w-100 rounded-2 p-4"
-            style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
-          >
-=======
           <div className="fade-in-section information bg-white w-100 rounded-2 p-4"
             style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}>
->>>>>>> Stashed changes
             <table className="table">
               <thead>
                 <tr>
@@ -303,15 +283,8 @@ const RequestDetails = () => {
           </div>
         )}
         {documentFile && (
-<<<<<<< Updated upstream
-          <div
-            className=" bg-white w-100  rounded-2 d-flex flex-column p-4 mb-2"
-            style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
-          >
-=======
           <div className="fade-in-section bg-white w-100  rounded-2 d-flex flex-column p-4 mb-2"
             style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}>
->>>>>>> Stashed changes
             <h5 className="text-muted">Uploaded document</h5>
             <div className="w-100 d-flex align-items-center justify-content-center">
               <div
@@ -319,9 +292,8 @@ const RequestDetails = () => {
                 style={{ width: "20rem", height: "20rem" }}
               >
                 <img
-                  src={`${
-                    import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-                  }/uploads/${documentFile.image_file}`}
+                  src={`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+                    }/uploads/${documentFile.image_file}`}
                   alt="Document"
                   style={{
                     width: "100%",
