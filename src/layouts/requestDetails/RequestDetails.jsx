@@ -22,8 +22,7 @@ const RequestDetails = () => {
   const fetchDocumentDetails = () => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchRequestedDocumentsDetails/${requestID}`
       )
       .then((res) => {
@@ -49,8 +48,7 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchRequestedDocumentTypes/${requestID}`
       )
       .then((res) => {
@@ -69,8 +67,7 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchRequestedDocumentFiles/${requestID}`
       )
       .then((res) => {
@@ -88,8 +85,7 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchRequestedDocumentInputs/${requestID}`
       )
       .then((res) => {
@@ -108,8 +104,7 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchInputs`,
         {
           params: { purposeID: documentDetails.purposeID },
@@ -175,7 +170,7 @@ const RequestDetails = () => {
         ) : (
           <>
             {documentDetails.status === "ready to pickup" ||
-            documentDetails.status === "completed" ? (
+              documentDetails.status === "completed" ? (
               <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
                 <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
                   <ViewScheduleSlip
@@ -188,6 +183,33 @@ const RequestDetails = () => {
           </>
         )}
       </div>
+      <div className="w-100">
+        {/* FOR DOWNLOAD BUTTONS */}
+        {documentDetails.feedbackType === "internal" ? (
+          <InternalFeedbackDownload
+            user={user}
+            documentDetails={documentDetails}
+          />
+        ) : (
+          <ExternalFeedbackDownload
+            user={user}
+            documentDetails={documentDetails}
+          />
+        )}
+
+      </div>
+
+      {documentDetails.status === "ready to pickup" ||
+        documentDetails.status === "completed" ? (
+        <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
+          <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
+            <ViewScheduleSlip
+              fetchDocumentDetails={fetchDocumentDetails}
+              documentDetails={documentDetails}
+            />
+          </div>
+        </div>
+      ) : null}
       {/* buttons */}
       {user.isAdmin ? (
         <div className="d-block d-md-none d-flex align-items-center justify-content-between rounded-3 p-1 mx-0 mt-2">
@@ -230,19 +252,18 @@ const RequestDetails = () => {
               <h4 className="m-0">
                 {documentDetails.purpose}
                 <span
-                  className={`${
-                    status === "pending"
-                      ? "text-warning"
-                      : status === "processing"
+                  className={`${status === "pending"
+                    ? "text-warning"
+                    : status === "processing"
                       ? "text-primary"
                       : status === "ready to pickup"
-                      ? "text-info"
-                      : status === "completed"
-                      ? "text-success"
-                      : status === "cancelled"
-                      ? "text-danger"
-                      : null
-                  } `}
+                        ? "text-info"
+                        : status === "completed"
+                          ? "text-success"
+                          : status === "cancelled"
+                            ? "text-danger"
+                            : null
+                    } `}
                 >
                   (
                   {String(status).charAt(0).toUpperCase() +
@@ -259,14 +280,14 @@ const RequestDetails = () => {
                         {documentDetails.status === "pending"
                           ? "Your request has been received and is awaiting further updates."
                           : documentDetails.status === "processing"
-                          ? "Your request is currently being processed. Please wait for further updates."
-                          : documentDetails.status === "ready to pickup"
-                          ? "Your request is ready for pick-up. Please download your schedule slip."
-                          : documentDetails.status === "completed"
-                          ? "Your request has been successfully completed."
-                          : documentDetails.status === "cancelled"
-                          ? "Your request has been cancelled. Please review the details below."
-                          : ""}
+                            ? "Your request is currently being processed. Please wait for further updates."
+                            : documentDetails.status === "ready to pickup"
+                              ? "Your request is ready for pick-up. Please download your schedule slip."
+                              : documentDetails.status === "completed"
+                                ? "Your request has been successfully completed."
+                                : documentDetails.status === "cancelled"
+                                  ? "Your request has been cancelled. Please review the details below."
+                                  : ""}
                       </p>
                     </Tooltip>
                   }
