@@ -39,12 +39,13 @@
 
 
   .offcanvas-header .btn-close {
-    padding: 8px; 
-    opacity: 1; 
-    transition: 0.3s ease-in-out; 
+    filter: invert(1);
 }
 
 .offcanvas-header .btn-close:hover {
-    background-color: rgb(255, 255, 255); 
     transform: scale(1.1);
 }
+
+
+
+  
