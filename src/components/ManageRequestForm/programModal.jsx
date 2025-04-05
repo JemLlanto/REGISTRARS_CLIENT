@@ -17,8 +17,7 @@ function programModal() {
   const fetchPrograms = () => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchPrograms`
       )
       .then((res) => {
@@ -62,8 +61,7 @@ function programModal() {
     e.preventDefault();
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/addProgram`,
         formData
       )
@@ -88,8 +86,7 @@ function programModal() {
   const handleUpdateProgram = () => {
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/updateProgram`,
         formData
       )
@@ -122,8 +119,7 @@ function programModal() {
       if (result.isConfirmed) {
         axios
           .post(
-            `${
-              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
             }/api/documents/deleteProgram`,
             { programID }
           )
@@ -283,7 +279,7 @@ function programModal() {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseProgram}>
+          <Button className="border-0" variant="secondary" onClick={handleCloseProgram}>
             <p className="m-0">Close</p>
           </Button>
           <Button

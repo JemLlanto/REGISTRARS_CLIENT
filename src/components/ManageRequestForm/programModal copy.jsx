@@ -45,8 +45,7 @@ function programModal() {
   useEffect(() => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchPrograms`
       )
       .then((res) => {
@@ -162,21 +161,21 @@ function programModal() {
         </Modal.Body>
         <Modal.Footer>
           {addProgram ? (
-            <Button variant="secondary" onClick={handleViewProgram}>
+            <Button className="border-0" variant="secondary" onClick={handleViewProgram}>
               <p className="m-0">View Programs</p>
             </Button>
           ) : (
-            <Button variant="secondary" onClick={handleClose}>
+            <Button className="border-0" variant="secondary" onClick={handleClose}>
               <p className="m-0">Close</p>
             </Button>
           )}
 
           {addProgram ? (
-            <Button variant="primary" onClick={handleClose}>
+            <Button className="border-0" variant="primary" onClick={handleClose}>
               <p className="m-0">Save</p>
             </Button>
           ) : (
-            <Button variant="primary" onClick={handleAddProgram}>
+            <Button className="border-0" variant="primary" onClick={handleAddProgram}>
               <p className="m-0">Add new program</p>
             </Button>
           )}
