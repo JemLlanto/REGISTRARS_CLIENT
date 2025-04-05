@@ -52,10 +52,10 @@ const ReadyToPickup = ({ readyToPickupRequests }) => {
         </Modal.Header>
         <RequestTableTemplate Requests={readyToPickupRequests} />
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          <Button className="border-0" variant="secondary" onClick={handleCloseModal}>
             <p className="m-0">Close</p>
           </Button>
-          <Button style={{ backgroundColor: "var(--main-color)" }} >
+          <Button className="border-0" style={{ backgroundColor: "var(--main-color)" }} >
             <Link
               className="text-decoration-none text-white"
               to="/admin/student-requests?status=ready%20to%20pickup"

@@ -50,10 +50,10 @@ const Completed = ({ completedRequests }) => {
         </Modal.Header>
         <RequestTableTemplate Requests={completedRequests} />
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          <Button variant="secondary" className="border-0" onClick={handleCloseModal}>
             <p className="m-0">Close</p>
           </Button>
-          <Button style={{ backgroundColor: "var(--main-color)" }} >
+          <Button className="border-0" style={{ backgroundColor: "var(--main-color)" }} >
             <Link
               className="text-decoration-none text-white"
               to="/admin/student-requests?status=completed"
