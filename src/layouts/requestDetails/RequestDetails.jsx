@@ -183,37 +183,22 @@ const RequestDetails = () => {
           </>
         )}
       </div>
-      <div className="w-100">
-        {/* FOR DOWNLOAD BUTTONS */}
-        {documentDetails.feedbackType === "internal" ? (
-          <InternalFeedbackDownload
-            user={user}
-            documentDetails={documentDetails}
-          />
-        ) : (
-          <ExternalFeedbackDownload
-            user={user}
-            documentDetails={documentDetails}
-          />
-        )}
-
-      </div>
-
-      {documentDetails.status === "ready to pickup" ||
-        documentDetails.status === "completed" ? (
-        <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
-          <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
-            <ViewScheduleSlip
-              fetchDocumentDetails={fetchDocumentDetails}
-              documentDetails={documentDetails}
-            />
-          </div>
-        </div>
-      ) : null}
-      {/* buttons */}
       {user.isAdmin ? (
-        <div className="d-block d-md-none d-flex align-items-center justify-content-between rounded-3 p-1 mx-0 mt-2">
+        <div className="d-block d-md-none d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
           <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
+            {/* FOR DOWNLOAD BUTTONS */}
+            {documentDetails.feedbackType === "internal" ? (
+              <InternalFeedbackDownload
+                user={user}
+                documentDetails={documentDetails}
+              />
+            ) : (
+              <ExternalFeedbackDownload
+                user={user}
+                documentDetails={documentDetails}
+              />
+            )}
+
             <CancelButton
               fetchDocumentDetails={fetchDocumentDetails}
               documentDetails={documentDetails}
@@ -226,7 +211,24 @@ const RequestDetails = () => {
             />
           </div>
         </div>
-      ) : null}
+      ) : (
+        <>
+          {documentDetails.status === "ready to pickup" ||
+            documentDetails.status === "completed" ? (
+            <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
+              <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
+                <ViewScheduleSlip
+                  fetchDocumentDetails={fetchDocumentDetails}
+                  documentDetails={documentDetails}
+                />
+              </div>
+            </div>
+          ) : null}
+        </>
+      )}
+
+
+
 
       <div
         className="custom-scrollbar overflow-x-hidden overflow-y-auto mt-2 d-flex flex-column gap-2 pe-1 rounded scroll-container"
