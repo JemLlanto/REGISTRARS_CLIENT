@@ -16,8 +16,7 @@ const AddingNewAdmin = ({ setAdminModal }) => {
   useEffect(() => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/fetchAdmin`
       )
       .then((res) => {
@@ -44,7 +43,7 @@ const AddingNewAdmin = ({ setAdminModal }) => {
       </Button>
 
       <Modal show={addingModal} onHide={handleClose} centered>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
           <Modal.Title>Administrators</Modal.Title>
         </Modal.Header>
         <Modal.Body></Modal.Body>
@@ -52,7 +51,7 @@ const AddingNewAdmin = ({ setAdminModal }) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary">Add admin</Button>
+          <Button style={{ backgroundColor: "var(--main-color)" }}>Add admin</Button>
         </Modal.Footer>
       </Modal>
     </>

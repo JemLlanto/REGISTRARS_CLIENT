@@ -30,7 +30,8 @@ const RequestTableTemplate = ({ Requests }) => {
               <td>
                 <div>
                   <Link
-                    className="btn btn-primary text-decoration-none text-white"
+                    style={{ backgroundColor: "var(--main-color)" }}
+                    className="btn text-decoration-none text-white"
                     to={`/request-details/${request.requestID}`}
                   >
                     <p className="m-0">View</p>

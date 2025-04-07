@@ -42,8 +42,7 @@ const AdminModal = () => {
   const handleAddAdmin = () => {
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/addAdmin/${selectedUser}`
       )
       .then((res) => {
@@ -89,8 +88,7 @@ const AdminModal = () => {
       if (result.isConfirmed) {
         axios
           .post(
-            `${
-              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
             }/api/manageAdmin/removeAdmin/${userID}`
           )
           .then((res) => {
@@ -143,8 +141,7 @@ const AdminModal = () => {
   const fetchAdmins = () => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/fetchAdmin`
       )
       .then((res) => {
@@ -164,8 +161,7 @@ const AdminModal = () => {
   const fetchUsers = () => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/fetchUser`
       )
       .then((res) => {
@@ -186,7 +182,7 @@ const AdminModal = () => {
         View admins
       </button>
       <Modal show={adminModal} onHide={handleClose} centered>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)", color: "white" }}>
           <Modal.Title>Administrators</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -212,7 +208,8 @@ const AdminModal = () => {
                         handleRemoveAdmin(admin.userID, admin.firstName)
                       }
                     >
-                      Remove admin
+                      <p className="m-0 d-none d-md-block">Remove admin</p>
+                      <p className="m-0 d-block d-md-none">Remove</p>
                     </button>
                   </td>
                 </tr>
@@ -221,18 +218,18 @@ const AdminModal = () => {
           </Table>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
+          <Button variant="secondary" className="border-0" onClick={handleClose}>
+            <p className="m-0">Close</p>
           </Button>
-          <Button variant="primary" onClick={() => handleShowAddingModal()}>
-            Add admin
+          <Button className="border-0" style={{ backgroundColor: "var(--main-color)", color: "white" }} onClick={() => handleShowAddingModal()}>
+            <p className="m-0">Add admin</p>
           </Button>
         </Modal.Footer>
       </Modal>
 
       {/* FOR ADDING ADMINS */}
       <Modal show={addingModal} onHide={handleCloseAddingModal} centered>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)", color: "white" }}>
           <Modal.Title>Add Administrator</Modal.Title>
         </Modal.Header>
         <Modal.Body
@@ -265,26 +262,30 @@ const AdminModal = () => {
                   key={index}
                   type="radio"
                   id={`radio-${user.userID}`}
-                  label={`${user.firstName} ${user.lastName}`}
+                  name="user-radio"
+                  value={user.userID}
                   checked={selectedUser === user.userID}
                   onChange={(e) => {
                     if (e.target.checked) {
                       setSelectedUser(user.userID);
                     }
                   }}
+                  className={`border text-dark ${selectedUser === user.userID ? " text-white" : "bg-transparent"}`}
                 >
-                  {user.firstName} {user.lastName}
+                  <p className="m-0">{user.firstName} {user.lastName}</p>
+
                 </ToggleButton>
+
               ))
             )}
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseAddingModal}>
-            Close
+          <Button variant="secondary" className="border-0" onClick={handleCloseAddingModal}>
+            <p className="m-0">Close</p>
           </Button>
-          <Button variant="primary" onClick={handleAddAdmin}>
-            Add admin
+          <Button style={{ backgroundColor: "var(--main-color)", border: "none" }} onClick={handleAddAdmin}>
+            <p className="m-0">Add admin</p>
           </Button>
         </Modal.Footer>
       </Modal>

@@ -48,15 +48,15 @@ const Pending = ({ pendingRequests }) => {
         </Modal.Header>
         <RequestTableTemplate Requests={pendingRequests} />
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
+          <Button className="border-0" variant="secondary" onClick={handleCloseModal}>
+            <p className="m-0">    Close</p>
           </Button>
-          <Button variant="primary">
+          <Button className="border-0" style={{ backgroundColor: "var(--main-color)" }} >
             <Link
               className="text-decoration-none text-white"
               to="/admin/student-requests?status=pending"
             >
-              View All
+              <p className="m-0">View All</p>
             </Link>
           </Button>
         </Modal.Footer>

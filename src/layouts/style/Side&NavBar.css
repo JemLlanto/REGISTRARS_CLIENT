@@ -160,10 +160,18 @@
 
 /* nav bar */
 
-.notif {
+/* .notif {
   background-color: aqua;
 }
 
 .unread-notif {
   background-color: rgb(137, 168, 223) !important;
+} */
+
+.unread-notif {
+  background-color: rgba(var(--main-color-rgb), 0.05);
+  position: relative;
 }
+
+
+

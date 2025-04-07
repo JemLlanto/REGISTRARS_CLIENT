@@ -32,8 +32,7 @@ function YearGraduatedModal() {
   const fetchYearGraduated = () => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchYearGraduated`
       )
       .then((res) => {
@@ -60,8 +59,7 @@ function YearGraduatedModal() {
     e.preventDefault();
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/addYear`,
         formData
       )
@@ -86,8 +84,7 @@ function YearGraduatedModal() {
   const handleUpdateYear = () => {
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/updateYear`,
         formData
       )
@@ -120,8 +117,7 @@ function YearGraduatedModal() {
       if (result.isConfirmed) {
         axios
           .post(
-            `${
-              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
             }/api/documents/deleteYear`,
             { yearGraduatedID }
           )
@@ -277,10 +273,11 @@ function YearGraduatedModal() {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseYear}>
+          <Button className="border-0" variant="secondary" onClick={handleCloseYear}>
             <p className="m-0">Close</p>
           </Button>
           <Button
+            className="border-0"
             style={{ backgroundColor: "var(--main-color)", border: "none" }}
             onClick={handleAddYear}
           >

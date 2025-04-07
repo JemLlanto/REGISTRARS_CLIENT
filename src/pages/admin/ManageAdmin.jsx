@@ -33,8 +33,7 @@ const ManageAdmin = () => {
   const handleAddProgramAdmin = () => {
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/addProgramAdmin`,
         formData
       )
@@ -90,8 +89,7 @@ const ManageAdmin = () => {
         if (result.isConfirmed) {
           axios
             .post(
-              `${
-                import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+              `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
               }/api/manageAdmin/removeProgramAdmin`,
               {
                 programID: program.programID,
@@ -127,8 +125,7 @@ const ManageAdmin = () => {
   const fetchProgramAdmins = () => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/fetchProgramAdmins`
       )
       .then((res) => {
@@ -148,8 +145,7 @@ const ManageAdmin = () => {
   const fetchAdmins = () => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/fetchAdmin`
       )
       .then((res) => {
@@ -187,7 +183,7 @@ const ManageAdmin = () => {
         <div className="w-100 d-flex flex-column gap-2 p-3 mt-3 mx-0 bg-white shadow-sm rounded-2">
           <div
             className="custom-scrollbar p-2 overflow-y-scroll"
-            style={{ height: "30rem" }}
+            style={{ height: "45rem" }}
           >
             <Table striped bordered hover className="table-fade-in">
               <thead>
@@ -221,9 +217,9 @@ const ManageAdmin = () => {
                           <p className="m-0">
                             <span className="d-none d-md-block">
                               {" "}
-                              Remove admin
+                              <p className="m-0">Remove admin</p>
                             </span>
-                            <span className="d-md-none">
+                            <span className="m-0 d-md-none">
                               <i className="bx bx-trash iconFont"></i>
                             </span>
                           </p>
@@ -240,10 +236,10 @@ const ManageAdmin = () => {
                           <p className="m-0">
                             <span className="d-none d-md-block text-white">
                               {" "}
-                              Add admin
+                              <p className="m-0">Add admin</p>
                             </span>
-                            <span className="d-md-none">
-                              <i className="bx bx-plus-circle iconFont"></i>
+                            <span className="m-0 d-md-none text-white">
+                              <i className="m-0 bx bx-plus-circle iconFont"></i>
                             </span>
                           </p>
                         </button>
@@ -258,8 +254,8 @@ const ManageAdmin = () => {
       </div>
 
       {/* ADDING PROGRAM ADMINISTRATOR */}
-      <Modal show={addingModal} onHide={handleCloseModal} centered>
-        <Modal.Header closeButton>
+      <Modal show={addingModal} onHide={handleCloseModal} centered className="text-white">
+        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
           <Modal.Title>Administrators</Modal.Title>
         </Modal.Header>
         <Modal.Body>

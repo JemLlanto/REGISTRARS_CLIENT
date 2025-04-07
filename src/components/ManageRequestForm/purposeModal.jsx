@@ -53,8 +53,7 @@ function purposeModal() {
   const fetchPurposes = () => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchPurposes`
       )
       .then((res) => {
@@ -81,8 +80,7 @@ function purposeModal() {
     e.preventDefault();
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/addPurpose`,
         formData
       )
@@ -127,8 +125,7 @@ function purposeModal() {
   const handleUpdatePurpose = () => {
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/updatePurpose`,
         formData
       )
@@ -181,8 +178,7 @@ function purposeModal() {
       if (result.isConfirmed) {
         axios
           .post(
-            `${
-              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
             }/api/documents/deletePurpose`,
             {
               purposeID,
@@ -344,14 +340,14 @@ function purposeModal() {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClosePurpose}>
-            Close
+          <Button className="border-0" variant="secondary" onClick={handleClosePurpose}>
+            <p className="m-0">Close</p>
           </Button>
           <Button
+            className="border-0"
             style={{ backgroundColor: "var(--main-color)" }}
             onClick={handleAddPurpose}
-          >
-            Add Purpose
+          ><p className="m-0"> Add Purpose</p>
           </Button>
         </Modal.Footer>
       </Modal>
@@ -381,10 +377,11 @@ function purposeModal() {
           </FloatingLabel>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCancelAddPurpose}>
+          <Button className="border-0" variant="secondary" onClick={handleCancelAddPurpose}>
             <p className="m-0">Cancel</p>
           </Button>
           <Button
+            className="border-0"
             style={{ backgroundColor: "var(--main-color)" }}
             onClick={handleSavePurpose}
           >
@@ -421,7 +418,7 @@ function purposeModal() {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={closeDetailModal}>
+          <Button className="border-0" variant="secondary" onClick={closeDetailModal}>
             Close
           </Button>
         </Modal.Footer>

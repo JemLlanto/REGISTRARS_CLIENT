@@ -117,6 +117,7 @@
 /* Notification */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px; /* Very thin scrollbar */
+  height: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
@@ -388,4 +389,15 @@
     padding: 4px 10px;
     font-size: 0.75rem;
   }
+}
+
+/* ----------------------------- Email Verification ------------------------------- */
+.otp-input::-webkit-inner-spin-button,
+.otp-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.otp-input {
+  -moz-appearance: textfield;
 }

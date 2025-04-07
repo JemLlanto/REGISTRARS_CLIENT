@@ -92,8 +92,7 @@ const OtpConfirmation = ({
       };
 
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/emailNotification/sendRegistrationOTP`,
         otpData
       );
@@ -203,7 +202,7 @@ const OtpConfirmation = ({
         </p>
       </button>
       <Modal show={showOtpModal} onHide={handleClose} centered>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)", color: "white" }}>
           <Modal.Title>Email Verification</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -218,18 +217,20 @@ const OtpConfirmation = ({
               <Row>
                 {otpInputs.map((input, index) => (
                   <Col key={index}>
-                    <InputGroup className="mb-3">
+                    <InputGroup className="mb-3" >
                       <Form.Control
                         type="number"
+                        className="otp-input"
                         maxLength={1}
                         value={input}
                         onChange={(event) => handleOtpChange(event, index)}
                         placeholder=""
                         aria-label=""
                         aria-describedby="basic-addon1"
-                        autoFocus={index === 0} // Focus on the first input initially
-                        onFocus={(e) => e.target.select()} // Select the input on focus
+                        autoFocus={index === 0}
+                        onFocus={(e) => e.target.select()}
                       />
+
                     </InputGroup>
                   </Col>
                 ))}
@@ -239,18 +240,18 @@ const OtpConfirmation = ({
               type="button"
               className="btn btn-light"
               onClick={resendOTP}
-              // disabled={otpTimer != 0 || isLoading}
+            // disabled={otpTimer != 0 || isLoading}
             >
               <p className="m-0">
                 {isLoading ? (
-                  <>Sending OTP</>
+                  <><p className="m-0">Sending OTP</p></>
                 ) : (
                   <>
                     {otpTimer === 0 ? (
-                      <>Resend OTP</>
+                      <><p className="m-0">Resend OTP</p></>
                     ) : (
                       <>
-                        <>Resend OTP({otpTimer})</>
+                        <><p className="m-0">Resend OTP({otpTimer})</p></>
                       </>
                     )}
                   </>
@@ -260,16 +261,17 @@ const OtpConfirmation = ({
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Back
+          <Button variant="secondary border-0" onClick={handleClose}>
+            <p className="m-0">Back</p>
           </Button>
           <Button
+            className="border-0 text-white"
             type="button"
-            variant="primary"
+            variant="warning"
             onClick={handleVerifyOTP}
             disabled={!isOtpComplete}
           >
-            Verify
+            <p className="m-0">Verify</p>
           </Button>
         </Modal.Footer>
       </Modal>

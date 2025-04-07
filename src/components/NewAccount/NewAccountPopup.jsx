@@ -18,8 +18,7 @@ const NewAccountPopup = ({ user }) => {
   useEffect(() => {
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchPrograms`
       )
       .then((res) => {
@@ -67,8 +66,7 @@ const NewAccountPopup = ({ user }) => {
   const handleSaveChanges = () => {
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAccount/setUpAccount`,
         formData
       )
@@ -109,7 +107,7 @@ const NewAccountPopup = ({ user }) => {
       keyboard={false}
       centered
     >
-      <Modal.Header>
+      <Modal.Header style={{ backgroundColor: "var(--main-color)", color: "white" }}>
         <Modal.Title>
           <h5 className="m-0">
             You're almost there! Please complete setting up your account.
@@ -142,6 +140,7 @@ const NewAccountPopup = ({ user }) => {
           <div>
             <FloatingLabel controlId="floatingStudentID" label="Student ID No">
               <Form.Control
+                className="otp-input"
                 type="number"
                 name="studentID"
                 value={formData.studentID}
@@ -201,13 +200,13 @@ const NewAccountPopup = ({ user }) => {
       </Modal.Body>
       <Modal.Footer>
         <button
-          className="primaryButton py-2"
+          className="primaryButton py-2 rounded"
           disabled={
             !formData.dateOfBirth || !formData.mobileNum || !formData.program
           }
           onClick={handleSaveChanges}
         >
-          Save changes
+          <p className="m-0"> Save changes</p>
         </button>
       </Modal.Footer>
     </Modal>
