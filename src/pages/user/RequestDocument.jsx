@@ -211,7 +211,7 @@ export default function RequestDocument() {
           requestID: requestID,
         }
       );
-      console.log("Insert response:", res.data);
+      // console.log("Insert response:", res.data);
       return res.data;
     } catch (err) {
       console.log("Error inserting document types:", err);
@@ -226,7 +226,7 @@ export default function RequestDocument() {
         }/api/documents/insertInputs`,
         formData
       );
-      console.log(response.data); // Handle success response
+      // console.log(response.data);
     } catch (error) {
       console.error("Error inserting inputs:", error);
     }
@@ -275,7 +275,7 @@ export default function RequestDocument() {
         );
 
         if (emailRes.status === 200) {
-          console.log(emailRes.data.message);
+          // console.log(emailRes.data.message);
           // alert(emailRes.data.message);
         } else {
           console.log(emailRes.data.message);
@@ -297,7 +297,7 @@ export default function RequestDocument() {
         navigate("/home"); // Redirect after confirmation
       });
 
-      console.log(response.data); // Handle success response
+      // console.log(response.data);
     } catch (error) {
       console.error("Error sending request:", error);
 

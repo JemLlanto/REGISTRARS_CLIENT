@@ -29,23 +29,21 @@ const FormButtons = ({
       {currentStep === 4 ? (
         <button
           type="button"
-          className="primaryButton btn"
+          className="primaryButton btn d-flex align-items-center justify-content-center gap-1"
           onClick={handleSubmit}
           disabled={
             !(isSelectionFilled() && isFileFilled() && isInputsFilled())
           }
           style={{ width: "10rem" }}
         >
-          <p className="m-0 d-flex align-items-center justify-content-center">
-            {isLoading ? (
-              <>
-                <Spinner animation="border" variant="light" size="sm" />
-                Submitting...
-              </>
-            ) : (
-              <>Submit</>
-            )}
-          </p>
+          {isLoading ? (
+            <>
+              <Spinner animation="border" variant="light" size="sm" />
+              <p className="m-0 ">Submitting...</p>
+            </>
+          ) : (
+            <p className="m-0 ">Submit</p>
+          )}
         </button>
       ) : (
         <button
