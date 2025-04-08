@@ -49,7 +49,7 @@ const Login = ({ setActivePage }) => {
           confirmButtonColor: "#3085d6",
           confirmButtonText: "OK",
         });
-
+        localStorage.setItem("token", res.data.token);
         if (res.data.isAdmin === 0) {
           navigate("/home");
         } else {
