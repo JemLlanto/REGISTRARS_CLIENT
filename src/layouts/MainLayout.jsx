@@ -16,11 +16,14 @@ const MainLayout = () => {
 
   axios.defaults.withCredentials = true;
 
-  const fetchUserData = (token) => {
+  const fetchUserData = () => {
+    const storedToken = localStorage.getItem("token");
+    console.log("Raw token from localStorage to be sent:", storedToken);
+
     axios
       .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${storedToken}`,
         },
       })
       .then((res) => {
@@ -33,23 +36,25 @@ const MainLayout = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Error fetching user:", err.response?.data || err.message);
         setAuth(false);
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
-
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
+    const storedToken = localStorage.getItem("token");
+    console.log("Raw token from localStorage:", storedToken);
+
+    if (!storedToken || storedToken === "null" || storedToken.trim() === "") {
+      console.log("No valid token found — logging out");
       setAuth(false);
       setIsLoading(false);
       return;
     }
 
-    fetchUserData(token);
+    fetchUserData();
   }, []);
 
   useEffect(() => {
