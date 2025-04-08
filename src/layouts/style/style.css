@@ -401,3 +401,18 @@
 .otp-input {
   -moz-appearance: textfield;
 }
+
+.requestList {
+  height: 60dvh;
+}
+
+@media (max-width: 1038px) {
+  .requestList {
+    height: clamp(30rem, 60vh, 80vh);
+  }
+}
+@media (max-width: 753px) {
+  .requestList {
+    height: clamp(35rem, 60vh, 80vh);
+  }
+}

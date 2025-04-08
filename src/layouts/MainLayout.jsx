@@ -80,11 +80,11 @@ const MainLayout = () => {
         <div className="d-none d-md-block" style={{ zIndex: "1000" }}>
           <SideBar user={user} />
         </div>
-        <div className="w-100">
+        <div className="w-100 bg-warning" style={{ height: "100dvh" }}>
           <NavBar user={user} />
           <div
             className="d-flex justify-content-center align-items-center"
-            style={{ zIndex: "0" }}
+            style={{ zIndex: "0", height: "95%" }}
           >
             <Outlet context={{ user, fetchUserData }} />
           </div>
