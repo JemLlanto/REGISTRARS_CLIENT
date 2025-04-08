@@ -13,6 +13,7 @@ const MainLayout = () => {
   const [user, setUser] = useState("");
   const [id, setId] = useState("");
   const navigate = useNavigate();
+  const storedToken = localStorage.getItem("token");
 
   axios.defaults.withCredentials = true;
 
@@ -44,7 +45,6 @@ const MainLayout = () => {
       });
   };
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
     console.log("Raw token from localStorage:", storedToken);
 
     if (!storedToken || storedToken === "null" || storedToken.trim() === "") {
@@ -55,7 +55,7 @@ const MainLayout = () => {
     }
 
     fetchUserData();
-  }, []);
+  }, [storedToken]);
 
   useEffect(() => {
     if (!isLoading && !auth) {
