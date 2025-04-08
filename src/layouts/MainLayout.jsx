@@ -63,8 +63,9 @@ const MainLayout = () => {
       className="w-100 d-flex flex-column custom-scrollbar "
       style={{
         backgroundColor: "var(--bodyBackground-color)",
-        height: "100dvh",
-        overflow: "auto", // Ensures scrolling when content overflows
+        minHeight: "100vh",
+        maxHeight: "100vh",
+        overflow: "hidden", // prevent root overflow
       }}
     >
       {!user.isAdmin && user.isNewAccount ? (
