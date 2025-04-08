@@ -183,6 +183,8 @@ export default function RequestDocument() {
   };
 
   const upload = async () => {
+    console.log("Inserting Files...");
+
     const data = new FormData();
     data.append("requestID", formData.requestID);
     data.append("file", file);
@@ -194,13 +196,17 @@ export default function RequestDocument() {
         data,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-      return res.data;
+      if (res.data.Status === "Success") {
+        console.log("Document files Submitted!");
+      }
     } catch (err) {
       console.log(err);
       throw err;
     }
   };
   const insertDocTypes = async () => {
+    console.log("Inserting DocTypes...");
+
     try {
       const res = await axios.post(
         `${
@@ -211,21 +217,29 @@ export default function RequestDocument() {
           requestID: requestID,
         }
       );
+      if (res.data.Status === "Success") {
+        console.log("Document type/s Submitted!");
+      }
       // console.log("Insert response:", res.data);
-      return res.data;
+      // return res.data;
     } catch (err) {
       console.log("Error inserting document types:", err);
       throw err;
     }
   };
   const insertInputs = async () => {
+    console.log("Inserting Data...");
+
     try {
-      const response = await axios.post(
+      const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/insertInputs`,
         formData
       );
+      if (res.data.Status === "Success") {
+        console.log("Inputs Submitted!");
+      }
       // console.log(response.data);
     } catch (error) {
       console.error("Error inserting inputs:", error);
@@ -250,6 +264,17 @@ export default function RequestDocument() {
 
     try {
       setIsLoading(true);
+
+      Swal.fire({
+        title: "Submitting...",
+        text: "Please wait while we process your request.",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
       const response = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
@@ -257,16 +282,31 @@ export default function RequestDocument() {
         formData
       );
       if (inputsLength > 0) {
+        Swal.update({
+          text: "Submitting answers...",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          showConfirmButton: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
         await insertInputs();
       }
       if (docType) {
+        Swal.update({ text: "Submitting document types..." });
+        Swal.showLoading();
         await insertDocTypes();
       }
       if (file) {
+        Swal.update({ text: "Uploading files..." });
+        Swal.showLoading();
         await upload();
       }
 
       try {
+        Swal.update({ text: "Finalizing..." });
+        Swal.showLoading();
         const emailRes = await axios.post(
           `${
             import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
@@ -285,19 +325,24 @@ export default function RequestDocument() {
         console.log("An error occurred while sending email: ", emailErr);
         // alert("An error occurred while sending email: ", emailErr.err);
       }
-
-      // Use SweetAlert2 for success message
-      Swal.fire({
-        title: "Success!",
-        text: "Requested document successfully",
-        icon: "success",
-        confirmButtonText: "OK",
-      }).then(() => {
-        localStorage.removeItem("formData");
-        navigate("/home"); // Redirect after confirmation
-      });
-
-      // console.log(response.data);
+      if (response.data.Status === "Success") {
+        Swal.fire({
+          title: "Success!",
+          text: "Requested document successfully",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          localStorage.removeItem("formData");
+          navigate("/home");
+        });
+      } else {
+        Swal.update({
+          title: "Error!",
+          text: "Failed to request document. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
     } catch (error) {
       console.error("Error sending request:", error);
 

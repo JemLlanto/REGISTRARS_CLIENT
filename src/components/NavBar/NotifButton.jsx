@@ -113,7 +113,9 @@ const NotifButton = ({ user }) => {
   const handleNotificationClick = async (notif) => {
     try {
       await axios.post(
-        `http://localhost:5000/api/notifications/markAsRead/${notif.requestID}`
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/notifications/markAsRead/${notif.requestID}`
       );
       fetchNotifications();
       console.error("Navigating to:", `request-details/${notif.requestID}`);
@@ -127,7 +129,9 @@ const NotifButton = ({ user }) => {
   const handleMarkAllNotifAsRead = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/notifications/markAllAsRead/${user.userID}`
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/notifications/markAllAsRead/${user.userID}`
       );
 
       if (res.status === 200) {
