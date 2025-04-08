@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 import Swal from "sweetalert2";
 
 // Initialize socket connection
-const socket = io("http://localhost:5000"); // Match your server URL
+const socket = io(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`); // Match your server URL
 
 const NotifButton = ({ user }) => {
   const [notifications, setNotifications] = useState([]);
@@ -20,7 +20,9 @@ const NotifButton = ({ user }) => {
   const fetchNotifications = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/notifications/fetchNotification/${userID}`
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/notifications/fetchNotification/${userID}`
       );
       if (response.data.Status === "Success") {
         setNotifications(response.data.data);
@@ -204,14 +206,14 @@ const NotifButton = ({ user }) => {
             style={{ color: "var(--main-color)" }}
           >
             {notifications.filter((notif) => notif.isRead === 0).length ===
-              0 ? (
+            0 ? (
               <i className="bx bx-bell bx-sm"></i>
             ) : (
               <i className="bx bxs-bell bx-tada bx-sm"></i>
             )}
           </h5>
           {notifications.filter((notif) => notif.isRead === 0).length ===
-            0 ? null : (
+          0 ? null : (
             <div
               className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
               style={{
@@ -227,7 +229,7 @@ const NotifButton = ({ user }) => {
                 style={{ fontSize: "clamp(.5rem, 1dvw, .7rem)" }}
               >
                 {notifications.filter((notif) => notif.isRead === 0).length >
-                  9 ? (
+                9 ? (
                   <>9+</>
                 ) : (
                   <>
@@ -272,7 +274,7 @@ const NotifButton = ({ user }) => {
                   cursor: "not-allowed",
                   color: "var(--yellow-color-disabled)",
                 }}
-              // onClick={handleMarkAllNotifAsRead}
+                // onClick={handleMarkAllNotifAsRead}
               >
                 Mark all as read
               </small>
@@ -314,8 +316,9 @@ const NotifButton = ({ user }) => {
                 <Dropdown.Item
                   key={notif.notificationID || index}
                   onClick={() => handleNotificationClick(notif)}
-                  className={`border-bottom p-4 ${notif.isRead === 0 ? "unread-notif fw-bold" : "bg-white"
-                    }`}
+                  className={`border-bottom p-4 ${
+                    notif.isRead === 0 ? "unread-notif fw-bold" : "bg-white"
+                  }`}
                 >
                   <div
                     className="d-flex flex-column text-wrap text-break"
