@@ -5,7 +5,7 @@ import { resolve } from "path";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: process.env.VITE_BASE_PATH || "",
+  base: process.env.VITE_BASE_PATH || "/",
   build: {
     rollupOptions: {
       input: {
