@@ -14,13 +14,9 @@ const NavBar = ({ user }) => {
   const handleClose = () => setShow(false);
 
   const handleLogout = () => {
-    axios
-      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/logout`)
-      .then(() => {
-        localStorage.removeItem("formData");
-        navigate("/");
-      }) // Redirect to login page after logout})
-      .catch((err) => console.log(err));
+    localStorage.removeItem("formData");
+    localStorage.removeItem("token");
+    navigate("/");
   };
 
   return (

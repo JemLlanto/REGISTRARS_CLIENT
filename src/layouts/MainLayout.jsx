@@ -16,9 +16,13 @@ const MainLayout = () => {
 
   axios.defaults.withCredentials = true;
 
-  const fetchUserData = () => {
+  const fetchUserData = (token) => {
     axios
-      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`)
+      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         if (res.data.Status === "Success") {
           setAuth(true);
@@ -38,19 +42,15 @@ const MainLayout = () => {
   };
 
   useEffect(() => {
-    fetchUserData();
-  }, []);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setAuth(false);
+      setIsLoading(false);
+      return;
+    }
 
-  // useEffect(() => {
-  //   if (id) {
-  //     axios
-  //       .get(`${
-  //   import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-  // }/api/auth/fetchUserData?userID=${id}`)
-  //       .then((res) => setUser(res.data))
-  //       .catch((err) => console.log("Error fetching user data:", err));
-  //   }
-  // }, [id]);
+    fetchUserData(token);
+  }, []);
 
   useEffect(() => {
     if (!isLoading && !auth) {
