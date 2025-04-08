@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 import Swal from "sweetalert2";
 
 // Initialize socket connection
-const socket = io(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`);
+const socket = io("http://localhost:5000"); // Match your server URL
 
 const NotifButton = ({ user }) => {
   const [notifications, setNotifications] = useState([]);
@@ -20,10 +20,11 @@ const NotifButton = ({ user }) => {
   const fetchNotifications = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/notifications/fetchNotification/${userID}`
+        `http://localhost:5000/api/notifications/fetchNotification/${userID}`
       );
       if (response.data.Status === "Success") {
         setNotifications(response.data.data);
+        // console.error(response.data.data);
       } else {
         console.error(response.data.Message);
       }
@@ -34,7 +35,6 @@ const NotifButton = ({ user }) => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     if (userID) {
       fetchNotifications();
@@ -54,12 +54,16 @@ const NotifButton = ({ user }) => {
 
     // Listen for new notifications
     socket.on("new_notification", (notification) => {
+      console.log("New notification received:", notification);
+
       setNewNotif(true);
 
       // Add to toast stack with a unique id
       const toastNotification = {
         ...notification,
-        toastId: `toast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        toastId: `toast-${Date.now()}-${Math.random()
+          .toString(36)
+          .substr(2, 9)}`,
         show: true,
       };
 
@@ -107,9 +111,11 @@ const NotifButton = ({ user }) => {
   const handleNotificationClick = async (notif) => {
     try {
       await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/notifications/markAsRead/${notif.requestID}`
+        `http://localhost:5000/api/notifications/markAsRead/${notif.requestID}`
       );
       fetchNotifications();
+      console.error("Navigating to:", `request-details/${notif.requestID}`);
+
       navigate(`request-details/${notif.requestID}`);
     } catch (error) {
       console.error("Error marking notification as read:", error);
@@ -119,7 +125,7 @@ const NotifButton = ({ user }) => {
   const handleMarkAllNotifAsRead = async () => {
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/notifications/markAllAsRead/${user.userID}`
+        `http://localhost:5000/api/notifications/markAllAsRead/${user.userID}`
       );
 
       if (res.status === 200) {
@@ -128,8 +134,6 @@ const NotifButton = ({ user }) => {
           icon: "success",
           title: "Success",
           text: res.data.message,
-          timer: 1500,
-          showConfirmButton: false
         });
       } else {
         Swal.fire({
@@ -147,15 +151,12 @@ const NotifButton = ({ user }) => {
     }
   };
 
-  const unreadCount = notifications.filter((notif) => notif.isRead === 0).length;
-
   return (
     <>
-      {/* Improved Toast Container */}
       <ToastContainer
         position="top-end"
-        className="p-3 mt-5"
-        style={{ zIndex: 1080 }}
+        className=" p-3 mt-5"
+        style={{ zIndex: 100 }}
       >
         {toasts.map((toast) => (
           <Toast
@@ -165,27 +166,21 @@ const NotifButton = ({ user }) => {
             delay={5000}
             autohide
             animation={true}
-            className="notification-toast"
           >
-            <Toast.Header className="d-flex align-items-center" style={{ background: "var(--main-color)", color: "white" }}>
-              <strong className="me-auto">New Notification</strong>
-              <small className="text-white">
+            <Toast.Header style={{ backgroundColor: "var(--main-color)" }}>
+              <strong className="me-auto text-white">Notification</strong>
+              <small>
                 {toast.created ? formatTime(toast.created) : "Just now"}
               </small>
             </Toast.Header>
             <Toast.Body
-              onClick={() => toast.requestID && handleNotificationClick(toast)}
-              style={{
-                cursor: toast.requestID ? "pointer" : "default",
-                transition: "background-color 0.2s ease",
-                backgroundColor: "#fff"
-              }}
-              className="hover-highlight"
+              onClick={() => handleNotificationClick(toast)}
+              style={{ cursor: toast.requestID ? "pointer" : "default" }}
             >
               <div>
                 <p className="mb-1">{toast.message}</p>
                 {toast.requestID && (
-                  <small className="text-muted d-block text-end mt-1">
+                  <small className="text-muted">
                     Click to view request #{toast.requestID}
                   </small>
                 )}
@@ -194,96 +189,78 @@ const NotifButton = ({ user }) => {
           </Toast>
         ))}
       </ToastContainer>
-
-      {/* Improved Notification Button & Dropdown */}
       <Dropdown>
         <Dropdown.Toggle
-          className="btn btn-light  rounded-circle p-0 d-flex align-items-center justify-content-center border-0"
-          id="notification-dropdown"
+          className="btn btn-light border rounded-circle p-0 d-flex align-items-center justify-content-center border-0"
+          id="dropdown-basic"
           bsPrefix="none"
           style={{
-            width: "2.75rem",
-            height: "2.75rem",
-            transition: "all 0.2s ease"
+            width: "2.5rem",
+            height: "2.5rem",
           }}
         >
-          <div className="position-relative">
-            <h5
-              className="m-0 d-flex align-items-center justify-content-center"
-              style={{ color: "var(--main-color)" }}
-            >
-              {unreadCount === 0 ? (
-                <i className="bx bx-bell bx-sm"></i>
-              ) : (
-                <i className="btn-secondary bx bxs-bell bx-tada bx-sm"></i>
-              )}
-            </h5>
-
-            {/* Improved notification badge */}
-            {unreadCount > 0 && (
-              <div
-                className="position-absolute rounded-circle d-flex align-items-center justify-content-center shadow-sm"
-                style={{
-                  width: "1.2rem",
-                  height: "1.2rem",
-                  backgroundColor: "#ff3b30",
-                  top: "-0.6rem",
-                  right: "-0.6rem",
-                  border: "2px solid white"
-                }}
-              >
-                <p
-                  className="m-0 text-white fw-bold"
-                  style={{ fontSize: "0.65rem", lineHeight: 1 }}
-                >
-                  {unreadCount > 99 ? "99+" : unreadCount}
-                </p>
-              </div>
+          <h5
+            className="m-0 d-flex align-items-center justify-content-center "
+            style={{ color: "var(--main-color)" }}
+          >
+            {notifications.filter((notif) => notif.isRead === 0).length ===
+              0 ? (
+              <i className="bx bx-bell bx-sm"></i>
+            ) : (
+              <i className="bx bxs-bell bx-tada bx-sm"></i>
             )}
-          </div>
+          </h5>
+          {notifications.filter((notif) => notif.isRead === 0).length ===
+            0 ? null : (
+            <div
+              className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
+              style={{
+                width: "1rem",
+                height: "1rem",
+                backgroundColor: "red",
+                top: "0",
+                right: "-.2rem",
+              }}
+            >
+              <p
+                className="m-0 text-white"
+                style={{ fontSize: "clamp(.5rem, 1dvw, .7rem)" }}
+              >
+                {notifications.filter((notif) => notif.isRead === 0).length >
+                  9 ? (
+                  <>9+</>
+                ) : (
+                  <>
+                    {notifications.filter((notif) => notif.isRead === 0).length}
+                  </>
+                )}
+              </p>
+            </div>
+          )}
         </Dropdown.Toggle>
 
         <Dropdown.Menu
           align="end"
           style={{
-            width: "320px",
+            width: "300px",
             maxHeight: "450px",
-            padding: 0,
-            border: "none",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-            borderRadius: "0.5rem",
-            overflow: "hidden"
           }}
           className="custom-scrollbar"
         >
           {/* Fixed Header */}
-          <div
-            className="px-3 py-3 border-bottom d-flex justify-content-between align-items-center bsticky-top"
-            style={{
-              background: "var(--main-color)",
-              color: "white",
-              borderBottom: "1px solid rgba(255,255,255,0.2)"
-            }}
-          >
+          <div className="px-3 py-2 border-bottom d-flex justify-content-between align-items-center bg-white sticky-top">
             <div className="d-flex align-items-center">
-              <h6 className="m-0 fw-bold">
+              <h6
+                className="m-0 fw-bold"
+                style={{ color: "var(--main-color)" }}
+              >
                 Notifications
-                {unreadCount > 0 && (
-                  <span className="ms-2 badge rounded-pill bg-white text-dark">
-                    {unreadCount}
-                  </span>
-                )}
               </h6>
             </div>
-
-            {unreadCount > 0 ? (
+            {notifications.filter((notif) => notif.isRead === 0).length > 0 ? (
               <small
                 className="fw-bold"
-                style={{
-                  cursor: "pointer",
-                  color: "var(--yellow-color)",
-                  textDecoration: "none"
-                }}
+                style={{ cursor: "pointer", color: "var(--yellow-color)" }}
                 onClick={handleMarkAllNotifAsRead}
               >
                 Mark all as read
@@ -293,8 +270,9 @@ const NotifButton = ({ user }) => {
                 className="fw-bold"
                 style={{
                   cursor: "not-allowed",
-                  color: "rgba(255,255,255,0.5)"
+                  color: "var(--yellow-color-disabled)",
                 }}
+              // onClick={handleMarkAllNotifAsRead}
               >
                 Mark all as read
               </small>
@@ -303,34 +281,31 @@ const NotifButton = ({ user }) => {
 
           {/* Loading State */}
           {loading ? (
-            <div className="text-center py-4">
+            <div className="text-center py-3">
               <div className="d-flex flex-column align-items-center justify-content-center">
                 <div
                   className="spinner-border"
                   role="status"
                   style={{
-                    width: "2rem",
-                    height: "2rem",
+                    width: "3rem",
+                    height: "3rem",
                     color: "var(--yellow-color)",
                   }}
                 ></div>
                 <span
-                  className="mt-2"
-                  style={{ color: "var(--main-color)" }}
+                  className="mt-2 fw-bold"
+                  style={{ color: "var(--yellow-color)" }}
                 >
-                  Loading notifications...
+                  Loading...
                 </span>
               </div>
             </div>
           ) : notifications.length === 0 ? (
-            <div className="px-3 py-4 text-center">
-              <div className="py-4">
-                <i className="bx bx-bell-off bx-lg" style={{ color: "#ccc" }}></i>
-                <p className="m-0 mt-2 text-muted">No notifications yet</p>
-              </div>
+            <div className="px-3 py-3 text-center text-muted">
+              <p className="m-0">No notifications</p>
             </div>
           ) : (
-            /* Improved Scrollable Notification List */
+            /* Scrollable Notification List */
             <div
               style={{ maxHeight: "380px", overflowY: "auto" }}
               className="custom-scrollbar"
@@ -339,42 +314,28 @@ const NotifButton = ({ user }) => {
                 <Dropdown.Item
                   key={notif.notificationID || index}
                   onClick={() => handleNotificationClick(notif)}
-                  className="p-0 notification-item"
+                  className={`border-bottom p-4 ${notif.isRead === 0 ? "unread-notif fw-bold" : "bg-white"
+                    }`}
                 >
-                  <div className={`px-3 py-3 border-bottom w-100 ${notif.isRead === 0 ? "unread-notif" : ""
-                    }`}>
-                    <div
-                      className="d-flex flex-column text-wrap text-break"
-                      style={{ wordBreak: "break-word", whiteSpace: "normal" }}
-                    >
-                      {notif.isRead === 0 && (
-                        <div className="position-absolute" style={{
-                          left: "12px",
-                          top: "50%",
-                          transform: "translateY(-50%)"
-                        }}>
-                          <div className="bg-primary rounded-circle" style={{
-                            width: "8px",
-                            height: "8px"
-                          }}></div>
-                        </div>
-                      )}
-
-                      <p className={`mb-1 ${notif.isRead === 0 ? "ps-3 fw-medium" : ""}`}
-                        style={{ fontSize: "0.875rem", color: notif.isRead === 0 ? "var(--main-color)" : "#333" }}>
-                        {notif.message}
-                      </p>
-
-                      <div className="d-flex justify-content-between align-items-center mt-1">
-                        {notif.requestID && (
-                          <span className="badge bg-light text-dark">
-                            Request #{notif.requestID}
-                          </span>
-                        )}
-                        <small className="ms-auto text-muted" style={{ fontSize: "11px" }}>
-                          {formatNotificationDate(notif.created)}
+                  <div
+                    className="d-flex flex-column text-wrap text-break"
+                    style={{ wordBreak: "break-word", whiteSpace: "normal" }}
+                  >
+                    <p className="mb-1" style={{ fontSize: "0.875rem" }}>
+                      {notif.message}
+                    </p>
+                    <div className="d-flex justify-content-between gap-1">
+                      {notif.requestID && (
+                        <small
+                          className=""
+                          style={{ fontSize: "clamp(.6rem, .8dvw, .9rem)" }}
+                        >
+                          Request No.{notif.requestID}
                         </small>
-                      </div>
+                      )}
+                      <small className=" ms-auto" style={{ fontSize: "10px" }}>
+                        {formatNotificationDate(notif.created)}
+                      </small>
                     </div>
                   </div>
                 </Dropdown.Item>
