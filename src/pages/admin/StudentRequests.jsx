@@ -38,8 +38,7 @@ export default function StudentRequests() {
       try {
         setIsLoading(true);
         const res = await axios.get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/dashboard/fetchRequestedDocuments`,
           {
             params: {
@@ -183,9 +182,9 @@ export default function StudentRequests() {
   };
 
   return (
-    <div className="p-1 p-sm-4 w-100 ">
+    <div className="p-1 p-sm-4 w-100 " style={{ height: "100%" }}>
       <div
-        className="rounded-2 shadow-sm text-white p-2 mb-2 d-flex align-items-center justify-content-between"
+        className="rounded-2 shadow-sm text-white p-2 mb-2 d-flex  justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5
@@ -205,7 +204,6 @@ export default function StudentRequests() {
 
         <div className="d-flex align-items-center gap-2">
           {/* DATE SELECTION FOR SMALL SCREENS */}
-
           {/* Search Bar */}
           <div className="d-none d-md-block">
             <div className="d-flex align-items-center  px-2">
@@ -217,7 +215,6 @@ export default function StudentRequests() {
               >
                 <i className="bx bx-search-alt bx-sm"></i>
               </div>
-
               <input
                 type="text"
                 className="form-control border-0 shadow-none"

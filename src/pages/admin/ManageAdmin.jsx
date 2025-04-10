@@ -164,7 +164,7 @@ const ManageAdmin = () => {
 
   return (
     <>
-      <div className="w-100 p-4">
+      <div className="w-100 p-4" style={{ height: "100%" }}>
         <div
           className="rounded-2 shadow-sm text-white p-2 d-flex justify-content-between"
           style={{ backgroundColor: "var(--main-color)" }}
