@@ -126,7 +126,7 @@ const RequestDetails = () => {
   const status = documentDetails.status;
 
   return (
-    <div className="p-0 p-md-4 w-100 overflow-auto">
+    <div className="p-0 p-md-4 w-100 " style={{ height: "100%" }}>
       {/* Header Section */}
       <div
         className="rounded-2  p-2 d-flex align-items-center justify-content-between"
@@ -231,9 +231,9 @@ const RequestDetails = () => {
 
 
       <div
-        className="custom-scrollbar overflow-x-hidden overflow-y-auto mt-2 d-flex flex-column gap-2 pe-1 rounded scroll-container"
+        className="custom-scrollbar overflow-x-hidden overflow-y-auto mt-2 d-flex flex-column gap-2 pe-1 rounded "
         style={{
-          maxHeight: "75vh",
+          maxHeight: "80dvh",
           minHeight: "50vh",
           overflowY: "auto",
           overflowX: "hidden",

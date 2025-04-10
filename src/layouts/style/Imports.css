@@ -62,7 +62,7 @@ p {
 /* button */
 @media (max-width: 768px) {
   .scroll-container {
-    max-height: 60vh !important;
+    max-height: 100vh !important;
   }
 }
 /* CUSTOM BUTTON */

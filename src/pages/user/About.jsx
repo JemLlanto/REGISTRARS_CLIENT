@@ -5,7 +5,7 @@ export default function About() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="p-1 p-sm-4 w-100 overflow-auto custom-scrollbar" style={{ maxHeight: "90dvh" }}>
+    <div className="p-1 p-sm-4 w-100 overflow-auto custom-scrollbar" style={{ height: "100%" }}>
       <div
         className="rounded-2 shadow-sm p-2"
         style={{ backgroundColor: "var(--main-color)" }}
@@ -98,12 +98,12 @@ export default function About() {
           <p className="text-white">CvSU Rosario Campus aims to produce productive graduates, professionals, and experts marked by global excellence and moral uprightness through the following:</p>
         </div>
         <div
-          className="mx-0 d-flex justify-content-center row  shadow-lg gap-2 fade-in-section"
+          className="mx-0 d-flex justify-content-center row  shadow-lg gap-2 fade-in-section mb-3"
         // style={{ border: "2px solid green" }}
         >
 
 
-          <div className="fade-in-section  mb-2  text-dark bg-white rounded" style={{ border: "2px solid green" }}>
+          <div className="fade-in-section   text-dark bg-white rounded" style={{ border: "2px solid green" }}>
             <div className=" flex-column p-3 rounded d-flex w-100">
               {/* <h2 className="text-warning fw-bold">SERVICE</h2> */}
               <div className="">

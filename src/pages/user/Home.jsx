@@ -30,8 +30,7 @@ export default function Home() {
     if (userID) {
       axios
         .get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/fetchingDocuments/fetchRequestedDocuments/${userID}`
         )
         .then((res) => {
