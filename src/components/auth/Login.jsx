@@ -77,6 +77,22 @@ const Login = ({ setActivePage }) => {
     }
   };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   useEffect(() => {
     // Load the Google API script
     const loadGoogleScript = () => {
@@ -117,8 +133,7 @@ const Login = ({ setActivePage }) => {
     // Send the token to your backend
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/auth/google-login`,
         {
           token: response.credential,
@@ -144,6 +159,24 @@ const Login = ({ setActivePage }) => {
         alert("An error occurred during login");
       });
   };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <>
@@ -225,9 +258,19 @@ const Login = ({ setActivePage }) => {
             <div className="d-flex justify-content-end align-items-end mb-2">
               <ForgotPassword />
             </div>
+
+
+
+
             <div className="google-login-container">
               <div id="googleLoginButton"></div>
             </div>
+
+
+
+
+
+
             <button className="btn btn-warning w-100" onClick={handleLogin}>
               <p className="m-0">
                 {" "}
