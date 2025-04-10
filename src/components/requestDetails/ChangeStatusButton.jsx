@@ -25,10 +25,10 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
           documentDetails.status === "pending"
             ? "processing"
             : documentDetails.status === "processing"
-            ? "ready to pickup"
-            : documentDetails.status === "ready to pickup"
-            ? "completed"
-            : null,
+              ? "ready to pickup"
+              : documentDetails.status === "ready to pickup"
+                ? "completed"
+                : null,
         userID: documentDetails.userID,
         receiverEmail: documentDetails.email,
         feedbackType: "",
@@ -50,8 +50,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
     data.append("file", file);
     try {
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/uploadScheduleSlip`,
         data,
         { headers: { "Content-Type": "multipart/form-data" } }
@@ -66,8 +65,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/managingRequest/changeStatus`,
         formData,
         {
@@ -81,8 +79,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
       if (res.data.Status === "Success") {
         try {
           const emailRes = await axios.post(
-            `${
-              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
             }/api/emailNotification/sendStatusUpdate`,
             formData
           );
@@ -163,7 +160,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
   return (
     <>
       <button
-        className="btn btn-success btn-sm btn-responsive"
+        className="btn btn-success btn-sm btn-responsive w-100 d-none d-md-block"
         onClick={handleShowChangeStatusModal}
         disabled={
           documentDetails.status === "cancelled" ||
@@ -174,10 +171,29 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
           {documentDetails.status === "pending"
             ? "Processing"
             : documentDetails.status === "processing"
-            ? "Ready to Pickup"
-            : documentDetails.status === "ready to pickup"
-            ? "Completed"
-            : "Claimed"}
+              ? "Ready to Pickup"
+              : documentDetails.status === "ready to pickup"
+                ? "Completed"
+                : "Claimed"}
+        </p>
+      </button>
+
+      <button
+        className="btn btn-success btn-sm btn-responsive w-100 d-block d-md-none"
+        onClick={handleShowChangeStatusModal}
+        disabled={
+          documentDetails.status === "cancelled" ||
+          documentDetails.status === "completed"
+        }
+      >
+        <p className="m-0">
+          {documentDetails.status === "pending"
+            ? "Processing"
+            : documentDetails.status === "processing"
+              ? "Ready to Pickup"
+              : documentDetails.status === "ready to pickup"
+                ? "Completed"
+                : "Claimed"}
         </p>
       </button>
 
