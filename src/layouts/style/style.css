@@ -416,3 +416,9 @@
     height: clamp(35rem, 60vh, 80vh);
   }
 }
+
+@media (max-width: 753px) {
+  .requestList {
+    height: clamp(35rem, 60vh, 80vh);
+  }
+}
