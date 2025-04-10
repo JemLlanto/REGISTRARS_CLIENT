@@ -132,8 +132,8 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
   return (
     <div className="d-flex flex-column gap-3">
       <div
-        className="custom-scrollbar mt-2 d-flex flex-column gap-2 overflow-auto pe-1 rounded"
-        style={{ height: "48dvh" }}
+        className="requestList custom-scrollbar mt-2 d-flex flex-column gap-2 overflow-auto pe-1 rounded"
+      // style={{ height: "48dvh" }}
       >
         {isLoading ? (
           <>

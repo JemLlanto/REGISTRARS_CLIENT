@@ -408,7 +408,7 @@
 
 @media (max-width: 1038px) {
   .requestList {
-    height: clamp(30rem, 60vh, 80vh);
+    height: clamp(45rem, 60vh, 80vh);
   }
 }
 @media (max-width: 753px) {
@@ -417,8 +417,10 @@
   }
 }
 
-@media (max-width: 753px) {
+
+
+@media (max-width: 592px) {
   .requestList {
-    height: clamp(35rem, 60vh, 80vh);
+    height: clamp(38rem, 60vh, 80vh);
   }
 }
