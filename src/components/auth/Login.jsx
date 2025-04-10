@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -14,6 +14,7 @@ const Login = ({ setActivePage }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+  const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   const handleChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -74,6 +75,74 @@ const Login = ({ setActivePage }) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
+    // Load the Google API script
+    const loadGoogleScript = () => {
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        initializeGoogleButton();
+      };
+    };
+
+    loadGoogleScript();
+  }, []);
+
+  const initializeGoogleButton = () => {
+    if (window.google) {
+      window.google.accounts.id.initialize({
+        client_id: CLIENT_ID, // Replace with your actual client ID
+        callback: handleGoogleResponse,
+      });
+
+      window.google.accounts.id.renderButton(
+        document.getElementById("googleLoginButton"),
+        {
+          theme: "filled_blue",
+          size: "large",
+          shape: "rectangular",
+          text: "signin_with",
+        }
+      );
+    }
+  };
+
+  const handleGoogleResponse = (response) => {
+    // Send the token to your backend
+    axios
+      .post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/auth/google-login`,
+        {
+          token: response.credential,
+        }
+      )
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          // Store the token in localStorage
+          localStorage.setItem("token", res.data.token);
+
+          // Redirect based on admin status
+          if (res.data.isAdmin) {
+            navigate("/admin/home");
+          } else {
+            navigate("/home");
+          }
+        } else {
+          alert(res.data.Error || "Login failed");
+        }
+      })
+      .catch((err) => {
+        console.error("Login error:", err);
+        alert("An error occurred during login");
+      });
   };
 
   return (
@@ -155,6 +224,10 @@ const Login = ({ setActivePage }) => {
             </div>
             <div className="d-flex justify-content-end align-items-end mb-2">
               <ForgotPassword />
+            </div>
+            <div className="google-login-container">
+              <p>Or sign in with:</p>
+              <div id="googleLoginButton"></div>
             </div>
             <button className="btn btn-warning w-100" onClick={handleLogin}>
               <p className="m-0">
