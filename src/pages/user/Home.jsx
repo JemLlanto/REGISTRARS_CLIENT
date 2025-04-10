@@ -104,7 +104,7 @@ export default function Home() {
   };
 
   return (
-    <div className="p-1 p-sm-4 w-100 bg-danger" style={{ height: "100%" }}>
+    <div className="p-1 p-sm-4 w-100" style={{ height: "100%" }}>
       <div
         className="rounded-2 shadow-sm mb-2 text-white p-2 mb-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
