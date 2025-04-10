@@ -226,7 +226,6 @@ const Login = ({ setActivePage }) => {
               <ForgotPassword />
             </div>
             <div className="google-login-container">
-              <p>Or sign in with:</p>
               <div id="googleLoginButton"></div>
             </div>
             <button className="btn btn-warning w-100" onClick={handleLogin}>
