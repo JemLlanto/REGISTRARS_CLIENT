@@ -190,8 +190,7 @@ export default function RequestDocument() {
     data.append("file", file);
     try {
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/uploadDocuments`,
         data,
         { headers: { "Content-Type": "multipart/form-data" } }
@@ -209,8 +208,7 @@ export default function RequestDocument() {
 
     try {
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/insertDocTypes`,
         {
           documentTypes: docType,
@@ -232,8 +230,7 @@ export default function RequestDocument() {
 
     try {
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/insertInputs`,
         formData
       );
@@ -276,8 +273,7 @@ export default function RequestDocument() {
       });
 
       const response = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/sendRequest`,
         formData
       );
@@ -308,8 +304,7 @@ export default function RequestDocument() {
         Swal.update({ text: "Finalizing..." });
         Swal.showLoading();
         const emailRes = await axios.post(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/emailNotification/sendNewRequestEmail`,
           formData
         );
@@ -423,7 +418,7 @@ export default function RequestDocument() {
   };
 
   return (
-    <div className="p-0 p-sm-4 w-100 row justify-content-center ">
+    <div className="p-0 p-sm-4 mt-2 w-100 row justify-content-center " style={{ height: "100%" }}>
       <div className="col">
         <div
           className="rounded shadow-sm d-flex align-items-center p-3"
