@@ -164,7 +164,7 @@ const ManageAdmin = () => {
 
   return (
     <>
-      <div className="w-100 p-4">
+      <div className="w-100 p-4" style={{ height: "100%" }}>
         <div
           className="rounded-2 shadow-sm text-white p-2 d-flex justify-content-between"
           style={{ backgroundColor: "var(--main-color)" }}
@@ -182,8 +182,8 @@ const ManageAdmin = () => {
 
         <div className="w-100 d-flex flex-column gap-2 p-3 mt-3 mx-0 bg-white shadow-sm rounded-2">
           <div
-            className="custom-scrollbar p-2 overflow-y-scroll"
-            style={{ height: "45rem" }}
+            className="requestList custom-scrollbar p-2 overflow-y-scroll"
+          // style={{ height: "30rem" }}
           >
             <Table striped bordered hover className="table-fade-in">
               <thead>

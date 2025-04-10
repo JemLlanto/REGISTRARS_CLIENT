@@ -10,7 +10,7 @@ const ManageRequestForm = () => {
   const { user, fetchUserData } = useOutletContext();
 
   return (
-    <div className="p-1 p-sm-4 w-100 ">
+    <div className="p-1 p-sm-4 w-100 " style={{ height: "100%" }}>
       <div
         className="rounded-2 shadow-sm text-white p-2 d-flex justify-content-between align-items-center"
         style={{ backgroundColor: "var(--main-color)" }}

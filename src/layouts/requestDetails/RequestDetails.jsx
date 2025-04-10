@@ -27,10 +27,10 @@ const RequestDetails = () => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setDocumentDetails(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+          // console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
@@ -53,10 +53,10 @@ const RequestDetails = () => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setDocumentTypes(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+          // console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
@@ -74,7 +74,7 @@ const RequestDetails = () => {
         if (res.data.Status === "Success") {
           setDocumentFile(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+          // console.log("Error: ", res.data.Message);s
         }
       })
       .catch((err) => {
@@ -90,10 +90,10 @@ const RequestDetails = () => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setDocumentInputValues(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+          // console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
@@ -112,10 +112,10 @@ const RequestDetails = () => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setDocumentInputs(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+          // console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
@@ -126,7 +126,7 @@ const RequestDetails = () => {
   const status = documentDetails.status;
 
   return (
-    <div className="p-0 p-md-4 w-100 overflow-auto">
+    <div className="p-0 p-md-4 w-100 " style={{ height: "100%" }}>
       {/* Header Section */}
       <div
         className="rounded-2  p-2 d-flex align-items-center justify-content-between"
@@ -182,39 +182,119 @@ const RequestDetails = () => {
             ) : null}
           </>
         )}
-      </div>
-      {user.isAdmin ? (
-        <div className="d-block d-md-none d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
-          <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
-            {/* FOR DOWNLOAD BUTTONS */}
-            {documentDetails.feedbackType === "internal" ? (
-              <InternalFeedbackDownload
-                user={user}
-                documentDetails={documentDetails}
-              />
-            ) : (
-              <ExternalFeedbackDownload
-                user={user}
-                documentDetails={documentDetails}
-              />
-            )}
 
-            <CancelButton
-              fetchDocumentDetails={fetchDocumentDetails}
-              documentDetails={documentDetails}
-              className="btn-sm btn-responsive"
-            />
-            <ChangeStatusButton
-              fetchDocumentDetails={fetchDocumentDetails}
-              documentDetails={documentDetails}
-              className="btn-sm btn-responsive"
-            />
+
+        {user.isAdmin ? (
+          <div className="d-block d-md-none rounded-3 p-1 mx-0">
+            <div className="col-12 text-center">
+              <div className="dropdown">
+                <button
+                  className="btn primaryButton text-white dropdown-toggle w-100"
+                  type="button"
+                  id="mobileActionsDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                </button>
+                <ul className="dropdown-menu w-100  text-center" aria-labelledby="mobileActionsDropdown">
+                  <li className="dropdown-item">
+                    {documentDetails.feedbackType === "internal" ? (
+                      <InternalFeedbackDownload
+                        user={user}
+                        documentDetails={documentDetails}
+                      />
+                    ) : (
+                      <ExternalFeedbackDownload
+                        user={user}
+                        documentDetails={documentDetails}
+                      />
+                    )}
+                  </li>
+                  <li className="dropdown-item">
+                    <CancelButton
+                      fetchDocumentDetails={fetchDocumentDetails}
+                      documentDetails={documentDetails}
+                      className="btn-sm btn-responsive w-100 px-5"
+                    />
+                  </li>
+                  <li className="dropdown-item">
+                    <ChangeStatusButton
+                      fetchDocumentDetails={fetchDocumentDetails}
+                      documentDetails={documentDetails}
+                      className="btn-sm btn-responsive w-100"
+                    />
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        ) : (
+          <>
+            {documentDetails.status === "ready to pickup" ||
+              documentDetails.status === "completed" ? (
+              <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
+                <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
+                  <ViewScheduleSlip
+                    fetchDocumentDetails={fetchDocumentDetails}
+                    documentDetails={documentDetails}
+                  />
+                </div>
+              </div>
+            ) : null}
+          </>
+        )}
+      </div>
+      {/* {user.isAdmin ? (
+        <div className="d-block d-md-none d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
+          <div className="col-12 text-center">
+            <div className="dropdown">
+              <button
+                className="btn btn-secondary dropdown-toggle w-100"
+                type="button"
+                id="mobileActionsDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Actions
+              </button>
+              <ul className="dropdown-menu w-100 text-center" aria-labelledby="mobileActionsDropdown">
+                <li className="dropdown-item">
+                  {documentDetails.feedbackType === "internal" ? (
+                    <InternalFeedbackDownload
+                      user={user}
+                      documentDetails={documentDetails}
+                    />
+                  ) : (
+                    <ExternalFeedbackDownload
+                      user={user}
+                      documentDetails={documentDetails}
+                    />
+                  )}
+                </li>
+                <li className="dropdown-item">
+                  <CancelButton
+                    fetchDocumentDetails={fetchDocumentDetails}
+                    documentDetails={documentDetails}
+                    className="btn-sm btn-responsive w-100"
+                  />
+                </li>
+                <li className="dropdown-item">
+                  <ChangeStatusButton
+                    fetchDocumentDetails={fetchDocumentDetails}
+                    documentDetails={documentDetails}
+                    className="btn-sm btn-responsive w-100"
+                  />
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
+
       ) : (
         <>
           {documentDetails.status === "ready to pickup" ||
-            documentDetails.status === "completed" ? (
+          documentDetails.status === "completed" ? (
             <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
               <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
                 <ViewScheduleSlip
@@ -225,15 +305,12 @@ const RequestDetails = () => {
             </div>
           ) : null}
         </>
-      )}
-
-
-
+      )} */}
 
       <div
-        className="custom-scrollbar overflow-x-hidden overflow-y-auto mt-2 d-flex flex-column gap-2 pe-1 rounded scroll-container"
+        className="custom-scrollbar overflow-x-hidden overflow-y-auto mt-2 d-flex flex-column gap-2 pe-1 rounded "
         style={{
-          maxHeight: "75vh",
+          maxHeight: "80dvh",
           minHeight: "50vh",
           overflowY: "auto",
           overflowX: "hidden",
@@ -296,7 +373,7 @@ const RequestDetails = () => {
                 >
                   <button className="btn px-0">
                     <p className="m-0 text-secondary">
-                      <i class="bx bx-info-circle"></i>
+                      <i className="bx bx-info-circle"></i>
                     </p>
                   </button>
                 </OverlayTrigger>

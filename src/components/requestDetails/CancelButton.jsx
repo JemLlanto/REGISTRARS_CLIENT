@@ -27,8 +27,7 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
       console.log("Sending cancellation request with data:", formData); // Debugging log
 
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/managingRequest/cancelRequest`,
         formData
       );
@@ -36,8 +35,7 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
       if (res.data.Status === "Success") {
         try {
           await axios.post(
-            `${
-              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
             }/api/emailNotification/sendStatusUpdate`,
             formData
           );
@@ -80,7 +78,19 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
   return (
     <>
       <button
-        className="btn btn-danger btn-sm btn-responsive"
+        className="btn btn-danger btn-sm btn-responsive d-none d-md-block"
+        onClick={handleShowCancelModal}
+        disabled={
+          documentDetails.status === "cancelled" ||
+          documentDetails.status !== "pending"
+        }
+      >
+        <p className="m-0">Cancel</p>
+      </button>
+
+
+      <button
+        className="btn btn-danger w-100 btn-sm btn-responsive d-block d-md-none"
         onClick={handleShowCancelModal}
         disabled={
           documentDetails.status === "cancelled" ||

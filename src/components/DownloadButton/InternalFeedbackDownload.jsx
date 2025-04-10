@@ -13,10 +13,8 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
       setIsLoading(true);
       try {
         const res = await axios.get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-          }/api/feedbackForm/fetchFeedbackInternalData?requestID=${
-            documentDetails.requestID
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/feedbackForm/fetchFeedbackInternalData?requestID=${documentDetails.requestID
           }`
         );
 
@@ -238,7 +236,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
     <>
       <button
         type="button"
-        className="btn btn-warning"
+        className="btn btn-warning d-none d-md-block"
         onClick={downloadPDF}
         disabled={!documentDetails.responded}
       >
@@ -247,6 +245,20 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
           {documentDetails.responded
             ? "Download feedback(Internal)"
             : "Download feedback"}
+        </p>
+      </button>
+
+      <button
+        type="button"
+        className="btn btn-dark d-block d-md-none"
+        onClick={downloadPDF}
+        disabled={!documentDetails.responded}
+      >
+        <p className="m-0">
+          {" "}
+          {documentDetails.responded
+            ? "Download feedback(Internal)"
+            : "Download"}
         </p>
       </button>
     </>

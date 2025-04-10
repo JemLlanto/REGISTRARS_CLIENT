@@ -13,10 +13,8 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       setIsLoading(true);
       try {
         const res = await axios.get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-          }/api/feedbackForm/fetchFeedbackExternalData?requestID=${
-            documentDetails.requestID
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/feedbackForm/fetchFeedbackExternalData?requestID=${documentDetails.requestID
           }`
         );
 
@@ -180,7 +178,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       // Service Availed
       doc.text(
         "Service Availed (Uri ng transaksyon o serbisyo): " +
-          (feedbackData.serviceAvailed || "_________________"),
+        (feedbackData.serviceAvailed || "_________________"),
         25,
         105
       );
@@ -637,7 +635,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
     <>
       <button
         type="button"
-        className="btn btn-warning"
+        className="btn btn-warning d-none d-md-block"
         onClick={downloadPDF}
         disabled={!documentDetails.responded}
       >
@@ -645,8 +643,23 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
           {documentDetails.responded
             ? `Download feedback(External)`
             : documentDetails.feedbackType === ""
-            ? `Download feedback(None)`
-            : `Download feedback`}
+              ? `Download feedback(None)`
+              : `Download feedback`}
+        </p>
+      </button>
+
+      <button
+        type="button"
+        className="btn btn-warning w-100  d-block d-md-none"
+        onClick={downloadPDF}
+        disabled={!documentDetails.responded}
+      >
+        <p className="m-0">
+          {documentDetails.responded
+            ? `Download (External)`
+            : documentDetails.feedbackType === ""
+              ? `Download (None)`
+              : `Download`}
         </p>
       </button>
     </>
