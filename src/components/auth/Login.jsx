@@ -258,7 +258,6 @@ const Login = ({ setActivePage }) => {
           </div>
         </div>
       </div>
-      <Background></Background>
     </>
   );
 };
