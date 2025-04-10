@@ -406,6 +406,12 @@
   height: 60dvh;
 }
 
+.backgroundContainer {
+  height: 100dvh;
+  width: 100dvw;
+  position: absolute;
+}
+
 @media (max-width: 1038px) {
   .requestList {
     height: clamp(45rem, 60vh, 80vh);
@@ -416,8 +422,6 @@
     height: clamp(35rem, 60vh, 80vh);
   }
 }
-
-
 
 @media (max-width: 592px) {
   .requestList {
