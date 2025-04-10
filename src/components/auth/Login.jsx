@@ -128,7 +128,7 @@ const Login = ({ setActivePage }) => {
         if (res.data.Status === "Success") {
           // Store the token in localStorage
           localStorage.setItem("token", res.data.token);
-
+          alert(res.data.message);
           // Redirect based on admin status
           if (res.data.isAdmin) {
             navigate("/admin/home");
