@@ -6,65 +6,80 @@ const Step2 = ({ formData, handleChange }) => {
   const [purposes, setPurposes] = useState([]);
   const [programs, setPrograms] = useState([]);
   const [yearGraduated, setYearGraduated] = useState([]);
+  const [isProgramLoading, setIsProgramLoading] = useState(true);
+  const [isPurposeLoading, setIsPurposeLoading] = useState(true);
+  const [isYearGraduatedLoading, setIsYearGraduatedLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/fetchingDocuments/fetchPrograms`
-      )
-      .then((res) => {
+    const fetchPrograms = async () => {
+      try {
+        setIsProgramLoading(true);
+        const res = await axios.get(
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/fetchingDocuments/fetchPrograms`
+        );
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
           setPrograms(res.data.data);
         } else if (res.data.Message) {
-          // console.log("Error:", res.data.Message);
+          console.log("Error:", res.data.Message);
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         console.log("Error fetching Programs: ", err);
-      });
+      } finally {
+        setIsProgramLoading(false);
+      }
+    };
+
+    fetchPrograms();
   }, []);
 
   useEffect(() => {
-    axios
-      .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/fetchingDocuments/fetchPurposes`
-      )
-      .then((res) => {
+    const fetchPurposes = async () => {
+      try {
+        setIsPurposeLoading(true);
+        const res = await axios.get(
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/fetchingDocuments/fetchPurposes`
+        );
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
           setPurposes(res.data.data);
         } else if (res.data.Message) {
           console.log("Error: ", res.data.Message);
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         console.log("Error fetching purposes:", err);
-      });
+      } finally {
+        setIsPurposeLoading(false);
+      }
+    };
+
+    fetchPurposes();
   }, []);
 
   useEffect(() => {
-    axios
-      .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/fetchingDocuments/fetchYearGraduated`
-      )
-      .then((res) => {
+    const fetchYearGraduated = async () => {
+      try {
+        setIsYearGraduatedLoading(true);
+        const res = await axios.get(
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/fetchingDocuments/fetchYearGraduated`
+        );
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
           setYearGraduated(res.data.data);
         } else if (res.data.Message) {
           console.log("Error: ", res.data.Message);
         }
-      })
-      .catch((err) => {
-        console.log("Error fetching purposes:", err);
-      });
+      } catch (err) {
+        console.log("Error fetching year graduated:", err);
+      } finally {
+        setIsYearGraduatedLoading(false);
+      }
+    };
+
+    fetchYearGraduated();
   }, []);
 
   if (formData.classification === "graduated") {
@@ -72,24 +87,6 @@ const Step2 = ({ formData, handleChange }) => {
   } else {
     formData.yearGraduated = "";
   }
-
-  // Validate min/max when user finishes typing
-  const handleBlur = (e) => {
-    const { name, value } = e.target;
-    let numericValue = Number(value);
-
-    if (name === "schoolYearAttended") {
-      if (numericValue < 1900) numericValue = 1900;
-      if (numericValue > new Date().getFullYear())
-        numericValue = new Date().getFullYear();
-
-      setFormData((prevData) => {
-        const updatedData = { ...prevData, [name]: numericValue };
-        localStorage.setItem("formData", JSON.stringify(updatedData));
-        return updatedData;
-      });
-    }
-  };
 
   return (
     <div className="p-2 d-flex flex-column gap-2">
@@ -106,11 +103,17 @@ const Step2 = ({ formData, handleChange }) => {
           onChange={handleChange}
         >
           <option value="">Choose...</option>
-          {programs.map((program) => (
-            <option key={program.programID} value={program.programName}>
-              {program.programName}
+          {isProgramLoading ? (
+            <option value="" disabled>
+              Loading...
             </option>
-          ))}
+          ) : (
+            programs.map((program) => (
+              <option key={program.programID} value={program.programName}>
+                {program.programName}
+              </option>
+            ))
+          )}
         </Form.Select>
       </FloatingLabel>
       {/* Step 2: Classification */}
@@ -143,11 +146,17 @@ const Step2 = ({ formData, handleChange }) => {
             disabled={!formData.classification}
           >
             <option value="">Choose...</option>
-            {yearGraduated.map((year, index) => (
-              <option key={index} value={year.yearOption}>
-                {year.yearOption}
+            {isYearGraduatedLoading ? (
+              <option value="" disabled>
+                Loading...
               </option>
-            ))}
+            ) : (
+              yearGraduated.map((year, index) => (
+                <option key={index} value={year.yearOption}>
+                  {year.yearOption}
+                </option>
+              ))
+            )}
           </Form.Select>
         </FloatingLabel>
       ) : (
@@ -194,11 +203,17 @@ const Step2 = ({ formData, handleChange }) => {
           onChange={handleChange}
         >
           <option value="">Choose...</option>
-          {purposes.map((purpose, index) => (
-            <option key={index} value={purpose.purposeName}>
-              {purpose.purposeName}
+          {isPurposeLoading ? (
+            <option value="" disabled>
+              Loading...
             </option>
-          ))}
+          ) : (
+            purposes.map((purpose, index) => (
+              <option key={index} value={purpose.purposeName}>
+                {purpose.purposeName}
+              </option>
+            ))
+          )}
         </Form.Select>
       </FloatingLabel>
     </div>
