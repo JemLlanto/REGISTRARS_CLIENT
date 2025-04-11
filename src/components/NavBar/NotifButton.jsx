@@ -28,7 +28,7 @@ const NotifButton = ({ user }) => {
         setNotifications(response.data.data);
         // console.error(response.data.data);
       } else {
-        console.error(response.data.Message);
+        // console.log(response.data.Message);
       }
       setLoading(false);
       setNewNotif(false);
