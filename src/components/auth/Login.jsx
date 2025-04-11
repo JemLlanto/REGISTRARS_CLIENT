@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Background } from "../Background/Background";
-import Preloader from "../Preloader/Preloader";
 import ForgotPassword from "./ForgotPassword";
 import { Spinner } from "react-bootstrap";
+import { GooleLogin } from "./GooleLogin";
 
 const Login = ({ setActivePage }) => {
   const [inputs, setInputs] = useState({ email: "", password: "" });
@@ -14,7 +13,6 @@ const Login = ({ setActivePage }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
-  const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   const handleChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -76,107 +74,6 @@ const Login = ({ setActivePage }) => {
       setIsLoading(false);
     }
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  useEffect(() => {
-    // Load the Google API script
-    const loadGoogleScript = () => {
-      const script = document.createElement("script");
-      script.src = "https://accounts.google.com/gsi/client";
-      script.async = true;
-      script.defer = true;
-      document.body.appendChild(script);
-
-      script.onload = () => {
-        initializeGoogleButton();
-      };
-    };
-
-    loadGoogleScript();
-  }, []);
-
-  const initializeGoogleButton = () => {
-    if (window.google) {
-      window.google.accounts.id.initialize({
-        client_id: CLIENT_ID, // Replace with your actual client ID
-        callback: handleGoogleResponse,
-      });
-
-      window.google.accounts.id.renderButton(
-        document.getElementById("googleLoginButton"),
-        {
-          theme: "filled_blue",
-          size: "large",
-          shape: "rectangular",
-          text: "signin_with",
-        }
-      );
-    }
-  };
-
-  const handleGoogleResponse = (response) => {
-    // Send the token to your backend
-    axios
-      .post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/auth/google-login`,
-        {
-          token: response.credential,
-        }
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          // Store the token in localStorage
-          localStorage.setItem("token", res.data.token);
-          alert(res.data.message);
-          // Redirect based on admin status
-          if (res.data.isAdmin) {
-            navigate("/admin/home");
-          } else {
-            navigate("/home");
-          }
-        } else {
-          alert(res.data.Error || "Login failed");
-        }
-      })
-      .catch((err) => {
-        console.error("Login error:", err);
-        alert("An error occurred during login");
-      });
-  };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   return (
     <>
@@ -259,30 +156,18 @@ const Login = ({ setActivePage }) => {
               <ForgotPassword />
             </div>
 
-
-
-
-            <div className="google-login-container">
-              <div id="googleLoginButton"></div>
-            </div>
-
-
-
-
-
-
-            <button className="btn btn-warning w-100" onClick={handleLogin}>
-              <p className="m-0">
-                {" "}
-                {isLoading ? (
-                  <>
-                    <Spinner animation="border" variant="dark" size="sm" />{" "}
-                    Verifying credentials...
-                  </>
-                ) : (
-                  "Login"
-                )}{" "}
-              </p>
+            <button
+              className="btn btn-warning w-100 d-flex align-items-center justify-content-center gap-2"
+              onClick={handleLogin}
+            >
+              {isLoading ? (
+                <>
+                  <Spinner animation="border" variant="dark" size="sm" />{" "}
+                  <p className="m-0">Verifying credentials...</p>
+                </>
+              ) : (
+                <p className="m-0">Login</p>
+              )}
             </button>
             <p className="text-white mt-2 text-center">
               Don't have an account?{" "}
@@ -298,6 +183,9 @@ const Login = ({ setActivePage }) => {
               </span>
               .
             </p>
+          </div>
+          <div>
+            <GooleLogin />
           </div>
         </div>
       </div>

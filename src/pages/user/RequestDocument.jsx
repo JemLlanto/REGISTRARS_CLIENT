@@ -22,15 +22,15 @@ export default function RequestDocument() {
   const [formData, setFormData] = useState({
     currentStep: storedFormData.currentStep || 1,
     agree: storedFormData.agree || "no",
-    email: user.email || "",
-    userID: user.userID || "",
-    firstName: user.firstName || "",
-    middleName: user.middleName || "",
-    lastName: user.lastName || "",
-    studentID: user.studentID || "",
+    email: storedFormData.email || user.email || "",
+    userID: storedFormData.userID || user.userID || "",
+    firstName: storedFormData.firstName || user.firstName || "",
+    middleName: storedFormData.middleName || user.middleName || "",
+    lastName: storedFormData.lastName || user.lastName || "",
+    studentID: storedFormData.studentID || user.studentID || "",
     dateOfBirth: "",
-    sex: user.sex || "",
-    mobileNum: user.mobileNum || "+63",
+    sex: storedFormData.sex || user.sex || "",
+    mobileNum: storedFormData.mobileNum || user.mobileNum || "+63",
     classification: storedFormData.classification || "",
     schoolYearAttended: storedFormData.schoolYearAttended || "",
     yearGraduated: storedFormData.yearGraduated || "",
@@ -103,16 +103,17 @@ export default function RequestDocument() {
 
       setFormData((prevData) => ({
         ...prevData, // Keep other existing fields
-        email: storedFormData.email || user.email || "",
-        userID: storedFormData.userID || user.userID || "",
-        firstName: storedFormData.firstName || user.firstName || "",
-        middleName: storedFormData.middleName || user.middleName || "",
-        lastName: storedFormData.lastName || user.lastName || "",
-        studentID: storedFormData.studentID || user.studentID || "",
         dateOfBirth: formattedDate || storedFormData.dateOfBirth || "",
-        sex: storedFormData.sex || user.sex || "",
-        mobileNum: storedFormData.mobileNum || user.mobileNum || "+63",
-        program: storedFormData.program || user.program || "",
+
+        // email: storedFormData.email || user.email || "",
+        // userID: storedFormData.userID || user.userID || "",
+        // firstName: storedFormData.firstName || user.firstName || "",
+        // middleName: storedFormData.middleName || user.middleName || "",
+        // lastName: storedFormData.lastName || user.lastName || "",
+        // studentID: storedFormData.studentID || user.studentID || "",
+        // sex: storedFormData.sex || user.sex || "",
+        // mobileNum: storedFormData.mobileNum || user.mobileNum || "+63",
+        // program: storedFormData.program || user.program || "",
       }));
     }
   }, [user]);
@@ -190,7 +191,8 @@ export default function RequestDocument() {
     data.append("file", file);
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/uploadDocuments`,
         data,
         { headers: { "Content-Type": "multipart/form-data" } }
@@ -208,7 +210,8 @@ export default function RequestDocument() {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/insertDocTypes`,
         {
           documentTypes: docType,
@@ -230,7 +233,8 @@ export default function RequestDocument() {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/insertInputs`,
         formData
       );
@@ -242,7 +246,29 @@ export default function RequestDocument() {
       console.error("Error inserting inputs:", error);
     }
   };
+  const sendEmail = async () => {
+    console.log("Sending email...");
 
+    try {
+      const emailRes = await axios.post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/emailNotification/sendNewRequestEmail`,
+        formData
+      );
+
+      if (emailRes.status === 200) {
+        // alert(emailRes.data.message);
+        // alert(emailRes.data.message);
+      } else {
+        console.log(emailRes.data.message);
+        // alert(emailRes.data.message);
+      }
+    } catch (emailErr) {
+      console.log("An error occurred while sending email: ", emailErr);
+      // alert("An error occurred while sending email: ", emailErr.err);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -273,20 +299,16 @@ export default function RequestDocument() {
       });
 
       const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/sendRequest`,
         formData
       );
       if (inputsLength > 0) {
         Swal.update({
           text: "Submitting answers...",
-          allowOutsideClick: false,
-          allowEscapeKey: false,
-          showConfirmButton: false,
-          didOpen: () => {
-            Swal.showLoading();
-          },
         });
+        Swal.showLoading();
         await insertInputs();
       }
       if (docType) {
@@ -300,26 +322,13 @@ export default function RequestDocument() {
         await upload();
       }
 
-      try {
-        Swal.update({ text: "Finalizing..." });
-        Swal.showLoading();
-        const emailRes = await axios.post(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-          }/api/emailNotification/sendNewRequestEmail`,
-          formData
-        );
+      Swal.update({ text: "Finalizing..." });
+      Swal.showLoading();
+      await sendEmail();
 
-        if (emailRes.status === 200) {
-          // console.log(emailRes.data.message);
-          // alert(emailRes.data.message);
-        } else {
-          console.log(emailRes.data.message);
-          // alert(emailRes.data.message);
-        }
-      } catch (emailErr) {
-        console.log("An error occurred while sending email: ", emailErr);
-        // alert("An error occurred while sending email: ", emailErr.err);
-      }
+      Swal.update({ text: "Email sent..." });
+      Swal.showLoading();
+
       if (response.data.Status === "Success") {
         Swal.fire({
           title: "Success!",
@@ -358,7 +367,7 @@ export default function RequestDocument() {
       } else {
         Swal.fire({
           title: "Error!",
-          text: `Failed to request document. Please try again. ${error}`,
+          text: `Failed to request document. Please try again. ${error.message}`,
           icon: "error",
           confirmButtonText: "OK",
         });
@@ -418,7 +427,10 @@ export default function RequestDocument() {
   };
 
   return (
-    <div className="p-0 p-sm-4 mt-2 w-100 row justify-content-center " style={{ height: "100%" }}>
+    <div
+      className="p-0 p-sm-4 mt-2 w-100 row justify-content-center "
+      style={{ height: "100%" }}
+    >
       <div className="col">
         <div
           className="rounded shadow-sm d-flex align-items-center p-3"
