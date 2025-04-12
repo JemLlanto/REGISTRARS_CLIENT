@@ -1,17 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Spinner } from "react-bootstrap";
-import Step1 from "../../components/requestingDocuments/Step1";
-import Step2 from "../../components/requestingDocuments/Step2";
-import Step3 from "../../components/requestingDocuments/Step3";
-import Reminder from "../../components/requestingDocuments/Reminder";
-import { motion, AnimatePresence } from "framer-motion";
 import ReqProgressBar from "../../components/requestingDocuments/ReqProgressBar";
 import { useOutletContext, useNavigate } from "react-router-dom";
-import axios from "axios";
-import Swal from "sweetalert2";
 import ClosedForm from "../../components/requestingDocuments/ClosedForm";
 import FormButtons from "../../components/requestingDocuments/FormButtons";
+import FormBody from "../../components/requestingDocuments/FormBody";
 // import ReqProgressBarSmall from "../../components/requestingDocuments/ReqProgressBarSmall";
 
 export default function RequestDocument() {
@@ -28,7 +21,7 @@ export default function RequestDocument() {
     middleName: storedFormData.middleName || user.middleName || "",
     lastName: storedFormData.lastName || user.lastName || "",
     studentID: storedFormData.studentID || user.studentID || "",
-    dateOfBirth: "",
+    dateOfBirth: storedFormData.dateOfBirth || user.dateOfBirth || "",
     sex: storedFormData.sex || user.sex || "",
     mobileNum: storedFormData.mobileNum || user.mobileNum || "+63",
     classification: storedFormData.classification || "",
@@ -96,25 +89,36 @@ export default function RequestDocument() {
 
   useEffect(() => {
     if (user) {
-      const date = new Date(user.dateOfBirth);
-      const formattedDate = `${date.getFullYear()}-${String(
-        date.getMonth() + 1
-      ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+      // Only update fields from user data if they don't exist in storedFormData
+      setFormData((prevData) => {
+        // Only format date if it exists
+        let formattedDate = prevData.dateOfBirth;
+        if (prevData.dateOfBirth) {
+          try {
+            const date = new Date(prevData.dateOfBirth);
+            formattedDate = `${date.getFullYear()}-${String(
+              date.getMonth() + 1
+            ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+          } catch (error) {
+            console.error("Date formatting error:", error);
+          }
+        }
 
-      setFormData((prevData) => ({
-        ...prevData, // Keep other existing fields
-        dateOfBirth: formattedDate || storedFormData.dateOfBirth || "",
-
-        // email: storedFormData.email || user.email || "",
-        // userID: storedFormData.userID || user.userID || "",
-        // firstName: storedFormData.firstName || user.firstName || "",
-        // middleName: storedFormData.middleName || user.middleName || "",
-        // lastName: storedFormData.lastName || user.lastName || "",
-        // studentID: storedFormData.studentID || user.studentID || "",
-        // sex: storedFormData.sex || user.sex || "",
-        // mobileNum: storedFormData.mobileNum || user.mobileNum || "+63",
-        // program: storedFormData.program || user.program || "",
-      }));
+        return {
+          ...prevData,
+          // Only use user data if localStorage doesn't have a value (empty string is considered no value)
+          email: prevData.email || user.email || "",
+          userID: prevData.userID || user.userID || "",
+          firstName: prevData.firstName || user.firstName || "",
+          middleName: prevData.middleName || user.middleName || "",
+          lastName: prevData.lastName || user.lastName || "",
+          studentID: prevData.studentID || user.studentID || "",
+          dateOfBirth: formattedDate || user.dateOfBirth || "",
+          sex: prevData.sex || user.sex || "",
+          mobileNum: prevData.mobileNum || user.mobileNum || "+63",
+          program: prevData.program || user.program || "",
+        };
+      });
     }
   }, [user]);
 
@@ -148,284 +152,6 @@ export default function RequestDocument() {
     });
   };
 
-  // Function to go to the next step
-  const nextStep = () => {
-    setDirection(1);
-    fetchUserData();
-    setCurrentStep((prevStep) => prevStep + 1);
-    setFormData((prevData) => {
-      const updatedData = { ...prevData, currentStep: currentStep + 1 };
-
-      // Save to localStorage
-      localStorage.setItem("formData", JSON.stringify(updatedData));
-
-      return updatedData;
-    });
-  };
-
-  // Function to go to the previous step
-  const prevStep = () => {
-    setDocType([]);
-    fetchUserData();
-    setHasSelection(false);
-    setHasFile(false);
-    setHasInput(false);
-    setInputsLength(0);
-    setDirection(-1);
-    setCurrentStep((prevStep) => (prevStep > 1 ? prevStep - 1 : prevStep));
-    setFormData((prevData) => {
-      const updatedData = { ...prevData, currentStep: currentStep - 1 };
-
-      // Save to localStorage
-      localStorage.setItem("formData", JSON.stringify(updatedData));
-
-      return updatedData;
-    });
-  };
-
-  const upload = async () => {
-    console.log("Inserting Files...");
-
-    const data = new FormData();
-    data.append("requestID", formData.requestID);
-    data.append("file", file);
-    try {
-      const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/documents/uploadDocuments`,
-        data,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-      if (res.data.Status === "Success") {
-        console.log("Document files Submitted!");
-      }
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  };
-  const insertDocTypes = async () => {
-    console.log("Inserting DocTypes...");
-
-    try {
-      const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/documents/insertDocTypes`,
-        {
-          documentTypes: docType,
-          requestID: requestID,
-        }
-      );
-      if (res.data.Status === "Success") {
-        console.log("Document type/s Submitted!");
-      }
-      // console.log("Insert response:", res.data);
-      // return res.data;
-    } catch (err) {
-      console.log("Error inserting document types:", err);
-      throw err;
-    }
-  };
-  const insertInputs = async () => {
-    console.log("Inserting Data...");
-
-    try {
-      const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/documents/insertInputs`,
-        formData
-      );
-      if (res.data.Status === "Success") {
-        console.log("Inputs Submitted!");
-      }
-      // console.log(response.data);
-    } catch (error) {
-      console.error("Error inserting inputs:", error);
-    }
-  };
-  const sendEmail = async () => {
-    console.log("Sending email...");
-
-    try {
-      const emailRes = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/emailNotification/sendNewRequestEmail`,
-        formData
-      );
-
-      if (emailRes.status === 200) {
-        // alert(emailRes.data.message);
-        // alert(emailRes.data.message);
-      } else {
-        console.log(emailRes.data.message);
-        // alert(emailRes.data.message);
-      }
-    } catch (emailErr) {
-      console.log("An error occurred while sending email: ", emailErr);
-      // alert("An error occurred while sending email: ", emailErr.err);
-    }
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const isConfirmed = await Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to submit the request?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, submit!",
-      cancelButtonText: "Cancel",
-    });
-
-    if (!isConfirmed.isConfirmed) {
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-
-      Swal.fire({
-        title: "Submitting...",
-        text: "Please wait while we process your request.",
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
-
-      const response = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/documents/sendRequest`,
-        formData
-      );
-      if (inputsLength > 0) {
-        Swal.update({
-          text: "Submitting answers...",
-        });
-        Swal.showLoading();
-        await insertInputs();
-      }
-      if (docType) {
-        Swal.update({ text: "Submitting document types..." });
-        Swal.showLoading();
-        await insertDocTypes();
-      }
-      if (file) {
-        Swal.update({ text: "Uploading files..." });
-        Swal.showLoading();
-        await upload();
-      }
-
-      Swal.update({ text: "Finalizing..." });
-      Swal.showLoading();
-      await sendEmail();
-
-      Swal.update({ text: "Email sent..." });
-      Swal.showLoading();
-
-      if (response.data.Status === "Success") {
-        Swal.fire({
-          title: "Success!",
-          text: "Requested document successfully",
-          icon: "success",
-          confirmButtonText: "OK",
-        }).then(() => {
-          localStorage.removeItem("formData");
-          navigate("/home");
-        });
-      } else {
-        Swal.update({
-          title: "Error!",
-          text: "Failed to request document. Please try again.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      }
-    } catch (error) {
-      console.error("Error sending request:", error);
-
-      // Check if the error response contains missing fields
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.missingFields
-      ) {
-        const missingFields = error.response.data.missingFields.join(", ");
-
-        Swal.fire({
-          title: "Error!",
-          text: `Failed to request document. The following fields are missing: ${missingFields}`,
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      } else {
-        Swal.fire({
-          title: "Error!",
-          text: `Failed to request document. Please try again. ${error.message}`,
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // FOR ANIMATIONS
-  const stepVariants = {
-    hidden: (direction) => ({
-      x: direction > 0 ? "100%" : "-100%",
-      opacity: 0,
-    }),
-    visible: {
-      x: 0,
-      opacity: 1,
-      transition: { duration: 0.3, ease: "easeOut" },
-    },
-    exit: (direction) => ({
-      x: direction > 0 ? "-100%" : "100%",
-      opacity: 0,
-      transition: { duration: 0.4, ease: "easeIn" },
-    }),
-  };
-
-  const isSelectionFilled = () => {
-    if (!hasSelection) {
-      return true;
-    }
-    return docType.length != 0;
-  };
-
-  const isFileFilled = () => {
-    if (!hasFile) {
-      return true;
-    }
-    return !!file;
-  };
-
-  const isInputsFilled = () => {
-    if (!hasInput) {
-      return true; // If hasInput is false, inputs are not required
-    }
-
-    for (let i = 1; i <= inputsLength; i++) {
-      if (
-        !formData[`inputValue${i}`] ||
-        formData[`inputValue${i}`].trim() === ""
-      ) {
-        return false; // If any input is empty, return false
-      }
-    }
-
-    return true; // All inputs are filled
-  };
-
   return (
     <div
       className="p-0 p-sm-4 mt-2 w-100 row justify-content-center "
@@ -442,110 +168,57 @@ export default function RequestDocument() {
           >
             Request Submission
           </h5>
-          {/* <p className="m-0 text-light">
-            (Please ensure all required fields are completed before submission.)
-          </p> */}
         </div>
-        {/* <div>
-          <ReqProgressBarSmall currentStep={currentStep} />
-        </div> */}
+
         <div
           className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded p-3 position-relative"
           style={{ zIndex: "1" }}
         >
-          <form className="position-relative w-100" onSubmit={handleSubmit}>
-            {/* {!user.isAutomatic ? (
-              <ClosedForm />
-            ) : (
-              !user.isAutomatic && (<ClosedForm />)()
-            )} */}
+          <form className="position-relative w-100">
             <ClosedForm user={user} fetchUserData={fetchUserData} />
-            <div
-              className="custom-scrollbar overflow-y-scroll overflow-x-hidden"
-              style={{ height: "65dvh" }}
-            >
-              <AnimatePresence mode="wait" custom={direction}>
-                {currentStep === 1 && (
-                  <motion.div
-                    key="step1"
-                    variants={stepVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    custom={direction}
-                  >
-                    <Reminder
-                      isLoading={isLoading}
-                      setIsLoading={setIsLoading}
-                      privacyConsent={privacyConsent}
-                      setPrivacyConsent={setPrivacyConsent}
-                      setFormData={setFormData}
-                      formData={formData}
-                      handleChange={handleChange}
-                    />
-                  </motion.div>
-                )}
-                {currentStep === 2 && (
-                  <motion.div
-                    key="step2"
-                    variants={stepVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    custom={direction}
-                  >
-                    <Step1 formData={formData} handleChange={handleChange} />
-                  </motion.div>
-                )}
-                {currentStep === 3 && (
-                  <motion.div
-                    key="step3"
-                    variants={stepVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    custom={direction}
-                  >
-                    <Step2 formData={formData} handleChange={handleChange} />
-                  </motion.div>
-                )}
-                {currentStep === 4 && (
-                  <motion.div
-                    key="step4"
-                    variants={stepVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    custom={direction}
-                  >
-                    <Step3
-                      docType={docType}
-                      setDocType={setDocType}
-                      setFile={setFile}
-                      setInputsLength={setInputsLength}
-                      inputsLength={inputsLength}
-                      formData={formData}
-                      handleChange={handleChange}
-                      setHasSelection={setHasSelection}
-                      setHasFile={setHasFile}
-                      setHasInput={setHasInput}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+
+            <FormBody
+              direction={direction}
+              currentStep={currentStep}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              privacyConsent={privacyConsent}
+              setPrivacyConsent={setPrivacyConsent}
+              setFormData={setFormData}
+              formData={formData}
+              handleChange={handleChange}
+              docType={docType}
+              setDocType={setDocType}
+              setFile={setFile}
+              inputsLength={inputsLength}
+              setInputsLength={setInputsLength}
+              setHasSelection={setHasSelection}
+              setHasFile={setHasFile}
+              setHasInput={setHasInput}
+            />
 
             <FormButtons
+              fetchUserData={fetchUserData}
               formData={formData}
-              prevStep={prevStep}
-              nextStep={nextStep}
+              requestID={requestID}
               currentStep={currentStep}
-              handleSubmit={handleSubmit}
               isLoading={isLoading}
               privacyConsent={privacyConsent}
-              isSelectionFilled={isSelectionFilled}
-              isFileFilled={isFileFilled}
-              isInputsFilled={isInputsFilled}
+              inputsLength={inputsLength}
+              docType={docType}
+              file={file}
+              hasSelection={hasSelection}
+              hasFile={hasFile}
+              hasInput={hasInput}
+              setInputsLength={setInputsLength}
+              setDocType={setDocType}
+              setCurrentStep={setCurrentStep}
+              setFormData={setFormData}
+              setDirection={setDirection}
+              setHasSelection={setHasSelection}
+              setHasFile={setHasFile}
+              setHasInput={setHasInput}
+              setIsLoading={setIsLoading}
             />
           </form>
         </div>
