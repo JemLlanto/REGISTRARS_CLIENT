@@ -4,7 +4,7 @@ import { Dropdown } from "react-bootstrap";
 const MainHeaders = ({ status, handleSelect }) => {
   return (
     <div
-      className="d-flex w-100 rounded-2 mt-2"
+      className="d-flex rounded-2 "
       style={{ backgroundColor: "var(--yellow-color)" }}
     >
       {/* Desktop View */}
@@ -60,8 +60,10 @@ const MainHeaders = ({ status, handleSelect }) => {
         </div>
       </div>
 
+
+
       {/* Mobile View */}
-      <div className="w-100 d-block d-md-none d-flex align-items-center justify-content-center">
+      <div className="d-block d-md-none ">
         <Dropdown>
           <Dropdown.Toggle
             className="d-flex align-items-center text-white"
@@ -98,7 +100,6 @@ const MainHeaders = ({ status, handleSelect }) => {
         </Dropdown>
       </div>
     </div>
-
   );
 };
 

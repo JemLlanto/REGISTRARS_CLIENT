@@ -72,7 +72,7 @@ const RequestedDocumentsDownload = ({
     <button className="btn btn-warning border-0">
       <p className="m-0" onClick={downloadExcel}>
         <p className="d-none d-sm-block m-0">Download</p>
-        <i class='bx bx-download bx-sm d-block d-sm-none m-0' ></i>
+        <i class='bx bx-download  d-block d-sm-none m-0' ></i>
       </p>
     </button>
   );
