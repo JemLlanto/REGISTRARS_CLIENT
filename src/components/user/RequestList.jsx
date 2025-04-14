@@ -136,8 +136,8 @@ const RequestList = ({ status, filteredRequests, isLoading }) => {
     <>
       <div className="d-flex flex-column gap-3">
         <div
-          className="requestList custom-scrollbar mt-2 d-flex flex-column gap-2 pe-1 overflow-auto"
-          // style={{ height: "clamp(20rem, 5dvh, 40rem)" }}
+          className="requestList custom-scrollbar mt-2 d-flex flex-column gap-2 overflow-auto"
+        // style={{ height: "clamp(20rem, 5dvh, 40rem)" }}
         >
           {isLoading ? (
             <>
@@ -191,8 +191,8 @@ const RequestList = ({ status, filteredRequests, isLoading }) => {
                           <p className="m-0 ">
                             {request?.created
                               ? new Intl.DateTimeFormat("en-US", {
-                                  dateStyle: "medium",
-                                }).format(new Date(request?.created))
+                                dateStyle: "medium",
+                              }).format(new Date(request?.created))
                               : ""}
                           </p>
                         </div>
