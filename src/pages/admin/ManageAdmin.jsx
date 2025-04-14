@@ -43,7 +43,7 @@ const ManageAdmin = () => {
           setAddingModal(false);
           setSelectedAdmin("");
           setSelectedProgram("");
-          fetchProgramAdmins();
+          fetchAllAdmins();
           Swal.fire({
             icon: "success",
             title: "Success",
@@ -99,7 +99,7 @@ const ManageAdmin = () => {
             )
             .then((res) => {
               if (res.data.Status === "Success") {
-                fetchProgramAdmins();
+                fetchAllAdmins();
                 swalWithBootstrapButtons.fire({
                   title: "Removed!",
                   text: res.data.Message,
@@ -169,7 +169,7 @@ const ManageAdmin = () => {
             Admin Panel
           </h5>
           <div className="d-flex align-items-center">
-            <AdminModal />
+            <AdminModal admins={admins} fetchAllAdmins={fetchAllAdmins} />
           </div>
         </div>
 
