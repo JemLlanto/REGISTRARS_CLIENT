@@ -243,6 +243,44 @@ export default function StudentRequests() {
 
           </div>
           <div className="d-block d-md-none d-flex align-items-center justify-content-center ">
+            <RequestedDocumentsDownload
+              filteredRequests={filteredRequests}
+              startDate={startDate}
+              endDate={endDate}
+            />
+          </div>
+        </div>
+      </div>
+
+
+
+      <div>
+        {/* Search Bar phone*/}
+        {/* Mobile layout container */}
+        <div className="  d-block d-md-none  d-flex justify-content-betweenalign-items-center">
+          {/* Search Icon - Click to toggle input field */}
+          <InputGroup className="">
+            <InputGroup.Text id="basic-addon1" style={{ backgroundColor: "var(--main-color)", color: "white" }}>
+              <i className="bx bx-search-alt"></i>
+            </InputGroup.Text>
+            <Form.Control
+              type="text"
+              className=" shadow-none "
+              id="searchInputMobile"
+              placeholder="Search by name or email"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+          </InputGroup>
+        </div>
+        <div className="mt-1  d-block d-md-none  d-flex justify-content-between align-items-center gap-2">
+          {/* Status for mobile */}
+          <div className="d-block d-md-none  d-flex align-items-center justify-content-center">
+            <MainHeaders status={status} handleSelect={handleSelect} />
+          </div>
+          <div className="d-flex align-items-center justify-content-center">
             <RequestDatepicker
               startDate={startDate}
               endDate={endDate}
@@ -254,45 +292,7 @@ export default function StudentRequests() {
             />
           </div>
         </div>
-      </div>
 
-
-
-      <div>
-        {/* Search Bar phone*/}
-        {/* Mobile layout container */}
-        <div className="  d-block d-md-none  d-flex justify-content-between">
-          <div className=" d-flex align-items-center">
-            {/* Search Icon - Click to toggle input field */}
-            <InputGroup className="w-100">
-              <InputGroup.Text id="basic-addon1" style={{ backgroundColor: "var(--main-color)", color: "white" }}>
-                <i className="bx bx-search-alt"></i>
-              </InputGroup.Text>
-              <Form.Control
-                type="text"
-                className=" shadow-none "
-                id="searchInputMobile"
-                placeholder="Search by name or email"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                aria-label="Username"
-                aria-describedby="basic-addon1"
-              />
-            </InputGroup>
-          </div>
-          <div className="">
-            <RequestedDocumentsDownload
-              filteredRequests={filteredRequests}
-              startDate={startDate}
-              endDate={endDate}
-            />
-          </div>
-        </div>
-
-        {/* Status for mobile */}
-        <div className="d-block d-sm-none">
-          <MainHeaders status={status} handleSelect={handleSelect} />
-        </div>
         {/* large  device*/}
         <div className="d-none d-md-block">
           <DateSelection
@@ -308,7 +308,7 @@ export default function StudentRequests() {
       </div>
 
 
-      <div className="d-none d-sm-block">
+      <div className="d-none d-md-block mt-2">
         <MainHeaders status={status} handleSelect={handleSelect} />
       </div>
       <RequestHeaders
