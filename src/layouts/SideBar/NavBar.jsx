@@ -28,10 +28,10 @@ const NavBar = ({ user }) => {
       >
         {/* Logo*/}
         <img
-          src="/cvsu-logo.png"
+          src="/navLogo.png"
           alt="Registrar Logo"
           className="d-block d-md-none img-fluid"
-          style={{ maxWidth: "50px", objectFit: "cover" }}
+          style={{ maxWidth: "130px", objectFit: "cover" }}
         />
         {/* Right Side*/}
         <div className="d-flex align-items-end justify-content-end ms-auto gap-2">

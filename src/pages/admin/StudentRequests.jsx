@@ -182,9 +182,9 @@ export default function StudentRequests() {
   };
 
   return (
-    <div className="p-1 p-sm-4 w-100 " style={{ height: "100%" }}>
+    <div className="p-1 p-sm-4 w-100 position-relative" style={{ height: "100%" }}>
       <div
-        className="rounded-2 shadow-sm text-white p-2 mb-2 d-flex  justify-content-between"
+        className="rounded-2 shadow-sm text-white p-2 mb-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5
@@ -202,11 +202,11 @@ export default function StudentRequests() {
           )
         </h5>
 
-        <div className="d-flex align-items-center gap-2">
+        <div className="d-flex align-items-center justify-content-center gap-2">
           {/* DATE SELECTION FOR SMALL SCREENS */}
           {/* Search Bar */}
           <div className="d-none d-md-block">
-            <div className="d-flex align-items-center  px-2">
+            <div className="d-flex align-items-center gap-1 ">
               {/* Search Icon - Click to toggle input field */}
               <div
                 className="d-flex align-items-center justify-content-center pe-2"
@@ -232,20 +232,17 @@ export default function StudentRequests() {
                   overflow: "hidden",
                 }}
               />
+              <div className="mx-0">
+                <RequestedDocumentsDownload
+                  filteredRequests={filteredRequests}
+                  startDate={startDate}
+                  endDate={endDate}
+                />
+              </div>
             </div>
+
           </div>
-          <div>
-            <RequestedDocumentsDownload
-              filteredRequests={filteredRequests}
-              startDate={startDate}
-              endDate={endDate}
-            />
-          </div>
-        </div>
-      </div>
-      <div>
-        <div className="d-block d-md-none rounded ">
-          <div className="d-flex align-items-center rounded  ">
+          <div className="d-block d-md-none d-flex align-items-center justify-content-center ">
             <RequestDatepicker
               startDate={startDate}
               endDate={endDate}
@@ -257,18 +254,23 @@ export default function StudentRequests() {
             />
           </div>
         </div>
+      </div>
+
+
+
+      <div>
         {/* Search Bar phone*/}
         {/* Mobile layout container */}
-        <div className="d-block d-md-none">
-          <div className="d-flex align-items-center">
+        <div className="  d-block d-md-none  d-flex justify-content-between">
+          <div className=" d-flex align-items-center">
             {/* Search Icon - Click to toggle input field */}
-            <InputGroup className="">
-              <InputGroup.Text id="basic-addon1">
+            <InputGroup className="w-100">
+              <InputGroup.Text id="basic-addon1" style={{ backgroundColor: "var(--main-color)", color: "white" }}>
                 <i className="bx bx-search-alt"></i>
               </InputGroup.Text>
               <Form.Control
                 type="text"
-                className=" shadow-none"
+                className=" shadow-none "
                 id="searchInputMobile"
                 placeholder="Search by name or email"
                 value={searchTerm}
@@ -278,6 +280,18 @@ export default function StudentRequests() {
               />
             </InputGroup>
           </div>
+          <div className="">
+            <RequestedDocumentsDownload
+              filteredRequests={filteredRequests}
+              startDate={startDate}
+              endDate={endDate}
+            />
+          </div>
+        </div>
+
+        {/* Status for mobile */}
+        <div className="d-block d-sm-none">
+          <MainHeaders status={status} handleSelect={handleSelect} />
         </div>
         {/* large  device*/}
         <div className="d-none d-md-block">
@@ -292,7 +306,11 @@ export default function StudentRequests() {
           />
         </div>
       </div>
-      <MainHeaders status={status} handleSelect={handleSelect} />
+
+
+      <div className="d-none d-sm-block">
+        <MainHeaders status={status} handleSelect={handleSelect} />
+      </div>
       <RequestHeaders
         status={status}
         filteredRequests={filteredRequests}

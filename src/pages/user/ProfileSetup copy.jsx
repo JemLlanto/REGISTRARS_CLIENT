@@ -41,7 +41,7 @@ export default function ProfileSetup() {
         </h5>
       </div>
 
-      <div className="w-100 bg-light shadow-sm rounded-2 p-4 mt-3">
+      <div className="w-100 bg-light shadow-sm rounded-2 p-1 p-sm-4 ">
         <Form>
           <Row>
             <Col md={4}>
