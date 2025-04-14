@@ -3,7 +3,7 @@ import { Button, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import RequestTableTemplate from "../RequestTableTemplate";
 
-const Completed = ({ completedRequests }) => {
+const Completed = ({ completedRequests, CountUp }) => {
   const [showPendingModal, setShowPendingModal] = useState(false);
 
   const handleShowModal = () => {
@@ -29,7 +29,9 @@ const Completed = ({ completedRequests }) => {
             ></i>
           </div>
           <div className="ms-3 text-start">
-            <h5 className="text-success mb-1">{completedRequests.length}</h5>
+            <h5 className="text-success mb-1">
+              <CountUp end={completedRequests.length} duration={1.5} />
+            </h5>
             <h5 className="text-dark">Completed</h5>
           </div>
         </div>
@@ -41,7 +43,10 @@ const Completed = ({ completedRequests }) => {
         centered
         size="lg"
       >
-        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "var(--main-color)" }}
+        >
           <Modal.Title>
             <h5 className="m-0 text-white">
               Completed request ({completedRequests.length})
@@ -50,10 +55,17 @@ const Completed = ({ completedRequests }) => {
         </Modal.Header>
         <RequestTableTemplate Requests={completedRequests} />
         <Modal.Footer>
-          <Button variant="secondary" className="border-0" onClick={handleCloseModal}>
+          <Button
+            variant="secondary"
+            className="border-0"
+            onClick={handleCloseModal}
+          >
             <p className="m-0">Close</p>
           </Button>
-          <Button className="border-0" style={{ backgroundColor: "var(--main-color)" }} >
+          <Button
+            className="border-0"
+            style={{ backgroundColor: "var(--main-color)" }}
+          >
             <Link
               className="text-decoration-none text-white"
               to="/admin/student-requests?status=completed"

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { Card, Spinner } from "react-bootstrap";
 import {
   BarChart,
   Bar,
@@ -13,7 +13,7 @@ import {
   Cell,
 } from "recharts";
 
-function PurposeStats({ requestedDocuments }) {
+function PurposeStats({ requestedDocuments, isLoading }) {
   // Count documents by purpose
   const purposeCounts = requestedDocuments.reduce((counts, doc) => {
     const purpose = doc.purpose || "Unspecified";
@@ -80,9 +80,18 @@ function PurposeStats({ requestedDocuments }) {
 
   return (
     <>
-      <div className="bg-white  rounded mt-2 w-100">
-        {data.length > 0 ? (
-          <div className="w-100" style={{ height: "48dvh" }}>
+      <div className="bg-white  rounded mt-2 w-100" style={{ height: "48dvh" }}>
+        {isLoading ? (
+          <>
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ height: "100%" }}
+            >
+              <Spinner animation="border" variant="black" size="lg" />
+            </div>
+          </>
+        ) : data.length > 0 ? (
+          <div className="w-100" style={{ height: "100%" }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={data}
@@ -117,13 +126,12 @@ function PurposeStats({ requestedDocuments }) {
         ) : (
           <div
             className="spinner-container d-flex justify-content-center align-items-center spinner-container"
-            style={{ height: "70%" }}
+            style={{ height: "100%" }}
           >
             <p className="text-muted m-0 p-3 mt-3">
               No document purposes to display for the selected period.
             </p>
           </div>
-
         )}
       </div>
     </>

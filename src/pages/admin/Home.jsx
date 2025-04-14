@@ -14,9 +14,13 @@ export default function Home() {
   const [selectedPeriod, setSelectedPeriod] = useState("month");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {
+    if (!user) {
+      return;
+    }
     if (!user.isAdmin) {
       navigate("/home");
     }
@@ -67,6 +71,7 @@ export default function Home() {
         )
         .then((res) => {
           if (res.data.Status === "Success") {
+            setIsLoading(false);
             setRequestedDocuments(res.data.data);
             console.log("requestedDocuments", res.data.data);
           } else {
@@ -144,8 +149,11 @@ export default function Home() {
       <StatusLabels requestedDocuments={requestedDocuments} />
 
       {/* Left side: Chart */}
-      <div className="w-100 d-flex justify-content-center">
-        <PurposeStats requestedDocuments={requestedDocuments} />
+      <div className="w-100 d-flex align-items-center justify-content-center">
+        <PurposeStats
+          requestedDocuments={requestedDocuments}
+          isLoading={isLoading}
+        />
       </div>
     </Container>
   );
