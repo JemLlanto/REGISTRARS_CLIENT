@@ -12,6 +12,7 @@ import RequestedDocumentsDownload from "../../components/DownloadButton/Requeste
 export default function StudentRequests() {
   const { user } = useOutletContext();
   const [requestedDocuments, setRequestedDocuments] = useState([]);
+  const [adminPrograms, setAdminPrograms] = useState([]);
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const navigate = useNavigate();
@@ -32,13 +33,35 @@ export default function StudentRequests() {
     }
   }, [user, navigate]);
 
+  const fetchAdminPrograms = async () => {
+    try {
+      setIsLoading(true);
+      const res = await axios.get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/dashboard/fetchAdminPrograms`,
+        {
+          adminId: user.userID,
+        }
+      );
+      if (res.status === 2000) {
+        setAdminPrograms(res.data);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Separate function for the API call that can be called directly
   const fetchRequestedDocuments = async () => {
     if (startDate && endDate) {
       try {
         setIsLoading(true);
         const res = await axios.get(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/dashboard/fetchRequestedDocuments`,
           {
             params: {
@@ -86,10 +109,11 @@ export default function StudentRequests() {
 
   // Fetch documents whenever dates change
   useEffect(() => {
-    if (startDate && endDate) {
+    if (startDate && endDate && user) {
       fetchRequestedDocuments();
+      fetchAdminPrograms();
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, user]);
 
   // Filter documents based on search input
   useEffect(() => {
@@ -182,7 +206,10 @@ export default function StudentRequests() {
   };
 
   return (
-    <div className="p-1 p-sm-4 w-100 position-relative" style={{ height: "100%" }}>
+    <div
+      className="p-1 p-sm-4 w-100 position-relative"
+      style={{ height: "100%" }}
+    >
       <div
         className="rounded-2 shadow-sm text-white p-2 mb-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
@@ -240,7 +267,6 @@ export default function StudentRequests() {
                 />
               </div>
             </div>
-
           </div>
           <div className="d-block d-md-none d-flex align-items-center justify-content-center ">
             <RequestDatepicker
@@ -256,8 +282,6 @@ export default function StudentRequests() {
         </div>
       </div>
 
-
-
       <div>
         {/* Search Bar phone*/}
         {/* Mobile layout container */}
@@ -265,7 +289,10 @@ export default function StudentRequests() {
           <div className=" d-flex align-items-center">
             {/* Search Icon - Click to toggle input field */}
             <InputGroup className="w-100">
-              <InputGroup.Text id="basic-addon1" style={{ backgroundColor: "var(--main-color)", color: "white" }}>
+              <InputGroup.Text
+                id="basic-addon1"
+                style={{ backgroundColor: "var(--main-color)", color: "white" }}
+              >
                 <i className="bx bx-search-alt"></i>
               </InputGroup.Text>
               <Form.Control
@@ -306,7 +333,6 @@ export default function StudentRequests() {
           />
         </div>
       </div>
-
 
       <div className="d-none d-sm-block">
         <MainHeaders status={status} handleSelect={handleSelect} />

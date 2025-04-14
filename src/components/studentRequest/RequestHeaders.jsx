@@ -133,7 +133,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
     <div className="d-flex flex-column gap-3">
       <div
         className="requestList custom-scrollbar mt-2 d-flex flex-column gap-2 overflow-auto pe-1 rounded"
-      // style={{ height: "48dvh" }}
+        // style={{ height: "48dvh" }}
       >
         {isLoading ? (
           <>
@@ -187,8 +187,8 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                       <p className="m-0">
                         {request?.created
                           ? new Intl.DateTimeFormat("en-US", {
-                            dateStyle: "medium",
-                          }).format(new Date(request?.created))
+                              dateStyle: "medium",
+                            }).format(new Date(request?.created))
                           : ""}
                       </p>
                     </div>
@@ -215,7 +215,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                 className="spinner-container d-flex justify-content-center align-items-center spinner-container"
                 style={{ height: "70%" }}
               >
-                <p className="m-0">No pending request</p>
+                <p className="m-0">No document request found... </p>
               </div>
             )}
           </>
