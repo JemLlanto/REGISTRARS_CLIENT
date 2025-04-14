@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Table, Modal, Button, ToggleButton } from "react-bootstrap";
+import { Table, Modal, Button, ToggleButton, Spinner } from "react-bootstrap";
 import AdminModal from "../../components/ManageAdmin/AdminModal";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 const ManageAdmin = () => {
-  const [search, setSearch] = useState("");
   const [admins, setAdmins] = useState([]);
   const [selectedAdmin, setSelectedAdmin] = useState(null);
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [programAdmins, setProgramAdmins] = useState([]);
   const [addingModal, setAddingModal] = useState(false);
   const [formData, setFormData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if ((selectedProgram, selectedAdmin)) {
@@ -33,7 +33,8 @@ const ManageAdmin = () => {
   const handleAddProgramAdmin = () => {
     axios
       .post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/addProgramAdmin`,
         formData
       )
@@ -89,7 +90,8 @@ const ManageAdmin = () => {
         if (result.isConfirmed) {
           axios
             .post(
-              `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+              `${
+                import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
               }/api/manageAdmin/removeProgramAdmin`,
               {
                 programID: program.programID,
@@ -122,44 +124,35 @@ const ManageAdmin = () => {
       });
   };
 
-  const fetchProgramAdmins = () => {
-    axios
-      .get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/manageAdmin/fetchProgramAdmins`
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          setProgramAdmins(res.data.result);
-          console.log(res.data.result);
-        }
-      })
-      .catch((err) => {
-        console.log("Error fetching program admins: ", err);
-      });
-  };
-  useEffect(() => {
-    fetchProgramAdmins();
-  }, []);
+  const fetchAllAdmins = () => {
+    const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
 
-  const fetchAdmins = () => {
-    axios
-      .get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/manageAdmin/fetchAdmin`
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          setAdmins(res.data.data);
-          console.log(res.data.data);
+    const programAdminsRequest = axios.get(
+      `${baseUrl}/api/manageAdmin/fetchProgramAdmins`
+    );
+    const adminsRequest = axios.get(`${baseUrl}/api/manageAdmin/fetchAdmin`);
+
+    Promise.all([programAdminsRequest, adminsRequest])
+      .then(([programAdminsRes, adminsRes]) => {
+        if (programAdminsRes.data.Status === "Success") {
+          setProgramAdmins(programAdminsRes.data.result);
+          console.log("Program Admins: ", programAdminsRes.data.result);
+        }
+        if (adminsRes.data.Status === "Success") {
+          setAdmins(adminsRes.data.data);
+          console.log("Admins: ", adminsRes.data.data);
         }
       })
       .catch((err) => {
-        console.log("Error fetching admins: ", err);
+        console.error("Error fetching data: ", err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
+
   useEffect(() => {
-    fetchAdmins();
+    fetchAllAdmins();
   }, []);
 
   return (
@@ -175,7 +168,7 @@ const ManageAdmin = () => {
           >
             Admin Panel
           </h5>
-          <div className="">
+          <div className="d-flex align-items-center">
             <AdminModal />
           </div>
         </div>
@@ -183,79 +176,106 @@ const ManageAdmin = () => {
         <div className="w-100 d-flex flex-column gap-2 p-3 mt-3 mx-0 bg-white shadow-sm rounded-2">
           <div
             className="requestList custom-scrollbar p-2 overflow-y-scroll"
-          // style={{ height: "30rem" }}
+            // style={{ height: "30rem" }}
           >
-            <Table striped bordered hover className="table-fade-in">
-              <thead>
-                <tr>
-                  <th>Program/Courses</th>
-                  <th>Administrator</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {programAdmins.map((program, index) => (
-                  <tr key={index}>
-                    <td>
-                      <p>{program.programName}</p>
-                    </td>
-                    <td>
-                      {program.firstName ? (
-                        <p className="m-0">
-                          {program.firstName} {program.lastName}
-                        </p>
-                      ) : (
-                        <p className="text-secondary m-0">No Administrator</p>
-                      )}
-                    </td>
-                    <td>
-                      {program.firstName ? (
-                        <button
-                          className="btn btn-danger w-100"
-                          onClick={() => handleRemoveProgramAdmin(program)}
-                        >
-                          <p className="m-0">
-                            <span className="d-none d-md-block">
-                              {" "}
-                              <p className="m-0">Remove admin</p>
-                            </span>
-                            <span className="m-0 d-md-none">
-                              <i className="bx bx-trash iconFont"></i>
-                            </span>
-                          </p>
-                        </button>
-                      ) : (
-                        <button
-                          className="btn w-100"
-                          style={{ backgroundColor: "var(--main-color)" }}
-                          onClick={() => {
-                            setSelectedProgram(program.programID);
-                            handleShowModal();
-                          }}
-                        >
-                          <p className="m-0">
-                            <span className="d-none d-md-block text-white">
-                              {" "}
-                              <p className="m-0">Add admin</p>
-                            </span>
-                            <span className="m-0 d-md-none text-white">
-                              <i className="m-0 bx bx-plus-circle iconFont"></i>
-                            </span>
-                          </p>
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+            {isLoading ? (
+              <>
+                <div
+                  className="d-flex align-items-center justify-content-center "
+                  style={{ height: "100%" }}
+                >
+                  <Spinner animation="border" variant="black" size="lg" />
+                </div>
+              </>
+            ) : (
+              <>
+                <Table striped bordered hover className="table-fade-in">
+                  <thead>
+                    <tr>
+                      <th>
+                        <h5 className="m-0">Program/Courses</h5>
+                      </th>
+                      <th>
+                        <h5 className="m-0">Administrator</h5>
+                      </th>
+                      <th>
+                        <h5 className="m-0">Action</h5>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {programAdmins.map((program, index) => (
+                      <tr key={index}>
+                        <td className="align-middle">
+                          <p className="m-0">{program.programName}</p>
+                        </td>
+                        <td className="align-middle">
+                          {program.firstName ? (
+                            <p className="m-0">
+                              {program.firstName} {program.lastName}
+                            </p>
+                          ) : (
+                            <p className="text-secondary m-0">
+                              No Administrator
+                            </p>
+                          )}
+                        </td>
+                        <td className="align-middle">
+                          {program.firstName ? (
+                            <button
+                              className="btn btn-danger w-100"
+                              onClick={() => handleRemoveProgramAdmin(program)}
+                            >
+                              <p className="m-0">
+                                <span className="d-none d-md-block">
+                                  Remove admin
+                                </span>
+                                <span className="m-0 d-md-none">
+                                  <i className="bx bx-trash iconFont"></i>
+                                </span>
+                              </p>
+                            </button>
+                          ) : (
+                            <button
+                              className="btn w-100"
+                              style={{ backgroundColor: "var(--main-color)" }}
+                              onClick={() => {
+                                setSelectedProgram(program.programID);
+                                handleShowModal();
+                              }}
+                            >
+                              <p className="m-0">
+                                <span className="d-none d-md-block text-white">
+                                  Add admin
+                                </span>
+                                <span className="m-0 d-md-none text-white">
+                                  <i className="m-0 bx bx-plus-circle iconFont"></i>
+                                </span>
+                              </p>
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </>
+            )}
           </div>
         </div>
       </div>
 
       {/* ADDING PROGRAM ADMINISTRATOR */}
-      <Modal show={addingModal} onHide={handleCloseModal} centered className="text-white">
-        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
+      <Modal
+        show={addingModal}
+        onHide={handleCloseModal}
+        centered
+        className="text-white"
+      >
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "var(--main-color)" }}
+        >
           <Modal.Title>Administrators</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -268,7 +288,6 @@ const ManageAdmin = () => {
                 >
                   <p>No admins.</p>
                 </div>
-
               </>
             ) : (
               admins.map((admin) => (
