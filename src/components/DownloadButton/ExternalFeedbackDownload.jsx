@@ -13,8 +13,10 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       setIsLoading(true);
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-          }/api/feedbackForm/fetchFeedbackExternalData?requestID=${documentDetails.requestID
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/feedbackForm/fetchFeedbackExternalData?requestID=${
+            documentDetails.requestID
           }`
         );
 
@@ -178,7 +180,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       // Service Availed
       doc.text(
         "Service Availed (Uri ng transaksyon o serbisyo): " +
-        (feedbackData.serviceAvailed || "_________________"),
+          (feedbackData.serviceAvailed || "_________________"),
         25,
         105
       );
@@ -643,8 +645,8 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
           {documentDetails.responded
             ? `Download feedback(External)`
             : documentDetails.feedbackType === ""
-              ? `Download feedback(None)`
-              : `Download feedback`}
+            ? `Download feedback(None)`
+            : `Download feedback`}
         </p>
       </button>
 
@@ -656,10 +658,10 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       >
         <p className="m-0">
           {documentDetails.responded
-            ? `Download (External)`
+            ? `Feedback (External)`
             : documentDetails.feedbackType === ""
-              ? `Download (None)`
-              : `Download`}
+            ? `Feedback (None)`
+            : `Feedback`}
         </p>
       </button>
     </>
