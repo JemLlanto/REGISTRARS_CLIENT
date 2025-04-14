@@ -83,7 +83,7 @@ const PersonalInformation = ({
                 className="primaryButton btn "
                 onClick={handleUpdatePersonalInfo}
               >
-                Save Changes
+                <p className="m-0">Save Changes</p>
               </button>
             </>
           ) : (
