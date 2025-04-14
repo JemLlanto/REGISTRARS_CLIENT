@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 export const GooleLogin = () => {
   const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
@@ -46,9 +47,7 @@ export const GooleLogin = () => {
     // Send the token to your backend
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/auth/google-login`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/google-login`,
         {
           token: response.credential,
         }
@@ -57,20 +56,37 @@ export const GooleLogin = () => {
         if (res.data.Status === "Success") {
           // Store the token in localStorage
           localStorage.setItem("token", res.data.token);
-          alert(res.data.message);
-          // Redirect based on admin status
-          if (res.data.isAdmin) {
-            navigate("/admin/home");
-          } else {
-            navigate("/home");
-          }
+
+          // Show success alert
+          Swal.fire({
+            icon: "success",
+            title: "Login Successful",
+            text: res.data.message,
+            confirmButtonColor: "#3085d6",
+          }).then(() => {
+            // Redirect based on admin status
+            if (res.data.isAdmin) {
+              navigate("/admin/home");
+            } else {
+              navigate("/home");
+            }
+          });
         } else {
-          alert(res.data.Error || "Login failed");
+          // Show error alert
+          Swal.fire({
+            icon: "error",
+            title: "Login Failed",
+            text: res.data.Error || "Login failed",
+          });
         }
       })
       .catch((err) => {
         console.error("Login error:", err);
-        alert("An error occurred during login");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "An error occurred during login",
+        });
       });
   };
   return (
