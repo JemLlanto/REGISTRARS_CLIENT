@@ -20,7 +20,7 @@ function RequestDatepicker({ startDate, endDate, selectedPeriod, handlePeriodCha
 
     return (
         <>
-            <Button onClick={handleShow} className="border-0 w-100 bg-warning text-dark mb-2">
+            <Button onClick={handleShow} className="border-0 w-100 bg-warning text-dark">
                 <p className="m-0 ">Set date</p>
             </Button>
 

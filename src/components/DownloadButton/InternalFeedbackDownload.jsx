@@ -13,8 +13,10 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
       setIsLoading(true);
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-          }/api/feedbackForm/fetchFeedbackInternalData?requestID=${documentDetails.requestID
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/feedbackForm/fetchFeedbackInternalData?requestID=${
+            documentDetails.requestID
           }`
         );
 
@@ -256,9 +258,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
       >
         <p className="m-0">
           {" "}
-          {documentDetails.responded
-            ? "Download feedback(Internal)"
-            : "Download"}
+          {documentDetails.responded ? "Feedback (Internal)" : "Feedback"}
         </p>
       </button>
     </>

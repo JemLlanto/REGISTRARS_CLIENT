@@ -6,6 +6,7 @@ import axios from "axios";
 import DateSelection from "../../components/Dashboard/DateSelection";
 import StatusLabels from "../../components/Dashboard/StatusLabels";
 import PurposeStats from "../../components/Dashboard/PurposeStats";
+import RequestDatepicker from "../../components/studentRequest/RequestDatepicker";
 
 export default function Home() {
   const { user } = useOutletContext();
@@ -14,9 +15,13 @@ export default function Home() {
   const [selectedPeriod, setSelectedPeriod] = useState("month");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {
+    if (!user) {
+      return;
+    }
     if (!user.isAdmin) {
       navigate("/home");
     }
@@ -55,8 +60,7 @@ export default function Home() {
     if (startDate && endDate) {
       axios
         .get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/dashboard/fetchRequestedDocuments`,
           {
             params: {
@@ -67,6 +71,7 @@ export default function Home() {
         )
         .then((res) => {
           if (res.data.Status === "Success") {
+            setIsLoading(false);
             setRequestedDocuments(res.data.data);
             console.log("requestedDocuments", res.data.data);
           } else {
@@ -115,21 +120,34 @@ export default function Home() {
     <Container
       fluid
       className="custom-scrollbar p-1 p-sm-4 w-100 overflow-y-scroll overflow-x-hidden "
-      style={{ height: "90dvh" }}
+      style={{ height: "100%" }}
     >
       <div
-        className="rounded-2  text-white p-2"
+        className="rounded-2 d-flex justify-content-between align-items-center text-white p-2 "
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5
-          className="m-0 p-2 fade-in"
+          className="m-0 p-2 fade-in "
           style={{ color: "var(--secondMain-color)" }}
         >
           Dashboard
         </h5>
+        <div className="d-block d-md-none rounded ">
+          <div className="d-flex align-items-center rounded  ">
+            <RequestDatepicker
+              startDate={startDate}
+              endDate={endDate}
+              selectedPeriod={selectedPeriod}
+              handlePeriodChange={handlePeriodChange}
+              setSelectedPeriod={setSelectedPeriod}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="mt-3" style={{ zIndex: "0" }}>
+      <div className=" d-none d-md-block mt-2" style={{ zIndex: "0" }}>
         <DateSelection
           startDate={startDate}
           endDate={endDate}
@@ -144,8 +162,11 @@ export default function Home() {
       <StatusLabels requestedDocuments={requestedDocuments} />
 
       {/* Left side: Chart */}
-      <div className="w-100 d-flex justify-content-center">
-        <PurposeStats requestedDocuments={requestedDocuments} />
+      <div className="w-100 d-flex align-items-center justify-content-center">
+        <PurposeStats
+          requestedDocuments={requestedDocuments}
+          isLoading={isLoading}
+        />
       </div>
     </Container>
   );

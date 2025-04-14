@@ -133,7 +133,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
     <div className="d-flex flex-column gap-3">
       <div
         className="requestList custom-scrollbar mt-2 d-flex flex-column gap-2 overflow-auto pe-1 rounded"
-      // style={{ height: "48dvh" }}
+        // style={{ height: "48dvh" }}
       >
         {isLoading ? (
           <>
@@ -156,7 +156,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                 >
                   <div className="row mx-auto g-2 p-3">
                     <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                      <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                      <h5 className="m-0 text-muted me-1 d-block d-sm-none">
                         Name:
                       </h5>
                       <p className="m-0 me-1">{request.firstName}</p>
@@ -169,7 +169,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                     ></div>
 
                     <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                      <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                      <h5 className="m-0 text-muted me-1 d-block d-sm-none">
                         Purpose:
                       </h5>
                       <p className="m-0">{request.purpose}</p>
@@ -181,14 +181,14 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                     ></div>
 
                     <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                      <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                      <h5 className="m-0 text-muted me-1 d-block d-sm-none">
                         Date:
                       </h5>
                       <p className="m-0">
                         {request?.created
                           ? new Intl.DateTimeFormat("en-US", {
-                            dateStyle: "medium",
-                          }).format(new Date(request?.created))
+                              dateStyle: "medium",
+                            }).format(new Date(request?.created))
                           : ""}
                       </p>
                     </div>
@@ -199,7 +199,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                     ></div>
 
                     <div className="col-12 col-sm d-flex align-items-center justify-content-center">
-                      <h5 className="m-0 fw-bold me-1 d-block d-sm-none">
+                      <h5 className="m-0 text-muted me-1 d-block d-sm-none">
                         Status:
                       </h5>
                       <h5 className={`m-0 ${getStatusColor(request.status)}`}>
@@ -215,7 +215,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                 className="spinner-container d-flex justify-content-center align-items-center spinner-container"
                 style={{ height: "70%" }}
               >
-                <p className="m-0">No pending request</p>
+                <p className="m-0">No document request found... </p>
               </div>
             )}
           </>

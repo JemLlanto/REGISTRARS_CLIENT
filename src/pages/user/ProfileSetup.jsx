@@ -85,7 +85,7 @@ export default function ProfileSetup() {
     if (!/[A-Z]/.test(password)) errors.push("One uppercase letter");
     if (!/[a-z]/.test(password)) errors.push("One lowercase letter");
     if (!/[0-9]/.test(password)) errors.push("One number");
-    if (!/[!@#$%^&*]/.test(password)) errors.push("One special character");
+
     return errors;
   };
 
@@ -110,7 +110,7 @@ export default function ProfileSetup() {
   };
 
   return (
-    <div className="p-1 p-sm-4 w-100">
+    <div className="p-1 p-sm-4 w-100" style={{ height: "100%" }}>
       <div
         className="rounded-2 shadow-sm p-2"
         style={{ backgroundColor: "var(--main-color)" }}
@@ -124,8 +124,8 @@ export default function ProfileSetup() {
       </div>
 
       <div
-        className="w-100 bg-light shadow-sm rounded-2 p-4 mt-3 overflow-x-hidden overflow-y-auto"
-        style={{ maxHeight: "35rem" }}
+        className="w-100 bg-light shadow-sm rounded-2 p-3 custom-scrollbar mt-2 overflow-x-hidden overflow-y-auto"
+        style={{ maxHeight: "43rem" }}
       >
         <div className="" style={{ maxHeight: "50rem" }}>
           <PersonalInformation

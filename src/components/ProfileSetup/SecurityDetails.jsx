@@ -74,14 +74,14 @@ const SecurityDetails = ({
                 className="btn btn-secondary"
                 onClick={handleCancelEditSecurity}
               >
-                Cancel
+                <p className="m-0">Cancel</p>
               </button>
               <button
                 className="primaryButton btn "
                 onClick={handleChangePassword}
                 disabled={!isFormValid()}
               >
-                Save Changes
+                <p className="m-0">Save Changes</p>
               </button>
             </>
           ) : (

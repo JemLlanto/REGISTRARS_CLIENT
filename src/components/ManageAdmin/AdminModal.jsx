@@ -11,10 +11,9 @@ import axios from "axios";
 import AddingNewAdmin from "./AddingNewAdmin";
 import Swal from "sweetalert2";
 
-const AdminModal = () => {
+const AdminModal = ({ admins, fetchAllAdmins }) => {
   const [adminModal, setAdminModal] = useState(false);
   const [addingModal, setAddingModal] = useState(false);
-  const [admins, setAdmins] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchName, setSearchName] = useState("");
@@ -42,12 +41,13 @@ const AdminModal = () => {
   const handleAddAdmin = () => {
     axios
       .post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/addAdmin/${selectedUser}`
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          fetchAdmins();
+          fetchAllAdmins();
           fetchUsers();
           setSelectedUser("");
           Swal.fire({
@@ -88,12 +88,13 @@ const AdminModal = () => {
       if (result.isConfirmed) {
         axios
           .post(
-            `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            `${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
             }/api/manageAdmin/removeAdmin/${userID}`
           )
           .then((res) => {
             if (res.data.Status === "Success") {
-              fetchAdmins();
+              fetchAllAdmins();
               fetchUsers();
               setSelectedUser("");
               Swal.fire({
@@ -138,30 +139,11 @@ const AdminModal = () => {
     return matchedUser;
   });
 
-  const fetchAdmins = () => {
-    axios
-      .get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/manageAdmin/fetchAdmin`
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          setAdmins(res.data.data);
-          console.log(res.data.data);
-        }
-      })
-      .catch((err) => {
-        console.log("Error fetching admins: ", err);
-      });
-  };
-  useEffect(() => {
-    fetchAdmins();
-  }, []);
-
   const fetchUsers = () => {
     axios
       .get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/fetchUser`
       )
       .then((res) => {
@@ -182,7 +164,10 @@ const AdminModal = () => {
         View admins
       </button>
       <Modal show={adminModal} onHide={handleClose} centered>
-        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)", color: "white" }}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "var(--main-color)", color: "white" }}
+        >
           <Modal.Title>Administrators</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -218,10 +203,18 @@ const AdminModal = () => {
           </Table>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" className="border-0" onClick={handleClose}>
+          <Button
+            variant="secondary"
+            className="border-0"
+            onClick={handleClose}
+          >
             <p className="m-0">Close</p>
           </Button>
-          <Button className="border-0" style={{ backgroundColor: "var(--main-color)", color: "white" }} onClick={() => handleShowAddingModal()}>
+          <Button
+            className="border-0"
+            style={{ backgroundColor: "var(--main-color)", color: "white" }}
+            onClick={() => handleShowAddingModal()}
+          >
             <p className="m-0">Add admin</p>
           </Button>
         </Modal.Footer>
@@ -229,7 +222,10 @@ const AdminModal = () => {
 
       {/* FOR ADDING ADMINS */}
       <Modal show={addingModal} onHide={handleCloseAddingModal} centered>
-        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)", color: "white" }}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "var(--main-color)", color: "white" }}
+        >
           <Modal.Title>Add Administrator</Modal.Title>
         </Modal.Header>
         <Modal.Body
@@ -270,21 +266,32 @@ const AdminModal = () => {
                       setSelectedUser(user.userID);
                     }
                   }}
-                  className={`border text-dark ${selectedUser === user.userID ? " text-white" : "bg-transparent"}`}
+                  className={`border text-dark ${
+                    selectedUser === user.userID
+                      ? " text-white"
+                      : "bg-transparent"
+                  }`}
                 >
-                  <p className="m-0">{user.firstName} {user.lastName}</p>
-
+                  <p className="m-0">
+                    {user.firstName} {user.lastName}
+                  </p>
                 </ToggleButton>
-
               ))
             )}
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" className="border-0" onClick={handleCloseAddingModal}>
+          <Button
+            variant="secondary"
+            className="border-0"
+            onClick={handleCloseAddingModal}
+          >
             <p className="m-0">Close</p>
           </Button>
-          <Button style={{ backgroundColor: "var(--main-color)", border: "none" }} onClick={handleAddAdmin}>
+          <Button
+            style={{ backgroundColor: "var(--main-color)", border: "none" }}
+            onClick={handleAddAdmin}
+          >
             <p className="m-0">Add admin</p>
           </Button>
         </Modal.Footer>

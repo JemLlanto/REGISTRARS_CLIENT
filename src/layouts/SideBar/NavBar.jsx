@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Dropdown, Offcanvas, Button } from "react-bootstrap";
+import { Dropdown, Spinner } from "react-bootstrap";
 import axios from "axios";
 import PhoneSidebar from "./PhoneSidebar";
 import NotifButton from "../../components/NavBar/NotifButton";
@@ -28,10 +28,10 @@ const NavBar = ({ user }) => {
       >
         {/* Logo*/}
         <img
-          src="/cvsu-logo.png"
+          src="/navLogo.png"
           alt="Registrar Logo"
           className="d-block d-md-none img-fluid"
-          style={{ maxWidth: "50px", objectFit: "cover" }}
+          style={{ maxWidth: "130px", objectFit: "cover" }}
         />
         {/* Right Side*/}
         <div className="d-flex align-items-end justify-content-end ms-auto gap-2">
@@ -53,36 +53,64 @@ const NavBar = ({ user }) => {
               id="dropdown-basic"
               style={{ backgroundColor: "var(--main-color)" }}
             >
-              <p
-                className="m-0 d-none d-md-block"
-                style={{ color: "var(--secondMain-color)" }}
-              >
-                {user.firstName}
-              </p>
-              <i
-                className="bx bx-user-circle m-0 "
-                style={{ color: "var(--secondMain-color)" }}
-              ></i>
+              {!user ? (
+                <>
+                  <div className="justify-content-center d-flex align-items-center gap-2">
+                    <p
+                      className="m-0 d-none d-md-block"
+                      style={{ color: "var(--secondMain-color)" }}
+                    >
+                      Loading...
+                    </p>
+                    <Spinner animation="border" variant="white" size="sm" />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p
+                    className="m-0 d-none d-md-block"
+                    style={{ color: "var(--secondMain-color)" }}
+                  >
+                    {user.firstName}
+                  </p>
+                  <i
+                    className="bx bx-user-circle m-0 "
+                    style={{ color: "var(--secondMain-color)" }}
+                  ></i>
+                </>
+              )}
             </Dropdown.Toggle>
             <Dropdown.Menu className="text-center">
-              <Dropdown.Item className="btn btn-white btn-no-hover">
-                <Link
-                  to="/profile-setup"
-                  className="text-decoration-none text-dark border-0 bg-transparent "
-                >
-                  <i className="bx bx-user me-2 m-0"></i>
-                  Profile
-                </Link>
-              </Dropdown.Item>
-              <Dropdown.Item className="btn btn-white btn-no-hover">
-                <button
-                  className="btn btn-white btn-no-hover w-100 text-center border-0 bg-transparent "
-                  onClick={handleLogout}
-                >
-                  <i className="bx bx-log-out me-2 m-0"></i>
-                  Logout
-                </button>
-              </Dropdown.Item>
+              {!user ? (
+                <>
+                  <div className="justify-content-center d-flex align-items-center gap-2 text-black">
+                    <p className="m-0 d-none d-md-block">Loading</p>
+                    <Spinner animation="border" variant="black" size="sm" />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Dropdown.Item
+                    as={Link}
+                    to="/profile-setup"
+                    className="text-dark bg-white py-0"
+                  >
+                    <button className="w-100 btn btn-light d-flex align-items-center justify-content-center ">
+                      <i className="bx bx-user me-2 m-0"></i>
+                      <p className="m-0">Profile</p>
+                    </button>
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="text-dark bg-white py-0"
+                    onClick={handleLogout}
+                  >
+                    <button className="w-100 btn btn-light d-flex align-items-center justify-content-center ">
+                      <i className="bx bx-log-out me-2 m-0"></i>
+                      <p className="m-0">Logout</p>
+                    </button>
+                  </Dropdown.Item>
+                </>
+              )}
             </Dropdown.Menu>
           </Dropdown>
           <PhoneSidebar user={user}></PhoneSidebar>

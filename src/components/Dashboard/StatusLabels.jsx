@@ -4,6 +4,7 @@ import Pending from "./Modal/Pending";
 import Processing from "./Modal/Processing";
 import Completed from "./Modal/Completed";
 import ReadyToPickup from "./Modal/ReadyToPickup";
+import CountUp from "react-countup";
 
 const StatusLabels = ({ requestedDocuments }) => {
   const pendingRequests = requestedDocuments.filter(
@@ -22,16 +23,19 @@ const StatusLabels = ({ requestedDocuments }) => {
   return (
     <Row className="w-100 mx-auto gap-2 mt-2">
       <Col className="m-0 p-0">
-        <Pending pendingRequests={pendingRequests} />
+        <Pending pendingRequests={pendingRequests} CountUp={CountUp} />
       </Col>
       <Col className="m-0 p-0">
-        <Processing processingRequests={processingRequests} />
+        <Processing processingRequests={processingRequests} CountUp={CountUp} />
       </Col>
       <Col className="m-0 p-0">
-        <ReadyToPickup readyToPickupRequests={readyToPickupRequests} />
+        <ReadyToPickup
+          readyToPickupRequests={readyToPickupRequests}
+          CountUp={CountUp}
+        />
       </Col>
       <Col className="m-0 p-0">
-        <Completed completedRequests={completedRequests} />
+        <Completed completedRequests={completedRequests} CountUp={CountUp} />
       </Col>
     </Row>
   );

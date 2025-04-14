@@ -12,6 +12,7 @@ import RequestedDocumentsDownload from "../../components/DownloadButton/Requeste
 export default function StudentRequests() {
   const { user } = useOutletContext();
   const [requestedDocuments, setRequestedDocuments] = useState([]);
+  const [adminPrograms, setAdminPrograms] = useState([]);
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const navigate = useNavigate();
@@ -32,13 +33,35 @@ export default function StudentRequests() {
     }
   }, [user, navigate]);
 
+  const fetchAdminPrograms = async () => {
+    try {
+      setIsLoading(true);
+      const res = await axios.get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/dashboard/fetchAdminPrograms`,
+        {
+          adminId: user.userID,
+        }
+      );
+      if (res.status === 2000) {
+        setAdminPrograms(res.data);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Separate function for the API call that can be called directly
   const fetchRequestedDocuments = async () => {
     if (startDate && endDate) {
       try {
         setIsLoading(true);
         const res = await axios.get(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/dashboard/fetchRequestedDocuments`,
           {
             params: {
@@ -86,10 +109,11 @@ export default function StudentRequests() {
 
   // Fetch documents whenever dates change
   useEffect(() => {
-    if (startDate && endDate) {
+    if (startDate && endDate && user) {
       fetchRequestedDocuments();
+      fetchAdminPrograms();
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, user]);
 
   // Filter documents based on search input
   useEffect(() => {
@@ -182,9 +206,12 @@ export default function StudentRequests() {
   };
 
   return (
-    <div className="p-1 p-sm-4 w-100 " style={{ height: "100%" }}>
+    <div
+      className="p-1 p-sm-4 w-100 position-relative"
+      style={{ height: "100%" }}
+    >
       <div
-        className="rounded-2 shadow-sm text-white p-2 mb-2 d-flex  justify-content-between"
+        className="rounded-2 shadow-sm text-white p-2 mb-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5
@@ -202,11 +229,11 @@ export default function StudentRequests() {
           )
         </h5>
 
-        <div className="d-flex align-items-center gap-2">
+        <div className="d-flex align-items-center justify-content-center gap-2">
           {/* DATE SELECTION FOR SMALL SCREENS */}
           {/* Search Bar */}
           <div className="d-none d-md-block">
-            <div className="d-flex align-items-center  px-2">
+            <div className="d-flex align-items-center gap-1 ">
               {/* Search Icon - Click to toggle input field */}
               <div
                 className="d-flex align-items-center justify-content-center pe-2"
@@ -232,9 +259,16 @@ export default function StudentRequests() {
                   overflow: "hidden",
                 }}
               />
+              <div className="mx-0">
+                <RequestedDocumentsDownload
+                  filteredRequests={filteredRequests}
+                  startDate={startDate}
+                  endDate={endDate}
+                />
+              </div>
             </div>
           </div>
-          <div>
+          <div className="d-block d-md-none d-flex align-items-center justify-content-center ">
             <RequestedDocumentsDownload
               filteredRequests={filteredRequests}
               startDate={startDate}
@@ -243,9 +277,37 @@ export default function StudentRequests() {
           </div>
         </div>
       </div>
+
       <div>
-        <div className="d-block d-md-none rounded ">
-          <div className="d-flex align-items-center rounded  ">
+        {/* Search Bar phone*/}
+        {/* Mobile layout container */}
+        <div className="  d-block d-md-none  d-flex justify-content-betweenalign-items-center">
+          {/* Search Icon - Click to toggle input field */}
+          <InputGroup className="">
+            <InputGroup.Text
+              id="basic-addon1"
+              style={{ backgroundColor: "var(--main-color)", color: "white" }}
+            >
+              <i className="bx bx-search-alt"></i>
+            </InputGroup.Text>
+            <Form.Control
+              type="text"
+              className=" shadow-none "
+              id="searchInputMobile"
+              placeholder="Search by name or email"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+          </InputGroup>
+        </div>
+        <div className="mt-1  d-block d-md-none  d-flex justify-content-between align-items-center gap-2">
+          {/* Status for mobile */}
+          <div className="d-block d-md-none  d-flex align-items-center justify-content-center">
+            <MainHeaders status={status} handleSelect={handleSelect} />
+          </div>
+          <div className="d-flex align-items-center justify-content-center">
             <RequestDatepicker
               startDate={startDate}
               endDate={endDate}
@@ -257,28 +319,7 @@ export default function StudentRequests() {
             />
           </div>
         </div>
-        {/* Search Bar phone*/}
-        {/* Mobile layout container */}
-        <div className="d-block d-md-none">
-          <div className="d-flex align-items-center">
-            {/* Search Icon - Click to toggle input field */}
-            <InputGroup className="">
-              <InputGroup.Text id="basic-addon1">
-                <i className="bx bx-search-alt"></i>
-              </InputGroup.Text>
-              <Form.Control
-                type="text"
-                className=" shadow-none"
-                id="searchInputMobile"
-                placeholder="Search by name or email"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                aria-label="Username"
-                aria-describedby="basic-addon1"
-              />
-            </InputGroup>
-          </div>
-        </div>
+
         {/* large  device*/}
         <div className="d-none d-md-block">
           <DateSelection
@@ -292,7 +333,10 @@ export default function StudentRequests() {
           />
         </div>
       </div>
-      <MainHeaders status={status} handleSelect={handleSelect} />
+
+      <div className="d-none d-md-block mt-2">
+        <MainHeaders status={status} handleSelect={handleSelect} />
+      </div>
       <RequestHeaders
         status={status}
         filteredRequests={filteredRequests}
