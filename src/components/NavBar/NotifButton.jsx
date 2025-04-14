@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Dropdown, Toast, ToastContainer } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 import Swal from "sweetalert2";
 
@@ -12,42 +12,125 @@ const NotifButton = ({ user }) => {
   const [notifications, setNotifications] = useState([]);
   const [toasts, setToasts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [newNotif, setNewNotif] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const notifContainerRef = useRef(null);
+  const LIMIT = 10; // Number of notifications to fetch at once
+
   const userID = user.userID;
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Fetch initial notifications
-  const fetchNotifications = async () => {
-    try {
-      const response = await axios.get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/notifications/fetchNotification/${userID}`
-      );
-      if (response.data.Status === "Success") {
-        setNotifications(response.data.data);
-        // console.error(response.data.data);
-      } else {
-        // console.log(response.data.Message);
+  // Fetch notifications with pagination
+  const fetchNotifications = useCallback(
+    async (pageNum = 1, append = false) => {
+      try {
+        if (pageNum === 1) {
+          setLoading(true);
+        } else {
+          setLoadingMore(true);
+        }
+
+        const response = await axios.get(
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/notifications/fetchNotification/${userID}`,
+          {
+            params: {
+              page: pageNum,
+              limit: LIMIT,
+            },
+          }
+        );
+
+        if (response.data.Status === "Success") {
+          const newNotifications = response.data.data;
+
+          // If there are fewer notifications than the limit, we've reached the end
+          if (newNotifications.length < LIMIT) {
+            setTimeout(() => {
+              setHasMore(false);
+            }, 0);
+          } else {
+            setTimeout(() => {
+              setHasMore(true);
+            }, 0);
+          }
+
+          // Either append to existing notifications or replace them
+          if (append) {
+            setNotifications((prev) => [...prev, ...newNotifications]);
+          } else {
+            setNotifications(newNotifications);
+          }
+        } else {
+          console.log(response.data.Message);
+        }
+        setTimeout(() => {
+          setLoading(false);
+          setLoadingMore(false);
+        }, 0);
+        setNewNotif(false);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+        setLoading(false);
+        setLoadingMore(false);
       }
-      setLoading(false);
-      setNewNotif(false);
-    } catch (error) {
-      console.error("Error fetching notifications:", error);
-      setLoading(false);
-    }
-  };
+    },
+    [userID]
+  );
+
   useEffect(() => {
     if (userID) {
-      fetchNotifications();
+      fetchNotifications(1, false);
     }
-  }, [userID]);
+  }, [userID, fetchNotifications]);
 
   useEffect(() => {
     if (newNotif) {
-      fetchNotifications();
+      // Reset to first page when there's a new notification
+      setPage(1);
+      fetchNotifications(1, false);
     }
-  }, [newNotif]);
+  }, [newNotif, fetchNotifications]);
+
+  // Handler for scrolling to bottom of notification container
+  const handleScroll = useCallback(() => {
+    if (!notifContainerRef.current || loadingMore || !hasMore) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = notifContainerRef.current;
+
+    // More generous threshold - trigger when within 100px of bottom
+    if (scrollHeight - scrollTop - clientHeight < 100) {
+      // Prevent multiple calls while loading
+      if (!loadingMore) {
+        const nextPage = page + 1;
+        setPage(nextPage);
+        fetchNotifications(nextPage, true);
+      }
+    }
+  }, [loadingMore, hasMore, page, fetchNotifications]);
+
+  // Check if initial content fills the container
+  useEffect(() => {
+    if (
+      notifContainerRef.current &&
+      !loading &&
+      hasMore &&
+      notifications.length > 0
+    ) {
+      const { scrollHeight, clientHeight } = notifContainerRef.current;
+
+      // If the initial content doesn't fill the container, load more
+      if (scrollHeight <= clientHeight && !loadingMore) {
+        const nextPage = page + 1;
+        setPage(nextPage);
+        fetchNotifications(nextPage, true);
+      }
+    }
+  }, [notifications, loading, loadingMore, hasMore, page, fetchNotifications]);
 
   // Set up socket connection and event listeners
   useEffect(() => {
@@ -111,16 +194,21 @@ const NotifButton = ({ user }) => {
 
   // Handle marking notification as read
   const handleNotificationClick = async (notif) => {
+    const targetPath = `/request-details/${notif.requestID}`;
     try {
       await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/notifications/markAsRead/${notif.requestID}`
       );
-      fetchNotifications();
-      console.error("Navigating to:", `request-details/${notif.requestID}`);
+      fetchNotifications(1, false);
+      console.log("Navigating to:", targetPath);
 
-      navigate(`request-details/${notif.requestID}`);
+      if (location.pathname === targetPath) {
+        window.location.reload(); // Reload if already on the same page
+      } else {
+        navigate(targetPath); // Navigate normally otherwise
+      }
     } catch (error) {
       console.error("Error marking notification as read:", error);
     }
@@ -135,7 +223,7 @@ const NotifButton = ({ user }) => {
       );
 
       if (res.status === 200) {
-        fetchNotifications();
+        fetchNotifications(1, false);
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -278,7 +366,6 @@ const NotifButton = ({ user }) => {
                   cursor: "not-allowed",
                   color: "var(--yellow-color-disabled)",
                 }}
-                // onClick={handleMarkAllNotifAsRead}
               >
                 Mark all as read
               </small>
@@ -313,8 +400,10 @@ const NotifButton = ({ user }) => {
           ) : (
             /* Scrollable Notification List */
             <div
+              ref={notifContainerRef}
               style={{ maxHeight: "380px", overflowY: "auto" }}
               className="custom-scrollbar"
+              onScroll={handleScroll}
             >
               {notifications.map((notif, index) => (
                 <Dropdown.Item
@@ -347,6 +436,30 @@ const NotifButton = ({ user }) => {
                   </div>
                 </Dropdown.Item>
               ))}
+
+              {/* Loading indicator for pagination */}
+              {loadingMore && (
+                <div className="text-center py-2">
+                  <div
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                    style={{ color: "var(--yellow-color)" }}
+                  ></div>
+                  <span
+                    className="ms-2"
+                    style={{ color: "var(--yellow-color)" }}
+                  >
+                    Loading more...
+                  </span>
+                </div>
+              )}
+
+              {/* End of list message */}
+              {!hasMore && notifications.length > 0 && (
+                <div className="text-center py-2 text-muted">
+                  <small>No more notifications</small>
+                </div>
+              )}
             </div>
           )}
         </Dropdown.Menu>
