@@ -5,10 +5,10 @@ const MainHeaders = ({ status, handleSelect }) => {
   return (
     <div
       className="d-flex rounded-2 "
-      style={{ backgroundColor: "var(--yellow-color)" }}
+
     >
       {/* Desktop View */}
-      <div className="fade-in d-none d-md-flex w-100 text-white">
+      <div className="fade-in d-none d-md-flex w-100 text-white" style={{ backgroundColor: "var(--yellow-color)" }}>
         {/* Column: Name */}
         <div className="flex-fill d-flex align-items-center justify-content-center">
           <p className="m-0">Name</p>
