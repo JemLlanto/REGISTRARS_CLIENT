@@ -134,7 +134,7 @@ const RequestDetails = () => {
           </div>
         </>
       ) : (
-        <div className="p-0 p-md-4 w-100 " style={{ height: "100%" }}>
+        <div className="p-1 p-md-4 w-100 " style={{ height: "100%" }}>
           {/* Header Section */}
           <RequestDetailsHeader
             user={user}
@@ -228,16 +228,16 @@ const RequestDetails = () => {
                     {documentDetails.purpose}
                     <span
                       className={`${status === "pending"
-                          ? "text-warning"
-                          : status === "processing"
-                            ? "text-primary"
-                            : status === "ready to pickup"
-                              ? "text-info"
-                              : status === "completed"
-                                ? "text-success"
-                                : status === "cancelled"
-                                  ? "text-danger"
-                                  : null
+                        ? "text-warning"
+                        : status === "processing"
+                          ? "text-primary"
+                          : status === "ready to pickup"
+                            ? "text-info"
+                            : status === "completed"
+                              ? "text-success"
+                              : status === "cancelled"
+                                ? "text-danger"
+                                : null
                         } `}
                     >
                       (
@@ -330,7 +330,7 @@ const RequestDetails = () => {
             )}
             {documentFile && (
               <div
-                className="fade-in-section bg-white w-100  rounded-2 d-flex flex-column p-4 mb-2"
+                className="fade-in-section bg-white w-100 mb-5  rounded-2 d-flex flex-column p-4 mb-2"
                 style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
               >
                 <h5 className="text-muted">Uploaded document</h5>
