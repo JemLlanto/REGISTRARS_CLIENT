@@ -171,7 +171,7 @@ const ManageAdmin = () => {
           </div>
         </div>
 
-        <div className="w-100 d-flex flex-column gap-2 p-2  mt-3 mx-0 bg-white shadow-sm rounded-2">
+        <div className="w-100 d-flex flex-column gap-2 p-1  mt-3 mx-0 bg-white shadow-sm rounded-2">
           <div
             className="requestList custom-scrollbar p-2 overflow-y-scroll"
             style={{ height: "70dvh" }}
