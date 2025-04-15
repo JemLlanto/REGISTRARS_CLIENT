@@ -4,11 +4,9 @@ import { Dropdown } from "react-bootstrap";
 const MainHeaders = ({ status, handleSelect }) => {
   return (
     <div
-      className="d-flex rounded-2 "
-      style={{ backgroundColor: "var(--yellow-color)" }}
-    >
+      className="d-flex">
       {/* Desktop View */}
-      <div className="fade-in d-none d-md-flex w-100 text-white">
+      <div className="fade-in d-none d-md-flex w-100  rounded-2  text-white" style={{ backgroundColor: "var(--yellow-color)" }}>
         {/* Column: Name */}
         <div className="flex-fill d-flex align-items-center justify-content-center">
           <p className="m-0">Name</p>
@@ -63,10 +61,10 @@ const MainHeaders = ({ status, handleSelect }) => {
 
 
       {/* Mobile View */}
-      <div className="d-block d-md-none ">
+      <div className="d-block d-md-none bg-warning rounded">
         <Dropdown>
           <Dropdown.Toggle
-            className="d-flex align-items-center text-white"
+            className="d-flex align-items-center text-dark"
             variant="transparent"
             id="dropdown-basic"
             bsPrefix=""
@@ -76,7 +74,7 @@ const MainHeaders = ({ status, handleSelect }) => {
               border: "none",
             }}
           >
-            <p className="m-0">
+            <p className="m-0 text-dark">
               Status
               {status ? (
                 <>

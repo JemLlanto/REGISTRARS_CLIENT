@@ -294,7 +294,7 @@ export default function StudentRequests() {
       <div>
         {/* Search Bar phone*/}
         {/* Mobile layout container */}
-        <div className="  d-block d-md-none  d-flex justify-content-betweenalign-items-center">
+        <div className="d-block d-md-none  d-flex justify-content-between align-items-center">
           {/* Search Icon - Click to toggle input field */}
           <InputGroup className="">
             <InputGroup.Text
@@ -315,7 +315,7 @@ export default function StudentRequests() {
             />
           </InputGroup>
         </div>
-        <div className="mt-1  d-block d-md-none  d-flex justify-content-between align-items-center gap-2">
+        <div className="mt-1 bg-warning p-1 rounded d-block d-md-none  d-flex justify-content-between align-items-center gap-2">
           {/* Status for mobile */}
           <div className="d-block d-md-none  d-flex align-items-center justify-content-center">
             <MainHeaders status={status} handleSelect={handleSelect} />

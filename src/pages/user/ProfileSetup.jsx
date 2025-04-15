@@ -125,9 +125,9 @@ export default function ProfileSetup() {
 
       <div
         className="w-100 bg-light shadow-sm rounded-2 p-3 custom-scrollbar mt-2 overflow-x-hidden overflow-y-auto"
-        style={{ maxHeight: "43rem" }}
+        style={{ maxHeight: "75%" }}
       >
-        <div className="" style={{ maxHeight: "50rem" }}>
+        <div className="">
           <PersonalInformation
             handleEditInfo={handleEditInfo}
             handleCancelEditInfo={handleCancelEditInfo}
