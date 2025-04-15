@@ -66,7 +66,7 @@ const MainHeaders = ({ status, handleSelect }) => {
       <div className="d-block d-md-none ">
         <Dropdown>
           <Dropdown.Toggle
-            className="d-flex align-items-center text-white"
+            className="d-flex align-items-center text-dark"
             variant="transparent"
             id="dropdown-basic"
             bsPrefix=""
@@ -76,7 +76,7 @@ const MainHeaders = ({ status, handleSelect }) => {
               border: "none",
             }}
           >
-            <p className="m-0">
+            <p className="m-0 text-dark">
               Status
               {status ? (
                 <>
