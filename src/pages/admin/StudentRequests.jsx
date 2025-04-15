@@ -22,7 +22,7 @@ export default function StudentRequests() {
   const location = useLocation();
   const [status, setStatus] = useState("all");
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {
@@ -33,26 +33,35 @@ export default function StudentRequests() {
     }
   }, [user, navigate]);
 
-  const fetchAdminPrograms = async () => {
+  const fetchAdminPrograms = async (userID) => {
     try {
       setIsLoading(true);
+      console.log("Fetching admin programs for userID:", userID);
       const res = await axios.get(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/dashboard/fetchAdminPrograms`,
         {
-          adminId: user.userID,
+          params: {
+            adminID: userID,
+          },
         }
       );
-      if (res.status === 2000) {
+      if (res.status === 200) {
+        console.log("Admin Programs", res.data);
         setAdminPrograms(res.data);
       }
     } catch (err) {
       console.error(err);
-    } finally {
-      setIsLoading(false);
     }
   };
+
+  // Fetch documents whenever dates change
+  useEffect(() => {
+    if (user) {
+      fetchAdminPrograms(user.userID);
+    }
+  }, [user]);
 
   // Separate function for the API call that can be called directly
   const fetchRequestedDocuments = async () => {
@@ -72,9 +81,15 @@ export default function StudentRequests() {
         );
 
         if (res.data.Status === "Success") {
-          setRequestedDocuments(res.data.data);
-          console.log("requestedDocuments", res.data.data);
+          if (res.data.data.length === 0) {
+            console.log("requestedDocuments not found");
+            setRequestedDocuments([]);
+          } else {
+            setRequestedDocuments(res.data.data);
+            console.log("requestedDocuments", res.data.data);
+          }
         } else {
+          console.log("requestedDocuments not found");
           setRequestedDocuments([]);
         }
       } catch (err) {
@@ -86,6 +101,12 @@ export default function StudentRequests() {
       }
     }
   };
+  // Fetch documents whenever dates change
+  useEffect(() => {
+    if (startDate && endDate) {
+      fetchRequestedDocuments();
+    }
+  }, [startDate, endDate]);
 
   const setDefaultMonthDates = () => {
     const today = new Date();
@@ -106,14 +127,6 @@ export default function StudentRequests() {
   useEffect(() => {
     setDefaultMonthDates();
   }, []);
-
-  // Fetch documents whenever dates change
-  useEffect(() => {
-    if (startDate && endDate && user) {
-      fetchRequestedDocuments();
-      fetchAdminPrograms();
-    }
-  }, [startDate, endDate, user]);
 
   // Filter documents based on search input
   useEffect(() => {
@@ -281,7 +294,7 @@ export default function StudentRequests() {
       <div>
         {/* Search Bar phone*/}
         {/* Mobile layout container */}
-        <div className="  d-block d-md-none  d-flex justify-content-betweenalign-items-center">
+        <div className="d-block d-md-none  d-flex justify-content-between align-items-center">
           {/* Search Icon - Click to toggle input field */}
           <InputGroup className="">
             <InputGroup.Text
@@ -302,7 +315,7 @@ export default function StudentRequests() {
             />
           </InputGroup>
         </div>
-        <div className="mt-1  d-block d-md-none  d-flex justify-content-between align-items-center gap-2">
+        <div className="mt-1 bg-warning p-1 rounded d-block d-md-none  d-flex justify-content-between align-items-center gap-2">
           {/* Status for mobile */}
           <div className="d-block d-md-none  d-flex align-items-center justify-content-center">
             <MainHeaders status={status} handleSelect={handleSelect} />

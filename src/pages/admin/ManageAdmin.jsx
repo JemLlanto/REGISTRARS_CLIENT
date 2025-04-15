@@ -33,8 +33,7 @@ const ManageAdmin = () => {
   const handleAddProgramAdmin = () => {
     axios
       .post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/addProgramAdmin`,
         formData
       )
@@ -90,8 +89,7 @@ const ManageAdmin = () => {
         if (result.isConfirmed) {
           axios
             .post(
-              `${
-                import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+              `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
               }/api/manageAdmin/removeProgramAdmin`,
               {
                 programID: program.programID,
@@ -157,7 +155,7 @@ const ManageAdmin = () => {
 
   return (
     <>
-      <div className="w-100 p-1 p-sm-4" style={{ height: "100%" }}>
+      <div className="w-100 p-1 p-sm-4 " style={{ height: "100%" }}>
         <div
           className="rounded-2 shadow-sm text-white p-2 d-flex justify-content-between align-items-center"
           style={{ backgroundColor: "var(--main-color)" }}
@@ -173,10 +171,10 @@ const ManageAdmin = () => {
           </div>
         </div>
 
-        <div className="w-100 d-flex flex-column gap-2 p-2 mt-3 mx-0 bg-white shadow-sm rounded-2">
+        <div className="w-100 d-flex flex-column gap-2 p-1  mt-3 mx-0 bg-white shadow-sm rounded-2">
           <div
             className="requestList custom-scrollbar p-2 overflow-y-scroll"
-            // style={{ height: "30rem" }}
+            style={{ height: "70dvh" }}
           >
             {isLoading ? (
               <>

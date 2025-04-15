@@ -80,7 +80,7 @@ function PurposeStats({ requestedDocuments, isLoading }) {
 
   return (
     <>
-      <div className="bg-white  rounded mt-2 w-100" style={{ height: "48dvh" }}>
+      <div className="bg-white  rounded mt-2 mb-5 w-100" style={{ height: "45dvh" }}>
         {isLoading ? (
           <>
             <div

@@ -3,16 +3,16 @@ import React from "react";
 const RequestInfo = ({ documentDetails }) => {
   const birthDate = documentDetails?.dateOfBirth
     ? new Intl.DateTimeFormat("en-US", {
-        dateStyle: "medium",
-      }).format(new Date(documentDetails?.dateOfBirth))
+      dateStyle: "medium",
+    }).format(new Date(documentDetails?.dateOfBirth))
     : "";
   return (
     <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mx-0">
-      <h5 className="text-muted">Request details</h5>
+      <p className="text-muted">Request details</p>
 
       {/* Name */}
       <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Name</p>
+        <p className="text-muted">Name</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-user text-dark fs-5 me-1"></i>
           <h6 className="m-0">
@@ -24,7 +24,7 @@ const RequestInfo = ({ documentDetails }) => {
 
       {/* Birthday */}
       <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Birthday</p>
+        <p className="text-muted">Birthday</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-cake text-dark fs-5 me-1"></i>
           <h6 className="m-0">{birthDate}</h6>
@@ -33,7 +33,7 @@ const RequestInfo = ({ documentDetails }) => {
 
       {/* Gender */}
       <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Gender</p>
+        <p className="text-muted">Gender</p>
         <div className="d-flex align-items-center">
           <i className="bx bx-male-sign text-dark fs-5 me-1"></i>
           <h6 className="m-0">{documentDetails.sex}</h6>
@@ -45,7 +45,7 @@ const RequestInfo = ({ documentDetails }) => {
 
       {/* Course */}
       <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Program/Course</p>
+        <p className="text-muted">Program/Course</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-graduation text-dark fs-5 me-1"></i>
           <h6 className="m-0">{documentDetails.program}</h6>
@@ -54,7 +54,7 @@ const RequestInfo = ({ documentDetails }) => {
 
       {/* Student ID */}
       <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Student ID</p>
+        <p className="text-muted">Student ID</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-id-card text-dark fs-5 me-1"></i>
           <h6 className="m-0">{documentDetails.studentID}</h6>
@@ -63,7 +63,7 @@ const RequestInfo = ({ documentDetails }) => {
 
       {/* Phone Number */}
       <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Phone Number</p>
+        <p className="text-muted">Phone Number</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-phone text-dark fs-5 me-1"></i>
           <h6 className="m-0">{documentDetails.mobileNum}</h6>
@@ -75,7 +75,7 @@ const RequestInfo = ({ documentDetails }) => {
 
       {/* Classification */}
       <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Classification</p>
+        <p className="text-muted">Classification</p>
         <div className="d-flex align-items-center gap-2">
           <i className="bx bxs-user-detail text-dark fs-5 me-1"></i>
           <h6 className="m-0">{documentDetails.classification}</h6>
@@ -84,7 +84,7 @@ const RequestInfo = ({ documentDetails }) => {
 
       {/* Year Level / Year Graduated */}
       <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">
+        <p className="text-muted">
           {documentDetails.classification === "graduated"
             ? "Year Graduated"
             : "Year Level"}
@@ -101,7 +101,7 @@ const RequestInfo = ({ documentDetails }) => {
 
       {/* Last School Year Attended */}
       <div className="col-12 col-md-6 col-lg-4 mb-3">
-        <p className="text-muted fw-bold">Last School Year Attended</p>
+        <p className="text-muted">Last School Year Attended</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-calendar-check text-dark fs-5 me-1"></i>
           <h6 className="m-0">{documentDetails.schoolYearAttended}</h6>
