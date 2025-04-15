@@ -52,52 +52,64 @@ export default function About() {
             </p>
           </div>
         </div>
-
-        <div
-          className="mx-0 d-flex justify-content-center row w-100 shadow-sm rounded-2 p-2 mt-1 gap-2 fade-in-section"
-          style={{ backgroundColor: "var(--main-color)" }}
-        >
-          <div className="text-center text-warning mt-3">
+      </div>
+      <div
+        className="container-fluid px-2 py-4 shadow-sm rounded-2 mt-3"
+        style={{ backgroundColor: "var(--main-color)" }}
+      >
+        <div className="row mb-4">
+          <div className="col-12 text-center">
             <h2 className="text-warning fw-bold">OUR CORE VALUES</h2>
           </div>
+        </div>
 
-          <div className="row g-3 d-flex justify-content-center mb-3">
-            <div className="col-12 col-sm-6 d-flex col-md-3 ">
-              <div className="core-value text-center p-3 rounded d-flex flex-column h-100" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} >
-                <h2 className="text-warning fw-bold">TRUTH</h2>
-                <h6 className="text-white">Commitment to honesty and transparency in all academic and institutional pursuits.</h6>
-              </div>
+        <div className="row g-3 d-flex justify-content-center">
+          <div className="col-12 col-sm-6 col-lg-3 mb-3">
+            <div
+              className="core-value text-center p-3 rounded h-100 d-flex flex-column"
+              style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+            >
+              <h3 className="text-warning fw-bold fs-4">TRUTH</h3>
+              <p className="text-white mb-0 small">Commitment to honesty and transparency in all academic and institutional pursuits.</p>
             </div>
+          </div>
 
-            <div className="col-12 col-sm-6 d-flex col-md-3">
-              <div className="core-value text-center p-3 rounded d-flex flex-column h-100" style={{ backgroundColor: "rgba(255,255,255,0.1)" }}>
-                <h2 className="text-warning fw-bold">INTEGRITY</h2>
-                <h6 className="text-white">Maintaining ethical standards and moral principles in education and research.</h6>
-              </div>
+          <div className="col-12 col-sm-6 col-lg-3 mb-3">
+            <div
+              className="core-value text-center p-3 rounded h-100 d-flex flex-column"
+              style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+            >
+              <h3 className="text-warning fw-bold fs-4">INTEGRITY</h3>
+              <p className="text-white mb-0 small">Maintaining ethical standards and moral principles in education and research.</p>
             </div>
+          </div>
 
-            <div className="col-12 col-sm-6 d-flex col-md-3">
-              <div className="core-value text-center p-3 rounded d-flex flex-column h-100" style={{ backgroundColor: "rgba(255,255,255,0.1)" }}>
-                <h2 className="text-warning fw-bold">EXCELLENCE</h2>
-                <h6 className="text-white">Striving for the highest quality in teaching, learning, and institutional performance.</h6>
-              </div>
+          <div className="col-12 col-sm-6 col-lg-3 mb-3">
+            <div
+              className="core-value text-center p-3 rounded h-100 d-flex flex-column"
+              style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+            >
+              <h3 className="text-warning fw-bold fs-4">EXCELLENCE</h3>
+              <p className="text-white mb-0 small">Striving for the highest quality in teaching, learning, and institutional performance.</p>
             </div>
+          </div>
 
-            <div className="col-12 col-sm-6 d-flex col-md-3">
-              <div className="core-value text-center p-3 rounded d-flex flex-column h-100" style={{ backgroundColor: "rgba(255,255,255,0.1)" }}>
-                <h2 className="text-warning fw-bold">SERVICE</h2>
-                <h6 className="text-white">Dedicating ourselves to community development and societal progress.</h6>
-              </div>
+          <div className="col-12 col-sm-6 col-lg-3 mb-3">
+            <div
+              className="core-value text-center p-3 rounded h-100 d-flex flex-column"
+              style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+            >
+              <h3 className="text-warning fw-bold fs-4">SERVICE</h3>
+              <p className="text-white mb-0 small">Dedicating ourselves to community development and societal progress.</p>
             </div>
           </div>
         </div>
       </div>
 
-
-      <div className="fade-in-section w-100 py-5 px-3 px-md-5 text-dark text-center bg-white mt-2 rounded shadow-sm mb-5">
-        <div className="mb-5">
-          <h2 className="fw-bold display-5">🎯 CvSU-CCAT-R GOALS</h2>
-          <p className="lead mt-3 mb-0 mx-auto" style={{ maxWidth: "850px" }}>
+      <div className="fade-in-section w-100 py-5 px-3 px-md-5 text-dark text-center bg-success mt-2 rounded shadow-sm mb-5">
+        <div className="mb-5 text-white">
+          <h2 className="fw-bold display-5">CvSU-CCAT-R GOALS</h2>
+          <p className="lead mt-3 mb-0 mx-auto" style={{ maxWidth: "100%" }}>
             CvSU Rosario Campus aims to produce productive graduates, professionals, and experts marked by global excellence and moral uprightness through the following:
           </p>
         </div>
