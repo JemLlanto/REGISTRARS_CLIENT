@@ -279,6 +279,44 @@
   }
 }
 
+
+.goal-box:hover {
+  transform: translateY(-5px);
+}
+.goal-box {
+  transition: transform 0.3s ease-in-out;
+
+}
+
+.goal-box {
+  flex-wrap: wrap;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+.goal-number {
+  min-width: 48px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 0.5rem;
+}
+
+
+.bg-pink {
+  background-color: #e83e8c;
+}
+@media (max-width: 768px) {
+  .goal-box {
+    flex-direction: column !important;
+    align-items: stretch;
+  }
+  .goal-number {
+    margin-bottom: 0.5rem;
+  }
+}
+
+
 /* Apply the animation to each section */
 .fade-in-section {
   opacity: 0; /* Start hidden */
@@ -441,31 +479,5 @@ iframe {
 
 
 
-.goal-box {
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
 
-.goal-box:hover {
-  transform: translateY(-5px);
-}
 
-.goal-number {
-  font-size: 24px;
-  font-weight: bold;
-  width: 70px;
-  height: 70px;
-  min-width: 70px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 20px;
-}
-
-.bg-pink {
-  background-color: #e83e8c;
-}
