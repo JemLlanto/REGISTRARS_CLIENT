@@ -63,7 +63,7 @@ const MainHeaders = ({ status, handleSelect }) => {
 
 
       {/* Mobile View */}
-      <div className="d-block d-md-none ">
+      <div className="d-block d-md-none bg-warning rounded">
         <Dropdown>
           <Dropdown.Toggle
             className="d-flex align-items-center text-dark"
