@@ -5,7 +5,7 @@ import DateSelection from "../../components/Dashboard/DateSelection";
 import RequestHeaders from "../../components/studentRequest/RequestHeaders";
 import { Spinner, InputGroup, Form } from "react-bootstrap";
 import RequestDatepicker from "../../components/studentRequest/RequestDatepicker";
-import SearchBar from "./search";
+import CountUp from "react-countup";
 import MainHeaders from "../../components/studentRequest/MainHeaders";
 import RequestedDocumentsDownload from "../../components/DownloadButton/RequestedDocumentsDownload";
 
@@ -48,8 +48,8 @@ export default function StudentRequests() {
         }
       );
       if (res.status === 200) {
-        console.log("Admin Programs", res.data);
-        setAdminPrograms(res.data);
+        console.log("Admin Programs", res.data.data);
+        setAdminPrograms(res.data.data);
       }
     } catch (err) {
       console.error(err);
@@ -65,7 +65,7 @@ export default function StudentRequests() {
 
   // Separate function for the API call that can be called directly
   const fetchRequestedDocuments = async () => {
-    if (startDate && endDate) {
+    if (startDate && endDate && user) {
       try {
         setIsLoading(true);
         const res = await axios.get(
@@ -81,16 +81,33 @@ export default function StudentRequests() {
         );
 
         if (res.data.Status === "Success") {
-          if (res.data.data.length === 0) {
-            console.log("requestedDocuments not found");
-            setRequestedDocuments([]);
+          if (user.isAdmin === 1) {
+            // Create a Set of program names for faster lookup
+            console.log("Fetching documents for admins");
+            const adminProgramNames = new Set(
+              adminPrograms.map((program) => program.programName)
+            );
+            console.log("Admin Programs", adminPrograms);
+            console.log("Admin Program Names", adminProgramNames);
+            const filteredDocuments = res.data.data.filter((document) => {
+              return adminProgramNames.has(document.program);
+            });
+
+            console.log(
+              `Filtered from ${res.data.data.length} to ${filteredDocuments.length} documents`
+            );
+            console.log("Filtered Documents", filteredDocuments);
+            setRequestedDocuments(filteredDocuments);
+            setFilteredRequests(filteredDocuments);
           } else {
+            // For non-admin users, show all documents
+            console.log("Fetching documents for non-admins");
             setRequestedDocuments(res.data.data);
-            console.log("requestedDocuments", res.data.data);
+            setFilteredRequests(res.data.data);
           }
         } else {
-          console.log("requestedDocuments not found");
           setRequestedDocuments([]);
+          setFilteredRequests([]);
         }
       } catch (err) {
         console.error(err);
@@ -103,10 +120,16 @@ export default function StudentRequests() {
   };
   // Fetch documents whenever dates change
   useEffect(() => {
-    if (startDate && endDate) {
+    const isProgramAdmin = user?.isAdmin === 1;
+
+    if (
+      startDate &&
+      endDate &&
+      (!isProgramAdmin || (isProgramAdmin && adminPrograms.length > 0))
+    ) {
       fetchRequestedDocuments();
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, user, adminPrograms]);
 
   const setDefaultMonthDates = () => {
     const today = new Date();
@@ -120,7 +143,6 @@ export default function StudentRequests() {
     // Format dates as YYYY-MM-DD
     setStartDate(start.toISOString().split("T")[0]);
     setEndDate(end.toISOString().split("T")[0]);
-    fetchRequestedDocuments();
   };
 
   // Set default dates on mount
@@ -128,44 +150,41 @@ export default function StudentRequests() {
     setDefaultMonthDates();
   }, []);
 
-  // Filter documents based on search input
+  // Filter documents based on search input and status
   useEffect(() => {
-    setIsLoading(true); // Start loading
+    console.log("Filtering documents");
 
-    const timer = setTimeout(() => {
-      const filtered = requestedDocuments
-        .filter((request) => {
-          const matchesSearch =
-            `${request.firstName} ${request.lastName} ${request.email}`
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase());
+    const filtered = requestedDocuments
+      .filter((request) => {
+        const matchesSearch =
+          searchTerm === "" ||
+          `${request.firstName} ${request.lastName} ${request.email}`
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase());
 
-          const matchesStatus =
-            !status ||
-            status.toLowerCase() === "all" ||
-            request.status.toLowerCase() === status.toLowerCase();
+        const matchesStatus =
+          !status ||
+          status.toLowerCase() === "all" ||
+          request.status.toLowerCase() === status.toLowerCase();
 
-          return matchesSearch && matchesStatus;
-        })
-        .sort((a, b) => {
-          const statusPriority = {
-            pending: 1,
-            processing: 2,
-            completed: 3,
-          };
+        return matchesSearch && matchesStatus;
+      })
+      .sort((a, b) => {
+        const statusPriority = {
+          pending: 1,
+          processing: 2,
+          completed: 3,
+        };
 
-          const priorityA = statusPriority[a.status.toLowerCase()] || 999;
-          const priorityB = statusPriority[b.status.toLowerCase()] || 999;
+        const priorityA = statusPriority[a.status.toLowerCase()] || 999;
+        const priorityB = statusPriority[b.status.toLowerCase()] || 999;
 
-          return priorityA - priorityB;
-        });
+        return priorityA - priorityB;
+      });
 
-      setFilteredRequests(filtered);
-      setIsLoading(false); // Stop loading after processing
-    }, 500); // Simulate loading delay
-
-    return () => clearTimeout(timer); // Cleanup function to avoid race conditions
-  }, [requestedDocuments, searchTerm, status]); // Dependencies
+    console.log("Filtered Requests", filtered);
+    setFilteredRequests(filtered);
+  }, [searchTerm, status]); // Dependencies include requestedDocuments
 
   // Function to set date range based on period selection
   const handlePeriodChange = (e) => {
@@ -234,10 +253,14 @@ export default function StudentRequests() {
           Student Request List (
           {isLoading ? (
             <>
-              <Spinner animation="border" variant="light" size="sm" />
+              <span>
+                <Spinner animation="border" variant="light" size="sm" />
+              </span>
             </>
           ) : (
-            <>{filteredRequests.length}</>
+            <>
+              <CountUp end={filteredRequests.length} duration={1.5} />
+            </>
           )}
           )
         </h5>
