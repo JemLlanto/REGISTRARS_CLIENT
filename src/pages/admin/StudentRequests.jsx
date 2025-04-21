@@ -9,6 +9,14 @@ import CountUp from "react-countup";
 import MainHeaders from "../../components/studentRequest/MainHeaders";
 import RequestedDocumentsDownload from "../../components/DownloadButton/RequestedDocumentsDownload";
 
+// FUNCTIONS
+import {
+  fetchAdminPrograms,
+  fetchRequestedDocuments,
+  setMonthDefault,
+  handlePeriodChange,
+} from "../../utils/documentServices";
+
 export default function StudentRequests() {
   const { user } = useOutletContext();
   const [requestedDocuments, setRequestedDocuments] = useState([]);
@@ -33,91 +41,18 @@ export default function StudentRequests() {
     }
   }, [user, navigate]);
 
-  const fetchAdminPrograms = async (userID) => {
-    try {
-      setIsLoading(true);
-      console.log("Fetching admin programs for userID:", userID);
-      const res = await axios.get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/dashboard/fetchAdminPrograms`,
-        {
-          params: {
-            adminID: userID,
-          },
-        }
-      );
-      if (res.status === 200) {
-        console.log("Admin Programs", res.data.data);
-        setAdminPrograms(res.data.data);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   // Fetch documents whenever dates change
   useEffect(() => {
     if (user) {
-      fetchAdminPrograms(user.userID);
+      fetchAdminPrograms(
+        user.userID,
+        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL,
+        setIsLoading,
+        setAdminPrograms
+      );
     }
   }, [user]);
 
-  // Separate function for the API call that can be called directly
-  const fetchRequestedDocuments = async () => {
-    if (startDate && endDate && user) {
-      try {
-        setIsLoading(true);
-        const res = await axios.get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-          }/api/dashboard/fetchRequestedDocuments`,
-          {
-            params: {
-              startDate: startDate,
-              endDate: endDate,
-            },
-          }
-        );
-
-        if (res.data.Status === "Success") {
-          if (user.isAdmin === 1) {
-            // Create a Set of program names for faster lookup
-            console.log("Fetching documents for admins");
-            const adminProgramNames = new Set(
-              adminPrograms.map((program) => program.programName)
-            );
-            console.log("Admin Programs", adminPrograms);
-            console.log("Admin Program Names", adminProgramNames);
-            const filteredDocuments = res.data.data.filter((document) => {
-              return adminProgramNames.has(document.program);
-            });
-
-            console.log(
-              `Filtered from ${res.data.data.length} to ${filteredDocuments.length} documents`
-            );
-            console.log("Filtered Documents", filteredDocuments);
-            setRequestedDocuments(filteredDocuments);
-            setFilteredRequests(filteredDocuments);
-          } else {
-            // For non-admin users, show all documents
-            console.log("Fetching documents for non-admins");
-            setRequestedDocuments(res.data.data);
-            setFilteredRequests(res.data.data);
-          }
-        } else {
-          setRequestedDocuments([]);
-          setFilteredRequests([]);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000);
-      }
-    }
-  };
   // Fetch documents whenever dates change
   useEffect(() => {
     const isProgramAdmin = user?.isAdmin === 1;
@@ -127,27 +62,22 @@ export default function StudentRequests() {
       endDate &&
       (!isProgramAdmin || (isProgramAdmin && adminPrograms.length > 0))
     ) {
-      fetchRequestedDocuments();
+      fetchRequestedDocuments(
+        startDate,
+        endDate,
+        user,
+        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL,
+        adminPrograms,
+        setRequestedDocuments,
+        setFilteredRequests,
+        setIsLoading
+      );
     }
   }, [startDate, endDate, user, adminPrograms]);
 
-  const setDefaultMonthDates = () => {
-    const today = new Date();
-
-    // First day of the current month
-    const start = new Date(today.getFullYear(), today.getMonth(), 2);
-
-    // Last day of the current month
-    const end = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-
-    // Format dates as YYYY-MM-DD
-    setStartDate(start.toISOString().split("T")[0]);
-    setEndDate(end.toISOString().split("T")[0]);
-  };
-
   // Set default dates on mount
   useEffect(() => {
-    setDefaultMonthDates();
+    setMonthDefault(setStartDate, setEndDate);
   }, []);
 
   // Filter documents based on search input and status
@@ -185,38 +115,6 @@ export default function StudentRequests() {
     console.log("Filtered Requests", filtered);
     setFilteredRequests(filtered);
   }, [searchTerm, status]); // Dependencies include requestedDocuments
-
-  // Function to set date range based on period selection
-  const handlePeriodChange = (e) => {
-    const period = e.target.value;
-    setSelectedPeriod(period);
-
-    const today = new Date();
-    let start = new Date();
-    let end = new Date();
-
-    if (period === "week") {
-      // Set to first day of current week (Sunday)
-      const day = today.getDay(); // 0 for Sunday, 1 for Monday, etc.
-      start.setDate(today.getDate() - day); // Go back to Sunday
-      end.setDate(start.getDate() + 6); // Saturday is 6 days after Sunday
-    } else if (period === "month") {
-      // Set to first day of current month
-      start.setDate(1);
-      // Set to last day of current month
-      end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    } else if (period === "year") {
-      // Set to first day of current year
-      start = new Date(today.getFullYear(), 0, 1);
-      // Set to last day of current year
-      end = new Date(today.getFullYear(), 11, 31);
-    }
-
-    // Format dates as YYYY-MM-DD for input fields
-    setStartDate(start.toISOString().split("T")[0]);
-    setEndDate(end.toISOString().split("T")[0]);
-    // fetchRequestedDocuments();
-  };
 
   // Read the status from URL on component mount
   useEffect(() => {
