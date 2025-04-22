@@ -45,6 +45,7 @@ export default function StudentRequests() {
   useEffect(() => {
     if (user) {
       fetchAdminPrograms(
+        user.isAdmin,
         user.userID,
         import.meta.env.VITE_REACT_APP_BACKEND_BASEURL,
         setIsLoading,
@@ -75,14 +76,11 @@ export default function StudentRequests() {
     }
   }, [startDate, endDate, user, adminPrograms]);
 
-  // Set default dates on mount
-  useEffect(() => {
-    setMonthDefault(setStartDate, setEndDate);
-  }, []);
-
   // Filter documents based on search input and status
   useEffect(() => {
-    console.log("Filtering documents");
+    // console.log("Filtering documents");
+
+    const normalizeStatus = (status) => status.toLowerCase().trim();
 
     const filtered = requestedDocuments
       .filter((request) => {
@@ -95,7 +93,7 @@ export default function StudentRequests() {
         const matchesStatus =
           !status ||
           status.toLowerCase() === "all" ||
-          request.status.toLowerCase() === status.toLowerCase();
+          normalizeStatus(request.status) === normalizeStatus(status);
 
         return matchesSearch && matchesStatus;
       })
@@ -103,18 +101,25 @@ export default function StudentRequests() {
         const statusPriority = {
           pending: 1,
           processing: 2,
-          completed: 3,
+          "ready to pickup": 3,
+          completed: 4,
+          cancelled: 5,
         };
 
-        const priorityA = statusPriority[a.status.toLowerCase()] || 999;
-        const priorityB = statusPriority[b.status.toLowerCase()] || 999;
+        const priorityA = statusPriority[normalizeStatus(a.status)] || 999;
+        const priorityB = statusPriority[normalizeStatus(b.status)] || 999;
 
         return priorityA - priorityB;
       });
 
-    console.log("Filtered Requests", filtered);
+    // console.log("Filtered Requests", filtered);
     setFilteredRequests(filtered);
-  }, [searchTerm, status]); // Dependencies include requestedDocuments
+  }, [searchTerm, status, requestedDocuments]);
+
+  // Set default dates on mount
+  useEffect(() => {
+    setMonthDefault(setStartDate, setEndDate);
+  }, []);
 
   // Read the status from URL on component mount
   useEffect(() => {
@@ -145,22 +150,21 @@ export default function StudentRequests() {
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5
-          className="m-0 p-2 fade-in"
+          className="m-0 p-2 fade-in d-flex align-items-center justify-content-center"
           style={{ color: "var(--secondMain-color)" }}
         >
-          Student Request List (
+          Student Request List
           {isLoading ? (
             <>
-              <span>
-                <Spinner animation="border" variant="light" size="sm" />
+              <span className="d-flex align-items-center justify-content-center">
+                (<Spinner animation="border" variant="light" size="sm" />)
               </span>
             </>
           ) : (
             <>
-              <CountUp end={filteredRequests.length} duration={1.5} />
+              (<CountUp end={filteredRequests.length} duration={1.5} />)
             </>
           )}
-          )
         </h5>
 
         <div className="d-flex align-items-center justify-content-center gap-2">
