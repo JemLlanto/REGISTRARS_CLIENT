@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Spinner } from "react-bootstrap";
 import {
   BarChart,
@@ -13,22 +13,35 @@ import {
   Cell,
 } from "recharts";
 
-function PurposeStats({ requestedDocuments, isLoading }) {
+function PurposeStats({ requestedDocuments, isLoading, setIsLoading }) {
+  const [currentDocuments, setCurrentDocuments] = useState([]);
+  const [data, setData] = useState([]);
   // Count documents by purpose
-  const purposeCounts = requestedDocuments.reduce((counts, doc) => {
-    const purpose = doc.purpose || "Unspecified";
-    counts[purpose] = (counts[purpose] || 0) + 1;
-    return counts;
-  }, {});
+  useEffect(() => {
+    // console.log("Updating current documents");
+    setCurrentDocuments((prev) => requestedDocuments);
+  }, [requestedDocuments]);
 
-  // Convert to array for charts
-  const data = Object.entries(purposeCounts).map(([name, value]) => ({
-    name,
-    value,
-  }));
+  useEffect(() => {
+    if (currentDocuments.length > 0) {
+      // console.log("Current documents:", currentDocuments);
+      setIsLoading(true);
+      const purposeCounts = currentDocuments.reduce((counts, doc) => {
+        const purpose = doc.purpose || "Unspecified";
+        counts[purpose] = (counts[purpose] || 0) + 1;
+        return counts;
+      }, {});
 
-  // Sort by count (highest first)
-  data.sort((a, b) => b.value - a.value);
+      const chartData = Object.entries(purposeCounts)
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => b.value - a.value);
+
+      setData(chartData);
+      setIsLoading(false);
+    } else {
+      setData([]);
+    }
+  }, [currentDocuments]);
 
   // Colors for chart elements
   const COLORS = [
@@ -37,8 +50,8 @@ function PurposeStats({ requestedDocuments, isLoading }) {
     "#3f5a9ff7",
     "#123388f7",
     "#072777f7",
-    "##002fa7f7",
-    "##003acef7",
+    "#002fa7f7",
+    "#003acef7",
     "#2a458af7",
   ];
 
@@ -80,17 +93,26 @@ function PurposeStats({ requestedDocuments, isLoading }) {
 
   return (
     <>
-      <div className="bg-white  rounded mt-2 mb-5 w-100" style={{ height: "45dvh" }}>
+      <div
+        className="bg-white position-relative rounded mt-2 mb-5 w-100"
+        style={{ height: "45dvh" }}
+      >
         {isLoading ? (
-          <>
-            <div
-              className="d-flex justify-content-center align-items-center"
-              style={{ height: "100%" }}
-            >
-              <Spinner animation="border" variant="black" size="lg" />
-            </div>
-          </>
-        ) : data.length > 0 ? (
+          <div
+            className="position-absolute d-flex justify-content-center align-items-center"
+            style={{
+              height: "100%",
+              width: "100%",
+              backgroundColor: "rgb(255, 255, 255, 0.7)",
+              zIndex: 1,
+              borderRadius: "8px",
+              backdropFilter: "blur(2px)",
+            }}
+          >
+            <Spinner animation="border" variant="black" size="lg" />
+          </div>
+        ) : null}
+        {currentDocuments.length > 0 ? (
           <div className="w-100" style={{ height: "100%" }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart

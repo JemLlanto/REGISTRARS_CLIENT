@@ -30,7 +30,6 @@ const RequestedDocumentsDownload = ({
       CancellationReason: request.reason || "",
     }));
 
-
     // Create a worksheet from the data
     const worksheet = XLSX.utils.json_to_sheet(dataToExport);
 
@@ -69,11 +68,9 @@ const RequestedDocumentsDownload = ({
     );
   };
   return (
-    <button className="btn btn-warning border-0">
-      <p className="m-0" onClick={downloadExcel}>
-        <p className="d-none d-sm-block m-0">Download</p>
-        <i class='bx bx-download  d-block d-sm-none m-0' ></i>
-      </p>
+    <button className="btn btn-warning border-0" onClick={downloadExcel}>
+      <p className="d-none d-sm-block m-0">Download</p>
+      <i className="bx bx-download  d-block d-sm-none m-0"></i>
     </button>
   );
 };
