@@ -19,12 +19,7 @@ const getStatusColor = (status) => {
   }
 };
 
-const RequestHeaders = ({
-  status,
-  filteredRequests,
-  isLoading,
-  progressDisplay,
-}) => {
+const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const requestsPerPage = 10;
 
@@ -137,7 +132,7 @@ const RequestHeaders = ({
   return (
     <div className="d-flex flex-column gap-3" style={{ height: "65vh" }}>
       <div
-        className="requestList custom-scrollbar mt-2 d-flex flex-column gap-2 overflow-auto pe-1 rounded"
+        className="requestList custom-scrollbar mt-2 d-flex flex-column gap-2 overflow-auto rounded"
         // style={{ height: "48dvh" }}
       >
         {isLoading ? (
@@ -146,8 +141,8 @@ const RequestHeaders = ({
               className="spinner-container d-flex justify-content-center align-items-center spinner-container gap-1"
               style={{ height: "70%" }}
             >
-              {/* <Spinner animation="border" variant="primary" size="sm" /> */}
-              <p className="m-0">{progressDisplay}</p>
+              <Spinner animation="border" variant="primary" size="sm" />
+              <p className="m-0">Loading requested documents...</p>
             </div>
           </>
         ) : (
@@ -220,7 +215,7 @@ const RequestHeaders = ({
                 className="spinner-container d-flex justify-content-center align-items-center spinner-container"
                 style={{ height: "70%" }}
               >
-                <p className="m-0">{progressDisplay}</p>
+                <p className="m-0">No requested documents found.</p>
               </div>
             )}
           </>

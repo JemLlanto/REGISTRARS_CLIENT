@@ -5,9 +5,17 @@ import DateSelection from "../../components/Dashboard/DateSelection";
 import RequestHeaders from "../../components/studentRequest/RequestHeaders";
 import { Spinner, InputGroup, Form } from "react-bootstrap";
 import RequestDatepicker from "../../components/studentRequest/RequestDatepicker";
-import SearchBar from "./search";
+import CountUp from "react-countup";
 import MainHeaders from "../../components/studentRequest/MainHeaders";
 import RequestedDocumentsDownload from "../../components/DownloadButton/RequestedDocumentsDownload";
+
+// FUNCTIONS
+import {
+  fetchAdminPrograms,
+  fetchRequestedDocuments,
+  setMonthDefault,
+  handlePeriodChange,
+} from "../../utils/documentServices";
 
 export default function StudentRequests() {
   const { user } = useOutletContext();
@@ -33,171 +41,85 @@ export default function StudentRequests() {
     }
   }, [user, navigate]);
 
-  const fetchAdminPrograms = async (userID) => {
-    try {
-      setIsLoading(true);
-      console.log("Fetching admin programs for userID:", userID);
-      const res = await axios.get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/dashboard/fetchAdminPrograms`,
-        {
-          params: {
-            adminID: userID,
-          },
-        }
-      );
-      if (res.status === 200) {
-        console.log("Admin Programs", res.data);
-        setAdminPrograms(res.data);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   // Fetch documents whenever dates change
   useEffect(() => {
     if (user) {
-      fetchAdminPrograms(user.userID);
+      fetchAdminPrograms(
+        user.isAdmin,
+        user.userID,
+        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL,
+        setIsLoading,
+        setAdminPrograms
+      );
     }
   }, [user]);
 
-  // Separate function for the API call that can be called directly
-  const fetchRequestedDocuments = async () => {
-    if (startDate && endDate) {
-      try {
-        setIsLoading(true);
-        const res = await axios.get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-          }/api/dashboard/fetchRequestedDocuments`,
-          {
-            params: {
-              startDate: startDate,
-              endDate: endDate,
-            },
-          }
-        );
-
-        if (res.data.Status === "Success") {
-          if (res.data.data.length === 0) {
-            console.log("requestedDocuments not found");
-            setRequestedDocuments([]);
-          } else {
-            setRequestedDocuments(res.data.data);
-            console.log("requestedDocuments", res.data.data);
-          }
-        } else {
-          console.log("requestedDocuments not found");
-          setRequestedDocuments([]);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000);
-      }
-    }
-  };
   // Fetch documents whenever dates change
   useEffect(() => {
-    if (startDate && endDate) {
-      fetchRequestedDocuments();
+    const isProgramAdmin = user?.isAdmin === 1;
+
+    if (
+      startDate &&
+      endDate &&
+      (!isProgramAdmin || (isProgramAdmin && adminPrograms.length > 0))
+    ) {
+      fetchRequestedDocuments(
+        startDate,
+        endDate,
+        user,
+        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL,
+        adminPrograms,
+        setRequestedDocuments,
+        setFilteredRequests,
+        setIsLoading
+      );
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, user, adminPrograms]);
 
-  const setDefaultMonthDates = () => {
-    const today = new Date();
+  // Filter documents based on search input and status
+  useEffect(() => {
+    // console.log("Filtering documents");
 
-    // First day of the current month
-    const start = new Date(today.getFullYear(), today.getMonth(), 2);
+    const normalizeStatus = (status) => status.toLowerCase().trim();
 
-    // Last day of the current month
-    const end = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    const filtered = requestedDocuments
+      .filter((request) => {
+        const matchesSearch =
+          searchTerm === "" ||
+          `${request.firstName} ${request.lastName} ${request.email}`
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase());
 
-    // Format dates as YYYY-MM-DD
-    setStartDate(start.toISOString().split("T")[0]);
-    setEndDate(end.toISOString().split("T")[0]);
-    fetchRequestedDocuments();
-  };
+        const matchesStatus =
+          !status ||
+          status.toLowerCase() === "all" ||
+          normalizeStatus(request.status) === normalizeStatus(status);
+
+        return matchesSearch && matchesStatus;
+      })
+      .sort((a, b) => {
+        const statusPriority = {
+          pending: 1,
+          processing: 2,
+          "ready to pickup": 3,
+          completed: 4,
+          cancelled: 5,
+        };
+
+        const priorityA = statusPriority[normalizeStatus(a.status)] || 999;
+        const priorityB = statusPriority[normalizeStatus(b.status)] || 999;
+
+        return priorityA - priorityB;
+      });
+
+    // console.log("Filtered Requests", filtered);
+    setFilteredRequests(filtered);
+  }, [searchTerm, status, requestedDocuments]);
 
   // Set default dates on mount
   useEffect(() => {
-    setDefaultMonthDates();
+    setMonthDefault(setStartDate, setEndDate);
   }, []);
-
-  // Filter documents based on search input
-  useEffect(() => {
-    setIsLoading(true); // Start loading
-
-    const timer = setTimeout(() => {
-      const filtered = requestedDocuments
-        .filter((request) => {
-          const matchesSearch =
-            `${request.firstName} ${request.lastName} ${request.email}`
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase());
-
-          const matchesStatus =
-            !status ||
-            status.toLowerCase() === "all" ||
-            request.status.toLowerCase() === status.toLowerCase();
-
-          return matchesSearch && matchesStatus;
-        })
-        .sort((a, b) => {
-          const statusPriority = {
-            pending: 1,
-            processing: 2,
-            completed: 3,
-          };
-
-          const priorityA = statusPriority[a.status.toLowerCase()] || 999;
-          const priorityB = statusPriority[b.status.toLowerCase()] || 999;
-
-          return priorityA - priorityB;
-        });
-
-      setFilteredRequests(filtered);
-      setIsLoading(false); // Stop loading after processing
-    }, 500); // Simulate loading delay
-
-    return () => clearTimeout(timer); // Cleanup function to avoid race conditions
-  }, [requestedDocuments, searchTerm, status]); // Dependencies
-
-  // Function to set date range based on period selection
-  const handlePeriodChange = (e) => {
-    const period = e.target.value;
-    setSelectedPeriod(period);
-
-    const today = new Date();
-    let start = new Date();
-    let end = new Date();
-
-    if (period === "week") {
-      // Set to first day of current week (Sunday)
-      const day = today.getDay(); // 0 for Sunday, 1 for Monday, etc.
-      start.setDate(today.getDate() - day); // Go back to Sunday
-      end.setDate(start.getDate() + 6); // Saturday is 6 days after Sunday
-    } else if (period === "month") {
-      // Set to first day of current month
-      start.setDate(1);
-      // Set to last day of current month
-      end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    } else if (period === "year") {
-      // Set to first day of current year
-      start = new Date(today.getFullYear(), 0, 1);
-      // Set to last day of current year
-      end = new Date(today.getFullYear(), 11, 31);
-    }
-
-    // Format dates as YYYY-MM-DD for input fields
-    setStartDate(start.toISOString().split("T")[0]);
-    setEndDate(end.toISOString().split("T")[0]);
-    // fetchRequestedDocuments();
-  };
 
   // Read the status from URL on component mount
   useEffect(() => {
@@ -228,18 +150,21 @@ export default function StudentRequests() {
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5
-          className="m-0 p-2 fade-in"
+          className="m-0 p-2 fade-in d-flex align-items-center justify-content-center"
           style={{ color: "var(--secondMain-color)" }}
         >
-          Student Request List (
+          Student Request List
           {isLoading ? (
             <>
-              <Spinner animation="border" variant="light" size="sm" />
+              <span className="d-flex align-items-center justify-content-center">
+                (<Spinner animation="border" variant="light" size="sm" />)
+              </span>
             </>
           ) : (
-            <>{filteredRequests.length}</>
+            <>
+              (<CountUp end={filteredRequests.length} duration={1.5} />)
+            </>
           )}
-          )
         </h5>
 
         <div className="d-flex align-items-center justify-content-center gap-2">

@@ -18,9 +18,16 @@ const DateSelection = ({
             <Form.Select
               aria-label="Floating label select example"
               value={selectedPeriod}
-              onChange={handlePeriodChange}
+              onChange={(e) =>
+                handlePeriodChange(
+                  e,
+                  setStartDate,
+                  setEndDate,
+                  setSelectedPeriod
+                )
+              }
             >
-              <option>Modified</option>
+              <option value="">Modified</option>
               <option value="week">This Week</option>
               <option value="month">This Month</option>
               <option value="year">This Year</option>

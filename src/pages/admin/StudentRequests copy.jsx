@@ -2,13 +2,18 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useLocation } from "react-router-dom";
 import DateSelection from "../../components/Dashboard/DateSelection";
-import RequestHeaders from "../../components/studentRequest/requestHeaders";
-import { Dropdown } from "react-bootstrap";
+import RequestHeaders from "../../components/studentRequest/RequestHeaders";
+import { Spinner, InputGroup, Form } from "react-bootstrap";
 import RequestDatepicker from "../../components/studentRequest/RequestDatepicker";
+import SearchBar from "./search";
+import MainHeaders from "../../components/studentRequest/MainHeaders";
+import RequestedDocumentsDownload from "../../components/DownloadButton/RequestedDocumentsDownload";
 
 export default function StudentRequests() {
   const { user } = useOutletContext();
   const [requestedDocuments, setRequestedDocuments] = useState([]);
+  const [adminPrograms, setAdminPrograms] = useState([]);
+  const [filteredRequests, setFilteredRequests] = useState([]);
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const navigate = useNavigate();
   const [selectedPeriod, setSelectedPeriod] = useState("month");
@@ -16,6 +21,8 @@ export default function StudentRequests() {
   const [endDate, setEndDate] = useState("");
   const location = useLocation();
   const [status, setStatus] = useState("all");
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {
@@ -26,12 +33,42 @@ export default function StudentRequests() {
     }
   }, [user, navigate]);
 
+  const fetchAdminPrograms = async (userID) => {
+    try {
+      setIsLoading(true);
+      console.log("Fetching admin programs for userID:", userID);
+      const res = await axios.get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/dashboard/fetchAdminPrograms`,
+        {
+          params: {
+            adminID: userID,
+          },
+        }
+      );
+      if (res.status === 200) {
+        console.log("Admin Programs", res.data);
+        setAdminPrograms(res.data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Fetch documents whenever dates change
+  useEffect(() => {
+    if (user) {
+      fetchAdminPrograms(user.userID);
+    }
+  }, [user]);
+
   // Separate function for the API call that can be called directly
-  const fetchRequestedDocuments = () => {
-    console.log(startDate, endDate);
+  const fetchRequestedDocuments = async () => {
     if (startDate && endDate) {
-      axios
-        .get(
+      try {
+        setIsLoading(true);
+        const res = await axios.get(
           `${
             import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/dashboard/fetchRequestedDocuments`,
@@ -41,20 +78,35 @@ export default function StudentRequests() {
               endDate: endDate,
             },
           }
-        )
-        .then((res) => {
-          if (res.data.Status === "Success") {
+        );
+
+        if (res.data.Status === "Success") {
+          if (res.data.data.length === 0) {
+            console.log("requestedDocuments not found");
+            setRequestedDocuments([]);
+          } else {
             setRequestedDocuments(res.data.data);
             console.log("requestedDocuments", res.data.data);
-          } else {
-            setRequestedDocuments([]);
           }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+        } else {
+          console.log("requestedDocuments not found");
+          setRequestedDocuments([]);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
+      }
     }
   };
+  // Fetch documents whenever dates change
+  useEffect(() => {
+    if (startDate && endDate) {
+      fetchRequestedDocuments();
+    }
+  }, [startDate, endDate]);
 
   const setDefaultMonthDates = () => {
     const today = new Date();
@@ -76,45 +128,44 @@ export default function StudentRequests() {
     setDefaultMonthDates();
   }, []);
 
-  // Fetch documents whenever dates change
-  useEffect(() => {
-    if (startDate && endDate) {
-      fetchRequestedDocuments();
-    }
-  }, [startDate, endDate]);
-
   // Filter documents based on search input
-  const filteredRequests = requestedDocuments
-    .filter((request) => {
-      const matchesSearch =
-        `${request.firstName} ${request.lastName} ${request.email}`
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
+  useEffect(() => {
+    setIsLoading(true); // Start loading
 
-      // If status is "all" or empty, show all requests
-      const matchesStatus =
-        !status ||
-        status.toLowerCase() === "all" ||
-        request.status.toLowerCase() === status.toLowerCase();
+    const timer = setTimeout(() => {
+      const filtered = requestedDocuments
+        .filter((request) => {
+          const matchesSearch =
+            `${request.firstName} ${request.lastName} ${request.email}`
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase());
 
-      return matchesSearch && matchesStatus;
-    })
-    .sort((a, b) => {
-      // Define the priority order
-      const statusPriority = {
-        pending: 1,
-        processing: 2,
-        completed: 3,
-      };
+          const matchesStatus =
+            !status ||
+            status.toLowerCase() === "all" ||
+            request.status.toLowerCase() === status.toLowerCase();
 
-      // Get the priority value for each request's status
-      // Use lowercase for case-insensitive comparison
-      const priorityA = statusPriority[a.status.toLowerCase()] || 999;
-      const priorityB = statusPriority[b.status.toLowerCase()] || 999;
+          return matchesSearch && matchesStatus;
+        })
+        .sort((a, b) => {
+          const statusPriority = {
+            pending: 1,
+            processing: 2,
+            completed: 3,
+          };
 
-      // Sort based on priority (lower number comes first)
-      return priorityA - priorityB;
-    });
+          const priorityA = statusPriority[a.status.toLowerCase()] || 999;
+          const priorityB = statusPriority[b.status.toLowerCase()] || 999;
+
+          return priorityA - priorityB;
+        });
+
+      setFilteredRequests(filtered);
+      setIsLoading(false); // Stop loading after processing
+    }, 500); // Simulate loading delay
+
+    return () => clearTimeout(timer); // Cleanup function to avoid race conditions
+  }, [requestedDocuments, searchTerm, status]); // Dependencies
 
   // Function to set date range based on period selection
   const handlePeriodChange = (e) => {
@@ -145,7 +196,7 @@ export default function StudentRequests() {
     // Format dates as YYYY-MM-DD for input fields
     setStartDate(start.toISOString().split("T")[0]);
     setEndDate(end.toISOString().split("T")[0]);
-    fetchRequestedDocuments();
+    // fetchRequestedDocuments();
   };
 
   // Read the status from URL on component mount
@@ -168,56 +219,121 @@ export default function StudentRequests() {
   };
 
   return (
-    <div className="p-1 p-sm-4 w-100 ">
+    <div
+      className="p-1 p-sm-4 w-100 position-relative"
+      style={{ height: "100%" }}
+    >
       <div
-        className="rounded-2 shadow-sm text-white p-2 mb-3 d-flex align-items-center justify-content-between"
+        className="rounded-2 shadow-sm text-white p-2 mb-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5
           className="m-0 p-2 fade-in"
           style={{ color: "var(--secondMain-color)" }}
         >
-          Student Request List
+          Student Request List (
+          {isLoading ? (
+            <>
+              <Spinner animation="border" variant="light" size="sm" />
+            </>
+          ) : (
+            <>{filteredRequests.length}</>
+          )}
+          )
         </h5>
-        {/* Search Bar */}
-        <div className="d-none d-md-block  rounded">
-          <div className="d-flex align-items-center rounded border ">
-            <div className="px-2">
-              <i className="bx bx-search-alt fw-bold"></i>
+
+        <div className="d-flex align-items-center justify-content-center gap-2">
+          {/* DATE SELECTION FOR SMALL SCREENS */}
+          {/* Search Bar */}
+          <div className="d-none d-md-block">
+            <div className="d-flex align-items-center gap-1 ">
+              {/* Search Icon - Click to toggle input field */}
+              <div
+                className="d-flex align-items-center justify-content-center pe-2"
+                onClick={() => setIsSearchVisible(!isSearchVisible)}
+                style={{ cursor: "pointer", width: "2rem", height: "2rem" }}
+              >
+                <i className="bx bx-search-alt bx-sm"></i>
+              </div>
+              <input
+                type="text"
+                className="form-control border-0 shadow-none"
+                id="searchInput"
+                placeholder="Search by name or email"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{
+                  borderRadius: "8px",
+                  width: isSearchVisible ? "15rem" : "0px",
+                  opacity: isSearchVisible ? 1 : 0,
+                  transition:
+                    "width 0.3s ease-in-out, opacity 0.3s ease-in-out",
+                  padding: isSearchVisible ? "5px 10px" : "0",
+                  overflow: "hidden",
+                }}
+              />
+              <div className="mx-0">
+                <RequestedDocumentsDownload
+                  filteredRequests={filteredRequests}
+                  startDate={startDate}
+                  endDate={endDate}
+                />
+              </div>
             </div>
-            <input
-              type="text"
-              className="form-control rounded-0 border-0 shadow-none"
-              id="searchInput"
-              placeholder="Search by name or email"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ borderRadius: "8px" }}
+          </div>
+          <div className="d-block d-md-none d-flex align-items-center justify-content-center ">
+            <RequestedDocumentsDownload
+              filteredRequests={filteredRequests}
+              startDate={startDate}
+              endDate={endDate}
             />
           </div>
         </div>
       </div>
+
       <div>
         {/* Search Bar phone*/}
-        <div className="d-block d-md-none mb-2 rounded p-2 mt-2 bg-black">
-          <div
-            className="d-flex align-items-center rounded border mx-0"
-            style={{ backgroundColor: "var(--main-color)" }}
-          >
-            <div className="px-2">
-              <i className="bx bx-search-alt fw-bold text-white"></i>
-            </div>
-            <input
+        {/* Mobile layout container */}
+        <div className="d-block d-md-none  d-flex justify-content-between align-items-center">
+          {/* Search Icon - Click to toggle input field */}
+          <InputGroup className="">
+            <InputGroup.Text
+              id="basic-addon1"
+              style={{ backgroundColor: "var(--main-color)", color: "white" }}
+            >
+              <i className="bx bx-search-alt"></i>
+            </InputGroup.Text>
+            <Form.Control
               type="text"
-              className="form-control rounded-0 border-0 shadow-none"
-              id="searchInput"
+              className=" shadow-none "
+              id="searchInputMobile"
               placeholder="Search by name or email"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ borderRadius: "8px" }}
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+          </InputGroup>
+        </div>
+        <div className="mt-1 bg-warning p-1 rounded d-block d-md-none  d-flex justify-content-between align-items-center gap-2">
+          {/* Status for mobile */}
+          <div className="d-block d-md-none  d-flex align-items-center justify-content-center">
+            <MainHeaders status={status} handleSelect={handleSelect} />
+          </div>
+          <div className="d-flex align-items-center justify-content-center">
+            <RequestDatepicker
+              startDate={startDate}
+              endDate={endDate}
+              selectedPeriod={selectedPeriod}
+              handlePeriodChange={handlePeriodChange}
+              setSelectedPeriod={setSelectedPeriod}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
             />
           </div>
         </div>
+
+        {/* large  device*/}
         <div className="d-none d-md-block">
           <DateSelection
             startDate={startDate}
@@ -229,71 +345,16 @@ export default function StudentRequests() {
             setEndDate={setEndDate}
           />
         </div>
-        <div className="d-block d-md-none">
-          <RequestDatepicker
-            startDate={startDate}
-            endDate={endDate}
-            selectedPeriod={selectedPeriod}
-            handlePeriodChange={handlePeriodChange}
-            setSelectedPeriod={setSelectedPeriod}
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-            fetchRequestedDocuments={fetchRequestedDocuments}
-          />
-        </div>
       </div>
 
-      <div
-        className="p-2 text-start w-100 rounded-2 p-2 d-none d-sm-block mt-3"
-        style={{ backgroundColor: "var(--yellow-color)" }}
-      >
-        <div
-          className="m-0 d-flex align-items-center justify-content-center"
-          style={{ color: "var(--background-color)" }}
-        >
-          <div className="w-100 d-flex align-items-center justify-content-center">
-            <h5 className="m-0">Name</h5>
-          </div>
-          <div className="w-100 d-flex align-items-center justify-content-center">
-            <h5 className="m-0">Purpose</h5>
-          </div>
-          <div className="w-100 d-flex align-items-center justify-content-center">
-            <h5 className="m-0">Date</h5>
-          </div>
-          <div className="w-100 d-flex align-items-center justify-content-center">
-            <Dropdown>
-              <Dropdown.Toggle
-                className="d-flex align-items-center text-white"
-                variant="transparent"
-                id="dropdown-basic"
-                bsPrefix=""
-              >
-                <h5 className="m-0">Status{status ? <>({status})</> : null}</h5>
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => handleSelect(null)}>
-                  All
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleSelect("pending")}>
-                  Pending
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleSelect("processing")}>
-                  Processing
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleSelect("completed")}>
-                  Completed
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleSelect("cancelled")}>
-                  cancelled
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-        </div>
+      <div className="d-none d-md-block mt-2">
+        <MainHeaders status={status} handleSelect={handleSelect} />
       </div>
-
-      <RequestHeaders filteredRequests={filteredRequests} />
+      <RequestHeaders
+        status={status}
+        filteredRequests={filteredRequests}
+        isLoading={isLoading}
+      />
     </div>
   );
 }
