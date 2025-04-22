@@ -8,24 +8,44 @@ import { Background } from "../../components/Background/Background";
 
 const Index = () => {
   const [activePage, setActivePage] = useState("login");
+  const [auth, setAuth] = useState(false);
+  const storedToken = localStorage.getItem("token");
+  const navigate = useNavigate();
 
-  // const navigate = useNavigate();
-  // const token = localStorage.getItem("token");
+  axios.defaults.withCredentials = true;
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`, { token })
-  //     .then((res) => {
-  //       if (res.data.Status === "Success") {
-  //         // If user is authenticated, redirect to home
-  //         navigate("/home");
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       // If there's an error, user stays on login page
-  //     });
-  // }, [navigate]);
+  const fetchUserData = () => {
+    // console.log("Raw token from localStorage to be sent:", storedToken);
+
+    axios
+      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`, {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.Status === "Success") {
+          navigate(-1);
+        } else {
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        // console.log("Error fetching user:", err.response?.data || err.message);
+        setAuth(false);
+      });
+  };
+  useEffect(() => {
+    // console.log("Raw token from localStorage:", storedToken);
+
+    if (!storedToken || storedToken === "null" || storedToken.trim() === "") {
+      // console.log("No valid token found — logging out");
+      setAuth(false);
+      return;
+    }
+
+    fetchUserData();
+  }, [storedToken]);
 
   return (
     <>
