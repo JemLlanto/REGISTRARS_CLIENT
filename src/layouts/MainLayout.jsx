@@ -34,11 +34,15 @@ const MainLayout = () => {
         } else {
           setAuth(false);
           setMessage(res.data.Error);
+          localStorage.removeItem("formData");
+          localStorage.removeItem("token");
         }
       })
       .catch((err) => {
-        console.log("Error fetching user:", err.response?.data || err.message);
+        // console.log("Error fetching user:", err.response?.data || err.message);
         setAuth(false);
+        localStorage.removeItem("formData");
+        localStorage.removeItem("token");
       })
       .finally(() => {
         setIsLoading(false);
@@ -48,9 +52,11 @@ const MainLayout = () => {
     // console.log("Raw token from localStorage:", storedToken);
 
     if (!storedToken || storedToken === "null" || storedToken.trim() === "") {
-      console.log("No valid token found — logging out");
+      // console.log("No valid token found — logging out");
       setAuth(false);
       setIsLoading(false);
+      localStorage.removeItem("formData");
+      localStorage.removeItem("token");
       return;
     }
 
