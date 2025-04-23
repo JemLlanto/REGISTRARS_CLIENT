@@ -29,8 +29,8 @@ const Step3 = ({
   const [inputs, setInputs] = useState([]);
   const [uploads, setUploads] = useState([]);
   const [uploadsState, setUploadsState] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingMessage, setLoadingMessage] = useState("Loading...");
 
   // Handle selection change
   const handleSelectionChange = (value) => {
