@@ -14,10 +14,10 @@ const PhoneSidebar = ({ user }) => {
       <>
         {/* Offcanvas Toggle Button (Visible only on Mobile) */}
         <Button
-          variant="link"
+          variant="light"
           onClick={handleShow}
           className="d-md-none text-dark text-decoration-none fw-bold"
-          style={{ fontSize: "1.5rem", marginLeft: "10px" }}
+          style={{ fontSize: "1.5rem" }}
         >
           ☰
         </Button>
@@ -29,7 +29,11 @@ const PhoneSidebar = ({ user }) => {
           placement="end"
           style={{ width: "25rem" }}
         >
-          <Offcanvas.Header closeButton className="border-bottom" style={{ backgroundColor: "var(--main-color)", height: "5rem" }}>
+          <Offcanvas.Header
+            closeButton
+            className="border-bottom"
+            style={{ backgroundColor: "var(--main-color)", height: "5rem" }}
+          >
             <img
               src="/Registrar.png"
               alt="Registrar Logo"
@@ -42,42 +46,92 @@ const PhoneSidebar = ({ user }) => {
             />
           </Offcanvas.Header>
 
-          <Offcanvas.Body className="PhoneSidebar d-flex flex-column justify-content-between" style={{ backgroundColor: "var(--main-color)" }}>
+          <Offcanvas.Body
+            className="PhoneSidebar d-flex flex-column justify-content-between"
+            style={{ backgroundColor: "var(--main-color)" }}
+          >
             <ul className="sideBar-list list-unstyled d-flex flex-column gap-2">
               {/* Homepage & Dashboard */}
-              <li className={`p-list-group-items rounded py-1 px-2 position-relative ${location.pathname.toLowerCase() === (user.isAdmin ? "/admin/home" : "/home") ? "active" : ""}`}>
-                <Link className="d-flex align-items-center" to={user.isAdmin ? "/admin/home" : "/home"} onClick={handleClose}>
+              <li
+                className={`p-list-group-items rounded py-1 px-2 position-relative ${
+                  location.pathname.toLowerCase() ===
+                  (user.isAdmin ? "/admin/home" : "/home")
+                    ? "active"
+                    : ""
+                }`}
+              >
+                <Link
+                  className="d-flex align-items-center"
+                  to={user.isAdmin ? "/admin/home" : "/home"}
+                  onClick={handleClose}
+                >
                   <i className="bx bx-home bx-sm"></i>
-                  <p className="m-0">{user.isAdmin ? "Dashboard" : "Homepage"}</p>
+                  <p className="m-0">
+                    {user.isAdmin ? "Dashboard" : "Homepage"}
+                  </p>
                 </Link>
               </li>
 
               {/* Student Requests (Admin Only) */}
               {user?.isAdmin ? (
                 <li
-                  className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/student-requests" ? "active" : ""
-                    }`}
+                  className={`p-list-group-items rounded py-1 px-2 ${
+                    location.pathname.toLowerCase() ===
+                    "/admin/student-requests"
+                      ? "active"
+                      : ""
+                  }`}
                 >
-                  <Link className="d-flex align-items-center" to="/admin/student-requests" onClick={handleClose}>
+                  <Link
+                    className="d-flex align-items-center"
+                    to="/admin/student-requests"
+                    onClick={handleClose}
+                  >
                     <i className="bx bx-user-check me-2 bx-sm"></i>
                     <p className="m-0">Student Requests</p>
                   </Link>
                 </li>
               ) : null}
 
-
               {/* Manage Requests / Request Form */}
-              <li className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === (user.isAdmin ? "/admin/manage-request-form" : "/request-documents") ? "active" : ""}`}>
-                <Link className="d-flex align-items-center" to={user.isAdmin ? "/admin/manage-request-form" : "/request-documents"} onClick={handleClose}>
+              <li
+                className={`p-list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() ===
+                  (user.isAdmin
+                    ? "/admin/manage-request-form"
+                    : "/request-documents")
+                    ? "active"
+                    : ""
+                }`}
+              >
+                <Link
+                  className="d-flex align-items-center"
+                  to={
+                    user.isAdmin
+                      ? "/admin/manage-request-form"
+                      : "/request-documents"
+                  }
+                  onClick={handleClose}
+                >
                   <i className="bx bx-file bx-sm"></i>
-                  <p className="m-0">{user.isAdmin ? "Manage Form" : "Request Form"}</p>
+                  <p className="m-0">
+                    {user.isAdmin ? "Manage Form" : "Request Form"}
+                  </p>
                 </Link>
               </li>
 
               {/* About Us (Non-Admin Only) */}
               {!user.isAdmin && (
-                <li className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/about" ? "active" : ""}`}>
-                  <Link className="d-flex align-items-center bx-sm" to="/about" onClick={handleClose}>
+                <li
+                  className={`p-list-group-items rounded py-1 px-2 ${
+                    location.pathname.toLowerCase() === "/about" ? "active" : ""
+                  }`}
+                >
+                  <Link
+                    className="d-flex align-items-center bx-sm"
+                    to="/about"
+                    onClick={handleClose}
+                  >
                     <i className="bx bx-info-circle"></i>
                     <p className="m-0">About Us</p>
                   </Link>
@@ -86,18 +140,29 @@ const PhoneSidebar = ({ user }) => {
 
               {/* Manage Admin (Only for Admin Level 2) */}
               {user.isAdmin === 2 && (
-                <li className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/manage-admin" ? "active" : ""}`}>
-                  <Link className="d-flex align-items-center" to="/admin/manage-admin" onClick={handleClose}>
+                <li
+                  className={`p-list-group-items rounded py-1 px-2 ${
+                    location.pathname.toLowerCase() === "/admin/manage-admin"
+                      ? "active"
+                      : ""
+                  }`}
+                >
+                  <Link
+                    className="d-flex align-items-center"
+                    to="/admin/manage-admin"
+                    onClick={handleClose}
+                  >
                     <i className="bx bx-bar-chart-alt-2 bx-sm"></i>
                     <p className="m-0">Manage Admin</p>
                   </Link>
                 </li>
               )}
             </ul>
-
-
           </Offcanvas.Body>
-          <footer className=" text-center py-3 border-top" style={{ backgroundColor: "var(--main-color)" }}>
+          <footer
+            className=" text-center py-3 border-top"
+            style={{ backgroundColor: "var(--main-color)" }}
+          >
             <div className="text-white ">
               <p className="mb-0" style={{ fontSize: "10px" }}>
                 &copy; {new Date().getFullYear()} CVSU-CCAT Registrar's Office
@@ -112,6 +177,5 @@ const PhoneSidebar = ({ user }) => {
     </div>
   );
 };
-
 
 export default PhoneSidebar;

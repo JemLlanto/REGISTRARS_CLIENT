@@ -141,7 +141,7 @@
 
 .card-hover:hover {
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 /*---------------------- manage admin page-------------------------- */
@@ -279,13 +279,11 @@
   }
 }
 
-
 .goal-box:hover {
   transform: translateY(-5px);
 }
 .goal-box {
   transition: transform 0.3s ease-in-out;
-
 }
 
 .goal-box {
@@ -302,7 +300,6 @@
   border-radius: 0.5rem;
 }
 
-
 .bg-pink {
   background-color: #e83e8c;
 }
@@ -315,7 +312,6 @@
     margin-bottom: 0.5rem;
   }
 }
-
 
 /* Apply the animation to each section */
 .fade-in-section {
@@ -476,8 +472,3 @@ iframe {
     height: clamp(38rem, 60vh, 80vh);
   }
 }
-
-
-
-
-

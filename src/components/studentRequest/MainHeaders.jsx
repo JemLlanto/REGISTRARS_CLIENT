@@ -6,23 +6,23 @@ const MainHeaders = ({ status, handleSelect }) => {
     <div className="d-flex">
       {/* Desktop View */}
       <div
-        className="fade-in d-none d-md-flex w-100  rounded-2  text-white"
+        className="row mx-auto fade-in d-none d-md-flex w-100  rounded-2  text-white"
         style={{ backgroundColor: "var(--yellow-color)" }}
       >
         {/* Column: Name */}
-        <div className="flex-fill d-flex align-items-center justify-content-center">
+        <div className="col-md-3 d-flex align-items-center justify-content-center">
           <p className="m-0">Name</p>
         </div>
         {/* Column: Purpose */}
-        <div className="flex-fill d-flex align-items-center justify-content-center">
+        <div className="col-md-3 d-flex align-items-center justify-content-center">
           <p className="m-0">Purpose</p>
         </div>
         {/* Column: Request Date */}
-        <div className="flex-fill d-flex align-items-center justify-content-center">
+        <div className="col-md-3 d-flex align-items-center justify-content-center">
           <p className="m-0">Request Date</p>
         </div>
         {/* Column: Status Dropdown */}
-        <div className="flex-fill d-flex align-items-center justify-content-center">
+        <div className="col-md-3 d-flex align-items-center justify-content-center">
           <Dropdown>
             <Dropdown.Toggle
               className="d-flex align-items-center text-white"

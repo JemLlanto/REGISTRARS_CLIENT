@@ -159,11 +159,8 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                       <h5 className="m-0 text-muted me-1 d-block d-sm-none">
                         Name:
                       </h5>
-                      <p className="m-0 me-1">
-                        <span className="d-none d-md-block">
-                          {request.firstName}
-                        </span>{" "}
-                        {request.lastName}
+                      <p className="m-0 me-1 d-flex align-items-center gap-1">
+                        {request.firstName} {request.lastName}
                       </p>
                     </div>
 
@@ -186,7 +183,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
 
                     <div className="col-12 col-sm d-flex align-items-center justify-content-center">
                       <h5 className="m-0 text-muted me-1 d-block d-sm-none">
-                        Date:
+                        Request Date:
                       </h5>
                       <p className="m-0">
                         {request?.created

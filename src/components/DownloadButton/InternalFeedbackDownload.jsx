@@ -244,9 +244,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
       >
         <p className="m-0">
           {" "}
-          {documentDetails.responded
-            ? "Download feedback(Internal)"
-            : "Download feedback"}
+          {documentDetails.responded ? "Feedback(Internal)" : "Feedback"}
         </p>
       </button>
 

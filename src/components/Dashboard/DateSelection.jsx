@@ -35,7 +35,7 @@ const DateSelection = ({
           </FloatingLabel>
         </div>
 
-        <div className="col-md col-lg-3 px-0">
+        <div className="col-md-3 col-lg-3 px-0">
           <Form.Floating>
             <Form.Control
               id="startingPeriod"
@@ -51,7 +51,7 @@ const DateSelection = ({
           </Form.Floating>
         </div>
 
-        <div className="col-md col-lg-3 px-0">
+        <div className="col-md-3 col-lg-3 px-0">
           <Form.Floating>
             <Form.Control
               id="endingPeriod"

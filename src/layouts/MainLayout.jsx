@@ -86,7 +86,7 @@ const MainLayout = () => {
         <div className="w-100" style={{ height: "100dvh" }}>
           <NavBar user={user} />
           <div
-            className="d-flex justify-content-center pt-2 p-md-4 bg-warning overflow-hidden"
+            className="d-flex justify-content-center pt-2 p-md-4 overflow-hidden"
             style={{ zIndex: "0", height: "95%" }}
           >
             <Outlet context={{ user, fetchUserData }} />

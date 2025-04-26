@@ -33,7 +33,8 @@ const ManageAdmin = () => {
   const handleAddProgramAdmin = () => {
     axios
       .post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/addProgramAdmin`,
         formData
       )
@@ -89,7 +90,8 @@ const ManageAdmin = () => {
         if (result.isConfirmed) {
           axios
             .post(
-              `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+              `${
+                import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
               }/api/manageAdmin/removeProgramAdmin`,
               {
                 programID: program.programID,
@@ -134,11 +136,11 @@ const ManageAdmin = () => {
       .then(([programAdminsRes, adminsRes]) => {
         if (programAdminsRes.data.Status === "Success") {
           setProgramAdmins(programAdminsRes.data.result);
-          console.log("Program Admins: ", programAdminsRes.data.result);
+          // console.log("Program Admins: ", programAdminsRes.data.result);
         }
         if (adminsRes.data.Status === "Success") {
           setAdmins(adminsRes.data.data);
-          console.log("Admins: ", adminsRes.data.data);
+          // console.log("Admins: ", adminsRes.data.data);
         }
       })
       .catch((err) => {
@@ -155,7 +157,7 @@ const ManageAdmin = () => {
 
   return (
     <>
-      <div className="w-100 p-1 p-sm-4 " style={{ height: "100%" }}>
+      <div className="w-100 px-1" style={{ height: "100%" }}>
         <div
           className="rounded-2 shadow-sm text-white p-2 d-flex justify-content-between align-items-center"
           style={{ backgroundColor: "var(--main-color)" }}
@@ -197,7 +199,7 @@ const ManageAdmin = () => {
                         <h5 className="m-0">Administrator</h5>
                       </th>
                       <th>
-                        <h5 className="m-0">Action</h5>
+                        <h5 className="m-0 text-center">Action</h5>
                       </th>
                     </tr>
                   </thead>
@@ -221,21 +223,21 @@ const ManageAdmin = () => {
                         <td className="align-middle">
                           {program.firstName ? (
                             <button
-                              className="btn btn-danger w-100"
+                              className="btn btn-danger w-100 py-1"
                               onClick={() => handleRemoveProgramAdmin(program)}
                             >
                               <p className="m-0">
-                                <span className="d-none d-md-block">
+                                <span className="d-none d-lg-block">
                                   Remove admin
                                 </span>
-                                <span className="m-0 d-md-none">
+                                <span className="m-0  d-flex align-items-center justify-content-center d-lg-none">
                                   <i className="bx bx-trash iconFont"></i>
                                 </span>
                               </p>
                             </button>
                           ) : (
                             <button
-                              className="btn w-100"
+                              className="btn w-100 py-1"
                               style={{ backgroundColor: "var(--main-color)" }}
                               onClick={() => {
                                 setSelectedProgram(program.programID);
@@ -243,10 +245,10 @@ const ManageAdmin = () => {
                               }}
                             >
                               <p className="m-0">
-                                <span className="d-none d-md-block text-white">
+                                <span className="d-none d-lg-block text-white">
                                   Add admin
                                 </span>
-                                <span className="m-0 d-md-none text-white">
+                                <span className="m-0 d-flex align-items-center justify-content-center d-lg-none text-white">
                                   <i className="m-0 bx bx-plus-circle iconFont"></i>
                                 </span>
                               </p>

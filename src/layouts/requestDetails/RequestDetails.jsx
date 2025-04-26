@@ -20,7 +20,8 @@ const RequestDetails = () => {
     try {
       setIsLoading(true);
       const res = await axios.get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchRequestedDocumentsDetails/${requestID}`
       );
 
@@ -47,7 +48,8 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchRequestedDocumentTypes/${requestID}`
       )
       .then((res) => {
@@ -66,7 +68,8 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchRequestedDocumentFiles/${requestID}`
       )
       .then((res) => {
@@ -84,7 +87,8 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchRequestedDocumentInputs/${requestID}`
       )
       .then((res) => {
@@ -103,7 +107,8 @@ const RequestDetails = () => {
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/fetchingDocuments/fetchInputs`,
         {
           params: { purposeID: documentDetails.purposeID },
@@ -134,79 +139,18 @@ const RequestDetails = () => {
           </div>
         </>
       ) : (
-        <div className="p-1 p-md-4 w-100 " style={{ height: "100%" }}>
+        <div className="px-1 w-100 " style={{ height: "92%" }}>
           {/* Header Section */}
           <RequestDetailsHeader
             user={user}
             documentDetails={documentDetails}
             fetchDocumentDetails={fetchDocumentDetails}
           />
-          {/* {user.isAdmin ? (
-       <div className="d-block d-md-none d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
-         <div className="col-12 text-center">
-           <div className="dropdown">
-             <button
-               className="btn btn-secondary dropdown-toggle w-100"
-               type="button"
-               id="mobileActionsDropdown"
-               data-bs-toggle="dropdown"
-               aria-expanded="false"
-             >
-               Actions
-             </button>
-             <ul className="dropdown-menu w-100 text-center" aria-labelledby="mobileActionsDropdown">
-               <li className="dropdown-item">
-                 {documentDetails.feedbackType === "internal" ? (
-                   <InternalFeedbackDownload
-                     user={user}
-                     documentDetails={documentDetails}
-                   />
-                 ) : (
-                   <ExternalFeedbackDownload
-                     user={user}
-                     documentDetails={documentDetails}
-                   />
-                 )}
-               </li>
-               <li className="dropdown-item">
-                 <CancelButton
-                   fetchDocumentDetails={fetchDocumentDetails}
-                   documentDetails={documentDetails}
-                   className="btn-sm btn-responsive w-100"
-                 />
-               </li>
-               <li className="dropdown-item">
-                 <ChangeStatusButton
-                   fetchDocumentDetails={fetchDocumentDetails}
-                   documentDetails={documentDetails}
-                   className="btn-sm btn-responsive w-100"
-                 />
-               </li>
-             </ul>
-           </div>
-         </div>
-       </div>
-
-     ) : (
-       <>
-         {documentDetails.status === "ready to pickup" ||
-         documentDetails.status === "completed" ? (
-           <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
-             <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
-               <ViewScheduleSlip
-                 fetchDocumentDetails={fetchDocumentDetails}
-                 documentDetails={documentDetails}
-               />
-             </div>
-           </div>
-         ) : null}
-       </>
-     )} */}
 
           <div
             className="custom-scrollbar overflow-x-hidden overflow-y-auto mt-2 d-flex flex-column gap-2 rounded "
             style={{
-              maxHeight: "80dvh",
+              maxHeight: "74dvh",
               minHeight: "50vh",
               overflowY: "auto",
               overflowX: "hidden",
@@ -225,20 +169,22 @@ const RequestDetails = () => {
                 <div className="d-flex align-items-center gap-1">
                   <i className="bx bxs-notepad bx-sm"></i>
                   <h4 className="m-0">
-                    {documentDetails.purpose}{" - "}
+                    {documentDetails.purpose}
+                    {" - "}
                     <span
-                      className={`${status === "pending"
-                        ? "text-warning"
-                        : status === "processing"
+                      className={`${
+                        status === "pending"
+                          ? "text-warning"
+                          : status === "processing"
                           ? "text-primary"
                           : status === "ready to pickup"
-                            ? "text-info"
-                            : status === "completed"
-                              ? "text-success"
-                              : status === "cancelled"
-                                ? "text-danger"
-                                : null
-                        } `}
+                          ? "text-info"
+                          : status === "completed"
+                          ? "text-success"
+                          : status === "cancelled"
+                          ? "text-danger"
+                          : null
+                      } `}
                     >
                       (
                       {String(status).charAt(0).toUpperCase() +
@@ -255,14 +201,14 @@ const RequestDetails = () => {
                             {documentDetails.status === "pending"
                               ? "Your request has been received and is awaiting further updates."
                               : documentDetails.status === "processing"
-                                ? "Your request is currently being processed. Please wait for further updates."
-                                : documentDetails.status === "ready to pickup"
-                                  ? "Your request is ready for pick-up. Please download your schedule slip."
-                                  : documentDetails.status === "completed"
-                                    ? "Your request has been successfully completed."
-                                    : documentDetails.status === "cancelled"
-                                      ? "Your request has been cancelled. Please review the details below."
-                                      : ""}
+                              ? "Your request is currently being processed. Please wait for further updates."
+                              : documentDetails.status === "ready to pickup"
+                              ? "Your request is ready for pick-up. Please download your schedule slip."
+                              : documentDetails.status === "completed"
+                              ? "Your request has been successfully completed."
+                              : documentDetails.status === "cancelled"
+                              ? "Your request has been cancelled. Please review the details below."
+                              : ""}
                           </p>
                         </Tooltip>
                       }
@@ -291,7 +237,7 @@ const RequestDetails = () => {
 
             {documentTypes.length > 0 && (
               <div
-                className="fade-in-section information bg-white w-100  rounded-2 p-4 mb-2"
+                className="fade-in-section information bg-white w-100  rounded-2 p-4"
                 style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
               >
                 <p className="text-muted">Document requested</p>
@@ -330,7 +276,7 @@ const RequestDetails = () => {
             )}
             {documentFile && (
               <div
-                className="fade-in-section bg-white w-100 mb-5  rounded-2 d-flex flex-column p-4 mb-2"
+                className="fade-in-section bg-white w-100 rounded-2 d-flex flex-column p-4"
                 style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
               >
                 <p className="text-muted">Uploaded document</p>

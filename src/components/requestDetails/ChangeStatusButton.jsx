@@ -313,16 +313,16 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
             onClick={() => handleChangeStatusRequest()}
             disabled={documentDetails.status === "processing" && !file}
           >
-            <p className="m-0">
-              {isLoading ? (
-                <>
-                  <Spinner animation="border" variant="light" size="sm" />{" "}
-                  Saving...
-                </>
-              ) : (
-                <>Confirm</>
-              )}
-            </p>
+            {isLoading ? (
+              <>
+                <Spinner animation="border" variant="light" size="sm" />{" "}
+                <p className="m-0">Saving...</p>
+              </>
+            ) : (
+              <>
+                <p className="m-0">Confirm</p>
+              </>
+            )}
           </button>
         </Modal.Footer>
       </Modal>
