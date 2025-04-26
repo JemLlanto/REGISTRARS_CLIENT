@@ -109,13 +109,12 @@ export default function Home() {
   // };
 
   return (
-    <Container
-      fluid
-      className="custom-scrollbar p-1 p-sm-4 w-100 overflow-y-scroll overflow-x-hidden "
-      style={{ height: "100%" }}
+    <div
+      className="custom-scrollbar w-100 overflow-y-scroll overflow-x-hidden rounded px-0"
+      style={{ height: "92%" }}
     >
       <div
-        className="rounded-2 d-flex justify-content-between align-items-center text-white p-2 "
+        className="rounded-2 d-flex justify-content-between align-items-center text-white p-2 mx-1"
         style={{ backgroundColor: "var(--main-color)" }}
       >
         <h5
@@ -139,7 +138,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className=" d-none d-md-block mt-2" style={{ zIndex: "0" }}>
+      <div className=" d-none d-md-block mt-2 px-1" style={{ zIndex: "0" }}>
         <DateSelection
           startDate={startDate}
           endDate={endDate}
@@ -154,13 +153,13 @@ export default function Home() {
       <StatusLabels requestedDocuments={requestedDocuments} />
 
       {/* Left side: Chart */}
-      <div className="w-100 d-flex align-items-center justify-content-center">
+      <div className="w-100 d-flex align-items-center justify-content-center px-1 mt-1">
         <PurposeStats
           requestedDocuments={requestedDocuments}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
         />
       </div>
-    </Container>
+    </div>
   );
 }

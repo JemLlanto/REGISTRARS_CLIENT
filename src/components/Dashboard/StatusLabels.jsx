@@ -21,20 +21,20 @@ const StatusLabels = ({ requestedDocuments }) => {
   );
 
   return (
-    <Row className="w-100 mx-auto gap-2 mt-2">
-      <Col className="m-0 p-0">
+    <Row className="w-100 mt-1 mx-0">
+      <Col xs={6} lg={3} className="m-0 p-0">
         <Pending pendingRequests={pendingRequests} CountUp={CountUp} />
       </Col>
-      <Col className="m-0 p-0">
+      <Col xs={6} lg={3} className="m-0 p-0">
         <Processing processingRequests={processingRequests} CountUp={CountUp} />
       </Col>
-      <Col className="m-0 p-0">
+      <Col xs={6} lg={3} className="m-0 p-0">
         <ReadyToPickup
           readyToPickupRequests={readyToPickupRequests}
           CountUp={CountUp}
         />
       </Col>
-      <Col className="m-0 p-0">
+      <Col xs={6} lg={3} className="m-0 p-0">
         <Completed completedRequests={completedRequests} CountUp={CountUp} />
       </Col>
     </Row>

@@ -34,11 +34,15 @@ const MainLayout = () => {
         } else {
           setAuth(false);
           setMessage(res.data.Error);
+          localStorage.removeItem("formData");
+          localStorage.removeItem("token");
         }
       })
       .catch((err) => {
-        console.log("Error fetching user:", err.response?.data || err.message);
+        // console.log("Error fetching user:", err.response?.data || err.message);
         setAuth(false);
+        localStorage.removeItem("formData");
+        localStorage.removeItem("token");
       })
       .finally(() => {
         setIsLoading(false);
@@ -48,9 +52,11 @@ const MainLayout = () => {
     // console.log("Raw token from localStorage:", storedToken);
 
     if (!storedToken || storedToken === "null" || storedToken.trim() === "") {
-      console.log("No valid token found — logging out");
+      // console.log("No valid token found — logging out");
       setAuth(false);
       setIsLoading(false);
+      localStorage.removeItem("formData");
+      localStorage.removeItem("token");
       return;
     }
 
@@ -68,22 +74,19 @@ const MainLayout = () => {
       className="w-100 d-flex flex-column custom-scrollbar "
       style={{
         backgroundColor: "var(--bodyBackground-color)",
-        minHeight: "100vh",
-        maxHeight: "100vh",
-        overflow: "hidden", // prevent root overflow
       }}
     >
       {!user.isAdmin && user.isNewAccount ? (
         <NewAccountPopup user={user} />
       ) : null}{" "}
-      <div className="d-flex overflow-hidden" style={{ height: "100dvh" }}>
+      <div className="d-flex overflow-hidden" style={{ height: "" }}>
         <div className="d-none d-md-block" style={{ zIndex: "1000" }}>
           <SideBar user={user} />
         </div>
         <div className="w-100" style={{ height: "100dvh" }}>
           <NavBar user={user} />
           <div
-            className="d-flex justify-content-center align-items-center pt-1 pt-md-0"
+            className="d-flex justify-content-center pt-2 p-md-4 overflow-hidden"
             style={{ zIndex: "0", height: "95%" }}
           >
             <Outlet context={{ user, fetchUserData }} />

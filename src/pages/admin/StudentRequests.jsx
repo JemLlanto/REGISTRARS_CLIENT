@@ -141,10 +141,7 @@ export default function StudentRequests() {
   };
 
   return (
-    <div
-      className="p-1 p-sm-4 w-100 position-relative"
-      style={{ height: "100%" }}
-    >
+    <div className="mx-1 w-100 position-relative" style={{ height: "92%" }}>
       <div
         className="rounded-2 shadow-sm text-white p-2 mb-2 d-flex align-items-center justify-content-between"
         style={{ backgroundColor: "var(--main-color)" }}
@@ -197,16 +194,9 @@ export default function StudentRequests() {
                   overflow: "hidden",
                 }}
               />
-              <div className="mx-0">
-                <RequestedDocumentsDownload
-                  filteredRequests={filteredRequests}
-                  startDate={startDate}
-                  endDate={endDate}
-                />
-              </div>
             </div>
           </div>
-          <div className="d-block d-md-none d-flex align-items-center justify-content-center ">
+          <div className="d-flex align-items-center justify-content-center ">
             <RequestedDocumentsDownload
               filteredRequests={filteredRequests}
               startDate={startDate}
@@ -219,7 +209,7 @@ export default function StudentRequests() {
       <div>
         {/* Search Bar phone*/}
         {/* Mobile layout container */}
-        <div className="d-block d-md-none  d-flex justify-content-between align-items-center">
+        <div className="d-block d-md-none d-flex justify-content-between align-items-center">
           {/* Search Icon - Click to toggle input field */}
           <InputGroup className="">
             <InputGroup.Text
@@ -240,7 +230,7 @@ export default function StudentRequests() {
             />
           </InputGroup>
         </div>
-        <div className="mt-1 bg-warning p-1 rounded d-block d-md-none  d-flex justify-content-between align-items-center gap-2">
+        <div className="mt-2 bg-warning p-1 rounded d-block d-md-none  d-flex justify-content-between align-items-center gap-2">
           {/* Status for mobile */}
           <div className="d-block d-md-none  d-flex align-items-center justify-content-center">
             <MainHeaders status={status} handleSelect={handleSelect} />

@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
-export const GooleLogin = () => {
+export const GooleLogin = ({ setIsLoading, isLoading }) => {
   const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   const navigate = useNavigate();
 
@@ -43,52 +43,56 @@ export const GooleLogin = () => {
     }
   };
 
-  const handleGoogleResponse = (response) => {
-    // Send the token to your backend
-    axios
-      .post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/google-login`,
+  const handleGoogleResponse = async (response) => {
+    try {
+      setIsLoading(true);
+      const res = await axios.post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/auth/google-login`,
         {
           token: response.credential,
         }
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          // Store the token in localStorage
-          localStorage.setItem("token", res.data.token);
+      );
 
-          // Show success alert
-          Swal.fire({
-            icon: "success",
-            title: "Login Successful",
-            text: res.data.message,
-            confirmButtonColor: "#3085d6",
-          }).then(() => {
-            // Redirect based on admin status
-            if (res.data.isAdmin) {
-              navigate("/admin/home");
-            } else {
-              navigate("/home");
-            }
-          });
-        } else {
-          // Show error alert
-          Swal.fire({
-            icon: "error",
-            title: "Login Failed",
-            text: res.data.Error || "Login failed",
-          });
-        }
-      })
-      .catch((err) => {
-        console.error("Login error:", err);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "An error occurred during login",
+      if (res.data.Status === "Success") {
+        // Store the token in localStorage
+        localStorage.setItem("token", res.data.token);
+
+        // Show success alert
+        await Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          text: res.data.message,
+          confirmButtonColor: "#3085d6",
         });
+
+        // Redirect based on admin status
+        if (res.data.isAdmin) {
+          navigate("/admin/home");
+        } else {
+          navigate("/home");
+        }
+      } else {
+        // Show error alert
+        await Swal.fire({
+          icon: "error",
+          title: "Login Failed",
+          text: res.data.Error || "Login failed",
+        });
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      await Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "An error occurred during login",
       });
+    } finally {
+      setIsLoading(false);
+    }
   };
+
   return (
     <>
       <div className="d-flex align-items-center justify-content-center mb-2">

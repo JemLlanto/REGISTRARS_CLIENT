@@ -64,7 +64,7 @@ const RequestedDocumentsDownload = ({
     // Generate Excel file and trigger download
     XLSX.writeFile(
       workbook,
-      `Requester_Documents_${startDate}_${endDate}.xlsx`
+      `Requested_Documents_${startDate}_${endDate}.xlsx`
     );
   };
   return (

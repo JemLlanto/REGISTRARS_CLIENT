@@ -3,15 +3,15 @@ import React from "react";
 const RequestInfo = ({ documentDetails }) => {
   const birthDate = documentDetails?.dateOfBirth
     ? new Intl.DateTimeFormat("en-US", {
-      dateStyle: "medium",
-    }).format(new Date(documentDetails?.dateOfBirth))
+        dateStyle: "medium",
+      }).format(new Date(documentDetails?.dateOfBirth))
     : "";
   return (
     <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-4 mx-0">
       <p className="text-muted">Request details</p>
 
       {/* Name */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
+      <div className="col-12 col-lg-4 mb-3">
         <p className="text-muted">Name</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-user text-dark fs-5 me-1"></i>
@@ -23,7 +23,7 @@ const RequestInfo = ({ documentDetails }) => {
       </div>
 
       {/* Birthday */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
+      <div className="col-12 col-lg-4 mb-3">
         <p className="text-muted">Birthday</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-cake text-dark fs-5 me-1"></i>
@@ -32,7 +32,7 @@ const RequestInfo = ({ documentDetails }) => {
       </div>
 
       {/* Gender */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
+      <div className="col-12 col-lg-4 mb-3">
         <p className="text-muted">Gender</p>
         <div className="d-flex align-items-center">
           <i className="bx bx-male-sign text-dark fs-5 me-1"></i>
@@ -44,7 +44,7 @@ const RequestInfo = ({ documentDetails }) => {
       <div className="bg-dark w-100 mb-2" style={{ height: "1px" }}></div>
 
       {/* Course */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
+      <div className="col-12 col-lg-4 mb-3">
         <p className="text-muted">Program/Course</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-graduation text-dark fs-5 me-1"></i>
@@ -53,7 +53,7 @@ const RequestInfo = ({ documentDetails }) => {
       </div>
 
       {/* Student ID */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
+      <div className="col-12 col-lg-4 mb-3">
         <p className="text-muted">Student ID</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-id-card text-dark fs-5 me-1"></i>
@@ -62,7 +62,7 @@ const RequestInfo = ({ documentDetails }) => {
       </div>
 
       {/* Phone Number */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
+      <div className="col-12 col-lg-4 mb-3">
         <p className="text-muted">Phone Number</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-phone text-dark fs-5 me-1"></i>
@@ -74,7 +74,7 @@ const RequestInfo = ({ documentDetails }) => {
       <div className="bg-dark w-100 mb-2" style={{ height: "1px" }}></div>
 
       {/* Classification */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
+      <div className="col-12 col-lg-4 mb-3">
         <p className="text-muted">Classification</p>
         <div className="d-flex align-items-center gap-2">
           <i className="bx bxs-user-detail text-dark fs-5 me-1"></i>
@@ -83,7 +83,7 @@ const RequestInfo = ({ documentDetails }) => {
       </div>
 
       {/* Year Level / Year Graduated */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
+      <div className="col-12 col-lg-4 mb-3">
         <p className="text-muted">
           {documentDetails.classification === "graduated"
             ? "Year Graduated"
@@ -100,7 +100,7 @@ const RequestInfo = ({ documentDetails }) => {
       </div>
 
       {/* Last School Year Attended */}
-      <div className="col-12 col-md-6 col-lg-4 mb-3">
+      <div className="col-12 col-lg-4 mb-3">
         <p className="text-muted">Last School Year Attended</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-calendar-check text-dark fs-5 me-1"></i>

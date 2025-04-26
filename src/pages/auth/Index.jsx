@@ -16,24 +16,31 @@ const Index = () => {
 
   const fetchUserData = () => {
     // console.log("Raw token from localStorage to be sent:", storedToken);
-
-    axios
-      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`, {
-        headers: {
-          Authorization: `Bearer ${storedToken}`,
-        },
-      })
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          navigate(-1);
-        } else {
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        // console.log("Error fetching user:", err.response?.data || err.message);
-        setAuth(false);
-      });
+    if (storedToken) {
+      axios
+        .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`, {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        })
+        .then((res) => {
+          if (res.data.Status === "Success") {
+            if (!res.data.data.isAdmin) {
+              navigate("/home");
+            } else {
+              navigate("/admin/home");
+            }
+          } else {
+            navigate("/");
+            localStorage.removeItem("formData");
+            localStorage.removeItem("token");
+          }
+        })
+        .catch((err) => {
+          // console.log("Error fetching user:", err.response?.data || err.message);
+          setAuth(false);
+        });
+    }
   };
   useEffect(() => {
     // console.log("Raw token from localStorage:", storedToken);

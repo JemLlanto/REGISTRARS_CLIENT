@@ -185,7 +185,7 @@ const Login = ({ setActivePage }) => {
             </p>
           </div>
           <div>
-            <GooleLogin />
+            <GooleLogin setIsLoading={setIsLoading} isLoading={isLoading} />
           </div>
         </div>
       </div>

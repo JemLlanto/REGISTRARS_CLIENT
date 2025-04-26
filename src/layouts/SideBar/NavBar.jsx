@@ -24,24 +24,24 @@ const NavBar = ({ user }) => {
       {/* NAVBAR */}
       <div
         className=" p-1 w-100 d-flex justify-content-between align-items-center bg-white"
-        style={{ height: "4rem" }}
+        style={{ height: "4rem", top: "0", left: "0", zIndex: "1000" }}
       >
         {/* Logo*/}
         <img
           src="/navLogo.png"
           alt="Registrar Logo"
-          className="d-block d-md-none img-fluid"
+          className="d-block d-md-none img-fluid ms-2"
           style={{ maxWidth: "130px", objectFit: "cover" }}
         />
         {/* Right Side*/}
-        <div className="d-flex align-items-end justify-content-end ms-auto gap-2">
+        <div className="d-flex align-items-center justify-content-end ms-auto me-2 me-md-0">
           {/* Notification Dropdown */}
           {/* {user.isAdmin ? (
             <NotifButtonAdmin user={user} />
           ) : (
             <NotifButton user={user} />
           )} */}
-          <div className="mb-1 mb-md-2">
+          <div className="me-0 me-md-2">
             <NotifButton user={user} />
           </div>
 
@@ -49,7 +49,7 @@ const NavBar = ({ user }) => {
           <Dropdown align="end">
             <Dropdown.Toggle
               bsPrefix="custom-dropdown-toggle"
-              className="py-2 px-3 mx-0 mx-md-2 mt-1 mb-2 d-flex align-items-center justify-content-end gap-2 shadow-none border-0"
+              className="py-2 px-3 m-2 d-flex align-items-center justify-content-end gap-2 shadow-none border-0"
               id="dropdown-basic"
               style={{ backgroundColor: "var(--main-color)" }}
             >

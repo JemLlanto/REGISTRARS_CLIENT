@@ -10,7 +10,10 @@ const ManageRequestForm = () => {
   const { user, fetchUserData } = useOutletContext();
 
   return (
-    <div className="p-1 p-sm-4 w-100 " style={{ height: "100%" }}>
+    <div
+      className="px-1 w-100 d-flex flex-column gap-2"
+      style={{ height: "100%" }}
+    >
       <div
         className="rounded-2 shadow-sm text-white p-2 d-flex justify-content-between align-items-center"
         style={{ backgroundColor: "var(--main-color)" }}
@@ -21,16 +24,18 @@ const ManageRequestForm = () => {
         >
           Manage Request Form
         </h5>
-
       </div>
-      <div className="w-100 d-flex flex-column gap-2 p-3 mt-3 mx-0 bg-white shadow-sm rounded-2 fade-in-section">
-        <div className="d-flex  flex-column gap-2 mb-3" style={{ border: "2px black" }}>
+      <div className="w-100 d-flex flex-column gap-2 p-3 mx-0 bg-white shadow-sm rounded-2 fade-in-section">
+        <div
+          className="d-flex  flex-column gap-2 mb-3"
+          style={{ border: "2px black" }}
+        >
           <label>Form Open and Close switch</label>
           <AutomaticSwitch user={user} fetchUserData={fetchUserData} />
           <FormSwitch user={user} fetchUserData={fetchUserData} />
         </div>
       </div>
-      <div className="w-100 d-flex flex-column gap-2 p-3 mt-3 mx-0 bg-white shadow-sm rounded-2 fade-in-section">
+      <div className="w-100 d-flex flex-column gap-2 p-3 mx-0 bg-white shadow-sm rounded-2 fade-in-section">
         <label>Programs and Courses</label>
         <ProgramModal />
 

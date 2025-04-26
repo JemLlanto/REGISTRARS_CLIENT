@@ -13,7 +13,7 @@ const DateSelection = ({
   return (
     <div className="d-flex flex-wrap justify-content-between gap-2 w-100">
       <div className="w-100 row mx-auto gap-2">
-        <div className="col-lg px-0">
+        <div className="col-md col-lg px-0">
           <FloatingLabel controlId="floatingPeriod" label="Data report period">
             <Form.Select
               aria-label="Floating label select example"
@@ -35,7 +35,7 @@ const DateSelection = ({
           </FloatingLabel>
         </div>
 
-        <div className="col-md-6 col-lg-3 px-0">
+        <div className="col-md-3 col-lg-3 px-0">
           <Form.Floating>
             <Form.Control
               id="startingPeriod"
@@ -51,7 +51,7 @@ const DateSelection = ({
           </Form.Floating>
         </div>
 
-        <div className="col-md col-lg-3 px-0">
+        <div className="col-md-3 col-lg-3 px-0">
           <Form.Floating>
             <Form.Control
               id="endingPeriod"

@@ -94,7 +94,7 @@ function PurposeStats({ requestedDocuments, isLoading, setIsLoading }) {
   return (
     <>
       <div
-        className="bg-white position-relative rounded mt-2 mb-5 w-100"
+        className="bg-white position-relative rounded w-100"
         style={{ height: "45dvh" }}
       >
         {isLoading ? (

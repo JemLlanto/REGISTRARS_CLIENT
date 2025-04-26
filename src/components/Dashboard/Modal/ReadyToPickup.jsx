@@ -15,24 +15,31 @@ const ReadyToPickup = ({ readyToPickupRequests, CountUp }) => {
   return (
     <>
       <button
-        className="border-0 bg-transparent w-100 p-0"
+        className="border-0 bg-transparent w-100 p-1"
         onClick={handleShowModal}
       >
-        <div className="card-hover shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
-          <div
-            className=" text-white  d-flex justify-content-center align-items-center p-3"
-            style={{ width: "60px", height: "60px" }}
-          >
-            <i
-              className="bx bxs-user-check fs-3 rounded-circle p-3"
-              style={{ backgroundColor: "var(--main-color)" }}
-            ></i>
+        <div className="card-hover shadow-sm rounded p-3 h-100 bg-white">
+          <div className="d-flex justify-content-between align-items-center">
+            <p className="text-dark m-0">For Pickup</p>
+            <div
+              className="d-flex justify-content-center align-items-center rounded-circle"
+              style={{
+                width: "clamp(2rem, 5dvh, 5rem)",
+                height: "clamp(2rem, 5dvh, 5rem)",
+                // backgroundColor: "var(--main-color)",
+                color: "var(--main-color)",
+              }}
+            >
+              <h4 className="m-0 d-flex justify-content-center align-items-center">
+                <i class="bx bx-archive-out"></i>
+              </h4>
+            </div>
           </div>
-          <div className="ms-3 text-start">
-            <h5 className="text-success mb-1">
+
+          <div className="text-start mt-2">
+            <h4 className="text-info m-0">
               <CountUp end={readyToPickupRequests.length} duration={1.5} />
-            </h5>
-            <h5 className="text-dark">For Pickup</h5>
+            </h4>
           </div>
         </div>
       </button>
