@@ -24,7 +24,7 @@ const NavBar = ({ user }) => {
       {/* NAVBAR */}
       <div
         className=" p-1 w-100 d-flex justify-content-between align-items-center bg-white"
-        style={{ height: "4rem" }}
+        style={{ height: "4rem", top: "0", left: "0", zIndex: "1000" }}
       >
         {/* Logo*/}
         <img

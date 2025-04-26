@@ -74,22 +74,19 @@ const MainLayout = () => {
       className="w-100 d-flex flex-column custom-scrollbar "
       style={{
         backgroundColor: "var(--bodyBackground-color)",
-        minHeight: "100vh",
-        maxHeight: "100vh",
-        overflow: "hidden", // prevent root overflow
       }}
     >
       {!user.isAdmin && user.isNewAccount ? (
         <NewAccountPopup user={user} />
       ) : null}{" "}
-      <div className="d-flex overflow-hidden" style={{ height: "100dvh" }}>
+      <div className="d-flex overflow-hidden" style={{ height: "" }}>
         <div className="d-none d-md-block" style={{ zIndex: "1000" }}>
           <SideBar user={user} />
         </div>
         <div className="w-100" style={{ height: "100dvh" }}>
           <NavBar user={user} />
           <div
-            className="d-flex justify-content-center align-items-center pt-1 pt-md-0"
+            className="d-flex justify-content-center pt-2 p-md-4 bg-warning overflow-hidden"
             style={{ zIndex: "0", height: "95%" }}
           >
             <Outlet context={{ user, fetchUserData }} />

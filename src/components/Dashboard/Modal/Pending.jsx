@@ -15,25 +15,36 @@ const Pending = ({ pendingRequests, CountUp }) => {
   return (
     <>
       <button
-        className="border-0 bg-transparent w-100 p-0"
+        className="border-0 bg-transparent w-100 p-1"
         onClick={handleShowModal}
       >
-        <div className="card-hover shadow-sm rounded p-3 h-100 d-flex align-items-center bg-white">
-          <div
-            className=" text-white  d-flex justify-content-center align-items-center p-3"
-            style={{ width: "60px", height: "60px" }}
-          >
-            <i
-              className="bx bxs-timer fs-3 rounded-circle p-3"
-              style={{ backgroundColor: "var(--main-color)" }}
-            ></i>
+        <div
+          className="card-hover shadow-sm rounded p-3 h-100"
+          style={{
+            backgroundColor: "var(--main-color)",
+          }}
+        >
+          <div className="d-flex justify-content-between align-items-center">
+            <p className="text-white m-0">Pending</p>
+            <div
+              className="d-flex justify-content-center align-items-center rounded-circle"
+              style={{
+                width: "clamp(2rem, 5dvh, 5rem)",
+                height: "clamp(2rem, 5dvh, 5rem)",
+                backgroundColor: "var(--secondMain-color)",
+                color: "var(--main-color)",
+              }}
+            >
+              <h4 className="m-0 d-flex justify-content-center align-items-center">
+                <i className="bx bxs-timer rounded-circle"></i>
+              </h4>
+            </div>
           </div>
-          <div className="ms-3 text-start">
-            <h5 className="text-success mb-1">
-              {" "}
+
+          <div className="text-start mt-2">
+            <h4 className="text-warning m-0">
               <CountUp end={pendingRequests.length} duration={1.5} />
-            </h5>
-            <h5 className="text-dark">Pending</h5>
+            </h4>
           </div>
         </div>
       </button>

@@ -130,10 +130,10 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
     return items;
   };
   return (
-    <div className="d-flex flex-column gap-3" style={{ height: "65vh" }}>
+    <div className="d-flex flex-column gap-3" style={{ height: "65dvh" }}>
       <div
         className="requestList custom-scrollbar mt-2 d-flex flex-column gap-2 overflow-auto rounded"
-        // style={{ height: "48dvh" }}
+        style={{ height: "75%" }}
       >
         {isLoading ? (
           <>
@@ -159,8 +159,12 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                       <h5 className="m-0 text-muted me-1 d-block d-sm-none">
                         Name:
                       </h5>
-                      <p className="m-0 me-1">{request.firstName}</p>
-                      <p className="m-0">{request.lastName}</p>
+                      <p className="m-0 me-1">
+                        <span className="d-none d-md-block">
+                          {request.firstName}
+                        </span>{" "}
+                        {request.lastName}
+                      </p>
                     </div>
 
                     <div
