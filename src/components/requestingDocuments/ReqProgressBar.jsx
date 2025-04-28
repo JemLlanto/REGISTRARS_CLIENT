@@ -11,7 +11,10 @@ const ReqProgressBar = ({ currentStep }) => {
       <ProgressBarSteps currentStep={currentStep}></ProgressBarSteps>
       <div
         className="position-absolute"
-        style={{ transform: "rotate(90deg)", width: "35rem" }}
+        style={{
+          transform: "rotate(90deg)",
+          width: "clamp(10rem, 65dvh, 50rem)",
+        }}
       >
         <ProgressBar
           animated

@@ -89,7 +89,7 @@ const Step2 = ({ formData, handleChange }) => {
   }
 
   return (
-    <div className="p-2 d-flex flex-column gap-2">
+    <div className="d-flex flex-column gap-2">
       {/* Program/Course & Major Dropdown */}
       <FloatingLabel
         controlId="program-select"

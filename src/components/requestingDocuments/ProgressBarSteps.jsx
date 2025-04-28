@@ -4,7 +4,7 @@ function ProgressBarSteps({ currentStep }) {
   return (
     <div
       className="d-flex flex-column justify-content-between"
-      style={{ height: "35rem", zIndex: "10" }}
+      style={{ height: "clamp(10rem, 65dvh, 50rem)", zIndex: "10" }}
     >
       {[1, 2, 3, 4].map((step) => (
         <div
