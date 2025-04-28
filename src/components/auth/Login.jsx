@@ -83,7 +83,7 @@ const Login = ({ setActivePage }) => {
           style={{ width: "30rem", backgroundColor: "#001957f7", zIndex: 2 }}
         >
           {/* Logo */}
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center mb-1">
             <img
               style={{ width: "20%" }}
               src="/cvsu-logo.png"
@@ -91,7 +91,7 @@ const Login = ({ setActivePage }) => {
             />
           </div>
           {/* Title */}
-          <h4 className="text-center fw-bold text-white">
+          <h4 className="text-center fw-bold text-white m-0">
             CAVITE STATE UNIVERSITY
           </h4>
           <h5
