@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Spinner, Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { renderPaginationItems } from "../../utils/requestServices";
 
 const getStatusColor = (status) => {
   switch (status.toLowerCase()) {
@@ -21,7 +22,7 @@ const getStatusColor = (status) => {
 
 const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const requestsPerPage = 10;
+  const requestsPerPage = 20;
 
   // Paginate requests
   const indexOfLastRequest = currentPage * requestsPerPage;
@@ -39,101 +40,17 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
   };
   useEffect(() => {
     setCurrentPage(1);
-  }, [status]);
+  }, [status, filteredRequests]);
   // Render pagination items
-  const renderPaginationItems = () => {
-    let items = [];
 
-    // First and Previous buttons
-    items.push(
-      <Pagination.First
-        key="first"
-        onClick={() => handlePageChange(1)}
-        disabled={currentPage === 1}
-      />,
-      <Pagination.Prev
-        key="prev"
-        onClick={() => handlePageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      />
-    );
-
-    // Add page numbers
-    const addPageNumbers = () => {
-      let pageNumbers = [];
-
-      // Always show first page
-      if (currentPage > 3) {
-        pageNumbers.push(
-          <Pagination.Item key={1} onClick={() => handlePageChange(1)}>
-            1
-          </Pagination.Item>
-        );
-
-        if (currentPage > 4) {
-          pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
-        }
-      }
-
-      // Surrounding pages
-      const startPage = Math.max(1, currentPage - 2);
-      const endPage = Math.min(totalPages, currentPage + 2);
-
-      for (let number = startPage; number <= endPage; number++) {
-        pageNumbers.push(
-          <Pagination.Item
-            key={number}
-            active={number === currentPage}
-            onClick={() => handlePageChange(number)}
-          >
-            {number}
-          </Pagination.Item>
-        );
-      }
-
-      // Always show last page
-      if (currentPage < totalPages - 2) {
-        if (currentPage < totalPages - 3) {
-          pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
-        }
-
-        pageNumbers.push(
-          <Pagination.Item
-            key={totalPages}
-            onClick={() => handlePageChange(totalPages)}
-          >
-            {totalPages}
-          </Pagination.Item>
-        );
-      }
-
-      return pageNumbers;
-    };
-
-    // Add page number items
-    items.push(...addPageNumbers());
-
-    // Next and Last buttons
-    items.push(
-      <Pagination.Next
-        key="next"
-        onClick={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-      />,
-      <Pagination.Last
-        key="last"
-        onClick={() => handlePageChange(totalPages)}
-        disabled={currentPage === totalPages}
-      />
-    );
-
-    return items;
-  };
   return (
-    <div className="d-flex flex-column gap-3" style={{ height: "65dvh" }}>
+    <div
+      className="d-flex flex-column justify-content-between gap-3"
+      style={{ height: "62dvh" }}
+    >
       <div
         className="requestList custom-scrollbar mt-2 d-flex flex-column gap-2 overflow-auto rounded"
-        style={{ height: "75%" }}
+        style={{ height: "85%" }}
       >
         {isLoading ? (
           <>
@@ -151,8 +68,9 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
               currentRequests.map((request, index) => (
                 <Link
                   key={index}
-                  className="text-decoration-none text-dark bg-light rounded shadow-sm request-item"
+                  className="text-decoration-none text-dark bg-light rounded shadow-sm request-item fade-in-section"
                   to={`/request-details/${request.requestID}`}
+                  style={{ animationDelay: `${index * 0.2}s` }}
                 >
                   <div className="row mx-auto g-2 p-3">
                     <div className="col-12 col-sm d-flex align-items-center justify-content-center">
@@ -224,7 +142,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
       </div>
       <div className="custom-pagination d-flex align-items-center justify-content-center">
         <Pagination className="pagination">
-          {renderPaginationItems()}
+          {renderPaginationItems(handlePageChange, currentPage, totalPages)}
         </Pagination>
       </div>
     </div>

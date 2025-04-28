@@ -162,6 +162,7 @@ const RequestDetails = () => {
               style={{
                 boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
                 zIndex: "1",
+                animationDelay: `${1 * 0.2}s`,
               }}
             >
               {/* Purpose and Status */}
@@ -221,7 +222,10 @@ const RequestDetails = () => {
                     </OverlayTrigger>
                   ) : null}
                 </div>
-                <p className="fade-in-section m-0 text-secondary">
+                <p
+                  className="fade-in-section m-0 text-secondary"
+                  style={{ animationDelay: `${1 * 0.2}s` }}
+                >
                   {documentDetails.reason && (
                     <>
                       Reason:{" "}
@@ -231,14 +235,20 @@ const RequestDetails = () => {
                 </p>
               </div>
             </div>
-            <div className="fade-in-section" style={{ zIndex: 0 }}>
+            <div
+              className="fade-in-section"
+              style={{ animationDelay: `${1 * 0.2}s`, zIndex: 0 }}
+            >
               <RequestInfo documentDetails={documentDetails} />
             </div>
 
             {documentTypes.length > 0 && (
               <div
                 className="fade-in-section information bg-white w-100  rounded-2 p-4"
-                style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
+                style={{
+                  animationDelay: `${1 * 0.2}s`,
+                  boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                }}
               >
                 <p className="text-muted">Document requested</p>
                 <div className="d-flex align-items-center gap-2 p-2">
@@ -252,7 +262,10 @@ const RequestDetails = () => {
             {documentInputValues.length > 0 && (
               <div
                 className="fade-in-section information bg-white w-100 rounded-2 p-4"
-                style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
+                style={{
+                  animationDelay: `${1 * 0.2}s`,
+                  boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                }}
               >
                 <table className="table">
                   <thead>
@@ -277,7 +290,10 @@ const RequestDetails = () => {
             {documentFile && (
               <div
                 className="fade-in-section bg-white w-100 rounded-2 d-flex flex-column p-4"
-                style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}
+                style={{
+                  animationDelay: `${1 * 0.2}s`,
+                  boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                }}
               >
                 <p className="text-muted">Uploaded document</p>
                 <div className="w-100 d-flex align-items-center justify-content-center">

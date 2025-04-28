@@ -207,7 +207,7 @@ const Step3 = ({
   };
 
   return (
-    <div className="p-3">
+    <div className="">
       <h3 className="fw-bold" style={{ color: "var(--main-color)" }}>
         {formData.purpose}
       </h3>

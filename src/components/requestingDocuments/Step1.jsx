@@ -4,7 +4,7 @@ import { FloatingLabel, Form, Row, Col } from "react-bootstrap";
 
 const Step1 = ({ formData, handleChange }) => {
   return (
-    <div className="requestForm form-label p-3">
+    <div className="requestForm form-label">
       {/* Email and Student ID */}
       <Row className="mb-1">
         <Col md={6}>
