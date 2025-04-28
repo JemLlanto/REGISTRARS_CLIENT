@@ -330,7 +330,7 @@ const NotifButton = ({ user }) => {
             className="shadow-lg border-0 rounded-3 p-0 custom-scrollbar"
             style={{
               width: "320px",
-              maxHeight: "400px",
+              maxHeight: "500px",
               marginTop: "0.75rem",
               right: "50%",
               transform: "translateX(-50%)",

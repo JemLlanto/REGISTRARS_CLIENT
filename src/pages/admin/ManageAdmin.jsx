@@ -171,11 +171,7 @@ const ManageAdmin = () => {
           </div>
         </div>
 
-<<<<<<< Updated upstream
-        <div className="w-100 d-flex flex-column gap-2 p-1 mt-2 mx-0 bg-white shadow-sm rounded-2">
-=======
         <div className="w-100 d-flex flex-column gap-2 p-1  mt-2 mx-0 bg-white shadow-sm rounded-2">
->>>>>>> Stashed changes
           <div
             className="requestList custom-scrollbar p-2 overflow-y-scroll"
             style={{ height: "70dvh" }}
