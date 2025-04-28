@@ -1,7 +1,8 @@
+
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Dropdown, Toast, ToastContainer } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 import Swal from "sweetalert2";
 
@@ -12,41 +13,124 @@ const NotifButton = ({ user }) => {
   const [notifications, setNotifications] = useState([]);
   const [toasts, setToasts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [newNotif, setNewNotif] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const notifContainerRef = useRef(null);
+  const LIMIT = 10; // Number of notifications to fetch at once
+
   const userID = user.userID;
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Fetch initial notifications
-  const fetchNotifications = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/notifications/fetchNotification/${userID}`
-      );
-      if (response.data.Status === "Success") {
-        setNotifications(response.data.data);
-        // console.error(response.data.data);
-      } else {
-        console.error(response.data.Message);
+  // Fetch notifications with pagination
+  const fetchNotifications = useCallback(
+    async (pageNum = 1, append = false) => {
+      try {
+        if (pageNum === 1) {
+          setLoading(true);
+        } else {
+          setLoadingMore(true);
+        }
+
+        const response = await axios.get(
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/notifications/fetchNotification/${userID}`,
+          {
+            params: {
+              page: pageNum,
+              limit: LIMIT,
+            },
+          }
+        );
+
+        if (response.data.Status === "Success") {
+          const newNotifications = response.data.data;
+
+          // If there are fewer notifications than the limit, we've reached the end
+          if (newNotifications.length < LIMIT) {
+            setTimeout(() => {
+              setHasMore(false);
+            }, 0);
+          } else {
+            setTimeout(() => {
+              setHasMore(true);
+            }, 0);
+          }
+
+          // Either append to existing notifications or replace them
+          if (append) {
+            setNotifications((prev) => [...prev, ...newNotifications]);
+          } else {
+            setNotifications(newNotifications);
+          }
+        } else {
+          console.log(response.data.Message);
+        }
+        setTimeout(() => {
+          setLoading(false);
+          setLoadingMore(false);
+        }, 0);
+        setNewNotif(false);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+        setLoading(false);
+        setLoadingMore(false);
       }
-      setLoading(false);
-      setNewNotif(false);
-    } catch (error) {
-      console.error("Error fetching notifications:", error);
-      setLoading(false);
-    }
-  };
+    },
+    [userID]
+  );
+
   useEffect(() => {
     if (userID) {
-      fetchNotifications();
+      fetchNotifications(1, false);
     }
-  }, [userID]);
+  }, [userID, fetchNotifications]);
 
   useEffect(() => {
     if (newNotif) {
-      fetchNotifications();
+      // Reset to first page when there's a new notification
+      setPage(1);
+      fetchNotifications(1, false);
     }
-  }, [newNotif]);
+  }, [newNotif, fetchNotifications]);
+
+  // Handler for scrolling to bottom of notification container
+  const handleScroll = useCallback(() => {
+    if (!notifContainerRef.current || loadingMore || !hasMore) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = notifContainerRef.current;
+
+    // More generous threshold - trigger when within 100px of bottom
+    if (scrollHeight - scrollTop - clientHeight < 100) {
+      // Prevent multiple calls while loading
+      if (!loadingMore) {
+        const nextPage = page + 1;
+        setPage(nextPage);
+        fetchNotifications(nextPage, true);
+      }
+    }
+  }, [loadingMore, hasMore, page, fetchNotifications]);
+
+  // Check if initial content fills the container
+  useEffect(() => {
+    if (
+      notifContainerRef.current &&
+      !loading &&
+      hasMore &&
+      notifications.length > 0
+    ) {
+      const { scrollHeight, clientHeight } = notifContainerRef.current;
+
+      // If the initial content doesn't fill the container, load more
+      if (scrollHeight <= clientHeight && !loadingMore) {
+        const nextPage = page + 1;
+        setPage(nextPage);
+        fetchNotifications(nextPage, true);
+      }
+    }
+  }, [notifications, loading, loadingMore, hasMore, page, fetchNotifications]);
 
   // Set up socket connection and event listeners
   useEffect(() => {
@@ -110,15 +194,20 @@ const NotifButton = ({ user }) => {
 
   // Handle marking notification as read
   const handleNotificationClick = async (notif) => {
+    const targetPath = `/request-details/${notif.requestID}`;
     try {
       await axios.post(
         `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/notifications/markAsRead/${notif.requestID}`
       );
-      fetchNotifications();
-      console.error("Navigating to:", `request-details/${notif.requestID}`);
+      fetchNotifications(1, false);
+      console.log("Navigating to:", targetPath);
 
-      navigate(`request-details/${notif.requestID}`);
+      if (location.pathname === targetPath) {
+        window.location.reload(); // Reload if already on the same page
+      } else {
+        navigate(targetPath); // Navigate normally otherwise
+      }
     } catch (error) {
       console.error("Error marking notification as read:", error);
     }
@@ -132,7 +221,7 @@ const NotifButton = ({ user }) => {
       );
 
       if (res.status === 200) {
-        fetchNotifications();
+        fetchNotifications(1, false);
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -170,8 +259,8 @@ const NotifButton = ({ user }) => {
             autohide
             animation={true}
           >
-            <Toast.Header>
-              <strong className="me-auto">Notification</strong>
+            <Toast.Header style={{ backgroundColor: "var(--main-color)" }}>
+              <strong className="me-auto text-white">Notification</strong>
               <small>
                 {toast.created ? formatTime(toast.created) : "Just now"}
               </small>
@@ -194,7 +283,7 @@ const NotifButton = ({ user }) => {
       </ToastContainer>
       <Dropdown>
         <Dropdown.Toggle
-          className="btn btn-light  rounded-circle p-0 d-flex align-items-center justify-content-center border-0"
+          className="btn btn-light border rounded-circle p-0 d-flex align-items-center justify-content-center border-0 "
           id="dropdown-basic"
           bsPrefix="none"
           style={{
@@ -218,16 +307,16 @@ const NotifButton = ({ user }) => {
             <div
               className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
               style={{
-                width: ".9rem",
-                height: ".9rem",
+                width: "1rem",
+                height: "1rem",
                 backgroundColor: "red",
                 top: "0",
-                left: "-.2rem",
+                right: "-.2rem",
               }}
             >
               <p
                 className="m-0 text-white"
-                style={{ fontSize: "clamp(.5rem, .9dvw, .6rem)" }}
+                style={{ fontSize: "clamp(.5rem, 1dvw, .7rem)" }}
               >
                 {notifications.filter((notif) => notif.isRead === 0).length >
                   9 ? (
@@ -243,12 +332,12 @@ const NotifButton = ({ user }) => {
         </Dropdown.Toggle>
 
         <Dropdown.Menu
-          align="end"
+          align="center"
           style={{
+            top: "100%",           // <== So it drops below the buttonWWW
             width: "300px",
             maxHeight: "450px",
           }}
-          className="custom-scrollbar"
         >
           {/* Fixed Header */}
           <div className="px-3 py-2 border-bottom d-flex justify-content-between align-items-center bg-white sticky-top">
@@ -275,7 +364,6 @@ const NotifButton = ({ user }) => {
                   cursor: "not-allowed",
                   color: "var(--yellow-color-disabled)",
                 }}
-              // onClick={handleMarkAllNotifAsRead}
               >
                 Mark all as read
               </small>
@@ -310,18 +398,18 @@ const NotifButton = ({ user }) => {
           ) : (
             /* Scrollable Notification List */
             <div
-              style={{ maxHeight: "380px", overflowY: "auto" }}
-              className="custom-scrollbar"
+              ref={notifContainerRef}
+              onScroll={handleScroll}
+              style={{ maxHeight: "350px", overflowY: "auto" }}
             >
               {notifications.map((notif, index) => (
                 <Dropdown.Item
                   key={notif.notificationID || index}
                   onClick={() => handleNotificationClick(notif)}
-                  className={`border-bottom p-2 ${notif.isRead === 0 ? "unread-notif" : "bg-white"
-                    }`}
+                  className={`border-bottom  p-2 d-flex align-items-center gap-2 ${notif.isRead === 0 ? " fw-bold" : "bg-white"}`}
                 >
                   <div
-                    className="d-flex flex-column text-wrap text-break"
+                    className="d-flex flex-column text-wrap text-break flex-grow-1"
                     style={{ wordBreak: "break-word", whiteSpace: "normal" }}
                   >
                     <p className="mb-1" style={{ fontSize: "0.875rem" }}>
@@ -329,21 +417,83 @@ const NotifButton = ({ user }) => {
                     </p>
                     <div className="d-flex justify-content-between gap-1">
                       {notif.requestID && (
-                        <small
-                          className=""
-                          style={{ fontSize: "clamp(.6rem, .8dvw, .9rem)" }}
-                        >
+                        <small style={{ fontSize: "clamp(.6rem, .8dvw, .9rem)" }}>
                           Request No.{notif.requestID}
                         </small>
                       )}
-                      <small className=" ms-auto" style={{ fontSize: "10px" }}>
+                      <small className="ms-auto" style={{ fontSize: "10px" }}>
                         {formatNotificationDate(notif.created)}
                       </small>
                     </div>
                   </div>
+
+                  {/* Notification content */}
+                  <div
+                    className="d-flex flex-column text-wrap text-break flex-grow-1"
+                    style={{ wordBreak: "break-word", whiteSpace: "normal" }}
+                  >
+                    <p className={`mb-1 ${notif.isRead === 0 ? "fw-bold" : ""}`} style={{ fontSize: "0.9rem" }}>
+                      {notif.message}
+                    </p>
+                    <div className="d-flex flex-wrap justify-content-between align-items-center">
+                      {notif.requestID && (
+                        <span
+                          className="badge rounded-pill"
+                          style={{
+                            backgroundColor: "rgba(var(--main-color-rgb), 0.1)",
+                            color: "var(--main-color)",
+                            fontSize: "0.7rem",
+                            fontWeight: "600"
+                          }}
+                        >
+                          Request #{notif.requestID}
+                        </span>
+                      )}
+                      <small
+                        className="ms-auto mt-1"
+                        style={{
+                          fontSize: "0.7rem",
+                          color: "#777",
+                          fontWeight: notif.isRead === 0 ? "600" : "normal"
+                        }}
+                      >
+                        {formatNotificationDate(notif.created)}
+                      </small>
+                    </div>
+                  </div>
+
+                  {/* Unread indicator */}
+                  {notif.isRead === 0 && (
+                    <div
+                      style={{
+                        width: "8px",
+                        height: "8px",
+                        borderRadius: "50%",
+                        backgroundColor: "#ff4d4f",
+                        marginTop: "6px",
+                        flexShrink: "0"
+                      }}
+                    ></div>
+                  )}
                 </Dropdown.Item>
               ))}
+
+              {/* Loading more indicator */}
+              {loadingMore && (
+                <div className="text-center py-2 s">
+                  <div
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                    style={{ color: "var(--yellow-color)" }}
+                  >
+                  </div>
+                  <span className="ms-2" style={{ color: "var(--yellow-color)" }}>
+                    Loading more...
+                  </span>
+                </div>
+              )}
             </div>
+
           )}
         </Dropdown.Menu>
       </Dropdown>
