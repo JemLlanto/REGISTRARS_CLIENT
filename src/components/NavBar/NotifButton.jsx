@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 import Swal from "sweetalert2";
 
 // Initialize socket connection
-const socket = io(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`); // Match your server URL
+const socket = io(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`);
 
 const NotifButton = ({ user }) => {
   const [notifications, setNotifications] = useState([]);
@@ -34,9 +34,7 @@ const NotifButton = ({ user }) => {
         }
 
         const response = await axios.get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-          }/api/notifications/fetchNotification/${userID}`,
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/notifications/fetchNotification/${userID}`,
           {
             params: {
               page: pageNum,
@@ -146,9 +144,7 @@ const NotifButton = ({ user }) => {
       // Add to toast stack with a unique id
       const toastNotification = {
         ...notification,
-        toastId: `toast-${Date.now()}-${Math.random()
-          .toString(36)
-          .substr(2, 9)}`,
+        toastId: `toast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         show: true,
       };
 
@@ -197,9 +193,7 @@ const NotifButton = ({ user }) => {
     const targetPath = `/request-details/${notif.requestID}`;
     try {
       await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/notifications/markAsRead/${notif.requestID}`
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/notifications/markAsRead/${notif.requestID}`
       );
       fetchNotifications(1, false);
       console.log("Navigating to:", targetPath);
@@ -217,9 +211,7 @@ const NotifButton = ({ user }) => {
   const handleMarkAllNotifAsRead = async () => {
     try {
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/notifications/markAllAsRead/${user.userID}`
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/notifications/markAllAsRead/${user.userID}`
       );
 
       if (res.status === 200) {
@@ -247,11 +239,8 @@ const NotifButton = ({ user }) => {
 
   return (
     <>
-      <ToastContainer
-        position="top-end"
-        className=" p-3 mt-5"
-        style={{ zIndex: 100 }}
-      >
+      {/* Toast container for new notifications */}
+      <ToastContainer position="top-end" className="p-3 mt-5" style={{ zIndex: 100 }}>
         {toasts.map((toast) => (
           <Toast
             key={toast.toastId}
@@ -263,7 +252,7 @@ const NotifButton = ({ user }) => {
           >
             <Toast.Header style={{ backgroundColor: "var(--main-color)" }}>
               <strong className="me-auto text-white">Notification</strong>
-              <small>
+              <small className="text-white">
                 {toast.created ? formatTime(toast.created) : "Just now"}
               </small>
             </Toast.Header>
@@ -283,187 +272,238 @@ const NotifButton = ({ user }) => {
           </Toast>
         ))}
       </ToastContainer>
-      <Dropdown>
-        <Dropdown.Toggle
-          className="btn btn-light border rounded-circle p-0 d-flex align-items-center justify-content-center border-0"
-          id="dropdown-basic"
-          bsPrefix="none"
-          style={{
-            width: "2.5rem",
-            height: "2.5rem",
-          }}
-        >
-          <h5
-            className="m-0 d-flex align-items-center justify-content-center "
-            style={{ color: "var(--main-color)" }}
-          >
-            {notifications.filter((notif) => notif.isRead === 0).length ===
-            0 ? (
-              <i className="bx bx-bell bx-sm"></i>
-            ) : (
-              <i className="bx bxs-bell bx-tada bx-sm"></i>
-            )}
-          </h5>
-          {notifications.filter((notif) => notif.isRead === 0).length ===
-          0 ? null : (
-            <div
-              className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
-              style={{
-                width: "1rem",
-                height: "1rem",
-                backgroundColor: "red",
-                top: "0",
-                right: "-.2rem",
-              }}
-            >
-              <p
-                className="m-0 text-white"
-                style={{ fontSize: "clamp(.5rem, 1dvw, .7rem)" }}
-              >
-                {notifications.filter((notif) => notif.isRead === 0).length >
-                9 ? (
-                  <>9+</>
-                ) : (
-                  <>
-                    {notifications.filter((notif) => notif.isRead === 0).length}
-                  </>
-                )}
-              </p>
-            </div>
-          )}
-        </Dropdown.Toggle>
 
-        <Dropdown.Menu
-          align="end"
-          style={{
-            width: "300px",
-            maxHeight: "450px",
-          }}
-          className="custom-scrollbar"
-        >
-          {/* Fixed Header */}
-          <div className="px-3 py-2 border-bottom d-flex justify-content-between align-items-center bg-white sticky-top">
-            <div className="d-flex align-items-center">
-              <h6
-                className="m-0 fw-bold"
-                style={{ color: "var(--main-color)" }}
-              >
-                Notifications
-              </h6>
-            </div>
-            {notifications.filter((notif) => notif.isRead === 0).length > 0 ? (
-              <small
-                className="fw-bold"
-                style={{ cursor: "pointer", color: "var(--yellow-color)" }}
-                onClick={handleMarkAllNotifAsRead}
-              >
-                Mark all as read
-              </small>
-            ) : (
-              <small
-                className="fw-bold"
+      {/* Notification Dropdown */}
+      <div className="position-relative">
+        <Dropdown>
+          <Dropdown.Toggle
+            className="btn border rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm"
+            id="dropdown-basic"
+            bsPrefix="none"
+            style={{
+              width: "2.75rem",
+              height: "2.75rem",
+              backgroundColor: "white",
+              border: "none",
+              transition: "all 0.2s ease",
+            }}
+          >
+            <h5
+              className="m-0 d-flex align-items-center justify-content-center"
+              style={{ color: "var(--main-color)" }}
+            >
+              {notifications.filter((notif) => notif.isRead === 0).length === 0 ? (
+                <i className="bx bx-bell bx-sm"></i>
+              ) : (
+                <i className="bx bxs-bell bx-tada bx-sm"></i>
+              )}
+            </h5>
+            {notifications.filter((notif) => notif.isRead === 0).length === 0 ? null : (
+              <div
+                className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
                 style={{
-                  cursor: "not-allowed",
-                  color: "var(--yellow-color-disabled)",
+                  width: "1.25rem",
+                  height: "1.25rem",
+                  backgroundColor: "#ff4d4f",
+                  top: "0",
+                  right: "0",
+                  transform: "translate(25%, -25%)",
+                  border: "2px solid white",
                 }}
               >
-                Mark all as read
-              </small>
-            )}
-          </div>
-
-          {/* Loading State */}
-          {loading ? (
-            <div className="text-center py-3">
-              <div className="d-flex flex-column align-items-center justify-content-center">
-                <div
-                  className="spinner-border"
-                  role="status"
-                  style={{
-                    width: "3rem",
-                    height: "3rem",
-                    color: "var(--yellow-color)",
-                  }}
-                ></div>
-                <span
-                  className="mt-2 fw-bold"
-                  style={{ color: "var(--yellow-color)" }}
+                <p
+                  className="m-0 text-white fw-bold"
+                  style={{ fontSize: "0.7rem" }}
                 >
-                  Loading...
-                </span>
+                  {notifications.filter((notif) => notif.isRead === 0).length > 9 ? (
+                    <>9+</>
+                  ) : (
+                    <>{notifications.filter((notif) => notif.isRead === 0).length}</>
+                  )}
+                </p>
               </div>
-            </div>
-          ) : notifications.length === 0 ? (
-            <div className="px-3 py-3 text-center text-muted">
-              <p className="m-0">No notifications</p>
-            </div>
-          ) : (
-            /* Scrollable Notification List */
-            <div
-              ref={notifContainerRef}
-              style={{ maxHeight: "380px", overflowY: "auto" }}
-              className="custom-scrollbar"
-              onScroll={handleScroll}
-            >
-              {notifications.map((notif, index) => (
-                <Dropdown.Item
-                  key={notif.notificationID || index}
-                  onClick={() => handleNotificationClick(notif)}
-                  className={`border-bottom p-4 ${
-                    notif.isRead === 0 ? "unread-notif fw-bold" : "bg-white"
-                  }`}
-                >
-                  <div
-                    className="d-flex flex-column text-wrap text-break"
-                    style={{ wordBreak: "break-word", whiteSpace: "normal" }}
-                  >
-                    <p className="mb-1" style={{ fontSize: "0.875rem" }}>
-                      {notif.message}
-                    </p>
-                    <div className="d-flex justify-content-between gap-1">
-                      {notif.requestID && (
-                        <small
-                          className=""
-                          style={{ fontSize: "clamp(.6rem, .8dvw, .9rem)" }}
-                        >
-                          Request No.{notif.requestID}
-                        </small>
-                      )}
-                      <small className=" ms-auto" style={{ fontSize: "10px" }}>
-                        {formatNotificationDate(notif.created)}
-                      </small>
-                    </div>
-                  </div>
-                </Dropdown.Item>
-              ))}
+            )}
+          </Dropdown.Toggle>
 
-              {/* Loading indicator for pagination */}
-              {loadingMore && (
-                <div className="text-center py-2">
+          <Dropdown.Menu
+            align="center"
+            className="shadow-lg border-0 rounded-3 p-0 custom-scrollbar"
+            style={{
+              width: "320px",
+              maxHeight: "500px",
+              marginTop: "0.75rem",
+              right: "50%",
+              transform: "translateX(-50%)",
+              animation: "fadeIn 0.2s ease-in-out",
+            }}
+          >
+            {/* Header with title and mark all as read button */}
+            <div className="px-3 py-3 border-bottom d-flex justify-content-between align-items-center bg-white sticky-top shadow-sm ">
+              <div className="d-flex align-items-center">
+                <i className="bx bx-bell me-2" style={{ color: "var(--main-color)", fontSize: "1.25rem" }}></i>
+                <h6 className="m-0 fw-bold" style={{ color: "var(--main-color)" }}>
+                  Notifications
+                </h6>
+              </div>
+              {notifications.filter((notif) => notif.isRead === 0).length > 0 ? (
+                <button
+                  className="btn btn-sm text-nowrap"
+                  style={{
+                    color: "var(--yellow-color)",
+                    backgroundColor: "rgba(var(--yellow-color-rgb), 0.1)",
+                    fontSize: "0.75rem",
+                    fontWeight: "bold",
+                    transition: "all 0.2s ease"
+                  }}
+                  onClick={handleMarkAllNotifAsRead}
+                >
+                  Mark all as read
+                </button>
+              ) : (
+                <button
+                  className="btn btn-sm text-nowrap"
+                  disabled
+                  style={{
+                    color: "var(--yellow-color-disabled)",
+                    backgroundColor: "rgba(var(--yellow-color-rgb), 0.05)",
+                    fontSize: "0.75rem",
+                    fontWeight: "bold",
+                    opacity: 0.5,
+                  }}
+                >
+                  Mark all as read
+                </button>
+              )}
+            </div>
+
+            {/* Loading State */}
+            {loading ? (
+              <div className="text-center py-5">
+                <div className="d-flex flex-column align-items-center justify-content-center">
                   <div
-                    className="spinner-border spinner-border-sm"
+                    className="spinner-border"
                     role="status"
-                    style={{ color: "var(--yellow-color)" }}
+                    style={{
+                      width: "2.5rem",
+                      height: "2.5rem",
+                      color: "var(--yellow-color)",
+                    }}
                   ></div>
-                  <span
-                    className="ms-2"
-                    style={{ color: "var(--yellow-color)" }}
-                  >
-                    Loading more...
+                  <span className="mt-3 fw-bold" style={{ color: "var(--yellow-color)" }}>
+                    Loading notifications...
                   </span>
                 </div>
-              )}
-
-              {/* End of list message */}
-              {!hasMore && notifications.length > 0 && (
-                <div className="text-center py-2 text-muted">
-                  <small>No more notifications</small>
+              </div>
+            ) : notifications.length === 0 ? (
+              <div className="px-3 py-5 text-center">
+                <div className="mb-3">
+                  <i className="bx bx-bell-off" style={{ fontSize: "3rem", color: "#ccc" }}></i>
                 </div>
-              )}
-            </div>
-          )}
-        </Dropdown.Menu>
-      </Dropdown>
+                <p className="text-muted">No notifications to display</p>
+              </div>
+            ) : (
+              /* Scrollable Notification List */
+              <div
+                ref={notifContainerRef}
+                onScroll={handleScroll}
+                style={{ maxHeight: "400px", overflowY: "auto" }}
+              >
+                {notifications.map((notif, index) => (
+                  <Dropdown.Item
+                    key={notif.notificationID || index}
+                    onClick={() => handleNotificationClick(notif)}
+                    className="border-bottom p-3 d-flex align-items-start gap-3"
+                    style={{
+                      backgroundColor: notif.isRead === 0 ? "rgba(var(--main-color-rgb), 0.05)" : "white",
+                      transition: "background-color 0.2s ease",
+                    }}
+                  >
+                    {/* Document icon */}
+                    <div
+                      className="d-flex align-items-center justify-content-center rounded-circle"
+                      style={{
+                        width: "2.5rem",
+                        height: "2.5rem",
+                        backgroundColor: notif.isRead === 0 ? "rgba(var(--main-color-rgb), 0.1)" : "rgba(0,0,0,0.05)",
+                        flexShrink: 0
+                      }}
+                    >
+                      <i className="bx bxs-file-doc" style={{ fontSize: "1.25rem", color: "var(--main-color)" }}></i>
+                    </div>
+
+                    {/* Notification content */}
+                    <div
+                      className="d-flex flex-column text-wrap text-break flex-grow-1"
+                      style={{ wordBreak: "break-word", whiteSpace: "normal" }}
+                    >
+                      <p className={`mb-1 ${notif.isRead === 0 ? "fw-bold" : ""}`} style={{ fontSize: "0.9rem" }}>
+                        {notif.message}
+                      </p>
+                      <div className="d-flex flex-wrap justify-content-between align-items-center">
+                        {notif.requestID && (
+                          <span
+                            className="badge rounded-pill"
+                            style={{
+                              backgroundColor: "rgba(var(--main-color-rgb), 0.1)",
+                              color: "var(--main-color)",
+                              fontSize: "0.7rem",
+                              fontWeight: "600"
+                            }}
+                          >
+                            Request #{notif.requestID}
+                          </span>
+                        )}
+                        <small
+                          className="ms-auto mt-1"
+                          style={{
+                            fontSize: "0.7rem",
+                            color: "#777",
+                            fontWeight: notif.isRead === 0 ? "600" : "normal"
+                          }}
+                        >
+                          {formatNotificationDate(notif.created)}
+                        </small>
+                      </div>
+                    </div>
+
+                    {/* Unread indicator */}
+                    {notif.isRead === 0 && (
+                      <div
+                        style={{
+                          width: "10px",
+                          height: "10px",
+                          borderRadius: "50%",
+                          backgroundColor: "#ff4d4f",
+                          marginTop: "10px",
+                          flexShrink: "0"
+                        }}
+                      ></div>
+                    )}
+                  </Dropdown.Item>
+                ))}
+
+                {/* Loading more indicator */}
+                {loadingMore && (
+                  <div className="text-center bg-white py-3">
+                    <div
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      style={{ color: "var(--yellow-color)" }}
+                    ></div>
+                    <span style={{ color: "var(--yellow-color)", fontSize: "0.85rem" }}>
+                      Loading more...
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
+
+
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
+
+
     </>
   );
 };

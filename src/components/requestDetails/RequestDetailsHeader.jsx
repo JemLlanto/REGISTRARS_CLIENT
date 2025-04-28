@@ -54,7 +54,7 @@ const RequestDetailsHeader = ({
         <>
           {documentDetails.status === "ready to pickup" ||
           documentDetails.status === "completed" ? (
-            <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
+            <div className="d-block d-lg-none d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
               <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
                 <ViewScheduleSlip
                   fetchDocumentDetails={fetchDocumentDetails}
@@ -116,7 +116,7 @@ const RequestDetailsHeader = ({
         <>
           {documentDetails.status === "ready to pickup" ||
           documentDetails.status === "completed" ? (
-            <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
+            <div className="d-none d-lg-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
               <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
                 <ViewScheduleSlip
                   fetchDocumentDetails={fetchDocumentDetails}

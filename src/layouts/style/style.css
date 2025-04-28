@@ -474,3 +474,11 @@ iframe {
 }
 
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px) translateX(-50%); }
+  to { opacity: 1; transform: translateY(0) translateX(-50%); }
+}
+
+.dropdown-item:hover {
+  background-color: rgba(var(--main-color-rgb), 0.08) !important;
+}

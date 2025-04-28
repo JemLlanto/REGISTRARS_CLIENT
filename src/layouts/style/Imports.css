@@ -59,8 +59,13 @@ h5,
   font-size: clamp(0.95rem, 2vw, 1.5rem) !important;
 }
 
-p {
-  font-size: clamp(0.85rem, 1.75vw, 1.1rem);
+h6 {
+  font-size: clamp(0.8rem, 1.8vw, 1.25rem) !important;
+}
+
+p,
+label {
+  font-size: clamp(0.85rem, 1.75vw, 1.1rem) !important;
 }
 
 /* button */
@@ -85,4 +90,11 @@ p {
 .primaryButton:disabled {
   background-color: var(--main-color-disabled);
   cursor: not-allowed;
+}
+
+.btn-light {
+  background-color: #ffffff !important;
+}
+.btn-light:hover {
+  background-color: #c7c7c7 !important;
 }

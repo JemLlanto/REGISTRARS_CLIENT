@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import RatingStep from "./RatingStep";
-import { Modal } from "react-bootstrap";
+import { Modal, Spinner } from "react-bootstrap";
 import axios from "axios";
 import CommentsStep from "./CommentsStep";
 import Swal from "sweetalert2";
@@ -15,7 +15,16 @@ const InternalFeedbackTemplate = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    ratings: {
+      courtesy: "",
+      service_quality: "",
+      service_timeliness: "",
+      service_efficiency: "",
+      physical_cleanliness: "",
+      physical_comfort: "",
+    },
+  });
 
   useEffect(() => {
     if (documentDetails) {
@@ -158,6 +167,10 @@ const InternalFeedbackTemplate = ({
     }
   };
 
+  const allFilled = Object.values(formData?.ratings).every(
+    (value) => value !== ""
+  );
+
   return (
     <>
       <Modal
@@ -166,23 +179,41 @@ const InternalFeedbackTemplate = ({
         centered
         size="lg"
       >
-        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "var(--main-color)" }}
+        >
           <Modal.Title>
-            <h4 className="m-0 text-white">Client Satisfaction Measurement(Internal)</h4>
+            <h5 className="m-0 text-white">
+              Client Satisfaction Measurement(Internal)
+            </h5>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="p-1 p-md-4">
           <div
-            className="custom-scrollbar overflow-x-hidden overflow-y-scroll"
-            style={{ height: "30rem" }}
+            className="custom-scrollbar overflow-x-hidden overflow-y-scroll p-1"
+            style={{ height: "25rem" }}
           >
             <RatingStep formData={formData} handleChange={handleChange} />
             <CommentsStep formData={formData} handleChange={handleChange} />
           </div>
         </Modal.Body>
-        <Modal.Footer style={{ backgroundColor: "var(--main-color)" }}>
-          <button className="btn btn-primary" onClick={submitFeedback}>
-            Submit
+        <Modal.Footer>
+          <button
+            className="btn primaryButton d-flex justify-content-center align-items-center gap-1"
+            onClick={submitFeedback}
+            disabled={!allFilled}
+          >
+            {isLoading ? (
+              <>
+                <Spinner animation="border" variant="light" size="sm" />
+                <p className="m-0">Submitting...</p>
+              </>
+            ) : (
+              <>
+                <p className="m-0">Submit</p>
+              </>
+            )}
           </button>
         </Modal.Footer>
       </Modal>

@@ -213,14 +213,13 @@ const ExternalFeedbackTemplate = ({
           <Modal.Title>
             <h5 className="m-0 text-white">
               Client Satisfaction Measurement(External)
-              {documentDetails.program}
             </h5>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="p-2 p-lg-4">
           <div
             className="custom-scrollbar overflow-x-hidden overflow-y-scroll"
-            style={{ height: "30rem" }}
+            style={{ height: "25rem" }}
           >
             {currentStep === 1 && (
               <CitizensCharterStep
@@ -243,20 +242,20 @@ const ExternalFeedbackTemplate = ({
             )}
           </div>
         </Modal.Body>
-        <Modal.Footer style={{ backgroundColor: "var(--main-color)" }}>
+        <Modal.Footer>
           {currentStep > 1 && (
             <button
               type="button"
               className="btn btn-secondary"
               onClick={prevStep}
             >
-              Previous
+              <p className="m-0">Previous</p>
             </button>
           )}
 
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn primaryButton"
             onClick={currentStep < 3 ? nextStep : submitFeedback}
             disabled={
               currentStep === 1
@@ -270,13 +269,17 @@ const ExternalFeedbackTemplate = ({
           >
             {isLoading ? (
               <>
-                <Spinner animation="border" variant="light" size="sm" />{" "}
-                Saving...
+                <Spinner animation="border" variant="light" size="sm" />
+                <p className="m-0">Saving...</p>
               </>
             ) : currentStep < 3 ? (
-              "Next"
+              <>
+                <p className="m-0">Next</p>
+              </>
             ) : (
-              "Submit"
+              <>
+                <p className="m-0">Submit</p>
+              </>
             )}
           </button>
         </Modal.Footer>

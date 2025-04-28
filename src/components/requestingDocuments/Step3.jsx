@@ -208,7 +208,7 @@ const Step3 = ({
 
   return (
     <div className="">
-      <h3 className="fw-bold" style={{ color: "var(--main-color)" }}>
+      <h3 className="fw-bold m-0" style={{ color: "var(--main-color)" }}>
         {formData.purpose}
       </h3>
       {isLoading ? (
@@ -226,7 +226,7 @@ const Step3 = ({
           <div className="d-flex flex-column gap-3">
             {selection?.length > 0 ? (
               <div className="customToggleButton d-flex flex-column gap-2">
-                <h5 className="mt-3 fw-bold">
+                <h5 className="m-0 mt-2 fw-bold">
                   Document types:{" "}
                   {/* {docType.length > 0 ? docType.join(", ") : "None"} */}
                 </h5>
@@ -258,7 +258,7 @@ const Step3 = ({
 
             {inputs.length > 0 && (
               <div className="d-flex flex-column gap-2">
-                <h5 className="m-0 fw-bold">Complete all fields:</h5>
+                <h5 className="m-0 mt-2 fw-bold">Complete all fields:</h5>
                 {inputs.map((input, index) => {
                   return (
                     <FloatingLabel
@@ -281,13 +281,13 @@ const Step3 = ({
 
             {uploadsState.length > 0 && (
               <div className="d-flex flex-column gap-2">
-                <h5 className="m-0 fw-bold">Upload necessary files:</h5>
+                <h5 className="m-0 mt-2 fw-bold">Upload necessary files:</h5>
                 {uploadsState.map((upload, index) => (
                   <div key={index} className="input-group mb-3">
                     <div className="w-100 border rounded p-3">
                       {/* Show upload description and button only if no preview */}
                       {!upload.preview ? (
-                        <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex justify-content-between align-items-center gap-2">
                           <p className="m-0">{upload.uploadDescription}</p>
                           <label
                             className="primaryButton btn py-2 d-flex justify-content-center"

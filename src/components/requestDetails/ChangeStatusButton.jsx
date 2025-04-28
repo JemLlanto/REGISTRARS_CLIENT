@@ -309,7 +309,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
             <p className="m-0">Back</p>
           </button>
           <button
-            className="btn primaryButton"
+            className="btn primaryButton d-flex justify-content-center align-items-center gap-1"
             onClick={() => handleChangeStatusRequest()}
             disabled={documentDetails.status === "processing" && !file}
           >

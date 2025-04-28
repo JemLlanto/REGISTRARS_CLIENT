@@ -138,7 +138,7 @@ const RequestList = ({ status, filteredRequests, isLoading }) => {
                     className="spinner-container d-flex justify-content-center align-items-center spinner-container"
                     style={{ height: "70%" }}
                   >
-                    <p>No requested documents found...</p>
+                    <p>No requested documents found.</p>
                   </div>
                 </>
               )}
