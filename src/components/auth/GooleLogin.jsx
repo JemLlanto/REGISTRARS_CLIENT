@@ -47,8 +47,7 @@ export const GooleLogin = ({ setIsLoading, isLoading }) => {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/auth/google-login`,
         {
           token: response.credential,
@@ -102,10 +101,11 @@ export const GooleLogin = ({ setIsLoading, isLoading }) => {
       </div>
       <div
         className="google-login-container d-flex justify-content-center align-items-center bg-white rounded py-1"
-        style={{ width: "100%" }}
+        style={{ width: "100%", border: "none" }}
       >
         <div className="" id="googleLoginButton" style={{}}></div>
       </div>
+
     </>
   );
 };
