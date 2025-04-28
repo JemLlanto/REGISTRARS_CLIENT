@@ -34,7 +34,9 @@ const NotifButton = ({ user }) => {
         }
 
         const response = await axios.get(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/notifications/fetchNotification/${userID}`,
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/notifications/fetchNotification/${userID}`,
           {
             params: {
               page: pageNum,
@@ -144,7 +146,9 @@ const NotifButton = ({ user }) => {
       // Add to toast stack with a unique id
       const toastNotification = {
         ...notification,
-        toastId: `toast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        toastId: `toast-${Date.now()}-${Math.random()
+          .toString(36)
+          .substr(2, 9)}`,
         show: true,
       };
 
@@ -193,7 +197,9 @@ const NotifButton = ({ user }) => {
     const targetPath = `/request-details/${notif.requestID}`;
     try {
       await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/notifications/markAsRead/${notif.requestID}`
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/notifications/markAsRead/${notif.requestID}`
       );
       fetchNotifications(1, false);
       console.log("Navigating to:", targetPath);
@@ -211,7 +217,9 @@ const NotifButton = ({ user }) => {
   const handleMarkAllNotifAsRead = async () => {
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/notifications/markAllAsRead/${user.userID}`
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/notifications/markAllAsRead/${user.userID}`
       );
 
       if (res.status === 200) {
@@ -240,7 +248,11 @@ const NotifButton = ({ user }) => {
   return (
     <>
       {/* Toast container for new notifications */}
-      <ToastContainer position="top-end" className="p-3 mt-5" style={{ zIndex: 100 }}>
+      <ToastContainer
+        position="top-end"
+        className="p-3 mt-5"
+        style={{ zIndex: 100 }}
+      >
         {toasts.map((toast) => (
           <Toast
             key={toast.toastId}
@@ -292,13 +304,15 @@ const NotifButton = ({ user }) => {
               className="m-0 d-flex align-items-center justify-content-center"
               style={{ color: "var(--main-color)" }}
             >
-              {notifications.filter((notif) => notif.isRead === 0).length === 0 ? (
+              {notifications.filter((notif) => notif.isRead === 0).length ===
+              0 ? (
                 <i className="bx bx-bell bx-sm"></i>
               ) : (
                 <i className="bx bxs-bell bx-tada bx-sm"></i>
               )}
             </h5>
-            {notifications.filter((notif) => notif.isRead === 0).length === 0 ? null : (
+            {notifications.filter((notif) => notif.isRead === 0).length ===
+            0 ? null : (
               <div
                 className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
                 style={{
@@ -311,15 +325,20 @@ const NotifButton = ({ user }) => {
                   border: "2px solid white",
                 }}
               >
-                <p
-                  className="m-0 text-white fw-bold"
-                  style={{ fontSize: "0.7rem" }}
-                >
-                  {notifications.filter((notif) => notif.isRead === 0).length > 9 ? (
-                    <>9+</>
-                  ) : (
-                    <>{notifications.filter((notif) => notif.isRead === 0).length}</>
-                  )}
+                <p className="m-0 text-white fw-bold d-flex align-items-center justify-content-center">
+                  <span style={{ fontSize: "0.7rem" }}>
+                    {notifications.filter((notif) => notif.isRead === 0)
+                      .length > 9 ? (
+                      <>9+</>
+                    ) : (
+                      <>
+                        {
+                          notifications.filter((notif) => notif.isRead === 0)
+                            .length
+                        }
+                      </>
+                    )}
+                  </span>
                 </p>
               </div>
             )}
@@ -340,12 +359,19 @@ const NotifButton = ({ user }) => {
             {/* Header with title and mark all as read button */}
             <div className="px-3 py-3 border-bottom d-flex justify-content-between align-items-center bg-white sticky-top shadow-sm ">
               <div className="d-flex align-items-center">
-                <i className="bx bx-bell me-2" style={{ color: "var(--main-color)", fontSize: "1.25rem" }}></i>
-                <h6 className="m-0 fw-bold" style={{ color: "var(--main-color)" }}>
+                <i
+                  className="bx bx-bell me-2"
+                  style={{ color: "var(--main-color)", fontSize: "1.25rem" }}
+                ></i>
+                <h6
+                  className="m-0 fw-bold"
+                  style={{ color: "var(--main-color)" }}
+                >
                   Notifications
                 </h6>
               </div>
-              {notifications.filter((notif) => notif.isRead === 0).length > 0 ? (
+              {notifications.filter((notif) => notif.isRead === 0).length >
+              0 ? (
                 <button
                   className="btn btn-sm text-nowrap"
                   style={{
@@ -353,7 +379,7 @@ const NotifButton = ({ user }) => {
                     backgroundColor: "rgba(var(--yellow-color-rgb), 0.1)",
                     fontSize: "0.75rem",
                     fontWeight: "bold",
-                    transition: "all 0.2s ease"
+                    transition: "all 0.2s ease",
                   }}
                   onClick={handleMarkAllNotifAsRead}
                 >
@@ -389,7 +415,10 @@ const NotifButton = ({ user }) => {
                       color: "var(--yellow-color)",
                     }}
                   ></div>
-                  <span className="mt-3 fw-bold" style={{ color: "var(--yellow-color)" }}>
+                  <span
+                    className="mt-3 fw-bold"
+                    style={{ color: "var(--yellow-color)" }}
+                  >
                     Loading notifications...
                   </span>
                 </div>
@@ -397,7 +426,10 @@ const NotifButton = ({ user }) => {
             ) : notifications.length === 0 ? (
               <div className="px-3 py-5 text-center">
                 <div className="mb-3">
-                  <i className="bx bx-bell-off" style={{ fontSize: "3rem", color: "#ccc" }}></i>
+                  <i
+                    className="bx bx-bell-off"
+                    style={{ fontSize: "3rem", color: "#ccc" }}
+                  ></i>
                 </div>
                 <p className="text-muted">No notifications to display</p>
               </div>
@@ -414,7 +446,10 @@ const NotifButton = ({ user }) => {
                     onClick={() => handleNotificationClick(notif)}
                     className="border-bottom p-3 d-flex align-items-start gap-3"
                     style={{
-                      backgroundColor: notif.isRead === 0 ? "rgba(var(--main-color-rgb), 0.05)" : "white",
+                      backgroundColor:
+                        notif.isRead === 0
+                          ? "rgba(var(--main-color-rgb), 0.05)"
+                          : "white",
                       transition: "background-color 0.2s ease",
                     }}
                   >
@@ -424,11 +459,20 @@ const NotifButton = ({ user }) => {
                       style={{
                         width: "2.5rem",
                         height: "2.5rem",
-                        backgroundColor: notif.isRead === 0 ? "rgba(var(--main-color-rgb), 0.1)" : "rgba(0,0,0,0.05)",
-                        flexShrink: 0
+                        backgroundColor:
+                          notif.isRead === 0
+                            ? "rgba(var(--main-color-rgb), 0.1)"
+                            : "rgba(0,0,0,0.05)",
+                        flexShrink: 0,
                       }}
                     >
-                      <i className="bx bxs-file-doc" style={{ fontSize: "1.25rem", color: "var(--main-color)" }}></i>
+                      <i
+                        className="bx bxs-file-doc"
+                        style={{
+                          fontSize: "1.25rem",
+                          color: "var(--main-color)",
+                        }}
+                      ></i>
                     </div>
 
                     {/* Notification content */}
@@ -436,7 +480,12 @@ const NotifButton = ({ user }) => {
                       className="d-flex flex-column text-wrap text-break flex-grow-1"
                       style={{ wordBreak: "break-word", whiteSpace: "normal" }}
                     >
-                      <p className={`mb-1 ${notif.isRead === 0 ? "fw-bold" : ""}`} style={{ fontSize: "0.9rem" }}>
+                      <p
+                        className={`mb-1 ${
+                          notif.isRead === 0 ? "fw-bold" : ""
+                        }`}
+                        style={{ fontSize: "0.9rem" }}
+                      >
                         {notif.message}
                       </p>
                       <div className="d-flex flex-wrap justify-content-between align-items-center">
@@ -444,10 +493,11 @@ const NotifButton = ({ user }) => {
                           <span
                             className="badge rounded-pill"
                             style={{
-                              backgroundColor: "rgba(var(--main-color-rgb), 0.1)",
+                              backgroundColor:
+                                "rgba(var(--main-color-rgb), 0.1)",
                               color: "var(--main-color)",
                               fontSize: "0.7rem",
-                              fontWeight: "600"
+                              fontWeight: "600",
                             }}
                           >
                             Request #{notif.requestID}
@@ -458,7 +508,7 @@ const NotifButton = ({ user }) => {
                           style={{
                             fontSize: "0.7rem",
                             color: "#777",
-                            fontWeight: notif.isRead === 0 ? "600" : "normal"
+                            fontWeight: notif.isRead === 0 ? "600" : "normal",
                           }}
                         >
                           {formatNotificationDate(notif.created)}
@@ -475,7 +525,7 @@ const NotifButton = ({ user }) => {
                           borderRadius: "50%",
                           backgroundColor: "#ff4d4f",
                           marginTop: "10px",
-                          flexShrink: "0"
+                          flexShrink: "0",
                         }}
                       ></div>
                     )}
@@ -490,20 +540,21 @@ const NotifButton = ({ user }) => {
                       role="status"
                       style={{ color: "var(--yellow-color)" }}
                     ></div>
-                    <span style={{ color: "var(--yellow-color)", fontSize: "0.85rem" }}>
+                    <span
+                      style={{
+                        color: "var(--yellow-color)",
+                        fontSize: "0.85rem",
+                      }}
+                    >
                       Loading more...
                     </span>
                   </div>
                 )}
               </div>
             )}
-
-
           </Dropdown.Menu>
         </Dropdown>
       </div>
-
-
     </>
   );
 };
