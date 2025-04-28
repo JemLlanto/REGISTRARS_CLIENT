@@ -85,9 +85,13 @@ const Reminder = ({
                 size="sm"
               />
             ) : formData.agree === "yes" ? (
-              "Agreed"
+              <>
+                <p className="m-0">Agreed</p>
+              </>
             ) : (
-              "yes, I agree"
+              <>
+                <p className="m-0">yes, I agree</p>
+              </>
             )}
           </ToggleButton>
         </ButtonGroup>

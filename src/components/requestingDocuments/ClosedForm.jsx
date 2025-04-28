@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 const ClosedForm = ({ user, fetchUserData }) => {
   const [isOpen, setIsOpen] = useState(true);
-  const [alreadyOpen, setAlreadyOpen] = useState(true);
 
   useEffect(() => {
     // Run this check at an interval to update the form state

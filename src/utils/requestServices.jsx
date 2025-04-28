@@ -40,7 +40,7 @@ export const renderPaginationItems = (
 
     // Surrounding pages
     const startPage = Math.max(1, currentPage - 1);
-    const endPage = Math.min(totalPages, currentPage + 1);
+    const endPage = Math.min(totalPages, currentPage + 2);
 
     for (let number = startPage; number <= endPage; number++) {
       pageNumbers.push(
