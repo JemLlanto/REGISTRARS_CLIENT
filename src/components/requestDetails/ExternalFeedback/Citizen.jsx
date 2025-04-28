@@ -1,113 +1,94 @@
 import React from "react";
+import { Form } from "react-bootstrap";
 // Citizens Charter Step Component
 const CitizensCharterStep = ({ formData, handleChange }) => {
+  const cc1 = [
+    {
+      value: 1,
+      id: "cc_1",
+      question: "I know what a CC is and I saw this office's CC.",
+      tagalog: "Alam ko ang CC at nakita ko ito sa napuntahang tanggapan.",
+    },
+    {
+      value: 2,
+      id: "cc_2",
+      question: "I know what a CC is but I did NOT see this office's CC.",
+      tagalog:
+        "Alam ko ang CC pero hindi ko ito nakita sa napuntahang tanggapan.",
+    },
+    {
+      value: 3,
+      id: "cc_3",
+      question: "I learned of the CC only when I saw this office's CC.",
+      tagalog:
+        "Nalaman ko ang CC noon lamang nakita ko ito sa napuntahang tanggapan.",
+    },
+    {
+      value: 4,
+      id: "cc_4",
+      question:
+        "I do not know what a CC is and I did not see one of this office. (Answer 'N/A' on CC2 and CC3)",
+      tagalog:
+        "Hindi ko alam kung ano ang CC at wala akong nakita sa napuntahang tanggapan (Lagyan ng tsek at 'N/A' sa CC2 at CC3)",
+    },
+  ];
+
   return (
-    <div className="container p-4">
+    <div className="container p-1">
       <div className="mb-4">
-        <p className="fw-bold">
-          INSTRUCTIONS: Check mark (✓) your answer to the Citizen's Charter (CC)
+        <h6 className="fw-bold">
+          INSTRUCTIONS: Choose your answer to the Citizen's Charter (CC)
           questions. The Citizen's Charter is an official document that reflects
           the services of a government agency/office including its requirement,
-          fees and processing times among others.
-        </p>
-        <p className="fst-italic">
-          PANUTO: Lagyan ng tsek (✓) ang tumutugon sa iyong sagot sa Citizen's
-          Charter (CC). Ang Citizen's Charter (CC) ay opisyal na dokumento na
-          nagsasaad ng mga serbisyo sa isang ahensya ng gobyerno, kasama ang mga
-          kakailanganin na dokumento, bayarin, at panahong gagugalin sa
-          pagpoproseso.
-        </p>
+          fees and processing times among others. <br />
+          <span
+            className="fst-italic fw-normal"
+            style={{ fontSize: "clamp(0.75rem, 1.75vw, .9rem)" }}
+          >
+            PANUTO: Piliin ang tumutugon sa iyong sagot sa Citizen's Charter
+            (CC). Ang Citizen's Charter (CC) ay opisyal na dokumento na
+            nagsasaad ng mga serbisyo sa isang ahensya ng gobyerno, kasama ang
+            mga kakailanganin na dokumento, bayarin, at panahong gagugalin sa
+            pagpoproseso.
+          </span>
+        </h6>
       </div>
 
       {/* CC1 Question */}
       <div className="row mb-4">
         <div className="col-12">
-          <h5>
+          <p className="m-0 fw-bold">
             CC1: Which of the following best describes your awareness of a CC?
-          </h5>
-          <p className="fst-italic">
-            (Alin sa mga sumusunod ang naglarawan sa iyong kaalaman sa CC?)
+            <br />
+            <span
+              className="fst-italic fw-normal"
+              style={{ fontSize: "clamp(0.75rem, 1.75vw, .9rem)" }}
+            >
+              (Alin sa mga sumusunod ang naglarawan sa iyong kaalaman sa CC?)
+            </span>
           </p>
-
-          <div className="form-check mb-2">
-            <input
-              className="form-check-input border-black"
-              type="radio"
-              name="cc1"
-              id="cc1_1"
-              value="1"
-              checked={formData.cc1 === 1}
-              onChange={handleChange}
-            />
-            <label className="form-check-label" htmlFor="cc1_1">
-              1. I know what a CC is and I saw this office's CC.
-              <br />
-              <span className="fst-italic">
-                (Alam ko ang CC at nakita ko ito sa napuntahang tanggapan.)
-              </span>
-            </label>
-          </div>
-
-          <div className="form-check mb-2">
-            <input
-              className="form-check-input border-black"
-              type="radio"
-              name="cc1"
-              id="cc1_2"
-              value="2"
-              checked={formData.cc1 === 2}
-              onChange={handleChange}
-            />
-            <label className="form-check-label" htmlFor="cc1_2">
-              2. I know what a CC is but I did NOT see this office's CC.
-              <br />
-              <span className="fst-italic">
-                (Alam ko ang CC pero hindi ko ito nakita sa napuntahang
-                tanggapan.)
-              </span>
-            </label>
-          </div>
-
-          <div className="form-check mb-2">
-            <input
-              className="form-check-input border-black"
-              type="radio"
-              name="cc1"
-              id="cc1_3"
-              value="3"
-              checked={formData.cc1 === 3}
-              onChange={handleChange}
-            />
-            <label className="form-check-label" htmlFor="cc1_3">
-              3. I learned of the CC only when I saw this office's CC.
-              <br />
-              <span className="fst-italic">
-                (Nalaman ko ang CC noon lamang nakita ko ito sa napuntahang
-                tanggapan.)
-              </span>
-            </label>
-          </div>
-
-          <div className="form-check mb-2">
-            <input
-              className="form-check-input border-black"
-              type="radio"
-              name="cc1"
-              id="cc1_4"
-              value="4"
-              checked={formData.cc1 === 4}
-              onChange={handleChange}
-            />
-            <label className="form-check-label" htmlFor="cc1_4">
-              4. I do not know what a CC is and I did not see one of this
-              office. (Answer 'N/A' on CC2 and CC3)
-              <br />
-              <span className="fst-italic">
-                (Hindi ko alam kung ano ang CC at wala akong nakita sa
-                napuntahang tanggapan (Lagyan ng tsek at 'N/A' sa CC2 at CC3))
-              </span>
-            </label>
-          </div>
+          {cc1.map((q1, index) => (
+            <>
+              <div key={index} className="mb-3">
+                <Form.Check // prettier-ignore
+                  type="checkbox"
+                  label={
+                    <>
+                      <p>
+                        {index + 1}. {q1.question} <br />
+                        <span className="fst-italic">({q1.tagalog})</span>
+                      </p>
+                    </>
+                  }
+                  name="cc1"
+                  id={`${q1.id}`}
+                  value={`${q1.value}`}
+                  checked={formData.cc1 === q1.value}
+                  onChange={handleChange}
+                />
+              </div>
+            </>
+          ))}
         </div>
       </div>
 
