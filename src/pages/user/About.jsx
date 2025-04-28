@@ -7,7 +7,7 @@ export default function About() {
   return (
     <div
       className="px-1 mb-2 w-100 overflow-y-auto overflow-x-hidden rounded custom-scrollbar"
-      style={{ height: "100%" }}
+      style={{ height: "93%" }}
     >
       <div
         className="rounded-2 shadow-sm p-2"
