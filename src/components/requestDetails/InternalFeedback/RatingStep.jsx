@@ -14,26 +14,28 @@ const RatingStep = ({ formData, handleChange }) => {
     handleChange({
       target: {
         name: name,
-        value: value
-      }
+        value: value,
+      },
     });
   };
 
   return (
     <div className="table-responsive">
-      <h5 className="mb-3 fw-bold text-dark">Service Ratings</h5>
+      <h5 className="m-0 mb-2 fw-bold text-dark">Service Ratings</h5>
 
       <table className="table table-striped table-bordered align-middle">
         <thead className="table-light text-center">
           <tr>
-            <th style={{ width: "35%" }}></th>
-            <th colSpan="5">Rating</th>
+            <th style={{ width: "60%" }}></th>
+            <th colSpan="5">
+              <h5 className="m-0 fw-bold">Rating</h5>
+            </th>
           </tr>
           <tr>
             <th></th>
             {ratings.map((rating, index) => (
               <th key={index} className="text-center small">
-                {rating}
+                <p className="m-0 fw-bold">{rating}</p>
               </th>
             ))}
           </tr>
@@ -41,7 +43,9 @@ const RatingStep = ({ formData, handleChange }) => {
         <tbody>
           {/* Courtesy */}
           <tr className="fw-semibold bg-light">
-            <td>A. Courtesy</td>
+            <td>
+              <p className="m-0 fw-bold">A. Courtesy</p>
+            </td>
             {ratings.map((rating) => (
               <td
                 key={rating}
@@ -63,14 +67,16 @@ const RatingStep = ({ formData, handleChange }) => {
 
           {/* Service Category */}
           <tr className="fw-semibold bg-light">
-            <td>B. Service</td>
+            <td>
+              <p className="m-0 fw-bold">B. Service</p>
+            </td>
             <td colSpan="5"></td>
           </tr>
 
           {["Quality", "Timeliness", "Efficiency"].map((subCategory, index) => (
             <tr key={index}>
-              <td className="ps-4">
-                {index + 1}. {subCategory}
+              <td className="ps-3">
+                <p className="m-0">{subCategory}</p>
               </td>
               {[
                 "Highly Satisfied",
@@ -82,7 +88,12 @@ const RatingStep = ({ formData, handleChange }) => {
                 <td
                   key={rating}
                   className="text-center"
-                  onClick={() => handleCellClick(`rating-service_${subCategory.toLowerCase()}`, rating)}
+                  onClick={() =>
+                    handleCellClick(
+                      `rating-service_${subCategory.toLowerCase()}`,
+                      rating
+                    )
+                  }
                   style={{ cursor: "pointer" }}
                 >
                   <input
@@ -93,7 +104,7 @@ const RatingStep = ({ formData, handleChange }) => {
                     onChange={handleChange}
                     checked={
                       formData.ratings[
-                      `service_${subCategory.toLowerCase()}`
+                        `service_${subCategory.toLowerCase()}`
                       ] === rating
                     }
                   />
@@ -104,14 +115,18 @@ const RatingStep = ({ formData, handleChange }) => {
 
           {/* Physical Condition */}
           <tr className="fw-semibold bg-light">
-            <td>C. Physical condition of office/work space</td>
+            <td>
+              <p className="m-0 fw-bold">
+                C. Physical condition of office/work space
+              </p>
+            </td>
             <td colSpan="5"></td>
           </tr>
 
           {["Cleanliness", "Comfort"].map((subCategory, index) => (
             <tr key={index}>
-              <td className="ps-4">
-                {index + 1}. {subCategory}
+              <td className="ps-3">
+                <p className="m-0">{subCategory}</p>
               </td>
               {[
                 "Highly Satisfied",
@@ -123,7 +138,12 @@ const RatingStep = ({ formData, handleChange }) => {
                 <td
                   key={rating}
                   className="text-center"
-                  onClick={() => handleCellClick(`rating-physical_${subCategory.toLowerCase()}`, rating)}
+                  onClick={() =>
+                    handleCellClick(
+                      `rating-physical_${subCategory.toLowerCase()}`,
+                      rating
+                    )
+                  }
                   style={{ cursor: "pointer" }}
                 >
                   <input
@@ -134,7 +154,7 @@ const RatingStep = ({ formData, handleChange }) => {
                     onChange={handleChange}
                     checked={
                       formData.ratings[
-                      `physical_${subCategory.toLowerCase()}`
+                        `physical_${subCategory.toLowerCase()}`
                       ] === rating
                     }
                   />

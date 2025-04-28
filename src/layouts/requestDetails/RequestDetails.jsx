@@ -158,7 +158,7 @@ const RequestDetails = () => {
           >
             {/* purpose */}
             <div
-              className="fade-in-section row bg-white d-flex align-items-center justify-content-between rounded-3 p-4 mx-0 shadow-sm"
+              className="fade-in-section row bg-white d-flex align-items-center justify-content-between rounded-3 p-2 p-md-4 mx-0 shadow-sm"
               style={{
                 boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
                 zIndex: "1",
@@ -166,8 +166,8 @@ const RequestDetails = () => {
               }}
             >
               {/* Purpose and Status */}
-              <div className="col d-flex flex-column gap-1">
-                <div className="d-flex align-items-center gap-1">
+              <div className="col p-0 d-flex gap-1">
+                <div className="d-flex align-items-center justify-content-start gap-1">
                   <i className="bx bxs-notepad bx-sm"></i>
                   <h4 className="m-0">
                     {documentDetails.purpose}
@@ -192,35 +192,31 @@ const RequestDetails = () => {
                         String(status).slice(1)}
                       )
                     </span>
-                  </h4>
-                  {!user.isAdmin ? (
-                    <OverlayTrigger
-                      placement="bottom"
-                      overlay={
-                        <Tooltip>
-                          <p className="m-0">
-                            {documentDetails.status === "pending"
-                              ? "Your request has been received and is awaiting further updates."
-                              : documentDetails.status === "processing"
-                              ? "Your request is currently being processed. Please wait for further updates."
-                              : documentDetails.status === "ready to pickup"
-                              ? "Your request is ready for pick-up. Please download your schedule slip."
-                              : documentDetails.status === "completed"
-                              ? "Your request has been successfully completed."
-                              : documentDetails.status === "cancelled"
-                              ? "Your request has been cancelled. Please review the details below."
-                              : ""}
-                          </p>
-                        </Tooltip>
-                      }
-                    >
-                      <button className="btn px-0">
-                        <p className="m-0 text-secondary">
+                    <span className="">
+                      {!user.isAdmin ? (
+                        <OverlayTrigger
+                          placement="bottom"
+                          overlay={
+                            <Tooltip>
+                              {documentDetails.status === "pending"
+                                ? "Your request has been received and is awaiting further updates."
+                                : documentDetails.status === "processing"
+                                ? "Your request is currently being processed. Please wait for further updates."
+                                : documentDetails.status === "ready to pickup"
+                                ? "Your request is ready for pick-up. Please download your schedule slip."
+                                : documentDetails.status === "completed"
+                                ? "Your request has been successfully completed."
+                                : documentDetails.status === "cancelled"
+                                ? "Your request has been cancelled. Please review the details below."
+                                : ""}
+                            </Tooltip>
+                          }
+                        >
                           <i className="bx bx-info-circle"></i>
-                        </p>
-                      </button>
-                    </OverlayTrigger>
-                  ) : null}
+                        </OverlayTrigger>
+                      ) : null}
+                    </span>
+                  </h4>
                 </div>
                 <p
                   className="fade-in-section m-0 text-secondary"
@@ -244,13 +240,13 @@ const RequestDetails = () => {
 
             {documentTypes.length > 0 && (
               <div
-                className="fade-in-section information bg-white w-100  rounded-2 p-4"
+                className="fade-in-section information bg-white w-100  rounded-2 p-2 p-md-4"
                 style={{
                   animationDelay: `${1 * 0.2}s`,
                   boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
                 }}
               >
-                <p className="text-muted">Document requested</p>
+                <h5 className="m-0 my-2 ms-2">Document requested</h5>
                 <div className="d-flex align-items-center gap-2 p-2">
                   <i className="bx bxs-file-pdf fs-5 me-1"></i>
                   <h6 className="m-0">
@@ -261,7 +257,7 @@ const RequestDetails = () => {
             )}
             {documentInputValues.length > 0 && (
               <div
-                className="fade-in-section information bg-white w-100 rounded-2 p-4"
+                className="fade-in-section information bg-white w-100 rounded-2 p-2 p-md-4"
                 style={{
                   animationDelay: `${1 * 0.2}s`,
                   boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
@@ -272,7 +268,9 @@ const RequestDetails = () => {
                     <tr>
                       {documentInputs.map((input, index) => (
                         <th key={index} scope="col">
-                          {input.inputDescription}
+                          <h5 className="m-0 fw-bold">
+                            {input.inputDescription}
+                          </h5>
                         </th>
                       ))}
                     </tr>
@@ -280,7 +278,9 @@ const RequestDetails = () => {
                   <tbody>
                     <tr>
                       {documentInputValues.map((inputValue, index) => (
-                        <td key={index}>{inputValue.inputValue}</td>
+                        <td key={index}>
+                          <p className="m-0">{inputValue.inputValue}</p>
+                        </td>
                       ))}
                     </tr>
                   </tbody>
@@ -289,13 +289,13 @@ const RequestDetails = () => {
             )}
             {documentFile && (
               <div
-                className="fade-in-section bg-white w-100 rounded-2 d-flex flex-column p-4"
+                className="fade-in-section bg-white w-100 rounded-2 d-flex flex-column p-2 p-md-4"
                 style={{
                   animationDelay: `${1 * 0.2}s`,
                   boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
                 }}
               >
-                <p className="text-muted">Uploaded document</p>
+                <h5 className="m-0 ms-2 py-2">Uploaded document</h5>
                 <div className="w-100 d-flex align-items-center justify-content-center">
                   <DocumentFileModal
                     documentFile={documentFile}

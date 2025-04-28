@@ -94,7 +94,10 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
         onClick={handleShowScheduleModal}
         disabled={documentDetails.status === "completed"}
       >
-        <p className="m-0">View schedule slip</p>
+        <p className="m-0 d-md-none d-flex justify-content-center align-items-center my-1">
+          <i class="bx bx-calendar-check"></i>
+        </p>
+        <p className="m-0 d-none d-md-block">View schedule slip</p>
       </button>
 
       <Modal
