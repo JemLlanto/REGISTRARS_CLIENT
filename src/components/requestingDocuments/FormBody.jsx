@@ -44,7 +44,7 @@ const FormBody = ({
   return (
     <div
       className="custom-scrollbar overflow-y-scroll overflow-x-hidden"
-      style={{ height: "65dvh" }}
+      style={{ height: "clamp(25rem, 60dvh, 70rem)" }}
     >
       <AnimatePresence mode="wait" custom={direction}>
         {currentStep === 1 && (

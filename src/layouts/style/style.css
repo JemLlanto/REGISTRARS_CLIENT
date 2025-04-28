@@ -320,7 +320,7 @@
 }
 
 /* Staggered effect */
-.fade-in-section:nth-child(1) {
+/* .fade-in-section:nth-child(1) {
   animation-delay: 0.2s;
 }
 .fade-in-section:nth-child(2) {
@@ -334,7 +334,7 @@
 }
 .fade-in-section:nth-child(5) {
   animation-delay: 1s;
-}
+} */
 /* END */
 
 /* FOR TOGGLE BUTTONS */
@@ -472,3 +472,5 @@ iframe {
     height: clamp(38rem, 60vh, 80vh);
   }
 }
+
+

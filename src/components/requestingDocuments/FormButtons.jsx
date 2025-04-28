@@ -288,7 +288,7 @@ const FormButtons = ({
     return true; // All inputs are filled
   };
   return (
-    <div className="d-flex justify-content-between gap-2 mt-2">
+    <div className="d-flex justify-content-between gap-2 mt-3">
       <Button
         type="button"
         className="btn btn-secondary"

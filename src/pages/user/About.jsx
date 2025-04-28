@@ -5,57 +5,81 @@ export default function About() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="p-1 p-sm-4 w-100 overflow-auto custom-scrollbar" style={{ height: "100%" }}>
+    <div
+      className="px-1 mb-2 w-100 overflow-y-auto overflow-x-hidden rounded custom-scrollbar"
+      style={{ height: "100%" }}
+    >
       <div
         className="rounded-2 shadow-sm p-2"
         style={{ backgroundColor: "var(--main-color)" }}
       >
-        <h5 className="m-0 p-2 fade-in " style={{ color: "var(--secondMain-color)" }}>
+        <h5
+          className="m-0 p-2 fade-in "
+          style={{ color: "var(--secondMain-color)" }}
+        >
           About Us
         </h5>
       </div>
 
-
-
-      <div
-        className="d-flex justify-content-between gap-2 mt-2 row mx-auto"
-      >
-        <div className="core-value policy col-lg d-flex align-items-center justify-content-start w-100 shadow-sm rounded-2 flex-column p-5 fade-in-section">
+      <div className="d-flex justify-content-between gap-2 mt-2 row mx-auto">
+        <div
+          className="core-value policy col-lg d-flex align-items-center justify-content-start w-100 shadow-sm rounded-2 flex-column p-5 fade-in-section"
+          style={{ animationDelay: `${1 * 0.2}s` }}
+        >
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">QUALITY POLICY</h3>
           </div>
           <div className="mt-3">
             <p className="m-0 text-center text-white fw-bold">
-              We Commit to the highest standards of education, value our stakeholders, Strive for continual improvement of our products and services, and Uphold the University’s tenets of Truth, Excellence, and Service to produce globally competitive and morally upright individuals.
+              We Commit to the highest standards of education, value our
+              stakeholders, Strive for continual improvement of our products and
+              services, and Uphold the University’s tenets of Truth, Excellence,
+              and Service to produce globally competitive and morally upright
+              individuals.
             </p>
           </div>
         </div>
 
-        <div className="core-value policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section ">
+        <div
+          className="core-value policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section "
+          style={{ animationDelay: `${1 * 0.2}s` }}
+        >
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">VISION</h3>
           </div>
           <div className="mt-3">
             <p className="m-0 text-center text-white fw-bold">
-              The premier university in historic Cavite globally recognized for excellence in character development, academics, research, innovation, and sustainable community engagement.
+              The premier university in historic Cavite globally recognized for
+              excellence in character development, academics, research,
+              innovation, and sustainable community engagement.
             </p>
           </div>
         </div>
 
-        <div className="core-value policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section ">
+        <div
+          className="core-value policy col-lg d-flex align-items-center justify-content-start w-100 bg-success shadow-sm rounded-2 flex-column p-5 fade-in-section "
+          style={{ animationDelay: `${1 * 0.2}s` }}
+        >
           <div className="m-0">
             <h3 className="m-0 fw-bold text-white">MISSION</h3>
           </div>
           <div className="mt-3">
             <p className="m-0 text-center text-white fw-bold">
-              CAVITE STATE UNIVERSITY shall provide excellent, equitable and relevant educational opportunities in the arts, sciences, and technology through quality instruction and responsive research and development activities. It shall produce professional skilled and morally upright individuals for global competitiveness.
+              CAVITE STATE UNIVERSITY shall provide excellent, equitable and
+              relevant educational opportunities in the arts, sciences, and
+              technology through quality instruction and responsive research and
+              development activities. It shall produce professional skilled and
+              morally upright individuals for global competitiveness.
             </p>
           </div>
         </div>
       </div>
       <div
-        className="container-fluid px-2 py-4 shadow-sm rounded-2 mt-3"
-        style={{ backgroundColor: "var(--main-color)" }}
+        className="container-fluid px-2 py-4 shadow-sm rounded-2 mt-3 fade-in-section"
+        style={{
+          backgroundColor: "var(--main-color)",
+          animationDelay: `${1 * 0.2}s`,
+        }}
       >
         <div className="row mb-4">
           <div className="col-12 text-center">
@@ -70,7 +94,10 @@ export default function About() {
               style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
             >
               <h3 className="text-warning fw-bold fs-4">TRUTH</h3>
-              <p className="text-white mb-0 small">Commitment to honesty and transparency in all academic and institutional pursuits.</p>
+              <p className="text-white mb-0 small">
+                Commitment to honesty and transparency in all academic and
+                institutional pursuits.
+              </p>
             </div>
           </div>
 
@@ -80,7 +107,10 @@ export default function About() {
               style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
             >
               <h3 className="text-warning fw-bold fs-4">INTEGRITY</h3>
-              <p className="text-white mb-0 small">Maintaining ethical standards and moral principles in education and research.</p>
+              <p className="text-white mb-0 small">
+                Maintaining ethical standards and moral principles in education
+                and research.
+              </p>
             </div>
           </div>
 
@@ -90,7 +120,10 @@ export default function About() {
               style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
             >
               <h3 className="text-warning fw-bold fs-4">EXCELLENCE</h3>
-              <p className="text-white mb-0 small">Striving for the highest quality in teaching, learning, and institutional performance.</p>
+              <p className="text-white mb-0 small">
+                Striving for the highest quality in teaching, learning, and
+                institutional performance.
+              </p>
             </div>
           </div>
 
@@ -100,17 +133,25 @@ export default function About() {
               style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
             >
               <h3 className="text-warning fw-bold fs-4">SERVICE</h3>
-              <p className="text-white mb-0 small">Dedicating ourselves to community development and societal progress.</p>
+              <p className="text-white mb-0 small">
+                Dedicating ourselves to community development and societal
+                progress.
+              </p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="fade-in-section w-100 py-5 px-3 px-md-5 text-dark text-center bg-success mt-2 rounded shadow-sm mb-5">
-        <div className="mb-5 text-white">
+      <div
+        className="fade-in-section w-100 py-5 px-3 px-md-5 text-dark text-center bg-success mt-2 rounded shadow-sm"
+        style={{ animationDelay: `${1 * 0.2}s` }}
+      >
+        <div className="text-white">
           <h2 className="fw-bold display-5">CvSU-CCAT-R GOALS</h2>
           <p className="lead mt-3 mb-0 mx-auto" style={{ maxWidth: "100%" }}>
-            CvSU Rosario Campus aims to produce productive graduates, professionals, and experts marked by global excellence and moral uprightness through the following:
+            CvSU Rosario Campus aims to produce productive graduates,
+            professionals, and experts marked by global excellence and moral
+            uprightness through the following:
           </p>
         </div>
 
@@ -151,10 +192,14 @@ export default function About() {
             ].map((goal, i) => (
               <div
                 key={i}
-                className={`col-12 col-md-6 ${i === 4 ? "offset-md-3" : ""} d-flex`}
+                className={`col-12 col-md-6 ${
+                  i === 4 ? "offset-md-3" : ""
+                } d-flex`}
               >
                 <div className="goal-box d-flex flex-column flex-md-row align-items-start w-100 p-3 border rounded shadow-sm">
-                  <div className={`goal-number ${goal.color} text-white me-md-3 mb-2 mb-md-0 px-3 py-2 rounded`}>
+                  <div
+                    className={`goal-number ${goal.color} text-white me-md-3 mb-2 mb-md-0 px-3 py-2 rounded`}
+                  >
                     {goal.num}
                   </div>
                   <div className="goal-content text-start">
@@ -167,8 +212,6 @@ export default function About() {
           </div>
         </div>
       </div>
-
-
-    </div >
+    </div>
   );
 }

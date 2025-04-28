@@ -154,10 +154,10 @@ export default function RequestDocument() {
 
   return (
     <div
-      className="p-0 p-sm-4 mt-2 w-100 row justify-content-center "
-      style={{ height: "100%" }}
+      className="w-100 px-1 row justify-content-center"
+      style={{ height: "85dvh" }}
     >
-      <div className="col">
+      <div className="col p-0">
         <div
           className="rounded shadow-sm d-flex align-items-center p-3"
           style={{ backgroundColor: "var(--main-color)" }}
@@ -171,10 +171,10 @@ export default function RequestDocument() {
         </div>
 
         <div
-          className="d-flex align-items-center justify-content-around mt-2 bg-light shadow-sm rounded p-3 position-relative"
+          className="d-flex align-items-center justify-content-around gap-3 mt-2 position-relative"
           style={{ zIndex: "1" }}
         >
-          <form className="position-relative w-100">
+          <form className="position-relative w-100 bg-light shadow-sm rounded p-3 ">
             <ClosedForm user={user} fetchUserData={fetchUserData} />
 
             <FormBody
@@ -221,13 +221,10 @@ export default function RequestDocument() {
               setIsLoading={setIsLoading}
             />
           </form>
+          <div className="d-none d-lg-flex justify-content-center align-items-center col-1 p-0">
+            <ReqProgressBar currentStep={currentStep} />
+          </div>
         </div>
-      </div>
-      <div
-        className="d-none d-md-flex justify-content-center align-items-center col-1"
-        style={{}}
-      >
-        <ReqProgressBar currentStep={currentStep} />
       </div>
     </div>
   );

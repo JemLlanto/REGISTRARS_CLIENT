@@ -25,7 +25,10 @@ const ManageRequestForm = () => {
           Manage Request Form
         </h5>
       </div>
-      <div className="w-100 d-flex flex-column gap-2 p-3 mx-0 bg-white shadow-sm rounded-2 fade-in-section">
+      <div
+        className="w-100 d-flex flex-column gap-2 p-3 mx-0 bg-white shadow-sm rounded-2 fade-in-section"
+        style={{ animationDelay: `${1 * 0.2}s` }}
+      >
         <div
           className="d-flex  flex-column gap-2 mb-3"
           style={{ border: "2px black" }}
@@ -35,7 +38,10 @@ const ManageRequestForm = () => {
           <FormSwitch user={user} fetchUserData={fetchUserData} />
         </div>
       </div>
-      <div className="w-100 d-flex flex-column gap-2 p-3 mx-0 bg-white shadow-sm rounded-2 fade-in-section">
+      <div
+        className="w-100 d-flex flex-column gap-2 p-3 mx-0 bg-white shadow-sm rounded-2 fade-in-section"
+        style={{ animationDelay: `${1 * 0.2}s` }}
+      >
         <label>Programs and Courses</label>
         <ProgramModal />
 
