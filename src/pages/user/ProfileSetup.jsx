@@ -119,7 +119,7 @@ export default function ProfileSetup() {
           className="m-0 p-2 fade-in"
           style={{ color: "var(--secondMain-color)" }}
         >
-          Account Settings {formData.program}
+          Account Settings
         </h5>
       </div>
 

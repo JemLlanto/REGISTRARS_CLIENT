@@ -107,12 +107,26 @@
   transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
 }
 
-/* about us */
 .policy {
+  position: relative;
   background: url("/policy.png") no-repeat center center;
   background-size: cover;
   width: 100dvh;
 }
+
+.policy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.39);
+  z-index: 1;
+}
+
+.policy > * {
+  position: relative;
+  z-index: 2;
+}
+
 
 /* Notification */
 .custom-scrollbar::-webkit-scrollbar {
