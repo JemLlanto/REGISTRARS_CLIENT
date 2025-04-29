@@ -6,14 +6,18 @@ const Footer = ({ showSidebar }) => {
       <footer
         className={`footer py-3 border-top  ${
           showSidebar ? "toggled fade-in" : "fade-out"
-        }  text-white text-center  py-1 `}
+        }  text-white text-start  py-1 `}
         style={{ width: "" }}
       >
-        <p className="mb-0" style={{ fontSize: "10px" }}>
-          &copy; {new Date().getFullYear()} CVSU-CCAT Registrar's Office
+        <p className="mb-0">
+          <span style={{ fontSize: "clamp(0.85rem, 1vw, .9rem)" }}>
+            &copy; {new Date().getFullYear()} CVSU-CCAT Registrar's Office
+          </span>
         </p>
-        <p className="mb-0" style={{ fontSize: "9px" }}>
-          All rights reserved.
+        <p className="mb-0">
+          <span style={{ fontSize: "clamp(0.85rem, 1.75vw, .9rem)" }}>
+            All rights reserved.
+          </span>
         </p>
       </footer>
     </div>
