@@ -34,8 +34,7 @@ const NotifButton = ({ user }) => {
         }
 
         const response = await axios.get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/notifications/fetchNotification/${userID}`,
           {
             params: {
@@ -197,8 +196,7 @@ const NotifButton = ({ user }) => {
     const targetPath = `/request-details/${notif.requestID}`;
     try {
       await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/notifications/markAsRead/${notif.requestID}`
       );
       fetchNotifications(1, false);
@@ -217,8 +215,7 @@ const NotifButton = ({ user }) => {
   const handleMarkAllNotifAsRead = async () => {
     try {
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/notifications/markAllAsRead/${user.userID}`
       );
 
@@ -289,14 +286,12 @@ const NotifButton = ({ user }) => {
       <div className="position-relative">
         <Dropdown>
           <Dropdown.Toggle
-            className="btn border rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm"
+            className="btn btn-light border rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm"
             id="dropdown-basic"
             bsPrefix="none"
             style={{
-              width: "2.75rem",
-              height: "2.75rem",
-              backgroundColor: "white",
-              border: "none",
+              width: "2.5rem",
+              height: "2.5rem",
               transition: "all 0.2s ease",
             }}
           >
@@ -305,20 +300,20 @@ const NotifButton = ({ user }) => {
               style={{ color: "var(--main-color)" }}
             >
               {notifications.filter((notif) => notif.isRead === 0).length ===
-              0 ? (
+                0 ? (
                 <i className="bx bx-bell bx-sm"></i>
               ) : (
                 <i className="bx bxs-bell bx-tada bx-sm"></i>
               )}
             </h5>
             {notifications.filter((notif) => notif.isRead === 0).length ===
-            0 ? null : (
+              0 ? null : (
               <div
                 className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
                 style={{
                   width: "1.25rem",
                   height: "1.25rem",
-                  backgroundColor: "#ff4d4f",
+                  backgroundColor: "red",
                   top: "0",
                   right: "0",
                   transform: "translate(25%, -25%)",
@@ -371,7 +366,7 @@ const NotifButton = ({ user }) => {
                 </h6>
               </div>
               {notifications.filter((notif) => notif.isRead === 0).length >
-              0 ? (
+                0 ? (
                 <button
                   className="btn btn-sm text-nowrap"
                   style={{
@@ -453,27 +448,7 @@ const NotifButton = ({ user }) => {
                       transition: "background-color 0.2s ease",
                     }}
                   >
-                    {/* Document icon */}
-                    <div
-                      className="d-flex align-items-center justify-content-center rounded-circle"
-                      style={{
-                        width: "2.5rem",
-                        height: "2.5rem",
-                        backgroundColor:
-                          notif.isRead === 0
-                            ? "rgba(var(--main-color-rgb), 0.1)"
-                            : "rgba(0,0,0,0.05)",
-                        flexShrink: 0,
-                      }}
-                    >
-                      <i
-                        className="bx bxs-file-doc"
-                        style={{
-                          fontSize: "1.25rem",
-                          color: "var(--main-color)",
-                        }}
-                      ></i>
-                    </div>
+
 
                     {/* Notification content */}
                     <div
@@ -481,9 +456,8 @@ const NotifButton = ({ user }) => {
                       style={{ wordBreak: "break-word", whiteSpace: "normal" }}
                     >
                       <p
-                        className={`mb-1 ${
-                          notif.isRead === 0 ? "fw-bold" : ""
-                        }`}
+                        className={`mb-1 ${notif.isRead === 0 ? "fw-bold" : ""
+                          }`}
                         style={{ fontSize: "0.9rem" }}
                       >
                         {notif.message}
@@ -491,7 +465,7 @@ const NotifButton = ({ user }) => {
                       <div className="d-flex flex-wrap justify-content-between align-items-center">
                         {notif.requestID && (
                           <span
-                            className="badge rounded-pill"
+                            className=""
                             style={{
                               backgroundColor:
                                 "rgba(var(--main-color-rgb), 0.1)",

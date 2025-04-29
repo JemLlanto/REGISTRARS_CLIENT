@@ -184,9 +184,7 @@ const InternalFeedbackTemplate = ({
           style={{ backgroundColor: "var(--main-color)" }}
         >
           <Modal.Title>
-            <h5 className="m-0 text-white">
-              Client Satisfaction Measurement(Internal)
-            </h5>
+            <h5 className="m-0 text-white">Client Satisfaction Measurement</h5>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-1 p-md-4">

@@ -27,12 +27,15 @@ const NavBar = ({ user }) => {
         style={{ height: "4rem", top: "0", left: "0", zIndex: "1000" }}
       >
         {/* Logo*/}
-        <img
-          src="/navLogo.png"
-          alt="Registrar Logo"
-          className="d-block d-lg-none img-fluid"
-          style={{ maxWidth: "130px", objectFit: "cover" }}
-        />
+        <Link to={!user.isAdmin ? "/home" : "/admin/home"}>
+          <img
+            src="/navLogo.png"
+            alt="Registrar Logo"
+            className="d-block d-lg-none img-fluid"
+            style={{ maxWidth: "130px", objectFit: "cover", cursor: "pointer" }}
+          />
+        </Link>
+
         {/* Right Side*/}
         <div className="d-flex align-items-center justify-content-end ms-auto me-2 me-md-0">
           {/* Notification Dropdown */}
@@ -74,13 +77,13 @@ const NavBar = ({ user }) => {
                     {user.firstName}
                   </p>
                   <i
-                    className="bx bx-user-circle m-0 "
+                    className="bx bx-user-circle m-0 my-1 my-md-0"
                     style={{ color: "var(--secondMain-color)" }}
                   ></i>
                 </>
               )}
             </Dropdown.Toggle>
-            <Dropdown.Menu className="text-center">
+            <Dropdown.Menu className="text-center ">
               {!user ? (
                 <>
                   <div className="justify-content-center d-flex align-items-center gap-2 text-black">
@@ -95,7 +98,7 @@ const NavBar = ({ user }) => {
                     to="/profile-setup"
                     className="text-dark bg-white py-0"
                   >
-                    <button className="w-100 btn btn-light d-flex align-items-center justify-content-center ">
+                    <button className="w-100 btn btn-light border border-0 d-flex align-items-center justify-content-center ">
                       <i className="bx bx-user me-2 m-0"></i>
                       <p className="m-0">Profile</p>
                     </button>
@@ -104,7 +107,7 @@ const NavBar = ({ user }) => {
                     className="text-dark bg-white py-0"
                     onClick={handleLogout}
                   >
-                    <button className="w-100 btn btn-light d-flex align-items-center justify-content-center ">
+                    <button className="w-100 btn btn-light border border-0 d-flex align-items-center justify-content-center ">
                       <i className="bx bx-log-out me-2 m-0"></i>
                       <p className="m-0">Logout</p>
                     </button>
