@@ -23,14 +23,14 @@ const NavBar = ({ user }) => {
     <>
       {/* NAVBAR */}
       <div
-        className=" p-1 w-100 d-flex justify-content-between align-items-center bg-white"
+        className=" p-1 px-2 w-100 d-flex justify-content-between align-items-center bg-white"
         style={{ height: "4rem", top: "0", left: "0", zIndex: "1000" }}
       >
         {/* Logo*/}
         <img
           src="/navLogo.png"
           alt="Registrar Logo"
-          className="d-block d-md-none img-fluid ms-2"
+          className="d-block d-lg-none img-fluid"
           style={{ maxWidth: "130px", objectFit: "cover" }}
         />
         {/* Right Side*/}

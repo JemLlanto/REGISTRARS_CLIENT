@@ -34,20 +34,20 @@ export const Background = () => {
         />
       </div>
       <div
-        className="backgroundContainer d-flex justify-content-end"
+        className="backgroundContainer d-flex justify-content-end "
         style={{ bottom: "0", right: "0" }}
       >
         {/* statue */}
         <img
           src="/1.png"
           alt="Background 1"
-          className=""
+          className="position-absolute"
           style={{
             zIndex: "1",
-            height: "100%",
+            height: "clamp(25rem, 60dvw, 40rem)",
             // width: "100%",
             objectFit: "cover",
-            // bottom: "0",
+            bottom: "0",
           }}
         />
       </div>
