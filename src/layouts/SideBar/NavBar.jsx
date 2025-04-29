@@ -77,7 +77,7 @@ const NavBar = ({ user }) => {
                     {user.firstName}
                   </p>
                   <i
-                    className="bx bx-user-circle m-0 "
+                    className="bx bx-user-circle m-0 my-1 my-md-0"
                     style={{ color: "var(--secondMain-color)" }}
                   ></i>
                 </>

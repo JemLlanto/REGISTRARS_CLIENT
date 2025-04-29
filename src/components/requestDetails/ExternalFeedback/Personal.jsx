@@ -73,6 +73,7 @@ const PersonalInfoStep = ({ formData, handleChange }) => {
             <Form.Control
               type="number"
               name="age"
+              min={10}
               max={99}
               value={formData?.age || ""}
               onChange={handleChange}

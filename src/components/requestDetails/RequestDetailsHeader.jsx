@@ -4,6 +4,7 @@ import ChangeStatusButton from "../../components/requestDetails/ChangeStatusButt
 import ViewScheduleSlip from "../../components/requestDetails/ViewScheduleSlip";
 import InternalFeedbackDownload from "../../components/DownloadButton/InternalFeedbackDownload";
 import ExternalFeedbackDownload from "../../components/DownloadButton/ExternalFeedbackDownload";
+import { Dropdown } from "react-bootstrap";
 
 const RequestDetailsHeader = ({
   user,
@@ -54,7 +55,7 @@ const RequestDetailsHeader = ({
         <>
           {documentDetails.status === "ready to pickup" ||
           documentDetails.status === "completed" ? (
-            <div className="d-block d-lg-none d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
+            <div className="d-none d-md-flex d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
               <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
                 <ViewScheduleSlip
                   fetchDocumentDetails={fetchDocumentDetails}
@@ -66,67 +67,60 @@ const RequestDetailsHeader = ({
         </>
       )}
 
-      {user.isAdmin ? (
-        <div className="d-block d-md-none rounded-3 p-1 mx-0">
-          <div className="col-12 text-center">
-            <div className="dropdown">
-              <button
-                className="btn primaryButton text-white dropdown-toggle w-100"
-                type="button"
-                id="mobileActionsDropdown"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              ></button>
-              <ul
-                className="dropdown-menu w-100  text-center"
-                aria-labelledby="mobileActionsDropdown"
-              >
-                <li className="dropdown-item">
-                  {documentDetails.feedbackType === "internal" ? (
-                    <InternalFeedbackDownload
-                      user={user}
+      <div className="d-block d-md-none rounded-3 mx-0">
+        <div className="col-12 text-center">
+          <Dropdown align="end">
+            <Dropdown.Toggle
+              variant="light"
+              className="p-3 m-0 d-flex align-items-center justify-content-end gap-2 shadow-none border-0"
+              id="dropdown-basic"
+              style={{ backgroundColor: "var(--main-color)" }}
+            ></Dropdown.Toggle>
+            <Dropdown.Menu className="text-center ">
+              {user.isAdmin ? (
+                <>
+                  <Dropdown.Item className="text-dark bg-white py-0 my-1">
+                    {documentDetails.feedbackType === "internal" ? (
+                      <InternalFeedbackDownload
+                        user={user}
+                        documentDetails={documentDetails}
+                      />
+                    ) : (
+                      <ExternalFeedbackDownload
+                        user={user}
+                        documentDetails={documentDetails}
+                      />
+                    )}
+                  </Dropdown.Item>
+                  <Dropdown.Item className="text-dark bg-white py-0 mb-1">
+                    <CancelButton
+                      fetchDocumentDetails={fetchDocumentDetails}
+                      documentDetails={documentDetails}
+                      className="btn-sm btn-responsive w-100 px-5"
+                    />
+                  </Dropdown.Item>
+                  <Dropdown.Item className="text-dark bg-white py-0 mb-1">
+                    <ChangeStatusButton
+                      fetchDocumentDetails={fetchDocumentDetails}
+                      documentDetails={documentDetails}
+                      className="btn-sm btn-responsive w-100"
+                    />
+                  </Dropdown.Item>
+                </>
+              ) : (
+                <>
+                  <Dropdown.Item className="text-dark bg-white py-0 mb-1">
+                    <ViewScheduleSlip
+                      fetchDocumentDetails={fetchDocumentDetails}
                       documentDetails={documentDetails}
                     />
-                  ) : (
-                    <ExternalFeedbackDownload
-                      user={user}
-                      documentDetails={documentDetails}
-                    />
-                  )}
-                </li>
-                <li className="dropdown-item">
-                  <CancelButton
-                    fetchDocumentDetails={fetchDocumentDetails}
-                    documentDetails={documentDetails}
-                    className="btn-sm btn-responsive w-100 px-5"
-                  />
-                </li>
-                <li className="dropdown-item">
-                  <ChangeStatusButton
-                    fetchDocumentDetails={fetchDocumentDetails}
-                    documentDetails={documentDetails}
-                    className="btn-sm btn-responsive w-100"
-                  />
-                </li>
-              </ul>
-            </div>
-          </div>
+                  </Dropdown.Item>
+                </>
+              )}
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
-      ) : (
-        <>
-          {documentDetails.status === "ready to pickup" ||
-          documentDetails.status === "completed" ? (
-            <div className="d-none d-lg-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
-              <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
-                <ViewScheduleSlip
-                  fetchDocumentDetails={fetchDocumentDetails}
-                  documentDetails={documentDetails}
-                />
-              </div>
-            </div>
-          ) : null}
-        </>
-      )}
+      </div>
     </div>
   );
 };
