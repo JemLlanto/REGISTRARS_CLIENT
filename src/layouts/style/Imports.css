@@ -64,8 +64,10 @@ h6 {
 }
 
 p,
-label {
-  font-size: clamp(0.85rem, 1.75vw, 1.1rem) !important;
+label,
+.form-select,
+.form-control {
+  font-size: clamp(0.75rem, 1.75vw, 1rem) !important;
 }
 
 /* button */

@@ -85,7 +85,7 @@ const PhoneSidebar = ({ user }) => {
                     to="/admin/student-requests"
                     onClick={handleClose}
                   >
-                    <i className="bx bx-user-check me-2 bx-sm"></i>
+                    <i className="bx bx-user-check bx-sm"></i>
                     <p className="m-0">Student Requests</p>
                   </Link>
                 </li>

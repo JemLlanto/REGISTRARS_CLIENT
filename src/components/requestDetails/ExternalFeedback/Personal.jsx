@@ -1,110 +1,106 @@
-import React from 'react';
+import React from "react";
+import { FloatingLabel, Form } from "react-bootstrap";
 
 const PersonalInfoStep = ({ formData, handleChange }) => {
-    return (
-        <div className="container p-4">
-            <div className="mb-4">
-                <p className="m-0">
-                    This Client Satisfaction Measurement (CSM) tracks the customer experience of government offices.
-                    Your feedback on your recently concluded transaction will help this office provide a better service.
-                    Personal information shared will be kept confidential and you always have the option to not answer this form.
-                </p>
-            </div>
+  return (
+    <div className="container p-1">
+      <div className="mb-4">
+        <h6 className="fw-bold">
+          This Client Satisfaction Measurement (CSM) tracks the customer
+          experience of government offices. Your feedback on your recently
+          concluded transaction will help this office provide a better service.
+          Personal information shared will be kept confidential and you always
+          have the option to not answer this form. <br />
+          <span
+            className="fst-italic fw-normal text-muted"
+            style={{ fontSize: "clamp(0.7rem, 1.75vw, .8rem)" }}
+          >
+            (Ang Client Satisfaction Measurement (CSM) ay sumusubaybay sa mga
+            karanasan ng mga mamamayan hinggil sa kanilang pakikipagtransaksyon
+            sa tanggapan ng pamahalaan. Makatutulong ang inyong puna sa
+            katatapos lamang na transaksyon upang lalong mapagbuti namin ang
+            aming serbisyo publiko. Ang personal na impormasyong iyong ibabahagi
+            ay mananatiling kompidensyal at lagi kayong may kalayaan sa pagtugon
+            sa sarbey na ito.)
+          </span>
+        </h6>
+      </div>
 
-            {/* Client Type */}
-            <div className="row mb-3">
-                <div className="col-12">
-                    <label className="form-label">Client Type (Uri ng Kliyente):</label>
-                    <div className="d-flex gap-4">
-                        {["Citizen", "Business", "Government"].map((type) => (
-                            <div className="form-check" key={type}>
-                                <input
-                                    className="form-check-input  border-black"
-                                    type="radio"
-                                    name="clientType"
-                                    id={type.toLowerCase()}
-                                    value={type}
-                                    checked={formData?.clientType === type}
-                                    onChange={handleChange}
-                                />
-                                <label className="form-check-label" htmlFor={type.toLowerCase()}>
-                                    {type}
-                                </label>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* Date, Sex, Age */}
-            <div className="row mb-3">
-                <div className="col-md-4">
-                    <div className="form-group mb-3">
-                        <label htmlFor="date" className="form-label">Date (Petsa):</label>
-                        <input
-                            type="date"
-                            className="form-control  border-black"
-                            id="date"
-                            name="date"
-                            value={formData?.date || ""}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    <label className="form-label">Sex (Kasarian):</label>
-                    <div className="d-flex gap-4">
-                        {["Male", "Female"].map((gender) => (
-                            <div className="form-check" key={gender}>
-                                <input
-                                    className="form-check-input border-black"
-                                    type="radio"
-                                    name="sex"
-                                    id={gender.toLowerCase()}
-                                    value={gender}
-                                    checked={formData?.sex === gender}
-                                    onChange={handleChange}
-                                />
-                                <label className="form-check-label" htmlFor={gender.toLowerCase()}>
-                                    {gender}
-                                </label>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    <div className="form-group mb-3">
-                        <label htmlFor="age" className="form-label">Age (Edad):</label>
-                        <input
-                            type="number"
-                            className="form-control border-black"
-                            id="age"
-                            name="age"
-                            value={formData?.age || ""}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-            </div>
-
-            {/* Service Availed */}
-            <div className="row mb-3">
-                <div className="col-md-12">
-                    <div className="form-group mb-3">
-                        <label htmlFor="serviceAvailed" className="form-label">Service Availed (Uri ng transaksyon o serbisyo):</label>
-                        <input
-                            type="text"
-                            className="form-control border-black"
-                            id="serviceAvailed"
-                            name="serviceAvailed"
-                            value={formData?.serviceAvailed || ""}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-            </div>
+      {/* Client Type */}
+      <div className="row mb-2 px-2 gap-2">
+        <div className="col-md px-1">
+          <FloatingLabel
+            controlId="clientType"
+            label="Client Type (Uri ng Kliyente)"
+          >
+            <Form.Select
+              name="clientType"
+              onChange={handleChange}
+              aria-label="Floating label select example"
+            >
+              <option>Options...</option>
+              <option value="Citizen">Citizen</option>
+              <option value="Business">Business</option>
+              <option value="Government">Government</option>
+            </Form.Select>
+          </FloatingLabel>
         </div>
-    );
+        <div className="col-md px-1">
+          <FloatingLabel controlId="date" label="Date (Petsa)">
+            <Form.Control
+              type="date"
+              name="date"
+              value={formData?.date || ""}
+              onChange={handleChange}
+            />
+          </FloatingLabel>
+        </div>
+      </div>
+
+      {/* Date, Sex, Age */}
+      <div className="row mb-2 px-2 gap-2">
+        <div className="col-md px-1">
+          <FloatingLabel controlId="sex" label="Sex (Kasarian)">
+            <Form.Select name="sex" onChange={handleChange}>
+              <option>Options...</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </Form.Select>
+          </FloatingLabel>
+        </div>
+        <div className="col-md px-1">
+          <FloatingLabel controlId="age" label="Age (Edad)">
+            <Form.Control
+              type="number"
+              name="age"
+              max={99}
+              value={formData?.age || ""}
+              onChange={handleChange}
+              placeholder="Age (Edad)"
+            />
+          </FloatingLabel>
+        </div>
+      </div>
+
+      {/* Service Availed */}
+      <div className="row">
+        <div className="col-md-12">
+          <FloatingLabel
+            controlId="floatingTextarea2"
+            label="Service Availed (Uri ng transaksyon o serbisyo)"
+          >
+            <Form.Control
+              as="textarea"
+              name="serviceAvailed"
+              value={formData?.serviceAvailed || ""}
+              onChange={handleChange}
+              placeholder="Service Availed (Uri ng transaksyon o serbisyo)"
+            />
+          </FloatingLabel>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default PersonalInfoStep;

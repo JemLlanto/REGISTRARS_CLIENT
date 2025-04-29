@@ -180,13 +180,13 @@ const ExternalFeedbackTemplate = ({
     setCurrentStep(currentStep - 1);
   };
 
-  const step1Complete = formData.cc1 && formData.cc2 && formData.cc3;
-  const step2Complete =
+  const step1Complete =
     formData.clientType &&
     formData.date &&
     formData.sex &&
     formData.age &&
     formData.serviceAvailed;
+  const step2Complete = formData.cc1 && formData.cc2 && formData.cc3;
   const step3Complete =
     formData.sqd0 &&
     formData.sqd1 &&
@@ -222,13 +222,13 @@ const ExternalFeedbackTemplate = ({
             style={{ height: "25rem" }}
           >
             {currentStep === 1 && (
-              <CitizensCharterStep
+              <PersonalInfoStep
                 formData={formData}
                 handleChange={handleChange}
               />
             )}
             {currentStep === 2 && (
-              <PersonalInfoStep
+              <CitizensCharterStep
                 formData={formData}
                 handleChange={handleChange}
               />
@@ -255,7 +255,7 @@ const ExternalFeedbackTemplate = ({
 
           <button
             type="button"
-            className="btn primaryButton"
+            className="btn primaryButton px-4 d-flex justify-content-center align-items-center gap-1"
             onClick={currentStep < 3 ? nextStep : submitFeedback}
             disabled={
               currentStep === 1

@@ -1,4 +1,5 @@
 import React from "react";
+import { FloatingLabel, Form } from "react-bootstrap";
 
 const SQDFormComponent = ({ formData, handleChange, documentDetails }) => {
   // Create default handleChange function if not provided
@@ -44,14 +45,18 @@ const SQDFormComponent = ({ formData, handleChange, documentDetails }) => {
   ];
 
   return (
-    <div className="container mt-4">
-      <div className="table-responsive mt-4">
-        <table className="table table-bordered">
+    <div className="container px-1">
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered align-middle">
           <thead>
             <tr className="bg-light">
-              <th style={{ width: "40%" }}>Questions</th>
+              <th style={{ width: "40%" }}>
+                <h6 className="m-0 fw-bold">Questions</h6>
+              </th>
               {ratingOptions.map((option) => (
-                <th key={option.value}>{option.label}</th>
+                <th key={option.value}>
+                  <p className="m-0">{option.label}</p>
+                </th>
               ))}
             </tr>
           </thead>
@@ -59,67 +64,69 @@ const SQDFormComponent = ({ formData, handleChange, documentDetails }) => {
             {questions.map((question, index) => (
               <tr key={question.id}>
                 <td>
-                  <strong>{`SQD${index + 1}.`}</strong> {question.label}
+                  <p className="m-0">
+                    <strong>{`SQD${index + 1}.`}</strong> {question.label}
+                  </p>
                 </td>
                 {ratingOptions.map((option) => (
                   <td
                     key={option.value}
                     className="text-center"
                     style={{ cursor: "pointer", padding: "10px" }} // Makes the entire cell clickable
-                    onClick={() => handleChange({ target: { name: question.id, value: option.value } })}
+                    onClick={() =>
+                      handleChange({
+                        target: { name: question.id, value: option.value },
+                      })
+                    }
                   >
-                    <label className="w-100 h-100 d-flex justify-content-center align-items-center" style={{ cursor: "pointer" }}>
-                      <input
-                        type="radio"
-                        className="form-check-input position-absolute opacity-0"
-                        name={question.id}
-                        value={option.value}
-                        checked={formData[question.id] === option.value}
-                        onChange={handleChange}
-                      />
-                      <div className="border border-dark rounded-circle d-flex align-items-center justify-content-center"
-                        style={{ width: "24px", height: "24px" }}>
-                        {formData[question.id] === option.value && (
-                          <div className="bg-primary rounded-circle" style={{ width: "12px", height: "12px" }}></div>
-                        )}
-                      </div>
-                    </label>
+                    <input
+                      type="radio"
+                      className="form-check-input border border-dark"
+                      name={question.id}
+                      value={option.value}
+                      checked={formData[question.id] === option.value}
+                      onChange={handleChange}
+                    />
                   </td>
                 ))}
               </tr>
             ))}
           </tbody>
-
-
         </table>
       </div>
 
-      <div className="mb-3 mt-4">
-        <label htmlFor="suggestions" className="form-label">
-          Suggestions on how we can improve our services (optional):
-        </label>
-        <textarea
-          className="form-control border-black"
-          id="suggestions"
-          name="suggestions"
-          rows="3"
-          value={formData.suggestions || ""}
-          onChange={handleChange}
-        ></textarea>
+      <div className="mb-2">
+        <FloatingLabel
+          controlId="suggestions"
+          label={`Comments or suggestions (${formData.suggestions.length}/150)`}
+        >
+          <Form.Control
+            as="textarea"
+            name="suggestions"
+            rows="3"
+            value={formData.suggestions || ""}
+            onChange={handleChange}
+            maxLength={150}
+            placeholder="Leave a comment here"
+            style={{ height: "100px" }}
+          />
+        </FloatingLabel>
       </div>
 
-      <div className="mb-3">
-        <label htmlFor="email" className="form-label">
-          Email address (optional):
-        </label>
-        <input
-          type="email"
-          className="form-control border-black"
-          id="email"
-          name="email"
-          value={formData.email || documentDetails.email}
-          onChange={handleChange}
-        />
+      <div className="">
+        <FloatingLabel
+          controlId="email"
+          label="Email address (optional)"
+          className=""
+        >
+          <Form.Control
+            type="email"
+            name="email"
+            value={formData.email || documentDetails.email}
+            onChange={handleChange}
+            placeholder="Email address (optional)"
+          />
+        </FloatingLabel>
       </div>
     </div>
   );

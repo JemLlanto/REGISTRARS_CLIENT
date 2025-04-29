@@ -250,13 +250,13 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
 
       <button
         type="button"
-        className="btn btn-dark d-block d-md-none"
+        className="w-100 btn btn-warning d-block d-md-none"
         onClick={downloadPDF}
         disabled={!documentDetails.responded}
       >
         <p className="m-0">
           {" "}
-          {documentDetails.responded ? "Feedback (Internal)" : "Feedback"}
+          {documentDetails.responded ? "Feedback (int.)" : "Feedback"}
         </p>
       </button>
     </>

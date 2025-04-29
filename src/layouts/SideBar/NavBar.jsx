@@ -27,7 +27,7 @@ const NavBar = ({ user }) => {
         style={{ height: "4rem", top: "0", left: "0", zIndex: "1000" }}
       >
         {/* Logo*/}
-        <Link to={!user.isAdmin ? ('/home') : ('/admin/home')}>
+        <Link to={!user.isAdmin ? "/home" : "/admin/home"}>
           <img
             src="/navLogo.png"
             alt="Registrar Logo"
@@ -83,7 +83,7 @@ const NavBar = ({ user }) => {
                 </>
               )}
             </Dropdown.Toggle>
-            <Dropdown.Menu className="text-center">
+            <Dropdown.Menu className="text-center ">
               {!user ? (
                 <>
                   <div className="justify-content-center d-flex align-items-center gap-2 text-black">
@@ -98,7 +98,7 @@ const NavBar = ({ user }) => {
                     to="/profile-setup"
                     className="text-dark bg-white py-0"
                   >
-                    <button className="w-100 btn btn-light d-flex align-items-center justify-content-center ">
+                    <button className="w-100 btn btn-light border border-0 d-flex align-items-center justify-content-center ">
                       <i className="bx bx-user me-2 m-0"></i>
                       <p className="m-0">Profile</p>
                     </button>
@@ -107,7 +107,7 @@ const NavBar = ({ user }) => {
                     className="text-dark bg-white py-0"
                     onClick={handleLogout}
                   >
-                    <button className="w-100 btn btn-light d-flex align-items-center justify-content-center ">
+                    <button className="w-100 btn btn-light border border-0 d-flex align-items-center justify-content-center ">
                       <i className="bx bx-log-out me-2 m-0"></i>
                       <p className="m-0">Logout</p>
                     </button>

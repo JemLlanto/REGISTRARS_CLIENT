@@ -658,7 +658,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       >
         <p className="m-0">
           {documentDetails.responded
-            ? `Feedback (External)`
+            ? `Feedback (ext.)`
             : documentDetails.feedbackType === ""
             ? `Feedback (None)`
             : `Feedback`}
