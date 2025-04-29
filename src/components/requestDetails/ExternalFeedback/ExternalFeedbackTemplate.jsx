@@ -211,9 +211,7 @@ const ExternalFeedbackTemplate = ({
           style={{ backgroundColor: "var(--main-color)" }}
         >
           <Modal.Title>
-            <h5 className="m-0 text-white">
-              Client Satisfaction Measurement(External)
-            </h5>
+            <h5 className="m-0 text-white">Client Satisfaction Measurement</h5>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-2 p-lg-4">

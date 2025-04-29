@@ -90,12 +90,12 @@ const ViewScheduleSlip = ({ documentDetails, fetchDocumentDetails }) => {
   return (
     <>
       <button
-        className="btn btn-warning btn-sm btn-responsive"
+        className="w-100 btn btn-warning btn-sm btn-responsive"
         onClick={handleShowScheduleModal}
         disabled={documentDetails.status === "completed"}
       >
         <p className="m-0 d-md-none d-flex justify-content-center align-items-center my-1">
-          <i class="bx bx-calendar-check"></i>
+          Schedule slip
         </p>
         <p className="m-0 d-none d-md-block">View schedule slip</p>
       </button>
