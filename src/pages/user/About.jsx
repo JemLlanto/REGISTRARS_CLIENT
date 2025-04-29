@@ -142,76 +142,38 @@ export default function About() {
         </div>
       </div>
 
-      <div
-        className="fade-in-section w-100 py-5 px-3 px-md-5 text-dark text-center bg-success mt-2 rounded shadow-sm"
-        style={{ animationDelay: `${1 * 0.2}s` }}
-      >
-        <div className="text-white">
-          <h2 className="fw-bold display-5">CvSU-CCAT-R GOALS</h2>
-          <p className="lead mt-3 mb-0 mx-auto" style={{ maxWidth: "100%" }}>
-            CvSU Rosario Campus aims to produce productive graduates,
-            professionals, and experts marked by global excellence and moral
-            uprightness through the following:
-          </p>
+      <div className="container mt-3 p-4 w-100 rounded text-white" style={{ backgroundColor: "var(--main-color)" }}>
+        <h2 className="text-center fw-bold text-warning">CvSU-CCAT-R GOALS</h2>
+        <p className="text-center mb-4">
+          CvSU Rosario Campus aims to produce productive graduates, professionals, and experts marked by global excellence and moral uprightness through the following:
+        </p>
+
+        <div className="mb-3">
+          <p><strong>01. Relevant Programs</strong></p>
+          <p>Offer various programs/courses relevant to the needs of the clients for global competitiveness.</p>
         </div>
 
-        <div className="container">
-          <div className="row g-4">
-            {/* Goal Items */}
-            {[
-              {
-                num: "01",
-                color: "bg-success",
-                title: "Relevant Programs",
-                text: "Offer various programs/courses relevant to the needs of the clients for global competitiveness.",
-              },
-              {
-                num: "02",
-                color: "bg-primary",
-                title: "Personnel Competence",
-                text: "Upgrade the qualification and competencies of the teaching and non-teaching personnel for quality service.",
-              },
-              {
-                num: "03",
-                color: "bg-warning",
-                title: "Facility Improvement",
-                text: "Improve facilities relevant for effective and efficient education and training.",
-              },
-              {
-                num: "04",
-                color: "bg-danger",
-                title: "Research & Extension",
-                text: "Engage in research and extension projects/activities that will lead to instruction and community improvement.",
-              },
-              {
-                num: "05",
-                color: "bg-pink", // You might need to define this if not in Bootstrap by default
-                title: "Strengthen Linkages",
-                text: "Strengthen linkages with local and international agencies for instruction, research, development and production.",
-              },
-            ].map((goal, i) => (
-              <div
-                key={i}
-                className={`col-12 col-md-6 ${
-                  i === 4 ? "offset-md-3" : ""
-                } d-flex`}
-              >
-                <div className="goal-box d-flex flex-column flex-md-row align-items-start w-100 p-3 border rounded shadow-sm">
-                  <div
-                    className={`goal-number ${goal.color} text-white me-md-3 mb-2 mb-md-0 px-3 py-2 rounded`}
-                  >
-                    {goal.num}
-                  </div>
-                  <div className="goal-content text-start">
-                    <p className="fw-bold mb-1">{goal.title}</p>
-                    <p className="mb-0">{goal.text}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="mb-3">
+          <p><strong>02. Personnel Competence</strong></p>
+          <p>Upgrade the qualification and competencies of the teaching and non-teaching personnel for quality service.</p>
+        </div>
+
+        <div className="mb-3">
+          <p><strong>03. Facility Improvement</strong></p>
+          <p>Improve facilities relevant for effective and efficient education and training.</p>
+        </div>
+
+        <div className="mb-3">
+          <p><strong>04. Research & Extension</strong></p>
+          <p>Engage in research and extension projects/activities that will lead to instruction and community improvement.</p>
+        </div>
+
+        <div>
+          <p><strong>05. Strengthen Linkages</strong></p>
+          <p>Strengthen linkages with local and international agencies for instruction, research, development and production.</p>
         </div>
       </div>
+
     </div>
   );
 }
