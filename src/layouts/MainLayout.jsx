@@ -80,7 +80,7 @@ const MainLayout = () => {
         <NewAccountPopup user={user} />
       ) : null}{" "}
       <div className="d-flex overflow-hidden" style={{ height: "" }}>
-        <div className="d-none d-md-block" style={{ zIndex: "1000" }}>
+        <div className="d-none d-lg-block" style={{ zIndex: "1000" }}>
           <SideBar user={user} />
         </div>
         <div className="w-100" style={{ height: "100dvh" }}>

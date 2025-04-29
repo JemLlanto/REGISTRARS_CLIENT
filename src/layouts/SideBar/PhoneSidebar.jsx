@@ -16,7 +16,7 @@ const PhoneSidebar = ({ user }) => {
         <Button
           variant="light"
           onClick={handleShow}
-          className="d-md-none text-dark text-decoration-none fw-bold"
+          className="d-lg-none text-dark text-decoration-none fw-bold"
           style={{ fontSize: "1.5rem" }}
         >
           ☰
