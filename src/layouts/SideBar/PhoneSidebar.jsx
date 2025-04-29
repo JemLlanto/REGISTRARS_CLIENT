@@ -60,7 +60,7 @@ const PhoneSidebar = ({ user }) => {
                   }`}
               >
                 <Link
-                  className="d-flex align-items-center"
+                  className="d-flex align-items-center gap-1"
                   to={user.isAdmin ? "/admin/home" : "/home"}
                   onClick={handleClose}
                 >
@@ -81,7 +81,7 @@ const PhoneSidebar = ({ user }) => {
                     }`}
                 >
                   <Link
-                    className="d-flex align-items-center"
+                    className="d-flex align-items-center gap-1"
                     to="/admin/student-requests"
                     onClick={handleClose}
                   >
@@ -102,7 +102,7 @@ const PhoneSidebar = ({ user }) => {
                   }`}
               >
                 <Link
-                  className="d-flex align-items-center"
+                  className="d-flex align-items-center gap-1"
                   to={
                     user.isAdmin
                       ? "/admin/manage-request-form"
@@ -124,7 +124,7 @@ const PhoneSidebar = ({ user }) => {
                     }`}
                 >
                   <Link
-                    className="d-flex align-items-center bx-sm"
+                    className="d-flex align-items-center gap-1 bx-sm"
                     to="/about"
                     onClick={handleClose}
                   >
@@ -143,7 +143,7 @@ const PhoneSidebar = ({ user }) => {
                     }`}
                 >
                   <Link
-                    className="d-flex align-items-center"
+                    className="d-flex align-items-center gap-1"
                     to="/admin/manage-admin"
                     onClick={handleClose}
                   >
