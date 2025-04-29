@@ -3,24 +3,14 @@
   border-radius: 5px;
   padding: 8px;
 }
-.p-list-group-items:hover a {
-  background-color: var(--secondMain-color);
-}
-.p-list-group-items:hover p {
-  color: var(--main-color);
-  font-weight: bold;
-}
-.p-list-group-items:hover i {
-  color: var(--main-color);
-  font-weight: bold;
-}
-.p-list-group-items p {
+.p-list-group-items {
   color: var(--secondMain-color);
+  transition: 0.3s ease-in-out;
 }
 
-.p-list-group-items a i {
+.p-list-group-items:hover {
   color: var(--secondMain-color);
-  padding: 5px;
+  background-color: rgba(235, 235, 235, 0.19);
 }
 
 /* Active State Styling */
