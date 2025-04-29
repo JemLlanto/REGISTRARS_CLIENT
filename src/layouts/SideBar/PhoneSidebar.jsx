@@ -16,10 +16,10 @@ const PhoneSidebar = ({ user }) => {
         <Button
           variant="light"
           onClick={handleShow}
-          className="d-lg-none text-dark text-decoration-none fw-bold"
-          style={{ fontSize: "1.5rem" }}
+          className="d-flex justify-content-center align-items-center d-lg-none text-dark border-0 text-decoration-none fw-bold p-2"
+          style={{ fontSize: "1.5rem", height: "auto" }}
         >
-          ☰
+          <i class="bx bx-menu m-0"></i>
         </Button>
 
         {/* OFFCANVAS SIDEBAR */}
@@ -53,11 +53,12 @@ const PhoneSidebar = ({ user }) => {
             <ul className="sideBar-list list-unstyled d-flex flex-column gap-2">
               {/* Homepage & Dashboard */}
               <li
-                className={`p-list-group-items rounded py-1 px-2 position-relative ${location.pathname.toLowerCase() ===
+                className={`p-list-group-items rounded py-1 px-2 position-relative ${
+                  location.pathname.toLowerCase() ===
                   (user.isAdmin ? "/admin/home" : "/home")
-                  ? "active"
-                  : ""
-                  }`}
+                    ? "active"
+                    : ""
+                }`}
               >
                 <Link
                   className="d-flex align-items-center gap-1"
@@ -74,11 +75,12 @@ const PhoneSidebar = ({ user }) => {
               {/* Student Requests (Admin Only) */}
               {user?.isAdmin ? (
                 <li
-                  className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() ===
+                  className={`p-list-group-items rounded py-1 px-2 ${
+                    location.pathname.toLowerCase() ===
                     "/admin/student-requests"
-                    ? "active"
-                    : ""
-                    }`}
+                      ? "active"
+                      : ""
+                  }`}
                 >
                   <Link
                     className="d-flex align-items-center gap-1"
@@ -93,13 +95,14 @@ const PhoneSidebar = ({ user }) => {
 
               {/* Manage Requests / Request Form */}
               <li
-                className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() ===
+                className={`p-list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() ===
                   (user.isAdmin
                     ? "/admin/manage-request-form"
                     : "/request-documents")
-                  ? "active"
-                  : ""
-                  }`}
+                    ? "active"
+                    : ""
+                }`}
               >
                 <Link
                   className="d-flex align-items-center gap-1"
@@ -120,8 +123,9 @@ const PhoneSidebar = ({ user }) => {
               {/* About Us (Non-Admin Only) */}
               {!user.isAdmin && (
                 <li
-                  className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/about" ? "active" : ""
-                    }`}
+                  className={`p-list-group-items rounded py-1 px-2 ${
+                    location.pathname.toLowerCase() === "/about" ? "active" : ""
+                  }`}
                 >
                   <Link
                     className="d-flex align-items-center gap-1 bx-sm"
@@ -137,10 +141,11 @@ const PhoneSidebar = ({ user }) => {
               {/* Manage Admin (Only for Admin Level 2) */}
               {user.isAdmin === 2 && (
                 <li
-                  className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/manage-admin"
-                    ? "active"
-                    : ""
-                    }`}
+                  className={`p-list-group-items rounded py-1 px-2 ${
+                    location.pathname.toLowerCase() === "/admin/manage-admin"
+                      ? "active"
+                      : ""
+                  }`}
                 >
                   <Link
                     className="d-flex align-items-center gap-1"
