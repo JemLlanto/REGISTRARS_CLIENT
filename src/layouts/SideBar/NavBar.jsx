@@ -27,12 +27,15 @@ const NavBar = ({ user }) => {
         style={{ height: "4rem", top: "0", left: "0", zIndex: "1000" }}
       >
         {/* Logo*/}
-        <img
-          src="/navLogo.png"
-          alt="Registrar Logo"
-          className="d-block d-lg-none img-fluid"
-          style={{ maxWidth: "130px", objectFit: "cover" }}
-        />
+        <Link to={!user.isAdmin ? ('/home') : ('/admin/home')}>
+          <img
+            src="/navLogo.png"
+            alt="Registrar Logo"
+            className="d-block d-lg-none img-fluid"
+            style={{ maxWidth: "130px", objectFit: "cover", cursor: "pointer" }}
+          />
+        </Link>
+
         {/* Right Side*/}
         <div className="d-flex align-items-center justify-content-end ms-auto me-2 me-md-0">
           {/* Notification Dropdown */}
