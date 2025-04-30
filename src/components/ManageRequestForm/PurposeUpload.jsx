@@ -31,11 +31,11 @@ const PurposeUpload = ({ purpose }) => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setUploads(res.data.data);
           setIsLoading(false);
         } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+          // console.log("Error: ", res.data.Message);
           setIsLoading(false);
         }
       })
@@ -263,7 +263,7 @@ const PurposeUpload = ({ purpose }) => {
                               disabled={
                                 formData.uploadDescription === "" ||
                                 formData.uploadDescription ===
-                                upload.uploadDescription
+                                  upload.uploadDescription
                               }
                               onClick={handleUpdateUpload}
                             >

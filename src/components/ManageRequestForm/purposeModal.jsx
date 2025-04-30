@@ -1,5 +1,12 @@
 import { use, useEffect, useState } from "react";
-import { Button, Accordion, Modal, FloatingLabel, Form } from "react-bootstrap";
+import {
+  Button,
+  Spinner,
+  Modal,
+  FloatingLabel,
+  Form,
+  Table,
+} from "react-bootstrap";
 import axios from "axios";
 import PurposeSelections from "./PurposeSelections";
 import PurposeInput from "./PurposeInput";
@@ -16,6 +23,7 @@ function purposeModal() {
   const [formData, setFormData] = useState({
     purposeName: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddPurpose = () => {
     setAddPurpose(true);
@@ -77,98 +85,102 @@ function purposeModal() {
   const handleClosePurpose = () => setShowPurpose(false);
   const handleShowPurpose = () => setShowPurpose(true);
 
-  const handleSavePurpose = (e) => {
-    e.preventDefault();
-    axios
-      .post(
+  const handleSavePurpose = async () => {
+    try {
+      setIsLoading(true);
+      const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/addPurpose`,
         formData
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          Swal.fire({
-            icon: "success",
-            title: "Success!",
-            text: res.data.Message,
-            confirmButtonColor: "#3085d6",
-          });
+      );
 
-          setAddPurpose(false);
-          setShowPurpose(true);
-          setFormData({ purposeName: "" });
-          fetchPurposes();
-        } else if (res.data.Status === "Failed") {
-          Swal.fire({
-            icon: "error",
-            title: "Failed!",
-            text: res.data.Message,
-            confirmButtonColor: "#d33",
-          });
+      if (res.data.Status === "Success") {
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: res.data.Message,
+          confirmButtonColor: "#3085d6",
+        });
 
-          setFormData({ purposeName: "" });
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
-        }
-      })
-      .catch((err) => {
+        setAddPurpose(false);
+        setShowPurpose(true);
+        setFormData({ purposeName: "" });
+        fetchPurposes();
+      } else if (res.data.Status === "Failed") {
         Swal.fire({
           icon: "error",
-          title: "Error!",
-          text: "Something went wrong. Please try again.",
+          title: "Failed!",
+          text: res.data.Message,
           confirmButtonColor: "#d33",
         });
 
-        console.log("Error adding purpose:", err);
+        setFormData({ purposeName: "" });
+      } else if (res.data.Message) {
+        console.log("Error:", res.data.Message);
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: "Something went wrong. Please try again.",
+        confirmButtonColor: "#d33",
       });
+
+      console.log("Error adding purpose:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleUpdatePurpose = () => {
-    axios
-      .post(
+  const handleUpdatePurpose = async (purposeName) => {
+    try {
+      setIsLoading(true);
+      setSelectedPurpose(purposeName);
+      const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/updatePurpose`,
         formData
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          Swal.fire({
-            icon: "success",
-            title: "Updated!",
-            text: res.data.Message,
-            confirmButtonColor: "#3085d6",
-          });
+      );
 
-          setEditPurpose(null);
-          setFormData({ purposeName: "", purposeID: "" });
-          fetchPurposes();
-        } else if (res.data.Status === "Failed") {
-          Swal.fire({
-            icon: "error",
-            title: "Update Failed!",
-            text: res.data.Message,
-            confirmButtonColor: "#d33",
-          });
-        } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
-        }
-      })
-      .catch((err) => {
+      if (res.data.Status === "Success") {
         Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: "Something went wrong while updating the purpose.",
-          confirmButtonColor: "#d33",
+          icon: "success",
+          title: "Updated!",
+          text: res.data.Message,
+          confirmButtonColor: "#3085d6",
         });
 
-        console.log("Error updating purpose:", err);
+        setEditPurpose(null);
+        setFormData({ purposeName: "", purposeID: "" });
+        fetchPurposes();
+      } else if (res.data.Status === "Failed") {
+        Swal.fire({
+          icon: "error",
+          title: "Update Failed!",
+          text: res.data.Message,
+          confirmButtonColor: "#d33",
+        });
+      } else if (res.data.Message) {
+        console.log("Error:", res.data.Message);
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: "Something went wrong while updating the purpose.",
+        confirmButtonColor: "#d33",
       });
+
+      console.log("Error updating purpose:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleDeletePurpose = (purposeID, purposeName) => {
-    Swal.fire({
+  const handleDeletePurpose = async (purposeID, purposeName) => {
+    const confirmation = await Swal.fire({
       title: `Delete "${purposeName}"?`,
       text: "This action cannot be undone!",
       icon: "warning",
@@ -177,48 +189,51 @@ function purposeModal() {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
       cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios
-          .post(
-            `${
-              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-            }/api/documents/deletePurpose`,
-            {
-              purposeID,
-            }
-          )
-          .then((res) => {
-            if (res.data.Status === "Success") {
-              Swal.fire({
-                icon: "success",
-                title: "Deleted!",
-                text: res.data.Message,
-                confirmButtonColor: "#3085d6",
-              });
-
-              fetchPurposes();
-            } else {
-              Swal.fire({
-                icon: "error",
-                title: "Deletion Failed!",
-                text: res.data.Message,
-                confirmButtonColor: "#d33",
-              });
-            }
-          })
-          .catch((err) => {
-            Swal.fire({
-              icon: "error",
-              title: "Error!",
-              text: "Something went wrong while deleting.",
-              confirmButtonColor: "#d33",
-            });
-
-            console.log("Error deleting purpose:", err);
-          });
-      }
     });
+
+    if (confirmation.isConfirmed) {
+      try {
+        setIsLoading(true);
+        setSelectedPurpose(purposeName);
+        const res = await axios.post(
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/documents/deletePurpose`,
+          {
+            purposeID,
+          }
+        );
+
+        if (res.data.Status === "Success") {
+          Swal.fire({
+            icon: "success",
+            title: "Deleted!",
+            text: res.data.Message,
+            confirmButtonColor: "#3085d6",
+          });
+
+          fetchPurposes();
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Deletion Failed!",
+            text: res.data.Message,
+            confirmButtonColor: "#d33",
+          });
+        }
+      } catch (err) {
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Something went wrong while deleting.",
+          confirmButtonColor: "#d33",
+        });
+
+        console.log("Error deleting purpose:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
   return (
@@ -244,102 +259,171 @@ function purposeModal() {
             <h4 className="m-0 text-white">Manage Purposes</h4>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="p-1 p-md-3">
           <div
-            className="custom-scrollbar d-flex flex-column gap-1 overflow-y-scroll p-2"
+            className="custom-scrollbar d-flex flex-column gap-1 overflow-y-scroll p-0"
             style={{ height: "60dvh" }}
           >
-            {purposes.map((purpose) => (
-              <div
-                key={purpose.purposeID}
-                className="d-flex justify-content-between align-items-center border rounded p-2"
-              >
-                {editPurpose === purpose.purposeID ? (
-                  <>
-                    <FloatingLabel
-                      controlId="floatingInput"
-                      label="Purpose Name"
-                      className="w-75"
-                    >
-                      <Form.Control
-                        type="text"
-                        name="purposeName"
-                        value={formData.purposeName}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            purposeName: e.target.value,
-                          })
-                        }
-                        placeholder=""
-                      />
-                    </FloatingLabel>
-                    <div className="d-flex gap-1">
-                      <button
-                        className="btn btn-sm btn-danger"
-                        onClick={() => setEditPurpose(null)}
-                      >
-                        <i className="bx bx-x"></i>
-                      </button>
-                      <button
-                        className="btn btn-sm btn-success"
-                        onClick={handleUpdatePurpose}
-                        disabled={formData.purposeName === purpose.purposeName}
-                      >
-                        <i className="bx bx-check"></i>
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <h5 className="m-0">{purpose.purposeName}</h5>
-                    <div className="d-flex gap-1">
-                      <button
-                        className="btn btn-sm btn-primary"
-                        onClick={() => handleEditPurpose(purpose)}
-                      >
-                        <p className="m-0">
-                          <span className="d-none d-md-block">Edit</span>
-                          <span className="d-md-none">
-                            {" "}
-                            <i className="bx bx-edit-alt"></i>
-                          </span>
-                        </p>
-                      </button>
-                      <button
-                        className="btn btn-sm btn-danger"
-                        onClick={() =>
-                          handleDeletePurpose(
-                            purpose.purposeID,
-                            purpose.purposeName
-                          )
-                        }
-                      >
-                        <p className="m-0">
-                          <span className="d-none d-md-block">remove</span>
-                          <span className="d-md-none">
-                            {" "}
-                            <i className="bx bx-trash"></i>
-                          </span>
-                        </p>
-                      </button>
-                      <button
-                        className="rounded-1 px-2 text-white border-0"
-                        style={{ backgroundColor: "var(--main-color)" }}
-                        onClick={(e) => openDetailModal(purpose, e)}
-                      >
-                        <p className="m-0">
-                          <span className=" d-none d-md-block ">Manage</span>
-                          <span className="d-block d-md-none">
-                            <i className="bx bx-edit"></i>
-                          </span>
-                        </p>
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-            ))}
+            <Table striped bordered hover variant="white" className="m-0">
+              <thead>
+                <tr>
+                  <th className="">
+                    <h5 className="m-0 fw-bold">Purpose</h5>
+                  </th>
+                  <th className="text-center align-middle">
+                    <h5 className="m-0 fw-bold">Action</h5>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {purposes.map((purpose, index) => (
+                  <tr key={index}>
+                    <td className="align-middle">
+                      {editPurpose === purpose.purposeID ? (
+                        <FloatingLabel
+                          controlId="floatingInput"
+                          label="Purpose Name"
+                          className="w-100 me-2"
+                        >
+                          <Form.Control
+                            type="text"
+                            name="purposeName"
+                            value={formData.purposeName}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                purposeName: e.target.value,
+                              })
+                            }
+                            placeholder=""
+                          />
+                        </FloatingLabel>
+                      ) : (
+                        <p className="m-0">{purpose.purposeName}</p>
+                      )}
+                    </td>
+                    <td className="align-middle">
+                      <div className="d-flex justify-content-center gap-1">
+                        {editPurpose === purpose.purposeID ? (
+                          <>
+                            <button
+                              className="btn btn-sm btn-secondary text-white"
+                              onClick={() => setEditPurpose(null)}
+                            >
+                              <p className="m-0">
+                                <span className="d-none d-md-block">
+                                  Cancel
+                                </span>
+                                <span className="d-md-none d-flex justify-content-center align-items-center">
+                                  <i className="bx bx-x iconFont"></i>
+                                </span>
+                              </p>
+                            </button>
+                            <button
+                              className="btn btn-sm btn-success text-white d-flex justify-content-center align-items-center gap-1"
+                              onClick={() =>
+                                handleUpdatePurpose(purpose.purposeName)
+                              }
+                              disabled={
+                                purpose.purposeName === formData.purposeName
+                              }
+                            >
+                              {isLoading &&
+                              purpose.purposeName === selectedPurpose ? (
+                                <>
+                                  <Spinner
+                                    animation="border"
+                                    variant="light"
+                                    size="sm"
+                                  />
+                                  <p className="m-0">
+                                    <span className="d-none d-md-block">
+                                      Saving
+                                    </span>
+                                  </p>
+                                </>
+                              ) : (
+                                <p className="m-0">
+                                  <span className="d-none d-md-block">
+                                    Save
+                                  </span>
+                                  <span className="d-md-none d-flex justify-content-center align-items-center">
+                                    <i className="bx bx-save iconFont"></i>
+                                  </span>
+                                </p>
+                              )}
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              className="btn btn-sm btn-primary"
+                              onClick={() => handleEditPurpose(purpose)}
+                            >
+                              <p className="m-0">
+                                <span className="d-none d-md-block">Edit</span>
+                                <span className="d-md-none">
+                                  {" "}
+                                  <i className="bx bx-edit-alt"></i>
+                                </span>
+                              </p>
+                            </button>
+                            <button
+                              className="btn btn-sm btn-danger text-white d-flex justify-content-center align-items-center gap-1"
+                              onClick={() =>
+                                handleDeletePurpose(
+                                  purpose.purposeID,
+                                  purpose.purposeName
+                                )
+                              }
+                            >
+                              {isLoading &&
+                              selectedPurpose === purpose.purposeName ? (
+                                <>
+                                  <Spinner
+                                    animation="border"
+                                    variant="light"
+                                    size="sm"
+                                  />
+                                  <p className="m-0">
+                                    <span className="d-none d-md-block">
+                                      Removing
+                                    </span>
+                                  </p>
+                                </>
+                              ) : (
+                                <p className="m-0">
+                                  <span className="d-none d-md-block">
+                                    Remove
+                                  </span>
+                                  <span className="d-md-none d-flex justify-content-center align-items-center">
+                                    <i className="bx bx-trash iconFont"></i>
+                                  </span>
+                                </p>
+                              )}
+                            </button>
+                            <button
+                              className="btn btn-sm primaryButton"
+                              style={{ backgroundColor: "var(--main-color)" }}
+                              onClick={(e) => openDetailModal(purpose, e)}
+                            >
+                              <p className="m-0">
+                                <span className=" d-none d-md-block ">
+                                  Manage
+                                </span>
+                                <span className="d-block d-md-none">
+                                  <i className="bx bx-edit"></i>
+                                </span>
+                              </p>
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
           </div>
         </Modal.Body>
 
@@ -351,29 +435,21 @@ function purposeModal() {
           >
             <p className="m-0">Close</p>
           </Button>
-          <Button
-            className="border-0"
-            style={{ backgroundColor: "var(--main-color)" }}
-            onClick={handleAddPurpose}
-          >
+          <button className="btn primaryButton" onClick={handleAddPurpose}>
             <p className="m-0"> Add Purpose</p>
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
 
       {/* MODAL FOR ADDING PURPOSE */}
       <Modal show={addPurpose} onHide={handleCancelAddPurpose} centered size="">
-        <Modal.Header style={{ backgroundColor: "var(--main-color)" }}>
+        <Modal.Header>
           <Modal.Title>
             <h4 className="m-0 text-white">Add Purpose</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FloatingLabel
-            controlId="floatingInput"
-            label="Purpose Name"
-            className="mb-3"
-          >
+          <FloatingLabel controlId="floatingInput" label="Purpose Name">
             <Form.Control
               type="text"
               name="purposeName"
@@ -393,13 +469,22 @@ function purposeModal() {
           >
             <p className="m-0">Cancel</p>
           </Button>
-          <Button
-            className="border-0"
-            style={{ backgroundColor: "var(--main-color)" }}
+          <button
+            className="btn primaryButton d-flex justify-content-center align-items-center gap-1"
+            disabled={formData.purposeName === "" || isLoading}
             onClick={handleSavePurpose}
           >
-            <p className="m-0">Save</p>
-          </Button>
+            {isLoading ? (
+              <>
+                <Spinner animation="border" variant="light" size="sm" />
+                <p className="m-0">Saving</p>
+              </>
+            ) : (
+              <>
+                <p className="m-0">Save</p>
+              </>
+            )}
+          </button>
         </Modal.Footer>
       </Modal>
 
@@ -411,24 +496,26 @@ function purposeModal() {
         onHide={closeDetailModal}
         centered
       >
-        <Modal.Header
-          closeButton
-          style={{ backgroundColor: "var(--main-color)" }}
-        >
+        <Modal.Header closeButton>
           <Modal.Title>
-            <h4 className="m-0 text-white">
+            <h5 className="m-0 text-white">
               {selectedPurpose?.purposeName} Details
-            </h4>
+            </h5>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          {selectedPurpose && (
-            <>
-              <PurposeSelections purpose={selectedPurpose} />
-              <PurposeInput purpose={selectedPurpose} />
-              <PurposeUpload purpose={selectedPurpose} />
-            </>
-          )}
+        <Modal.Body className="p-1 p-md-3">
+          <div
+            className="custom-scrollbar d-flex flex-column gap-1 overflow-y-scroll"
+            style={{ maxHeight: "60dvh" }}
+          >
+            {selectedPurpose && (
+              <>
+                <PurposeSelections purpose={selectedPurpose} />
+                <PurposeInput purpose={selectedPurpose} />
+                <PurposeUpload purpose={selectedPurpose} />
+              </>
+            )}
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button
@@ -436,7 +523,7 @@ function purposeModal() {
             variant="secondary"
             onClick={closeDetailModal}
           >
-            Close
+            <p className="m-0">Close</p>
           </Button>
         </Modal.Footer>
       </Modal>

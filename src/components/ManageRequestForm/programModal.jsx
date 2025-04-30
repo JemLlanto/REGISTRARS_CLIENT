@@ -186,7 +186,7 @@ function programModal() {
             className="custom-scrollbar d-flex flex-column gap-1 overflow-y-scroll overflow-x-hidden"
             style={{ height: "60dvh" }}
           >
-            <Table striped bordered hover variant="white">
+            <Table className="m-0" striped bordered hover variant="white">
               <thead>
                 <tr>
                   <th className="">
@@ -229,7 +229,7 @@ function programModal() {
                         {editProgram === program.programID ? (
                           <>
                             <button
-                              className="btn btn-secondary text-white px-2 px-md-3"
+                              className="btn btn-sm btn-secondary text-white px-2 px-md-3"
                               onClick={() => setEditProgram(false)}
                             >
                               <p className="m-0">
@@ -242,7 +242,7 @@ function programModal() {
                               </p>
                             </button>
                             <button
-                              className="btn btn-success text-white px-2 px-md-3 d-flex justify-content-center align-items-center gap-1"
+                              className="btn btn-sm btn-success text-white px-2 px-md-3 d-flex justify-content-center align-items-center gap-1"
                               onClick={() =>
                                 handleUpdateProgram(program.programName)
                               }
@@ -279,7 +279,7 @@ function programModal() {
                         ) : (
                           <>
                             <button
-                              className="btn btn-success text-white px-2 px-md-3"
+                              className="btn btn-sm btn-success text-white px-2 px-md-3"
                               onClick={() => handleEditProgram(program)}
                             >
                               <p className="m-0">
@@ -290,7 +290,7 @@ function programModal() {
                               </p>
                             </button>
                             <button
-                              className="btn btn-danger text-white  px-2 px-md-3 d-flex justify-content-center align-items-center gap-1"
+                              className="btn btn-sm btn-danger text-white  px-2 px-md-3 d-flex justify-content-center align-items-center gap-1"
                               onClick={() =>
                                 handleDeleteProgram(
                                   program.programID,
@@ -341,13 +341,9 @@ function programModal() {
           >
             <p className="m-0">Close</p>
           </Button>
-          <Button
-            className="border-0"
-            style={{ backgroundColor: "var(--main-color)" }}
-            onClick={handleAddProgram}
-          >
-            <p className="m-0">Add program</p>
-          </Button>
+          <button className="btn primaryButton" onClick={handleAddProgram}>
+            <p className="m-0">Add Program</p>
+          </button>
         </Modal.Footer>
       </Modal>
 

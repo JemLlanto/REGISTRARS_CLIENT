@@ -1,5 +1,12 @@
 import { use, useEffect, useState } from "react";
-import { Button, Table, Modal, FloatingLabel, Form } from "react-bootstrap";
+import {
+  Button,
+  Table,
+  Modal,
+  FloatingLabel,
+  Form,
+  Spinner,
+} from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -8,11 +15,17 @@ function YearGraduatedModal() {
   const [yearGraduated, setYearGraduated] = useState([]);
   const [editYear, setEditYear] = useState(null);
   const [addYear, setAddYear] = useState(false);
+  const [selectedYear, setSelectedYear] = useState("");
   const [formData, setFormData] = useState({
     yearOption: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddYear = () => {
+    setFormData({
+      yearOption: "",
+    });
+    setEditYear(null);
     setAddYear(true);
     setShowYear(false);
   };
@@ -56,59 +69,63 @@ function YearGraduatedModal() {
   const handleCloseYear = () => setShowYear(false);
   const handleShowYear = () => setShowYear(true);
 
-  const handleSaveYear = (e) => {
-    e.preventDefault();
-    axios
-      .post(
+  const handleSaveYear = async () => {
+    try {
+      setIsLoading(true);
+      const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/addYear`,
         formData
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          Swal.fire("Success!", res.data.Message, "success");
-          setAddYear(false);
-          setShowYear(true);
-          setFormData({ yearOption: "" });
-          fetchYearGraduated();
-        } else {
-          Swal.fire("Error!", res.data.Message, "error");
-          setFormData({ yearOption: "" });
-        }
-      })
-      .catch((err) => {
-        console.log("Error adding year:", err);
-        Swal.fire("Error!", "Failed to add year.", "error");
-      });
+      );
+
+      if (res.data.Status === "Success") {
+        Swal.fire("Success!", res.data.Message, "success");
+        setAddYear(false);
+        setShowYear(true);
+        setFormData({ yearOption: "" });
+        fetchYearGraduated();
+      } else {
+        Swal.fire("Error!", res.data.Message, "error");
+        setFormData({ yearOption: "" });
+      }
+    } catch (err) {
+      console.log("Error adding year:", err);
+      Swal.fire("Error!", "Failed to add year.", "error");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleUpdateYear = () => {
-    axios
-      .post(
+  const handleUpdateYear = async (yearOption) => {
+    try {
+      setIsLoading(true);
+      setSelectedYear(yearOption);
+      const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/updateYear`,
         formData
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          Swal.fire("Updated!", res.data.Message, "success");
-          setEditYear(null);
-          setFormData({ yearOption: "", yearGraduatedID: "" });
-          fetchYearGraduated();
-        } else {
-          Swal.fire("Error!", res.data.Message, "error");
-        }
-      })
-      .catch((err) => {
-        console.log("Error updating year:", err);
-        Swal.fire("Error!", "Failed to update year.", "error");
-      });
+      );
+
+      if (res.data.Status === "Success") {
+        Swal.fire("Updated!", res.data.Message, "success");
+        setEditYear(null);
+        setFormData({ yearOption: "", yearGraduatedID: "" });
+        fetchYearGraduated();
+      } else {
+        Swal.fire("Error!", res.data.Message, "error");
+      }
+    } catch (err) {
+      console.log("Error updating year:", err);
+      Swal.fire("Error!", "Failed to update year.", "error");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleDeleteYear = (yearGraduatedID, yearOption) => {
-    Swal.fire({
+  const handleDeleteYear = async (yearGraduatedID, yearOption) => {
+    const confirmation = await Swal.fire({
       title: `Are you sure?`,
       text: `You are about to delete "${yearOption}". This action cannot be undone.`,
       icon: "warning",
@@ -116,29 +133,32 @@ function YearGraduatedModal() {
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios
-          .post(
-            `${
-              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-            }/api/documents/deleteYear`,
-            { yearGraduatedID }
-          )
-          .then((res) => {
-            if (res.data.Status === "Success") {
-              Swal.fire("Deleted!", res.data.Message, "success");
-              fetchYearGraduated();
-            } else {
-              Swal.fire("Error!", res.data.Message, "error");
-            }
-          })
-          .catch((err) => {
-            console.log("Error deleting year:", err);
-            Swal.fire("Error!", "Failed to delete year.", "error");
-          });
-      }
     });
+    if (confirmation.isConfirmed) {
+      try {
+        setIsLoading(true);
+        setSelectedYear(yearOption);
+        const res = await axios.post(
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/documents/deleteYear`,
+          { yearGraduatedID }
+        );
+
+        if (res.data.Status === "Success") {
+          Swal.fire("Deleted!", res.data.Message, "success");
+          fetchYearGraduated();
+        } else {
+          Swal.fire("Error!", res.data.Message, "error");
+        }
+      } catch (err) {
+        console.log("Error deleting year:", err);
+        Swal.fire("Error!", "Failed to delete year.", "error");
+      } finally {
+        setSelectedYear("");
+        setIsLoading(false);
+      }
+    }
   };
 
   return (
@@ -161,15 +181,15 @@ function YearGraduatedModal() {
           style={{ backgroundColor: "var(--main-color)" }}
         >
           <Modal.Title>
-            <h4 className="m-0 text-white">Manage Year Graduated</h4>
+            <h5 className="m-0 text-white">Manage Year Graduated</h5>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="p-1 p-md-3">
           <div
             className="custom-scrollbar d-flex flex-column gap-1 overflow-y-scroll overflow-x-hidden"
             style={{ height: "60dvh" }}
           >
-            <Table striped bordered hover variant="white">
+            <Table striped bordered hover variant="white" className="m-0">
               <thead>
                 <tr>
                   <th className="">
@@ -211,45 +231,63 @@ function YearGraduatedModal() {
                         {editYear === year.yearGraduatedID ? (
                           <>
                             <button
-                              className="btn btn-secondary text-white w-100"
+                              className="btn btn-sm btn-secondary text-white px-2 px-md-3"
                               onClick={() => setEditYear(false)}
                             >
                               <p className="m-0">
                                 <span className="d-none d-md-block">
                                   Cancel
                                 </span>
-                                <span className="d-md-none">
+                                <span className="d-md-none d-flex justify-content-center align-items-center">
                                   <i className="bx bx-x iconFont"></i>
                                 </span>
                               </p>
                             </button>
                             <button
-                              className="btn btn-success text-white w-100"
-                              onClick={() => handleUpdateYear()}
+                              className="btn btn-sm btn-success text-white px-2 px-md-3 d-flex justify-content-center align-items-center gap-1"
+                              onClick={() => handleUpdateYear(year.yearOption)}
+                              disabled={year.yearOption === formData.yearOption}
                             >
-                              <p className="m-0">
-                                <span className="d-none d-md-block">Save</span>
-                                <span className="d-md-none">
-                                  <i className="bx bx-save iconFont"></i>
-                                </span>
-                              </p>
+                              {isLoading && year.yearOption === selectedYear ? (
+                                <>
+                                  <Spinner
+                                    animation="border"
+                                    variant="light"
+                                    size="sm"
+                                  />
+                                  <p className="m-0">
+                                    <span className="d-none d-md-block">
+                                      Saving
+                                    </span>
+                                  </p>
+                                </>
+                              ) : (
+                                <p className="m-0">
+                                  <span className="d-none d-md-block">
+                                    Save
+                                  </span>
+                                  <span className="d-md-none d-flex justify-content-center align-items-center">
+                                    <i className="bx bx-save iconFont"></i>
+                                  </span>
+                                </p>
+                              )}
                             </button>
                           </>
                         ) : (
                           <>
                             <button
-                              className="btn btn-success text-white w-100"
+                              className="btn btn-sm btn-success text-white px-2 px-md-3"
                               onClick={() => handleEditYear(year)}
                             >
                               <p className="m-0">
                                 <span className="d-none d-md-block">Edit</span>
-                                <span className="d-md-none">
+                                <span className="d-md-none d-flex justify-content-center align-items-center">
                                   <i className="bx bx-edit-alt iconFont"></i>
                                 </span>
                               </p>
                             </button>
                             <button
-                              className="btn btn-danger text-white w-100"
+                              className="btn btn-sm btn-danger text-white  px-2 px-md-3 d-flex justify-content-center align-items-center gap-1"
                               onClick={() =>
                                 handleDeleteYear(
                                   year.yearGraduatedID,
@@ -257,14 +295,29 @@ function YearGraduatedModal() {
                                 )
                               }
                             >
-                              <p className="m-0">
-                                <span className="d-none d-md-block">
-                                  Delete
-                                </span>
-                                <span className="d-md-none">
-                                  <i className="bx bx-trash iconFont"></i>
-                                </span>
-                              </p>
+                              {isLoading && selectedYear === year.yearOption ? (
+                                <>
+                                  <Spinner
+                                    animation="border"
+                                    variant="light"
+                                    size="sm"
+                                  />
+                                  <p className="m-0">
+                                    <span className="d-none d-md-block">
+                                      Deleting
+                                    </span>
+                                  </p>
+                                </>
+                              ) : (
+                                <p className="m-0">
+                                  <span className="d-none d-md-block">
+                                    Delete
+                                  </span>
+                                  <span className="d-md-none d-flex justify-content-center align-items-center">
+                                    <i className="bx bx-trash iconFont"></i>
+                                  </span>
+                                </p>
+                              )}
                             </button>
                           </>
                         )}
@@ -284,13 +337,9 @@ function YearGraduatedModal() {
           >
             <p className="m-0">Close</p>
           </Button>
-          <Button
-            className="border-0"
-            style={{ backgroundColor: "var(--main-color)", border: "none" }}
-            onClick={handleAddYear}
-          >
+          <button className="btn primaryButton" onClick={handleAddYear}>
             <p className="m-0">Add Year</p>
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
 
@@ -298,15 +347,11 @@ function YearGraduatedModal() {
       <Modal show={addYear} onHide={handleCancelAddYear} centered size="">
         <Modal.Header style={{ backgroundColor: "var(--main-color)" }}>
           <Modal.Title>
-            <h4 className="m-0 text-white">Add Year</h4>
+            <h5 className="m-0 text-white">Add Year</h5>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FloatingLabel
-            controlId="floatingInput"
-            label="Year Name"
-            className="mb-3"
-          >
+          <FloatingLabel controlId="floatingInput" label="Year Name">
             <Form.Control
               type="text"
               name="yearOption"
@@ -322,12 +367,22 @@ function YearGraduatedModal() {
           <Button variant="secondary" onClick={handleCancelAddYear}>
             <p className="m-0">Cancel</p>
           </Button>
-          <Button
-            style={{ backgroundColor: "var(--main-color)", border: "none" }}
+          <button
+            className="btn primaryButton d-flex justify-content-center align-items-center gap-1"
+            disabled={formData.yearOption === "" || isLoading}
             onClick={handleSaveYear}
           >
-            <p className="m-0">Save</p>
-          </Button>
+            {isLoading ? (
+              <>
+                <Spinner animation="border" variant="light" size="sm" />
+                <p className="m-0">Saving</p>
+              </>
+            ) : (
+              <>
+                <p className="m-0">Save</p>
+              </>
+            )}
+          </button>
         </Modal.Footer>
       </Modal>
     </>
