@@ -121,7 +121,8 @@ export default function Home() {
           className="m-0 p-2 fade-in "
           style={{ color: "var(--secondMain-color)" }}
         >
-          Dashboard {isLoading ? "loading" : ""}
+          Dashboard
+          {/* {isLoading ? "loading" : ""} */}
         </h5>
         <div className="d-block d-md-none rounded ">
           <div className="d-flex align-items-center rounded  ">

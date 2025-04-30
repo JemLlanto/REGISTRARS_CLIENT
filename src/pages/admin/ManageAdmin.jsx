@@ -30,40 +30,43 @@ const ManageAdmin = () => {
     setSelectedAdmin("");
   };
 
-  const handleAddProgramAdmin = () => {
-    axios
-      .post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+  const handleAddProgramAdmin = async () => {
+    try {
+      setIsLoading(true);
+      const res = await axios.post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/addProgramAdmin`,
         formData
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          setAddingModal(false);
-          setSelectedAdmin("");
-          setSelectedProgram("");
-          fetchAllAdmins();
-          Swal.fire({
-            icon: "success",
-            title: "Success",
-            text: res.data.Message,
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: res.data.Message || "An error occurred. Please try again.",
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
+      );
+
+      if (res.data.Status === "Success") {
+        setAddingModal(false);
+        setSelectedAdmin("");
+        setSelectedProgram("");
+        fetchAllAdmins();
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: res.data.Message,
+        });
+      } else {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "Something went wrong. Please try again later.",
+          text: res.data.Message || "An error occurred. Please try again.",
         });
+      }
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Something went wrong. Please try again later.",
       });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const swalWithBootstrapButtons = Swal.mixin({
@@ -89,7 +92,8 @@ const ManageAdmin = () => {
         if (result.isConfirmed) {
           axios
             .post(
-              `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+              `${
+                import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
               }/api/manageAdmin/removeProgramAdmin`,
               {
                 programID: program.programID,
@@ -288,32 +292,46 @@ const ManageAdmin = () => {
                 </div>
               </>
             ) : (
-              admins.map((admin) => (
-                <ToggleButton
-                  key={admin.userID}
-                  type="radio"
-                  id={`radio-${admin.userID}`}
-                  label={`${admin.firstName} ${admin.lastName}`}
-                  checked={selectedAdmin === admin.userID}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedAdmin(admin.userID);
-                    }
-                  }}
-                >
-                  {admin.firstName} {admin.lastName}
-                </ToggleButton>
-              ))
+              <div className="customToggleButton d-flex flex-column gap-1">
+                {admins.map((admin) => (
+                  <ToggleButton
+                    key={admin.userID}
+                    type="radio"
+                    id={`radio-${admin.userID}`}
+                    label={`${admin.firstName} ${admin.lastName}`}
+                    checked={selectedAdmin === admin.userID}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedAdmin(admin.userID);
+                      }
+                    }}
+                  >
+                    {admin.firstName} {admin.lastName}
+                  </ToggleButton>
+                ))}
+              </div>
             )}
           </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
-            Close
+            <p className="m-0">Close</p>
           </Button>
-          <Button variant="primary" onClick={handleAddProgramAdmin}>
-            Add
-          </Button>
+          <button
+            className="btn primaryButton px-3 d-flex align-items-center justify-content-center gap-1"
+            onClick={handleAddProgramAdmin}
+          >
+            {isLoading ? (
+              <>
+                <Spinner animation="border" variant="light" size="sm" />{" "}
+                <p className="m-0">Adding admin</p>
+              </>
+            ) : (
+              <>
+                <p className="m-0">Add</p>
+              </>
+            )}
+          </button>
         </Modal.Footer>
       </Modal>
     </>

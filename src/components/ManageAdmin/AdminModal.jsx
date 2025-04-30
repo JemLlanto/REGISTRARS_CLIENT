@@ -6,6 +6,7 @@ import {
   ToggleButton,
   FloatingLabel,
   Form,
+  Spinner,
 } from "react-bootstrap";
 import axios from "axios";
 import AddingNewAdmin from "./AddingNewAdmin";
@@ -17,6 +18,7 @@ const AdminModal = ({ admins, fetchAllAdmins }) => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchName, setSearchName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleShow = () => {
     setAdminModal(true);
@@ -38,45 +40,48 @@ const AdminModal = ({ admins, fetchAllAdmins }) => {
     setSearchName(e.target.value);
   };
 
-  const handleAddAdmin = () => {
-    axios
-      .post(
+  const handleAddAdmin = async () => {
+    try {
+      setIsLoading(true);
+      const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/addAdmin/${selectedUser}`
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          fetchAllAdmins();
-          fetchUsers();
-          setSelectedUser("");
-          Swal.fire({
-            title: "Success!",
-            text: res.data.Message,
-            icon: "success",
-            confirmButtonText: "OK",
-          });
-        } else {
-          Swal.fire({
-            title: "Failed",
-            text: res.data.Message,
-            icon: "error",
-            confirmButtonText: "OK",
-          });
-        }
-      })
-      .catch((err) => {
+      );
+
+      if (res.data.Status === "Success") {
+        fetchAllAdmins();
+        fetchUsers();
+        setSelectedUser("");
+        handleCloseAddingModal();
         Swal.fire({
-          title: "Error",
-          text: err.message || "An error occurred.",
+          title: "Success!",
+          text: res.data.Message,
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+      } else {
+        Swal.fire({
+          title: "Failed",
+          text: res.data.Message,
           icon: "error",
           confirmButtonText: "OK",
         });
+      }
+    } catch (err) {
+      Swal.fire({
+        title: "Error",
+        text: err.message || "An error occurred.",
+        icon: "error",
+        confirmButtonText: "OK",
       });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleRemoveAdmin = (userID, firstName) => {
-    Swal.fire({
+  const handleRemoveAdmin = async (userID, firstName) => {
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: `You are about to remove ${firstName} as Administrator. This action cannot be undone!`,
       icon: "warning",
@@ -84,51 +89,54 @@ const AdminModal = ({ admins, fetchAllAdmins }) => {
       confirmButtonText: "Yes, remove!",
       cancelButtonText: "No, cancel!",
       reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios
-          .post(
-            `${
-              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-            }/api/manageAdmin/removeAdmin/${userID}`
-          )
-          .then((res) => {
-            if (res.data.Status === "Success") {
-              fetchAllAdmins();
-              fetchUsers();
-              setSelectedUser("");
-              Swal.fire({
-                title: "Removed!",
-                text: res.data.Message,
-                icon: "success",
-                confirmButtonText: "OK",
-              });
-            } else {
-              Swal.fire({
-                title: "Failed",
-                text: res.data.Message,
-                icon: "error",
-                confirmButtonText: "OK",
-              });
-            }
-          })
-          .catch((err) => {
-            Swal.fire({
-              title: "Error",
-              text: err.message || "An error occurred.",
-              icon: "error",
-              confirmButtonText: "OK",
-            });
+    });
+
+    if (result.isConfirmed) {
+      try {
+        setIsLoading(true);
+        setSelectedUser(userID);
+        const res = await axios.post(
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/manageAdmin/removeAdmin/${userID}`
+        );
+
+        if (res.data.Status === "Success") {
+          fetchAllAdmins();
+          fetchUsers();
+          setSelectedUser("");
+          await Swal.fire({
+            title: "Removed!",
+            text: res.data.Message,
+            icon: "success",
+            confirmButtonText: "OK",
           });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire({
-          title: "Cancelled",
-          text: "The administrator was not removed.",
+        } else {
+          await Swal.fire({
+            title: "Failed",
+            text: res.data.Message,
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        }
+      } catch (err) {
+        await Swal.fire({
+          title: "Error",
+          text: err.message || "An error occurred.",
           icon: "error",
           confirmButtonText: "OK",
         });
+      } finally {
+        setIsLoading(false);
       }
-    });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      await Swal.fire({
+        title: "Cancelled",
+        text: "The administrator was not removed.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
   };
 
   const filteredUser = users.filter((user) => {
@@ -161,7 +169,7 @@ const AdminModal = ({ admins, fetchAllAdmins }) => {
   return (
     <>
       <button className="btn btn-warning" onClick={() => handleShow()}>
-        View admins
+        <p className="m-0">View admins</p>
       </button>
       <Modal show={adminModal} onHide={handleClose} centered>
         <Modal.Header
@@ -175,7 +183,7 @@ const AdminModal = ({ admins, fetchAllAdmins }) => {
             <thead>
               <tr>
                 <th>Admin Name</th>
-                <th>Action</th>
+                <th className="text-center align-middle">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -188,13 +196,29 @@ const AdminModal = ({ admins, fetchAllAdmins }) => {
                   </td>
                   <td>
                     <button
-                      className="btn btn-danger w-100"
+                      className="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-1"
                       onClick={() =>
                         handleRemoveAdmin(admin.userID, admin.firstName)
                       }
                     >
-                      <p className="m-0 d-none d-md-block">Remove admin</p>
-                      <p className="m-0 d-block d-md-none">Remove</p>
+                      {isLoading && selectedUser === admin.userID ? (
+                        <>
+                          <Spinner
+                            animation="border"
+                            variant="light"
+                            size="sm"
+                          />
+                          <p className="m-0 d-none d-md-block">
+                            Removing admin
+                          </p>
+                          <p className="m-0 d-block d-md-none">Removing</p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="m-0 d-none d-md-block">Remove admin</p>
+                          <p className="m-0 d-block d-md-none">Remove</p>
+                        </>
+                      )}
                     </button>
                   </td>
                 </tr>
@@ -230,7 +254,7 @@ const AdminModal = ({ admins, fetchAllAdmins }) => {
         </Modal.Header>
         <Modal.Body
           className="custom-scrollbar"
-          style={{ maxHeight: "400px", overflowY: "auto" }}
+          style={{ maxHeight: "300px", overflowY: "auto" }}
         >
           <FloatingLabel
             controlId="floatingInput"
@@ -253,30 +277,41 @@ const AdminModal = ({ admins, fetchAllAdmins }) => {
                 <p>No matches.</p>
               </div>
             ) : (
-              filteredUser.map((user, index) => (
-                <ToggleButton
-                  key={index}
-                  type="radio"
-                  id={`radio-${user.userID}`}
-                  name="user-radio"
-                  value={user.userID}
-                  checked={selectedUser === user.userID}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedUser(user.userID);
-                    }
-                  }}
-                  className={`border text-dark ${
-                    selectedUser === user.userID
-                      ? " text-white"
-                      : "bg-transparent"
-                  }`}
-                >
-                  <p className="m-0">
-                    {user.firstName} {user.lastName}
-                  </p>
-                </ToggleButton>
-              ))
+              <div className="customToggleButton d-flex flex-column gap-1">
+                {searchName === "" ? (
+                  <div
+                    className="spinner-container d-flex justify-content-center align-items-center spinner-container"
+                    style={{ height: "70%" }}
+                  >
+                    <p>Search user.</p>
+                  </div>
+                ) : (
+                  filteredUser.map((user, index) => (
+                    <ToggleButton
+                      key={index}
+                      type="radio"
+                      id={`radio-${user.userID}`}
+                      name="user-radio"
+                      value={user.userID}
+                      checked={selectedUser === user.userID}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedUser(user.userID);
+                        }
+                      }}
+                      className={`border ${
+                        selectedUser === user.userID
+                          ? " text-white"
+                          : "bg-transparent"
+                      }`}
+                    >
+                      <p className="m-0">
+                        {user.firstName} {user.middleName} {user.lastName}
+                      </p>
+                    </ToggleButton>
+                  ))
+                )}
+              </div>
             )}
           </div>
         </Modal.Body>
@@ -288,12 +323,22 @@ const AdminModal = ({ admins, fetchAllAdmins }) => {
           >
             <p className="m-0">Close</p>
           </Button>
-          <Button
-            style={{ backgroundColor: "var(--main-color)", border: "none" }}
+          <button
+            className="btn primaryButton px-md-4 d-flex align-items-center justify-content-center gap-1"
             onClick={handleAddAdmin}
+            disabled={isLoading || !selectedUser}
           >
-            <p className="m-0">Add admin</p>
-          </Button>
+            {isLoading ? (
+              <>
+                <Spinner animation="border" variant="light" size="sm" />{" "}
+                <p className="m-0">Adding admin</p>
+              </>
+            ) : (
+              <>
+                <p className="m-0">Add</p>
+              </>
+            )}
+          </button>
         </Modal.Footer>
       </Modal>
     </>
