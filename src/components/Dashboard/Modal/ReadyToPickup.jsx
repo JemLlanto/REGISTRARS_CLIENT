@@ -31,7 +31,7 @@ const ReadyToPickup = ({ readyToPickupRequests, CountUp }) => {
               }}
             >
               <h4 className="m-0 d-flex justify-content-center align-items-center">
-                <i class="bx bx-archive-out"></i>
+                <i className="bx bx-archive-out"></i>
               </h4>
             </div>
           </div>

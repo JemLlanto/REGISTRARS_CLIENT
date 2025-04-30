@@ -33,23 +33,28 @@ const ManageRequestForm = () => {
           className="d-flex  flex-column gap-2 mb-3"
           style={{ border: "2px black" }}
         >
-          <label>Form Open and Close switch</label>
+          <h6 className="m-0 fw-bold">Form Open and Close switch</h6>
           <AutomaticSwitch user={user} fetchUserData={fetchUserData} />
           <FormSwitch user={user} fetchUserData={fetchUserData} />
         </div>
       </div>
       <div
         className="w-100 d-flex flex-column gap-2 p-3 mx-0 bg-white shadow-sm rounded-2 fade-in-section"
-        style={{ animationDelay: `${1 * 0.2}s` }}
+        style={{ animationDelay: `${1 * 0.5}s` }}
       >
-        <label>Programs and Courses</label>
-        <ProgramModal />
+        <div>
+          <h6 className="mb-1">Programs and Courses</h6>
+          <ProgramModal />
+        </div>
 
-        <label className="mt-3">Year Graduated</label>
-        <YearGraduatedModal />
-
-        <label className="mt-3">Purposes</label>
-        <PurposeModal />
+        <div>
+          <h6 className="mb-1">Year Graduated</h6>
+          <YearGraduatedModal />
+        </div>
+        <div>
+          <h6 className="mb-1">Purposes</h6>
+          <PurposeModal />
+        </div>
       </div>
     </div>
   );
