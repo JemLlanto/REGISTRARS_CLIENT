@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Form, InputGroup } from "react-bootstrap";
+import { Form, Table, FloatingLabel } from "react-bootstrap";
 import Swal from "sweetalert2";
 
 const SelectionSelections = ({ purpose }) => {
@@ -31,11 +31,11 @@ const SelectionSelections = ({ purpose }) => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setSelections(res.data.data);
           setIsLoading(false);
         } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+          // console.log("Error: ", res.data.Message);
           setIsLoading(false);
         }
       })
@@ -214,200 +214,233 @@ const SelectionSelections = ({ purpose }) => {
 
   return (
     <>
-      <div className="border p-2 rounded mb-2">
-        <div className="d-flex align-items-center justify-content-start gap-1">
-          <h5 className="m-0 fw-bold">Type of Documents</h5>
-        </div>
-        {isLoading ? (
-          <>
-            <p>Loading...</p>
-          </>
-        ) : (
-          // FOR DISPLAYING SELECTIONS
-          <>
-            {selections.length === 0 ? (
-              <>
-                <div
-                  className="spinner-container d-flex justify-content-center align-items-center spinner-container"
-                  style={{ height: "70%" }}
-                >
-                  <p className="m-0">No Selections</p>
-                </div>
-
-              </>
-            ) : (
-              <>
-                <div className="d-flex flex-column gap-1">
-                  {selections.map((selection) => (
-                    <div
-                      key={selection.selectionID}
-                      className="d-flex align-items-center justify-content-between"
-                    >
-                      {editSelection === selection.selectionID ? (
-                        <>
-                          {/* FOR EDITING SELECTION */}
-                          <Form.Control
-                            className="w-75"
-                            placeholder="selectionName"
-                            name="selectionName"
-                            onChange={(e) => {
-                              setFormData({
-                                ...formData,
-                                selectionName: e.target.value,
-                              });
-                            }}
-                            value={formData.selectionName}
-                            aria-label="selectionName"
-                            aria-describedby="basic-addon1"
-                          />
-                          <div className="d-flex gap-1">
-                            <button
-                              className="btn btn-sm btn-danger  px-2 px-md-3"
-                              onClick={() => {
-                                setEditSelection(null),
-                                  setFormData({
-                                    selectionName: "",
-                                  });
-                              }}
-                            >
-                              <p className="m-0">
-                                <span className="d-none d-md-block">
-                                  Cancel
-                                </span>
-                                <span className="d-md-none">
-                                  {" "}
-                                  <i className="bx bx-x iconFont"></i>
-                                </span>
-                              </p>
-                            </button>
-                            <button
-                              className="btn btn-sm btn-primary  px-2 px-md-3"
-                              disabled={
-                                formData.selectionName === "" ||
-                                formData.selectionName ===
-                                selection.selectionName
-                              }
-                              onClick={handleUpdateSelection}
-                            >
-                              <p className="m-0">
-                                <span className="d-none d-md-block">Save</span>
-                                <span className="d-md-none">
-                                  {" "}
-                                  <i className="bx bx-save iconFont"></i>
-                                </span>
-                              </p>
-                            </button>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <p className="m-0">{selection.selectionName}</p>
-                          <div className="d-flex gap-1">
-                            <button
-                              className="btn btn-sm  px-2 px-md-3 text-white"
-                              style={{ backgroundColor: "var(--main-color)" }}
-                              onClick={() => handleEditSelection(selection)}
-                            >
-                              <p className="m-0">
-                                <span className="d-none d-md-block">Edit</span>
-                                <span className="d-md-none">
-                                  <i className="bx bx-edit-alt iconFont"></i>
-                                </span>
-                              </p>
-                            </button>
-                            <button
-                              className="btn btn-sm btn-danger  px-2 px-md-3"
-                              onClick={() =>
-                                handleDeleteSelection(
-                                  selection.selectionID,
-                                  selection.selectionName
-                                )
-                              }
-                            >
-                              <p className="m-0">
-                                <span className="d-none d-md-block">
-                                  Delete
-                                </span>
-                                <span className="d-md-none">
-                                  <i className="bx bx-trash iconFont"></i>
-                                </span>
-                              </p>
-                            </button>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-          </>
-        )}
-
-        {/* FOR ADDING NEW SELECTION */}
-        <div className="d-flex align-items-end justify-content-end gap-2 mt-1 ">
-          {addSelection ? (
+      <Table
+        striped
+        bordered
+        hover
+        variant="white"
+        className="m-0 mb-1 mb-md-2"
+      >
+        <thead>
+          <tr>
+            <th className="">
+              <h5 className="m-0 fw-bold">Type of Documents</h5>
+            </th>
+            <th className="text-center align-middle">
+              <h5 className="m-0 fw-bold">Action</h5>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {isLoading ? (
             <>
-              <Form.Control
-                className="w-100 mt-3"
-                placeholder="Selection Name"
-                name="selectionName"
-                onChange={(e) =>
-                  setFormData({ ...formData, selectionName: e.target.value })
-                }
-                value={formData.selectionName}
-                aria-label="selectionName"
-                aria-describedby="basic-addon1"
-              />
-              <div className="d-flex gap-1 mb-1">
-                <button
-                  className="btn btn-sm btn-danger  px-2 px-md-3"
-                  onClick={() => {
-                    setAddSelection(false), setFormData({ selectionName: "" });
-                  }}
-                >
-                  <p className="m-0">
-                    <span className="d-none d-md-block">Cancel</span>
-                    <span className="d-md-none">
-                      {" "}
-                      <i className="bx bx-x iconFont"></i>
-                    </span>
-                  </p>
-                </button>
-                <button
-                  className="btn btn-sm btn-primary px-2 px-md-3"
-                  onClick={handleAddSelection}
-                  disabled={formData.selectionName === ""}
-                >
-                  <p className="m-0">
-                    <span className="d-none d-md-block">Add</span>
-                    <span className="d-md-none">
-                      <i className="bx bx-plus-circle iconFont"></i>
-                    </span>
-                  </p>
-                </button>
-              </div>
+              <tr>
+                <td className="text-center" colSpan={2}>
+                  Loading document type selections...
+                </td>
+              </tr>
             </>
           ) : (
             <>
-              <button
-                className="btn btn-sm text-white w-100"
-                style={{ backgroundColor: "var(--main-color)" }}
-                onClick={() => {
-                  setAddSelection(true),
-                    setEditSelection(null),
-                    setFormData({
-                      selectionName: "",
-                      purposeID: purpose.purposeID,
-                    });
-                }}
-              >
-                <p className="m-0">Add</p>
-              </button>
+              {selections.length === 0 ? (
+                <>
+                  <tr>
+                    <td className="text-center" colSpan={2}>
+                      No document type selections.
+                    </td>
+                  </tr>
+                </>
+              ) : (
+                <>
+                  {selections.map((selection, index) => (
+                    <tr key={index}>
+                      <td className="align-middle">
+                        {editSelection === selection.selectionID ? (
+                          <FloatingLabel
+                            controlId="selectionName"
+                            label="Selection Name"
+                            className="w-100 me-2"
+                          >
+                            <Form.Control
+                              className="w-75"
+                              placeholder="selectionName"
+                              name="selectionName"
+                              onChange={(e) => {
+                                setFormData({
+                                  ...formData,
+                                  selectionName: e.target.value,
+                                });
+                              }}
+                              value={formData.selectionName}
+                              aria-label="selectionName"
+                              aria-describedby="basic-addon1"
+                            />
+                          </FloatingLabel>
+                        ) : (
+                          <p className="m-0">{selection.selectionName}</p>
+                        )}
+                      </td>
+                      <td className="align-middle">
+                        <div className="d-flex justify-content-center gap-1">
+                          {editSelection === selection.selectionID ? (
+                            <>
+                              <button
+                                className="btn btn-sm btn-danger  px-2 px-md-3"
+                                onClick={() => {
+                                  setEditSelection(null),
+                                    setFormData({
+                                      selectionName: "",
+                                    });
+                                }}
+                              >
+                                <p className="m-0">
+                                  <span className="d-none d-md-block">
+                                    Cancel
+                                  </span>
+                                  <span className="d-md-none">
+                                    {" "}
+                                    <i className="bx bx-x iconFont"></i>
+                                  </span>
+                                </p>
+                              </button>
+                              <button
+                                className="btn btn-sm btn-primary  px-2 px-md-3"
+                                disabled={
+                                  formData.selectionName === "" ||
+                                  formData.selectionName ===
+                                    selection.selectionName
+                                }
+                                onClick={handleUpdateSelection}
+                              >
+                                <p className="m-0">
+                                  <span className="d-none d-md-block">
+                                    Save
+                                  </span>
+                                  <span className="d-md-none">
+                                    {" "}
+                                    <i className="bx bx-save iconFont"></i>
+                                  </span>
+                                </p>
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                className="btn btn-sm  px-2 px-md-3 text-white"
+                                style={{ backgroundColor: "var(--main-color)" }}
+                                onClick={() => handleEditSelection(selection)}
+                              >
+                                <p className="m-0">
+                                  <span className="d-none d-md-block">
+                                    Edit
+                                  </span>
+                                  <span className="d-md-none">
+                                    <i className="bx bx-edit-alt iconFont"></i>
+                                  </span>
+                                </p>
+                              </button>
+                              <button
+                                className="btn btn-sm btn-danger  px-2 px-md-3"
+                                onClick={() =>
+                                  handleDeleteSelection(
+                                    selection.selectionID,
+                                    selection.selectionName
+                                  )
+                                }
+                              >
+                                <p className="m-0">
+                                  <span className="d-none d-md-block">
+                                    Delete
+                                  </span>
+                                  <span className="d-md-none">
+                                    <i className="bx bx-trash iconFont"></i>
+                                  </span>
+                                </p>
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              )}
             </>
           )}
-        </div>
-      </div>
+
+          <tr>
+            {addSelection ? (
+              <>
+                <td>
+                  <Form.Control
+                    className="w-100"
+                    placeholder="Selection Name"
+                    name="selectionName"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        selectionName: e.target.value,
+                      })
+                    }
+                    value={formData.selectionName}
+                    aria-label="selectionName"
+                    aria-describedby="basic-addon1"
+                  />
+                </td>
+                <td>
+                  <div className="d-flex align-items-center justify-content-center gap-1 mb-1">
+                    <button
+                      className="btn btn-sm btn-danger  px-2 px-md-3"
+                      onClick={() => {
+                        setAddSelection(false),
+                          setFormData({ selectionName: "" });
+                      }}
+                    >
+                      <p className="m-0">
+                        <span className="d-none d-md-block">Cancel</span>
+                        <span className="d-md-none">
+                          <i className="bx bx-x iconFont"></i>
+                        </span>
+                      </p>
+                    </button>
+                    <button
+                      className="btn btn-sm btn-primary px-2 px-md-3"
+                      onClick={handleAddSelection}
+                      disabled={formData.selectionName === ""}
+                    >
+                      <p className="m-0">
+                        <span className="d-none d-md-block">Add</span>
+                        <span className="d-md-none">
+                          <i className="bx bx-plus-circle iconFont"></i>
+                        </span>
+                      </p>
+                    </button>
+                  </div>
+                </td>
+              </>
+            ) : (
+              <>
+                <td colSpan={2}>
+                  <button
+                    className="btn btn-sm text-white w-100"
+                    style={{ backgroundColor: "var(--main-color)" }}
+                    onClick={() => {
+                      setAddSelection(true),
+                        setEditSelection(null),
+                        setFormData({
+                          selectionName: "",
+                          purposeID: purpose.purposeID,
+                        });
+                    }}
+                  >
+                    <p className="m-0">Add</p>
+                  </button>
+                </td>
+              </>
+            )}
+          </tr>
+        </tbody>
+      </Table>
     </>
   );
 };

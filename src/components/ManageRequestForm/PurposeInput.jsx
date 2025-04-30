@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Form, InputGroup } from "react-bootstrap";
+import { Form, Table, FloatingLabel } from "react-bootstrap";
 import Swal from "sweetalert2";
 
 const PurposeInput = ({ purpose }) => {
@@ -31,16 +31,16 @@ const PurposeInput = ({ purpose }) => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setInputs(res.data.data);
           setIsLoading(false);
         } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+          // console.log("Error: ", res.data.Message);
           setIsLoading(false);
         }
       })
       .catch((err) => {
-        console.log("Error fetching inputs:", err);
+        // console.log("Error fetching inputs:", err);
         setIsLoading(false);
       });
   };
@@ -193,199 +193,232 @@ const PurposeInput = ({ purpose }) => {
   };
   return (
     <>
-      <div className="border p-2 rounded mb-2">
-        <div className="d-flex align-items-center justify-content-start gap-1">
-          <h5 className="m-0 fw-bold">Required Questions</h5>
-        </div>
-        {isLoading ? (
-          <>
-            <p>Loading...</p>
-          </>
-        ) : (
-          // FOR DISPLAYING INPUTS
-          <>
-            {inputs.length === 0 ? (
-              <>
-                <div
-                  className="spinner-container d-flex justify-content-center align-items-center spinner-container"
-                  style={{ height: "70%" }}
-                >
-                  <p className="m-0">No questions</p>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="d-flex flex-column gap-1">
-                  {inputs.map((input) => (
-                    <div
-                      key={input.inputID}
-                      className="d-flex align-items-center justify-content-between"
-                    >
-                      {editInput === input.inputID ? (
-                        <>
-                          {/* FOR EDITING INPUT */}
-                          <Form.Control
-                            className="w-75"
-                            placeholder="inputDescription"
-                            name="inputDescription"
-                            onChange={(e) => {
-                              setFormData({
-                                ...formData,
-                                inputDescription: e.target.value,
-                              });
-                            }}
-                            value={formData.inputDescription}
-                            aria-label="inputDescription"
-                            aria-describedby="basic-addon1"
-                          />
-                          <div className="d-flex gap-1">
-                            <button
-                              className="btn btn-sm btn-danger  px-2 px-md-3"
-                              onClick={() => {
-                                setEditInput(null),
-                                  setFormData({
-                                    inputDescription: "",
-                                  });
-                              }}
-                            >
-                              <p className="m-0">
-                                <span className="d-none d-md-block">
-                                  Cancel
-                                </span>
-                                <span className="d-md-none">
-                                  {" "}
-                                  <i className="bx bx-x iconFont"></i>
-                                </span>
-                              </p>
-                            </button>
-                            <button
-                              className="btn btn-sm btn-success  px-2 px-md-3"
-                              disabled={
-                                formData.inputDescription === "" ||
-                                formData.inputDescription ===
-                                input.inputDescription
-                              }
-                              onClick={handleUpdateInput}
-                            >
-                              <p className="m-0">
-                                <span className="d-none d-md-block">Save</span>
-                                <span className="d-md-none">
-                                  {" "}
-                                  <i className="bx bx-save iconFont"></i>
-                                </span>
-                              </p>
-                            </button>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <p className="m-0">{input.inputDescription}</p>
-                          <div className="d-flex gap-1">
-                            <button
-                              className="btn btn-sm text-white px-2 px-md-3"
-                              style={{ backgroundColor: "var(--main-color)" }}
-                              onClick={() => handleEditInput(input)}
-                            >
-                              <p className="m-0">
-                                <span className="d-none d-md-block">Edit</span>
-                                <span className="d-md-none">
-                                  <i className="bx bx-edit-alt iconFont"></i>
-                                </span>
-                              </p>
-                            </button>
-                            <button
-                              className="btn btn-sm btn-danger px-2 px-md-3"
-                              onClick={() =>
-                                handleDeleteInput(
-                                  input.inputID,
-                                  input.inputDescription
-                                )
-                              }
-                            >
-                              <p className="m-0">
-                                <span className="d-none d-md-block">
-                                  Delete
-                                </span>
-                                <span className="d-md-none">
-                                  <i className="bx bx-trash iconFont"></i>
-                                </span>
-                              </p>
-                            </button>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-          </>
-        )}
-
-        {/* FOR ADDING NEW INPUT */}
-        <div className="d-flex align-items-end justify-content-end gap-2 mt-1">
-          {addInput ? (
+      <Table
+        striped
+        bordered
+        hover
+        variant="white"
+        className="m-0 mb-1 mb-md-2"
+      >
+        <thead>
+          <tr>
+            <th className="">
+              <h5 className="m-0 fw-bold">Required Questions</h5>
+            </th>
+            <th className="text-center align-middle">
+              <h5 className="m-0 fw-bold">Action</h5>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {isLoading ? (
             <>
-              <Form.Control
-                className="w-100 mt-3"
-                placeholder="New Question"
-                name="inputDescription"
-                onChange={(e) =>
-                  setFormData({ ...formData, inputDescription: e.target.value })
-                }
-                value={formData.inputDescription}
-                aria-label="inputDescription"
-                aria-describedby="basic-addon1"
-              />
-              <div className="d-flex gap-1  mb-1">
-                <button
-                  className="btn btn-sm btn-danger  px-2 px-md-3"
-                  onClick={() => {
-                    setAddInput(false), setFormData({ inputDescription: "" });
-                  }}
-                >
-                  <p className="m-0">
-                    <span className="d-none d-md-block">Cancel</span>
-                    <span className="d-md-none">
-                      {" "}
-                      <i className="bx bx-x iconFont"></i>
-                    </span>
-                  </p>
-                </button>
-                <button
-                  className="btn btn-sm btn-primary  px-2 px-md-3"
-                  onClick={handleAddInput}
-                  disabled={formData.inputDescription === ""}
-                >
-                  <p className="m-0">
-                    <span className="d-none d-md-block">Add</span>
-                    <span className="d-md-none">
-                      <i className="bx bx-plus-circle iconFont"></i>
-                    </span>
-                  </p>
-                </button>
-              </div>
+              <tr>
+                <td className="text-center" colSpan={2}>
+                  Loading required questions...
+                </td>
+              </tr>
             </>
           ) : (
             <>
-              <button
-                className="btn btn-sm btn-primary w-100"
-                style={{ backgroundColor: "var(--main-color)" }}
-                onClick={() => {
-                  setAddInput(true),
-                    setEditInput(null),
-                    setFormData({
-                      inputDescription: "",
-                      purposeID: purpose.purposeID,
-                    });
-                }}
-              >
-                <p className="m-0">Add</p>
-              </button>
+              {inputs.length === 0 ? (
+                <>
+                  <tr>
+                    <td className="text-center" colSpan={2}>
+                      No required questions.
+                    </td>
+                  </tr>
+                </>
+              ) : (
+                <>
+                  {inputs.map((input, index) => (
+                    <tr key={index}>
+                      <td className="align-middle">
+                        {editInput === input.inputID ? (
+                          <FloatingLabel
+                            controlId="inputDescription"
+                            label="New Question"
+                            className="w-100 me-2"
+                          >
+                            <Form.Control
+                              className="w-100 mt-3"
+                              placeholder="New Question"
+                              name="inputDescription"
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  inputDescription: e.target.value,
+                                })
+                              }
+                              value={formData.inputDescription}
+                              aria-label="inputDescription"
+                              aria-describedby="basic-addon1"
+                            />
+                          </FloatingLabel>
+                        ) : (
+                          <p className="m-0">{input.inputDescription}</p>
+                        )}
+                      </td>
+                      <td className="align-middle">
+                        <div className="d-flex justify-content-center gap-1">
+                          {editInput === input.inputID ? (
+                            <>
+                              <button
+                                className="btn btn-sm btn-danger  px-2 px-md-3"
+                                onClick={() => {
+                                  setEditInput(null),
+                                    setFormData({
+                                      inputDescription: "",
+                                    });
+                                }}
+                              >
+                                <p className="m-0">
+                                  <span className="d-none d-md-block">
+                                    Cancel
+                                  </span>
+                                  <span className="d-md-none">
+                                    {" "}
+                                    <i className="bx bx-x iconFont"></i>
+                                  </span>
+                                </p>
+                              </button>
+                              <button
+                                className="btn btn-sm btn-success  px-2 px-md-3"
+                                disabled={
+                                  formData.inputDescription === "" ||
+                                  formData.inputDescription ===
+                                    input.inputDescription
+                                }
+                                onClick={handleUpdateInput}
+                              >
+                                <p className="m-0">
+                                  <span className="d-none d-md-block">
+                                    Save
+                                  </span>
+                                  <span className="d-md-none">
+                                    {" "}
+                                    <i className="bx bx-save iconFont"></i>
+                                  </span>
+                                </p>
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                className="btn btn-sm text-white px-2 px-md-3"
+                                style={{ backgroundColor: "var(--main-color)" }}
+                                onClick={() => handleEditInput(input)}
+                              >
+                                <p className="m-0">
+                                  <span className="d-none d-md-block">
+                                    Edit
+                                  </span>
+                                  <span className="d-md-none">
+                                    <i className="bx bx-edit-alt iconFont"></i>
+                                  </span>
+                                </p>
+                              </button>
+                              <button
+                                className="btn btn-sm btn-danger px-2 px-md-3"
+                                onClick={() =>
+                                  handleDeleteInput(
+                                    input.inputID,
+                                    input.inputDescription
+                                  )
+                                }
+                              >
+                                <p className="m-0">
+                                  <span className="d-none d-md-block">
+                                    Delete
+                                  </span>
+                                  <span className="d-md-none">
+                                    <i className="bx bx-trash iconFont"></i>
+                                  </span>
+                                </p>
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              )}
             </>
           )}
-        </div>
-      </div>
+
+          <tr>
+            {addInput ? (
+              <>
+                <td>
+                  <Form.Control
+                    className="w-100"
+                    placeholder="New Question"
+                    name="inputDescription"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        inputDescription: e.target.value,
+                      })
+                    }
+                    value={formData.inputDescription}
+                    aria-label="inputDescription"
+                    aria-describedby="basic-addon1"
+                  />
+                </td>
+                <td>
+                  <div className="d-flex align-items-center justify-content-center gap-1 mb-1">
+                    <button
+                      className="btn btn-sm btn-danger  px-2 px-md-3"
+                      onClick={() => {
+                        setAddInput(false),
+                          setFormData({ inputDescription: "" });
+                      }}
+                    >
+                      <p className="m-0">
+                        <span className="d-none d-md-block">Cancel</span>
+                        <span className="d-md-none">
+                          <i className="bx bx-x iconFont"></i>
+                        </span>
+                      </p>
+                    </button>
+                    <button
+                      className="btn btn-sm btn-primary  px-2 px-md-3"
+                      onClick={handleAddInput}
+                      disabled={formData.inputDescription === ""}
+                    >
+                      <p className="m-0">
+                        <span className="d-none d-md-block">Add</span>
+                        <span className="d-md-none">
+                          <i className="bx bx-plus-circle iconFont"></i>
+                        </span>
+                      </p>
+                    </button>
+                  </div>
+                </td>
+              </>
+            ) : (
+              <>
+                <td colSpan={2}>
+                  <button
+                    className="btn btn-sm primaryButton w-100"
+                    onClick={() => {
+                      setAddInput(true),
+                        setEditInput(null),
+                        setFormData({
+                          inputDescription: "",
+                          purposeID: purpose.purposeID,
+                        });
+                    }}
+                  >
+                    <p className="m-0">Add</p>
+                  </button>
+                </td>
+              </>
+            )}
+          </tr>
+        </tbody>
+      </Table>
     </>
   );
 };

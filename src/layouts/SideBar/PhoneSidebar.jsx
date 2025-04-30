@@ -19,7 +19,7 @@ const PhoneSidebar = ({ user }) => {
           className="d-flex justify-content-center align-items-center d-lg-none text-dark border-0 text-decoration-none fw-bold p-2"
           style={{ fontSize: "1.5rem", height: "auto" }}
         >
-          <i class="bx bx-menu m-0"></i>
+          <i className="bx bx-menu m-0"></i>
         </Button>
 
         {/* OFFCANVAS SIDEBAR */}

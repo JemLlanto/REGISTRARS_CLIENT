@@ -341,7 +341,7 @@ const NotifButton = ({ user }) => {
 
           <Dropdown.Menu
             align="center"
-            className="shadow-lg border-0 rounded-3 p-0 custom-scrollbar"
+            className="shadow-lg border-0 rounded-3 p-1 rounded custom-scrollbar"
             style={{
               width: "320px",
               maxHeight: "500px",
@@ -352,7 +352,7 @@ const NotifButton = ({ user }) => {
             }}
           >
             {/* Header with title and mark all as read button */}
-            <div className="px-3 py-3 border-bottom d-flex justify-content-between align-items-center bg-white sticky-top shadow-sm ">
+            <div className="px-3 py-3 border-bottom d-flex justify-content-between  align-items-center bg-white sticky-top  ">
               <div className="d-flex align-items-center">
                 <i
                   className="bx bx-bell me-2"

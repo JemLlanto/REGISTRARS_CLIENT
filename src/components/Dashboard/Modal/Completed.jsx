@@ -31,7 +31,7 @@ const Completed = ({ completedRequests, CountUp }) => {
               }}
             >
               <h4 className="m-0 d-flex justify-content-center align-items-center">
-                <i class="bx bx-check-circle"></i>{" "}
+                <i className="bx bx-check-circle"></i>{" "}
               </h4>
             </div>
           </div>

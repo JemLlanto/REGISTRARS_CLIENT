@@ -31,7 +31,7 @@ const Processing = ({ processingRequests, CountUp }) => {
               }}
             >
               <h4 className="m-0 d-flex justify-content-center align-items-center">
-                <i class="bx bxs-analyse"></i>
+                <i className="bx bxs-analyse"></i>
               </h4>
             </div>
           </div>
