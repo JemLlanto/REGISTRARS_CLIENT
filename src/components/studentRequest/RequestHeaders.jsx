@@ -22,7 +22,7 @@ const getStatusColor = (status) => {
 
 const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const requestsPerPage = 10;
+  const requestsPerPage = 20;
 
   // Paginate requests
   const indexOfLastRequest = currentPage * requestsPerPage;
