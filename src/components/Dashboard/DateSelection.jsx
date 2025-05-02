@@ -43,8 +43,26 @@ const DateSelection = ({
               placeholder=""
               value={startDate}
               onChange={(e) => {
-                setStartDate(e.target.value);
+                const newStartDate = e.target.value;
+                setStartDate(newStartDate);
                 setSelectedPeriod("");
+                // Get current timeFilters from localStorage
+                const currentTimeFilters = localStorage.getItem("timeFilters")
+                  ? JSON.parse(localStorage.getItem("timeFilters"))
+                  : { period: "", start: "", end: "" };
+
+                // Update the startDate in timeFilters
+                const updatedTimeFilters = {
+                  ...currentTimeFilters,
+                  period: "",
+                  start: newStartDate,
+                };
+
+                // Save back to localStorage
+                localStorage.setItem(
+                  "timeFilters",
+                  JSON.stringify(updatedTimeFilters)
+                );
               }}
             />
             <label htmlFor="startingPeriod">Starting period:</label>
@@ -59,8 +77,27 @@ const DateSelection = ({
               placeholder=""
               value={endDate}
               onChange={(e) => {
-                setEndDate(e.target.value);
+                const newEndtDate = e.target.value;
+                setEndDate(newEndtDate);
                 setSelectedPeriod("");
+
+                // Get current timeFilters from localStorage
+                const currentTimeFilters = localStorage.getItem("timeFilters")
+                  ? JSON.parse(localStorage.getItem("timeFilters"))
+                  : { period: "", start: "", end: "" };
+
+                // Update the startDate in timeFilters
+                const updatedTimeFilters = {
+                  ...currentTimeFilters,
+                  period: "",
+                  end: newEndtDate,
+                };
+
+                // Save back to localStorage
+                localStorage.setItem(
+                  "timeFilters",
+                  JSON.stringify(updatedTimeFilters)
+                );
               }}
             />
             <label htmlFor="endingPeriod">Ending period:</label>

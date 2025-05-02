@@ -18,13 +18,18 @@ import {
 
 export default function Home() {
   const { user } = useOutletContext();
+  const timeFiltersData = localStorage.getItem("timeFilters")
+    ? JSON.parse(localStorage.getItem("timeFilters"))
+    : null;
   const navigate = useNavigate();
   const [adminPrograms, setAdminPrograms] = useState([]);
   const [requestedDocuments, setRequestedDocuments] = useState([]);
   const [filteredRequests, setFilteredRequests] = useState([]);
-  const [selectedPeriod, setSelectedPeriod] = useState("month");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [selectedPeriod, setSelectedPeriod] = useState(
+    timeFiltersData ? timeFiltersData.period : "month"
+  );
+  const [startDate, setStartDate] = useState(timeFiltersData.start || "");
+  const [endDate, setEndDate] = useState(timeFiltersData.end || "");
   const [isLoading, setIsLoading] = useState(true);
 
   // IDENTIFY IF THE USER IS ADMIN
@@ -74,8 +79,8 @@ export default function Home() {
 
   // Set default dates on mount
   useEffect(() => {
-    setMonthDefault(setStartDate, setEndDate);
-  }, []);
+    setMonthDefault(startDate, setStartDate, endDate, setEndDate);
+  }, [timeFiltersData]);
 
   // Separate function for the API call that can be called directly
   // const fetchRequestedDocuments = () => {
