@@ -99,18 +99,25 @@ export const fetchRequestedDocuments = async (
     }
   }
 };
-export const setMonthDefault = (setStartDate, setEndDate) => {
-  const today = new Date();
+export const setMonthDefault = (
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate
+) => {
+  if (startDate === "" && endDate === "") {
+    const today = new Date();
 
-  // First day of the current month
-  const start = new Date(today.getFullYear(), today.getMonth(), 2);
+    // First day of the current month
+    const start = new Date(today.getFullYear(), today.getMonth(), 2);
 
-  // Last day of the current month
-  const end = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    // Last day of the current month
+    const end = new Date(today.getFullYear(), today.getMonth() + 1, 1);
 
-  // Format dates as YYYY-MM-DD
-  setStartDate(start.toISOString().split("T")[0]);
-  setEndDate(end.toISOString().split("T")[0]);
+    // Format dates as YYYY-MM-DD
+    setStartDate(start.toISOString().split("T")[0]);
+    setEndDate(end.toISOString().split("T")[0]);
+  }
 };
 // Function to set date range based on period selection
 export const handlePeriodChange = (
@@ -127,10 +134,19 @@ export const handlePeriodChange = (
   let end = new Date();
 
   if (period === "week") {
-    // Set to first day of current week (Sunday)
-    const day = today.getDay(); // 0 for Sunday, 1 for Monday, etc.
-    start.setDate(today.getDate() - day); // Go back to Sunday
-    end.setDate(start.getDate() + 6); // Saturday is 6 days after Sunday
+    // Calculate days to subtract to get to Sunday
+    const day = today.getDay();
+    // Create a new date for Sunday (start of week)
+    start = new Date(today);
+    start.setDate(today.getDate() - day);
+
+    // Create a new date for Saturday (end of week)
+    end = new Date(start);
+    end.setDate(start.getDate() + 6);
+
+    // console.log(
+    //   `Week period: ${start.toDateString()} to ${end.toDateString()}`
+    // );
   } else if (period === "month") {
     // Set to first day of current month
     start.setDate(1);
@@ -143,8 +159,18 @@ export const handlePeriodChange = (
     end = new Date(today.getFullYear(), 11, 31);
   }
 
+  const formattedStartDate = start.toISOString().split("T")[0];
+  const formattedEndDate = end.toISOString().split("T")[0];
   // Format dates as YYYY-MM-DD for input fields
-  setStartDate(start.toISOString().split("T")[0]);
-  setEndDate(end.toISOString().split("T")[0]);
+  setStartDate(formattedStartDate);
+  setEndDate(formattedEndDate);
   // fetchRequestedDocuments();
+
+  const timeFilters = {
+    period: period,
+    start: formattedStartDate,
+    end: formattedEndDate,
+  };
+
+  localStorage.setItem("timeFilters", JSON.stringify(timeFilters));
 };

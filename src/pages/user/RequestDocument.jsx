@@ -174,9 +174,9 @@ export default function RequestDocument() {
           className="d-flex align-items-center justify-content-around gap-3 mt-2 position-relative"
           style={{ zIndex: "1" }}
         >
-          <form className="position-relative w-100 bg-light shadow-sm rounded p-3 ">
-            <ClosedForm user={user} fetchUserData={fetchUserData} />
+          <ClosedForm user={user} fetchUserData={fetchUserData} />
 
+          <form className="position-relative w-100 bg-light shadow-sm rounded p-3 ">
             <FormBody
               direction={direction}
               currentStep={currentStep}
@@ -221,10 +221,10 @@ export default function RequestDocument() {
               setIsLoading={setIsLoading}
             />
           </form>
-          <div className="d-none d-lg-flex justify-content-center align-items-center col-1 p-0">
-            <ReqProgressBar currentStep={currentStep} />
-          </div>
         </div>
+      </div>
+      <div className="d-none d-lg-flex justify-content-center align-items-center col-1 p-0">
+        <ReqProgressBar currentStep={currentStep} />
       </div>
     </div>
   );

@@ -26,14 +26,14 @@ export const renderPaginationItems = (
     let pageNumbers = [];
 
     // Always show first page
-    if (currentPage > 3) {
+    if (currentPage > 2) {
       pageNumbers.push(
         <Pagination.Item key={1} onClick={() => handlePageChange(1)}>
           1
         </Pagination.Item>
       );
 
-      if (currentPage > 4) {
+      if (currentPage > 2) {
         pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
       }
     }
@@ -55,7 +55,7 @@ export const renderPaginationItems = (
     }
 
     // Always show last page
-    if (currentPage < totalPages - 2) {
+    if (currentPage < totalPages - 1) {
       if (currentPage < totalPages - 3) {
         pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
       }
