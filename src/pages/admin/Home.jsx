@@ -26,10 +26,10 @@ export default function Home() {
   const [requestedDocuments, setRequestedDocuments] = useState([]);
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [selectedPeriod, setSelectedPeriod] = useState(
-    timeFiltersData ? timeFiltersData.period : "month"
+    timeFiltersData ? timeFiltersData?.period : "month"
   );
-  const [startDate, setStartDate] = useState(timeFiltersData.start || "");
-  const [endDate, setEndDate] = useState(timeFiltersData.end || "");
+  const [startDate, setStartDate] = useState(timeFiltersData?.start || "");
+  const [endDate, setEndDate] = useState(timeFiltersData?.end || "");
   const [isLoading, setIsLoading] = useState(true);
 
   // IDENTIFY IF THE USER IS ADMIN
