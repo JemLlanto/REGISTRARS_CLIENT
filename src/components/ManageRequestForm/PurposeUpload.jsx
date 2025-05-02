@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
+import { Form, Table, FloatingLabel, Spinner } from "react-bootstrap";
 import Swal from "sweetalert2";
 
 const PurposeUpload = ({ purpose }) => {
@@ -8,6 +8,7 @@ const PurposeUpload = ({ purpose }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [addUpload, setAddUpload] = useState(false);
   const [editUpload, setEditUpload] = useState(null);
+  const [selectedUpload, setSelectedUpload] = useState(null);
   const [formData, setFormData] = useState({
     uploadDescription: "",
     purposeID: purpose.purposeID,
@@ -59,92 +60,94 @@ const PurposeUpload = ({ purpose }) => {
     setAddUpload(false);
   };
 
-  const handleAddUpload = (e) => {
-    e.preventDefault();
-
-    axios
-      .post(
+  const handleAddUpload = async () => {
+    try {
+      setIsLoading(true);
+      const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/addUpload`,
         formData
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          setAddUpload(false);
-          setFormData({
-            uploadDescription: "",
-            purposeID: purpose.purposeID,
-          });
-          fetchUploads();
+      );
 
-          Swal.fire({
-            icon: "success",
-            title: "Success",
-            text: res.data.Message,
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Failed",
-            text: res.data.Message,
-          });
-        }
-      })
-      .catch((err) => {
-        console.log("Error adding uploads:", err);
+      if (res.data.Status === "Success") {
+        setAddUpload(false);
+        setFormData({
+          uploadDescription: "",
+          purposeID: purpose.purposeID,
+        });
+        fetchUploads();
+
+        Swal.fire({
+          icon: "success",
+          title: `Success`,
+          text: `"${formData.uploadDescription}" added successfully!`,
+        });
+      } else {
         Swal.fire({
           icon: "error",
-          title: "Error",
-          text: "Something went wrong while adding uploads.",
+          title: "Failed",
+          text: res.data.Message,
         });
+      }
+    } catch (err) {
+      console.log("Error adding uploads:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Something went wrong while adding uploads.",
       });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleUpdateUpload = (e) => {
-    e.preventDefault();
-
-    axios
-      .post(
+  const handleUpdateUpload = async (uploadID) => {
+    try {
+      setIsLoading(true);
+      setSelectedUpload(uploadID);
+      const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/updateUpload`,
         formData
-      )
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          setEditUpload(false);
-          setFormData({
-            uploadDescription: "",
-            purposeID: purpose.purposeID,
-          });
-          fetchUploads();
+      );
 
-          Swal.fire({
-            icon: "success",
-            title: "Updated!",
-            text: res.data.Message,
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Failed",
-            text: res.data.Message,
-          });
-        }
-      })
-      .catch((err) => {
-        console.log("Error updating uploads:", err);
+      if (res.data.Status === "Success") {
+        setEditUpload(false);
+        setFormData({
+          uploadDescription: "",
+          purposeID: purpose.purposeID,
+        });
+        fetchUploads();
+
+        Swal.fire({
+          icon: "success",
+          title: `Success.`,
+          text: `Updated to "${formData.uploadDescription}" successfully!`,
+        });
+      } else {
         Swal.fire({
           icon: "error",
-          title: "Error",
-          text: "Something went wrong while updating uploads.",
+          title: "Failed",
+          text: res.data.Message,
         });
+      }
+    } catch (err) {
+      console.log("Error updating uploads:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Something went wrong while updating uploads.",
       });
+    } finally {
+      setIsLoading(false);
+      setSelectedUpload(null);
+    }
   };
 
-  const handleDeleteUpload = (uploadID, uploadDescription) => {
-    Swal.fire({
+  const handleDeleteUpload = async (uploadID, uploadDescription) => {
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: `Do you really want to delete "${uploadDescription}"? This action cannot be undone.`,
       icon: "warning",
@@ -152,95 +155,124 @@ const PurposeUpload = ({ purpose }) => {
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios
-          .post(
-            `${
-              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-            }/api/documents/deleteUpload`,
-            {
-              uploadID,
-            }
-          )
-          .then((res) => {
-            if (res.data.Status === "Success") {
-              Swal.fire({
-                icon: "success",
-                title: "Deleted!",
-                text: res.data.Message,
-              });
-              fetchUploads();
-            } else {
-              Swal.fire({
-                icon: "error",
-                title: "Failed",
-                text: res.data.Message,
-              });
-            }
-          })
-          .catch((err) => {
-            console.log("Error deleting upload:", err);
-            Swal.fire({
-              icon: "error",
-              title: "Error",
-              text: "Something went wrong while deleting the upload.",
-            });
-          });
-      }
     });
+
+    if (result.isConfirmed) {
+      try {
+        setIsLoading(true);
+        setSelectedUpload(uploadID);
+        const res = await axios.post(
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/documents/deleteUpload`,
+          {
+            uploadID,
+          }
+        );
+
+        if (res.data.Status === "Success") {
+          Swal.fire({
+            icon: "success",
+            title: `Deleted!`,
+            text: `"${uploadDescription}" deleted successfully!`,
+          });
+          fetchUploads();
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Failed",
+            text: res.data.Message,
+          });
+        }
+      } catch (err) {
+        console.log("Error deleting upload:", err);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong while deleting the upload.",
+        });
+      } finally {
+        setIsLoading(false);
+        setSelectedUpload(null);
+      }
+    }
   };
 
   return (
     <>
-      <div className="border p-2 rounded">
-        <div className="d-flex align-items-center justify-content-start gap-1">
-          <h5 className="m-0 fw-bold">Required File</h5>
-        </div>
-        {isLoading ? (
-          <>
-            <p>Loading...</p>
-          </>
-        ) : (
-          // FOR DISPLAYING INPUTS
+      <Table
+        striped
+        bordered
+        hover
+        variant="white"
+        className="m-0 mb-1 mb-md-2"
+      >
+        <thead>
+          <tr>
+            <th className="">
+              <h5 className="m-0 fw-bold">Required File</h5>
+            </th>
+            <th className="text-center align-middle w-25">
+              <h5 className="m-0 fw-bold">Action</h5>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
           <>
             {uploads.length === 0 ? (
               <>
-                <div
-                  className="spinner-container d-flex justify-content-center align-items-center spinner-container"
-                  style={{ height: "70%" }}
-                >
-                  <p className="m-0">No questions</p>
-                </div>
+                {isLoading ? (
+                  <>
+                    <tr>
+                      <td className="text-center" colSpan={2}>
+                        <p className="m-0">Loading required files...</p>
+                      </td>
+                    </tr>
+                  </>
+                ) : (
+                  <tr>
+                    <td className="text-center" colSpan={2}>
+                      <p className="m-0">No required files for this purpose.</p>
+                    </td>
+                  </tr>
+                )}
               </>
             ) : (
               <>
-                <div className="d-flex flex-column gap-1">
-                  {uploads.map((upload) => (
-                    <div
-                      key={upload.uploadID}
-                      className="d-flex align-items-center justify-content-between"
-                    >
+                {uploads.map((upload, index) => (
+                  <tr key={index}>
+                    <td className="align-middle">
                       {editUpload === upload.uploadID ? (
-                        <>
-                          {/* FOR EDITING INPUT */}
+                        <FloatingLabel
+                          controlId="uploadDescription"
+                          label="New Question"
+                          className="w-100 me-2"
+                        >
                           <Form.Control
-                            className="w-75"
-                            placeholder="Upload Description"
+                            className="w-100"
+                            placeholder="New Question"
                             name="uploadDescription"
-                            onChange={(e) => {
+                            onChange={(e) =>
                               setFormData({
                                 ...formData,
                                 uploadDescription: e.target.value,
-                              });
-                            }}
+                              })
+                            }
                             value={formData.uploadDescription}
                             aria-label="uploadDescription"
                             aria-describedby="basic-addon1"
                           />
-                          <div className="d-flex gap-1">
+                        </FloatingLabel>
+                      ) : (
+                        <p className="m-0">{upload.uploadDescription}</p>
+                      )}
+                    </td>
+                    <td className="align-middle">
+                      <div className="d-flex justify-content-center gap-1">
+                        {editUpload === upload.uploadID ? (
+                          <>
                             <button
-                              className="btn btn-sm btn-danger"
+                              className="btn btn-sm btn-danger  px-2 px-md-3"
                               onClick={() => {
                                 setEditUpload(null),
                                   setFormData({
@@ -259,28 +291,48 @@ const PurposeUpload = ({ purpose }) => {
                               </p>
                             </button>
                             <button
-                              className="btn btn-sm btn-primary  px-2 px-md-3"
+                              className="btn btn-sm btn-success d-flex align-items-center justify-content-center gap-md-1 px-2 px-md-3"
                               disabled={
                                 formData.uploadDescription === "" ||
                                 formData.uploadDescription ===
                                   upload.uploadDescription
                               }
-                              onClick={handleUpdateUpload}
+                              onClick={() =>
+                                handleUpdateUpload(upload.uploadID)
+                              }
                             >
-                              <p className="m-0">
-                                <span className="d-none d-md-block">Save</span>
-                                <span className="d-md-none">
-                                  {" "}
-                                  <i className="bx bx-save iconFont"></i>
-                                </span>
-                              </p>
+                              {isLoading &&
+                              selectedUpload === upload.uploadID ? (
+                                <>
+                                  <span>
+                                    <Spinner
+                                      animation="border"
+                                      variant="light"
+                                      size="sm"
+                                    />
+                                  </span>
+                                  <p className="m-0">
+                                    <span className="d-none d-md-block">
+                                      Saving
+                                    </span>
+                                  </p>
+                                </>
+                              ) : (
+                                <>
+                                  <p className="m-0">
+                                    <span className="d-none d-md-block">
+                                      Save
+                                    </span>
+                                    <span className="d-md-none">
+                                      <i className="bx bx-save iconFont"></i>
+                                    </span>
+                                  </p>
+                                </>
+                              )}
                             </button>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <p className="m-0">{upload.uploadDescription}</p>
-                          <div className="d-flex gap-1">
+                          </>
+                        ) : (
+                          <>
                             <button
                               className="btn btn-sm text-white px-2 px-md-3"
                               style={{ backgroundColor: "var(--main-color)" }}
@@ -294,102 +346,142 @@ const PurposeUpload = ({ purpose }) => {
                               </p>
                             </button>
                             <button
-                              className="btn btn-sm btn-danger  px-2 px-md-3"
+                              className="btn btn-sm btn-danger d-flex align-items-center justify-content-center gap-md-1 px-2 px-md-3"
                               onClick={() =>
                                 handleDeleteUpload(
                                   upload.uploadID,
                                   upload.uploadDescription
                                 )
                               }
+                              disabled={isLoading}
                             >
-                              <p className="m-0">
-                                <span className="d-none d-md-block">
-                                  Delete
-                                </span>
-                                <span className="d-md-none">
-                                  <i className="bx bx-trash iconFont"></i>
-                                </span>
-                              </p>
+                              {isLoading &&
+                              selectedUpload === upload.uploadID ? (
+                                <>
+                                  <Spinner
+                                    animation="border"
+                                    variant="light"
+                                    size="sm"
+                                  />
+                                  <p className="m-0">
+                                    <span className="d-none d-md-block">
+                                      Deleting
+                                    </span>
+                                  </p>
+                                </>
+                              ) : (
+                                <>
+                                  <p className="m-0">
+                                    <span className="d-none d-md-block">
+                                      Delete
+                                    </span>
+                                    <span className="d-md-none d-flex justify-content-center align-items-center">
+                                      <i className="bx bx-trash iconFont"></i>
+                                    </span>
+                                  </p>
+                                </>
+                              )}
                             </button>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
               </>
             )}
           </>
-        )}
 
-        {/* FOR ADDING NEW INPUT */}
-        <div className="d-flex align-items-end justify-content-end gap-2 mt-1">
-          {addUpload ? (
-            <>
-              <Form.Control
-                className="w-100 mt-3"
-                placeholder="New Question"
-                name="uploadDescription"
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    uploadDescription: e.target.value,
-                  })
-                }
-                value={formData.uploadDescription}
-                aria-label="uploadDescription"
-                aria-describedby="basic-addon1"
-              />
-              <div className="d-flex gap-1 mb-1">
-                <button
-                  className="btn btn-sm btn-danger  px-2 px-md-3"
-                  onClick={() => {
-                    setAddUpload(false), setFormData({ uploadDescription: "" });
-                  }}
-                >
-                  <p className="m-0">
-                    <span className="d-none d-md-block">Cancel</span>
-                    <span className="d-md-none">
-                      {" "}
-                      <i className="bx bx-x iconFont"></i>
-                    </span>
-                  </p>
-                </button>
-                <button
-                  className="btn btn-sm btn-primary px-2 px-md-3"
-                  onClick={handleAddUpload}
-                  disabled={formData.uploadDescription === ""}
-                >
-                  <p className="m-0">
-                    <span className="d-none d-md-block">Add</span>
-                    <span className="d-md-none">
-                      <i className="bx bx-plus-circle iconFont"></i>
-                    </span>
-                  </p>
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <button
-                className="btn btn-sm w-100 text-white"
-                style={{ backgroundColor: "var(--main-color)" }}
-                onClick={() => {
-                  setAddUpload(true),
-                    setEditUpload(null),
-                    setFormData({
-                      uploadDescription: "",
-                      purposeID: purpose.purposeID,
-                    });
-                }}
-                disabled={uploads.length > 0}
-              >
-                <p className="m-0">Add</p>
-              </button>
-            </>
-          )}
-        </div>
-      </div>
+          <tr>
+            {addUpload ? (
+              <>
+                <td>
+                  <Form.Control
+                    className="w-100"
+                    placeholder="New Question"
+                    name="uploadDescription"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        uploadDescription: e.target.value,
+                      })
+                    }
+                    value={formData.uploadDescription}
+                    aria-label="uploadDescription"
+                    aria-describedby="basic-addon1"
+                  />
+                </td>
+                <td>
+                  <div className="d-flex align-items-center justify-content-center gap-1">
+                    <button
+                      className="btn btn-sm btn-danger  px-2 px-md-3"
+                      onClick={() => {
+                        setAddUpload(false),
+                          setFormData({ uploadDescription: "" });
+                      }}
+                    >
+                      <p className="m-0">
+                        <span className="d-none d-md-block">Cancel</span>
+                        <span className="d-md-none">
+                          <i className="bx bx-x iconFont"></i>
+                        </span>
+                      </p>
+                    </button>
+                    <button
+                      className="btn btn-sm primaryButton d-flex align-items-center justify-content-center gap-md-1 px-2 px-md-3"
+                      onClick={handleAddUpload}
+                      disabled={formData.uploadDescription === "" || isLoading}
+                    >
+                      {isLoading ? (
+                        <>
+                          <span>
+                            <Spinner
+                              animation="border"
+                              variant="light"
+                              size="sm"
+                            />
+                          </span>
+                          <p className="m-0">
+                            <span className="d-none d-md-block">Adding</span>
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="m-0">
+                            <span className="d-none d-md-block">Add</span>
+                            <span className="d-md-none">
+                              <i className="bx bx-plus-circle iconFont"></i>
+                            </span>
+                          </p>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </td>
+              </>
+            ) : (
+              <>
+                <td colSpan={2}>
+                  <button
+                    className="btn btn-sm primaryButton w-100"
+                    onClick={() => {
+                      setAddUpload(true),
+                        setEditUpload(null),
+                        setFormData({
+                          uploadDescription: "",
+                          purposeID: purpose.purposeID,
+                        });
+                    }}
+                    disabled={uploads.length >= 1}
+                  >
+                    <p className="m-0">Add</p>
+                  </button>
+                </td>
+              </>
+            )}
+          </tr>
+        </tbody>
+      </Table>
     </>
   );
 };
