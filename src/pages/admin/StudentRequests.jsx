@@ -28,10 +28,10 @@ export default function StudentRequests() {
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const navigate = useNavigate();
   const [selectedPeriod, setSelectedPeriod] = useState(
-    timeFiltersData ? timeFiltersData.period : "month"
+    timeFiltersData ? timeFiltersData?.period : "month"
   );
-  const [startDate, setStartDate] = useState(timeFiltersData.start || "");
-  const [endDate, setEndDate] = useState(timeFiltersData.end || "");
+  const [startDate, setStartDate] = useState(timeFiltersData?.start || "");
+  const [endDate, setEndDate] = useState(timeFiltersData?.end || "");
   const location = useLocation();
   const [status, setStatus] = useState("all");
   const [isSearchVisible, setIsSearchVisible] = useState(false);
@@ -155,7 +155,7 @@ export default function StudentRequests() {
           className="m-0 p-2 fade-in d-flex align-items-center justify-content-center"
           style={{ color: "var(--secondMain-color)" }}
         >
-          Student Request List {timeFiltersData.period}{" "}
+          Student Request List
           {isLoading ? (
             <>
               <span className="d-flex align-items-center justify-content-center">
