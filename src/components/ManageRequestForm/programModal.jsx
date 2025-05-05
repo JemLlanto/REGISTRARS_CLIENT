@@ -242,7 +242,7 @@ function programModal() {
                               </p>
                             </button>
                             <button
-                              className="btn btn-sm btn-success text-white px-2 px-md-3 d-flex justify-content-center align-items-center gap-1"
+                              className="btn btn-sm btn-success text-white px-2 px-md-3 d-flex justify-content-center align-items-center gap-md-1"
                               onClick={() =>
                                 handleUpdateProgram(program.programName)
                               }
@@ -290,7 +290,7 @@ function programModal() {
                               </p>
                             </button>
                             <button
-                              className="btn btn-sm btn-danger text-white  px-2 px-md-3 d-flex justify-content-center align-items-center gap-1"
+                              className="btn btn-sm btn-danger text-white  px-2 px-md-3 d-flex justify-content-center align-items-center gap-md-1"
                               onClick={() =>
                                 handleDeleteProgram(
                                   program.programID,

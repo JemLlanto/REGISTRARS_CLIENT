@@ -82,8 +82,17 @@ const PersonalInformation = ({
               <button
                 className="primaryButton btn "
                 onClick={handleUpdatePersonalInfo}
+                disabled={isLoading}
               >
-                <p className="m-0">Save Changes</p>
+                {isLoading ? (
+                  <>
+                    <p className="m-0">Saving</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="m-0">Save</p>
+                  </>
+                )}
               </button>
             </>
           ) : (

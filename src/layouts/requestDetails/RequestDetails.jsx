@@ -192,7 +192,13 @@ const RequestDetails = () => {
                         String(status).slice(1)}
                       )
                     </span>
-                    <span className="">
+                    <span
+                      className=""
+                      style={{
+                        fontSize: "clamp(0.8rem, 1.5dvw, 1.2rem)",
+                        cursor: "pointer",
+                      }}
+                    >
                       {!user.isAdmin ? (
                         <OverlayTrigger
                           placement="bottom"
@@ -216,19 +222,24 @@ const RequestDetails = () => {
                         </OverlayTrigger>
                       ) : null}
                     </span>
+                    <span
+                      className="fade-in-section m-0 text-secondary ms-2"
+                      style={{
+                        animationDelay: `${1 * 0.2}s`,
+                        fontSize: "clamp(0.8rem, 1.5dvw, 1.2rem)",
+                      }}
+                    >
+                      {documentDetails.reason && (
+                        <>
+                          Reason:{" "}
+                          {documentDetails.reason
+                            ? documentDetails.reason
+                            : null}
+                        </>
+                      )}
+                    </span>
                   </h4>
                 </div>
-                <p
-                  className="fade-in-section m-0 text-secondary"
-                  style={{ animationDelay: `${1 * 0.2}s` }}
-                >
-                  {documentDetails.reason && (
-                    <>
-                      Reason:{" "}
-                      {documentDetails.reason ? documentDetails.reason : null}
-                    </>
-                  )}
-                </p>
               </div>
             </div>
             <div
@@ -268,9 +279,9 @@ const RequestDetails = () => {
                     <tr>
                       {documentInputs.map((input, index) => (
                         <th key={index} scope="col">
-                          <h5 className="m-0 fw-bold">
+                          <h6 className="m-0 fw-bold">
                             {input.inputDescription}
-                          </h5>
+                          </h6>
                         </th>
                       ))}
                     </tr>

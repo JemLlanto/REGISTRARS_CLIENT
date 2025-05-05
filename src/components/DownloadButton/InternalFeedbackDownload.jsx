@@ -6,7 +6,8 @@ import Swal from "sweetalert2";
 
 const InternalFeedbackDownload = ({ user, documentDetails }) => {
   const [feedbackData, setFeedbackData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [checked, setChecked] = useState(false);
 
   const fetchData = async () => {
     if (documentDetails.requestID) {
@@ -21,7 +22,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         );
 
         if (res.status === 200) {
-          console.log(res.data.result);
+          // console.log(res.data.result);
           setFeedbackData(res.data.result);
         } else {
           Swal.fire({
@@ -34,7 +35,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: `An error occurredasdasd: ${err.message}`,
+          text: `An error occurred: ${err.message}`,
         });
       } finally {
         setIsLoading(false);
@@ -42,7 +43,8 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
     }
   };
   useEffect(() => {
-    if (documentDetails.requestID) {
+    setChecked(true);
+    if (documentDetails.requestID && !checked) {
       fetchData();
     }
   }, [documentDetails.requestID]);
@@ -240,7 +242,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         type="button"
         className="btn btn-warning d-none d-md-block"
         onClick={downloadPDF}
-        disabled={!documentDetails.responded}
+        disabled={!documentDetails.responded || feedbackData.length === 0}
       >
         <p className="m-0">
           {" "}
@@ -252,7 +254,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         type="button"
         className="w-100 btn btn-warning d-block d-md-none"
         onClick={downloadPDF}
-        disabled={!documentDetails.responded}
+        disabled={!documentDetails.responded || feedbackData.length === 0}
       >
         <p className="m-0">
           {" "}

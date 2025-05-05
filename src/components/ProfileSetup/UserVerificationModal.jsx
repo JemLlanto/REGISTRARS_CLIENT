@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, Spinner } from "react-bootstrap";
 import OTPVerification from "./OTPVerification";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -115,21 +115,8 @@ const UserVerificationModal = ({
     }
   };
 
-  const resendOTP = async () => {
-    try {
-      setIsLoading(true);
-      setGeneratedOtp(null);
-      await sendOTP();
-    } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Resend Failed",
-        text: "An error occurred while resending OTP.",
-      });
-    }
-  };
-
   const verifyOTP = async () => {
+    setIsLoading(true);
     if (!generatedOTP || !formData.otp) {
       return Swal.fire({
         icon: "warning",
@@ -156,6 +143,7 @@ const UserVerificationModal = ({
             token: res.data.token,
           }));
           handleEditSecurity();
+          setIsLoading(false);
         });
       } else {
         Swal.fire({
@@ -163,13 +151,17 @@ const UserVerificationModal = ({
           title: "Verification Failed",
           text: res.data.message || "Failed to generate reset token.",
         });
+        setIsLoading(false);
       }
     } else {
-      Swal.fire({
-        icon: "error",
-        title: "Invalid OTP!",
-        text: "OTP doesn't match, please try again.",
-      });
+      setTimeout(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Invalid OTP!",
+          text: "OTP doesn't match, please try again.",
+        });
+        setIsLoading(false);
+      }, 2000);
     }
   };
 
@@ -212,8 +204,14 @@ const UserVerificationModal = ({
 
   return (
     <>
-      <button className="primaryButton btn " onClick={sendOTP}>
-        {isLoading ? <>Sending OTP</> : <>Edit</>}
+      <button
+        className="primaryButton btn"
+        onClick={sendOTP}
+        disabled={isLoading && !generatedOTP}
+      >
+        <p className="m-0">
+          {isLoading && !generatedOTP ? <>Sending OTP</> : <>Edit</>}
+        </p>
       </button>
       <Modal
         show={showVerificationModal}
@@ -233,8 +231,7 @@ const UserVerificationModal = ({
             formData={formData}
             otpInputs={otpInputs}
             handleOtpChange={handleOtpChange}
-            resendOTP={resendOTP}
-            isLoading={isLoading}
+            sendOTP={sendOTP}
             otpTimer={otpTimer}
           />
         </Modal.Body>
@@ -243,11 +240,18 @@ const UserVerificationModal = ({
             <p className="m-0">Cancel</p>
           </button>
           <button
-            className="primaryButton btn "
+            className="primaryButton btn d-flex align-items-center gap-1"
             onClick={verifyOTP}
-            disabled={otpInputs.includes("")}
+            disabled={otpInputs.includes("") || isLoading}
           >
-            <p className="m-0">Verify</p>
+            {isLoading ? (
+              <>
+                <Spinner animation="border" variant="light" size="sm" />
+                <p className="m-0">Verifying</p>
+              </>
+            ) : (
+              <p className="m-0">Verify</p>
+            )}
           </button>
         </Modal.Footer>
       </Modal>
