@@ -60,6 +60,25 @@ export const fetchRequestedDocuments = async (
       );
 
       if (res.data.Status === "Success") {
+        // Filter documents based on their created date
+        const dateFilteredDocuments = res.data.data.filter((document) => {
+          // Convert string dates to Date objects for comparison
+          const documentCreatedDate = new Date(document.created);
+          // Get start date with time set to beginning of day (00:00:00)
+          const filterStartDate = new Date(startDate);
+          filterStartDate.setHours(0, 0, 0, 0);
+
+          // Get end date with time set to end of day (23:59:59.999)
+          const filterEndDate = new Date(endDate);
+          filterEndDate.setHours(23, 59, 59, 999);
+
+          // Check if document created date is within the filter date range
+          return (
+            documentCreatedDate >= filterStartDate &&
+            documentCreatedDate <= filterEndDate
+          );
+        });
+
         if (user.isAdmin === 1) {
           // Create a Set of program names for faster lookup
           // console.log("Fetching documents for admins");
@@ -68,7 +87,7 @@ export const fetchRequestedDocuments = async (
           );
           // console.log("Admin Programs", adminPrograms);
           // console.log("Admin Program Names", adminProgramNames);
-          const filteredDocuments = res.data.data.filter((document) => {
+          const filteredDocuments = dateFilteredDocuments.filter((document) => {
             return adminProgramNames.has(document.program);
           });
 
@@ -81,8 +100,8 @@ export const fetchRequestedDocuments = async (
         } else {
           // For non-admin users, show all documents
           // console.log("Fetching documents for non-admins", res.data.data);
-          setRequestedDocuments(res.data.data);
-          setFilteredRequests(res.data.data);
+          setRequestedDocuments(dateFilteredDocuments);
+          setFilteredRequests(dateFilteredDocuments);
         }
       } else {
         // console.log("No documents found");
