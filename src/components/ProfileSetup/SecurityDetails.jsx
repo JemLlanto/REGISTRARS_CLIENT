@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Form, Row, InputGroup } from "react-bootstrap";
+import { Col, Form, Row, InputGroup, Spinner } from "react-bootstrap";
 import UserVerificationModal from "./UserVerificationModal";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -29,7 +29,6 @@ const SecurityDetails = ({
   const handleChangePassword = async () => {
     try {
       setIsLoading(true);
-
       const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
@@ -57,7 +56,7 @@ const SecurityDetails = ({
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: `An error occurred during password reset: ${err.message}`,
+        text: `An error occurred during password reset. Please try again later. ${err.message}`,
       });
     } finally {
       setIsLoading(false);
@@ -77,11 +76,19 @@ const SecurityDetails = ({
                 <p className="m-0">Cancel</p>
               </button>
               <button
-                className="primaryButton btn "
+                className="primaryButton btn"
                 onClick={handleChangePassword}
-                disabled={!isFormValid()}
+                disabled={!isFormValid() || isLoading}
               >
-                <p className="m-0">Save Changes</p>
+                {isLoading ? (
+                  <>
+                    <p className="m-0">Saving</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="m-0">Save</p>
+                  </>
+                )}
               </button>
             </>
           ) : (
@@ -160,14 +167,18 @@ const SecurityDetails = ({
                 </InputGroup>
 
                 {errors[name] && Array.isArray(errors[name]) && (
-                  <ul className="text-warning small mt-1">
+                  <ul className="text-warning list-unstyled small mt-1">
                     {errors[name].map((err, idx) => (
-                      <li key={idx}>{err}</li>
+                      <li key={idx}>
+                        <p className="m-0 ms-2">{err}</p>
+                      </li>
                     ))}
                   </ul>
                 )}
                 {errors[name] && !Array.isArray(errors[name]) && (
-                  <div className="text-danger small mt-1">{errors[name]}</div>
+                  <div className="text-danger small mt-1">
+                    <p className="m-0 ms-2">{errors[name]}</p>
+                  </div>
                 )}
               </div>
             </Col>
