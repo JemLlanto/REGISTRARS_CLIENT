@@ -268,9 +268,9 @@ const RequestDetails = () => {
                     <tr>
                       {documentInputs.map((input, index) => (
                         <th key={index} scope="col">
-                          <h5 className="m-0 fw-bold">
+                          <h6 className="m-0 fw-bold">
                             {input.inputDescription}
-                          </h5>
+                          </h6>
                         </th>
                       ))}
                     </tr>
