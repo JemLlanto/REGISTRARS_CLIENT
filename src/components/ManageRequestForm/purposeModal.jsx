@@ -320,7 +320,7 @@ function purposeModal() {
                               </p>
                             </button>
                             <button
-                              className="btn btn-sm btn-success text-white d-flex justify-content-center align-items-center gap-1"
+                              className="btn btn-sm btn-success text-white d-flex justify-content-center align-items-center gap-md-1"
                               onClick={() =>
                                 handleUpdatePurpose(purpose.purposeName)
                               }
@@ -369,7 +369,7 @@ function purposeModal() {
                               </p>
                             </button>
                             <button
-                              className="btn btn-sm btn-danger text-white d-flex justify-content-center align-items-center gap-1"
+                              className="btn btn-sm btn-danger text-white d-flex justify-content-center align-items-center gap-md-1"
                               onClick={() =>
                                 handleDeletePurpose(
                                   purpose.purposeID,

@@ -107,8 +107,10 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                         {request?.created
                           ? new Intl.DateTimeFormat("en-US", {
                               dateStyle: "medium",
+                              timeZone: "Asia/Manila", // Philippine timezone (UTC+8)
                             }).format(new Date(request?.created))
                           : ""}
+                        {/* {request?.created} */}
                       </p>
                     </div>
 

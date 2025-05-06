@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { InputGroup, Form, Row, Col } from "react-bootstrap";
 
 const OTPVerification = ({
   formData,
   otpInputs,
   handleOtpChange,
-  resendOTP,
-  isLoading,
+  sendOTP,
   otpTimer,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const resendOTP = async () => {
+    try {
+      setIsLoading(true);
+      setGeneratedOtp(null);
+      await sendOTP();
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Resend Failed",
+        text: "An error occurred while resending OTP.",
+      });
+    }
+  };
   return (
     <div>
       <p>

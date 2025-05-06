@@ -7,11 +7,13 @@ import Swal from "sweetalert2";
 const ExternalFeedbackDownload = ({ user, documentDetails }) => {
   const [feedbackData, setFeedbackData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   const fetchData = async () => {
     if (documentDetails.requestID) {
       setIsLoading(true);
       try {
+        // console.log("Fetching data for request ID:", documentDetails.requestID);
         const res = await axios.get(
           `${
             import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
@@ -21,7 +23,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         );
 
         if (res.status === 200) {
-          console.log(res.data.result);
+          // console.log("Fetch data", res.data.result);
           setFeedbackData(res.data.result);
         } else {
           Swal.fire({
@@ -42,10 +44,19 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
     }
   };
   useEffect(() => {
-    if (documentDetails.requestID) {
+    setChecked(true);
+    if (documentDetails.requestID && !checked) {
       fetchData();
     }
   }, [documentDetails.requestID]);
+
+  const formatDate = (date) =>
+    date.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+
   // PDF generation function
   const downloadPDF = () => {
     try {
@@ -158,7 +169,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
 
       // Date field
       doc.text(
-        "Date (Petsa): " + (feedbackData.date || "_________________"),
+        "Date (Petsa): " + (formatDate(new Date()) || "(Not provided)"),
         25,
         90
       );
@@ -623,7 +634,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       doc.text("(Salamat po!)", 105, 283, { align: "center" });
 
       // Save PDF
-      doc.save(`${user.lastName}'s_Feedback_Form.pdf`);
+      doc.save(`${documentDetails.lastName}'s_Feedback_Form.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
       Swal.fire({
@@ -639,7 +650,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         type="button"
         className="btn btn-warning d-none d-md-block"
         onClick={downloadPDF}
-        disabled={!documentDetails.responded}
+        disabled={!documentDetails.responded || feedbackData.length === 0}
       >
         <p className="m-0">
           {documentDetails.responded
@@ -654,7 +665,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         type="button"
         className="btn btn-warning w-100  d-block d-md-none"
         onClick={downloadPDF}
-        disabled={!documentDetails.responded}
+        disabled={!documentDetails.responded || feedbackData.length === 0}
       >
         <p className="m-0">
           {documentDetails.responded
