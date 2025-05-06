@@ -25,6 +25,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         if (res.status === 200) {
           // console.log("Fetch data", res.data.result);
           setFeedbackData(res.data.result);
+          downloadPDF(res.data.result, documentDetails);
         } else {
           Swal.fire({
             icon: "warning",
@@ -43,12 +44,12 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       }
     }
   };
-  useEffect(() => {
-    setChecked(true);
-    if (documentDetails.requestID && !checked) {
-      fetchData();
-    }
-  }, [documentDetails.requestID]);
+  // useEffect(() => {
+  //   setChecked(true);
+  //   if (documentDetails.requestID && !checked) {
+  //     fetchData();
+  //   }
+  // }, [documentDetails.requestID]);
 
   const formatDate = (date) =>
     date.toLocaleDateString("en-US", {
@@ -58,7 +59,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
     });
 
   // PDF generation function
-  const downloadPDF = () => {
+  const downloadPDF = (feedbackData, documentDetails) => {
     try {
       const doc = new jsPDF();
 
@@ -649,8 +650,8 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       <button
         type="button"
         className="btn btn-warning d-none d-md-block"
-        onClick={downloadPDF}
-        disabled={!documentDetails.responded || feedbackData.length === 0}
+        onClick={fetchData}
+        disabled={!documentDetails.responded || isLoading}
       >
         <p className="m-0">
           {documentDetails.responded
@@ -664,8 +665,8 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       <button
         type="button"
         className="btn btn-warning w-100  d-block d-md-none"
-        onClick={downloadPDF}
-        disabled={!documentDetails.responded || feedbackData.length === 0}
+        onClick={fetchData}
+        disabled={!documentDetails.responded || isLoading}
       >
         <p className="m-0">
           {documentDetails.responded

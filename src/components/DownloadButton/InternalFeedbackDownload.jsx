@@ -24,6 +24,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         if (res.status === 200) {
           // console.log(res.data.result);
           setFeedbackData(res.data.result);
+          downloadPDF(res.data.result, documentDetails);
         } else {
           Swal.fire({
             icon: "warning",
@@ -42,12 +43,12 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
       }
     }
   };
-  useEffect(() => {
-    setChecked(true);
-    if (documentDetails.requestID && !checked) {
-      fetchData();
-    }
-  }, [documentDetails.requestID]);
+  // useEffect(() => {
+  //   setChecked(true);
+  //   if (documentDetails.requestID && !checked) {
+  //     fetchData();
+  //   }
+  // }, [documentDetails.requestID]);
 
   const name = `${feedbackData.firstName} ${feedbackData.middleName} ${feedbackData.lastName}`;
   const attendingStaff = `${user.firstName} ${user.middleName} ${user.lastName}`;
@@ -58,7 +59,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
       year: "numeric",
     });
   // PDF generation function
-  const downloadPDF = () => {
+  const downloadPDF = (feedbackData, documentDetails) => {
     try {
       const doc = new jsPDF();
 
@@ -241,24 +242,36 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
       <button
         type="button"
         className="btn btn-warning d-none d-md-block"
-        onClick={downloadPDF}
-        disabled={!documentDetails.responded || feedbackData.length === 0}
+        onClick={fetchData}
+        disabled={
+          !documentDetails.responded || !documentDetails.requestID || isLoading
+        }
       >
         <p className="m-0">
           {" "}
-          {documentDetails.responded ? "Feedback(Internal)" : "Feedback"}
+          {documentDetails.responded
+            ? "Feedback(Internal)"
+            : documentDetails.feedbackType === ""
+            ? `Feedback(None)`
+            : `Feedback`}
         </p>
       </button>
 
       <button
         type="button"
         className="w-100 btn btn-warning d-block d-md-none"
-        onClick={downloadPDF}
-        disabled={!documentDetails.responded || feedbackData.length === 0}
+        onClick={fetchData}
+        disabled={
+          !documentDetails.responded || !documentDetails.requestID || isLoading
+        }
       >
         <p className="m-0">
           {" "}
-          {documentDetails.responded ? "Feedback (int.)" : "Feedback"}
+          {documentDetails.responded
+            ? "Feedback (int.)"
+            : documentDetails.feedbackType === ""
+            ? `Feedback(None)`
+            : `Feedback`}
         </p>
       </button>
     </>
