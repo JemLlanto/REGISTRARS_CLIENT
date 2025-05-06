@@ -65,7 +65,9 @@ const NavBar = ({ user }) => {
                     >
                       Loading...
                     </p>
-                    <Spinner animation="border" variant="white" size="sm" />
+                    <span className="">
+                      <Spinner animation="border" variant="white" size="sm" />
+                    </span>
                   </div>
                 </>
               ) : (
