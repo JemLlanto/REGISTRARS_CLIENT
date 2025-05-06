@@ -109,7 +109,7 @@ const RequestDetailsHeader = ({
                 </>
               ) : (
                 <>
-                  <Dropdown.Item className="text-dark bg-white py-0 mb-1">
+                  <Dropdown.Item className="text-dark bg-white py-0">
                     <ViewScheduleSlip
                       fetchDocumentDetails={fetchDocumentDetails}
                       documentDetails={documentDetails}

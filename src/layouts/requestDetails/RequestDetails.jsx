@@ -209,7 +209,7 @@ const RequestDetails = () => {
                                 : documentDetails.status === "processing"
                                 ? "Your request is currently being processed. Please wait for further updates."
                                 : documentDetails.status === "ready to pickup"
-                                ? "Your request is ready for pick-up. Please download your schedule slip."
+                                ? "Your request is ready for pick-up. Please download your schedule slip and present it at the office."
                                 : documentDetails.status === "completed"
                                 ? "Your request has been successfully completed."
                                 : documentDetails.status === "cancelled"

@@ -30,11 +30,18 @@ const Step1 = ({ formData, handleChange }) => {
               placeholder="Student ID"
             />
           </FloatingLabel>
-          <h6 className=" text-secondary mt-1">
-            <span className="fw-bold">Note: </span> If your student number is
-            not available, kindly indicate the last school year
-            attended/graduated in the University.
-          </h6>
+          <p className=" text-secondary mx-2 my-1">
+            <span
+              className="fw-bold"
+              style={{ fontSize: "clamp(0.6rem, 1dvw, .7rem)" }}
+            >
+              Note:{" "}
+            </span>{" "}
+            <span style={{ fontSize: "clamp(0.6rem, 1dvw, .7rem)" }}>
+              If your student number is not available, kindly indicate the last
+              school year attended/graduated in the University.
+            </span>
+          </p>
         </Col>
       </Row>
       {/* Name Fields in a Row */}
@@ -59,13 +66,19 @@ const Step1 = ({ formData, handleChange }) => {
               name="middleName"
               value={formData.middleName}
               onChange={handleChange}
-              className="mb-2"
             />
           </FloatingLabel>
-          <h6 className=" text-secondary mt-1">
-            <span className="fw-bold">Note:</span> If unavailable, please leave
-            this field blank.
-          </h6>
+          <p className=" text-secondary mx-2 my-1">
+            <span
+              className="fw-bold"
+              style={{ fontSize: "clamp(0.6rem, 1dvw, .7rem)" }}
+            >
+              Note:
+            </span>{" "}
+            <span style={{ fontSize: "clamp(0.6rem, 1dvw, .7rem)" }}>
+              If unavailable, please leave this field blank.
+            </span>
+          </p>
         </Col>
         <Col lg={"4"}>
           <FloatingLabel controlId="floatingLastname" label="Lastname">
@@ -77,10 +90,17 @@ const Step1 = ({ formData, handleChange }) => {
               onChange={handleChange}
             />
           </FloatingLabel>
-          <h6 className=" text-secondary mt-1">
-            <span className="fw-bold">Note:</span> For married woman, kindly use
-            the name you used in the University.
-          </h6>
+          <p className=" text-secondary mx-2 my-1">
+            <span
+              className="fw-bold"
+              style={{ fontSize: "clamp(0.6rem, 1dvw, .7rem)" }}
+            >
+              Note:
+            </span>{" "}
+            <span style={{ fontSize: "clamp(0.6rem, 1dvw, .7rem)" }}>
+              For married woman, kindly use the name you used in the University.
+            </span>
+          </p>
         </Col>
       </Row>
 

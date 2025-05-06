@@ -126,7 +126,7 @@ const ForgotPassword = () => {
       const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/emailNotification/sendForgotPasswordOTP`,
+        }/api/emailNotification/resetPassword`,
         otpData
       );
 
@@ -271,7 +271,7 @@ const ForgotPassword = () => {
         style={{ color: "var(--yellow-color)" }}
         onClick={handleShow}
       >
-        Forgot password
+        <p className="m-0">Forgot password</p>
       </button>
       <Modal
         show={showForgotModal}
@@ -285,7 +285,9 @@ const ForgotPassword = () => {
           className="text-white"
           style={{ backgroundColor: "var(--main-color)" }}
         >
-          <Modal.Title>Account Recovery</Modal.Title>
+          <Modal.Title>
+            <h5 className="m-0">Account Recovery</h5>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
@@ -333,7 +335,7 @@ const ForgotPassword = () => {
               {alreadySent ? (
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="btn primaryButton"
                   onClick={resendOTP}
                   disabled={
                     otpTimer != 0 || isLoading || !formData.receiverEmail
@@ -363,7 +365,7 @@ const ForgotPassword = () => {
                 </button>
               ) : (
                 <button
-                  className="btn btn-primary"
+                  className="btn primaryButton"
                   onClick={sendOTP}
                   disabled={!formData.receiverEmail || isLoading}
                 >
@@ -381,9 +383,9 @@ const ForgotPassword = () => {
                 className="btn btn-secondary"
                 onClick={() => setCurrentStep(currentStep - 1)}
               >
-                Back
+                <p className="m-0">Back</p>
               </button>
-              <button className="btn btn-primary" onClick={verifyOTP}>
+              <button className="btn primaryButton" onClick={verifyOTP}>
                 <p className="m-0">
                   {isLoading ? <>Verifying...</> : <>Verify</>}
                 </p>
@@ -395,10 +397,10 @@ const ForgotPassword = () => {
                 className="btn btn-secondary"
                 onClick={() => setCurrentStep(currentStep - 1)}
               >
-                Back
+                <p className="m-0">Back</p>
               </button>
               <button
-                className="btn btn-primary"
+                className="btn primaryButton"
                 disabled={!isFormValid()}
                 onClick={handleChangePassword}
               >

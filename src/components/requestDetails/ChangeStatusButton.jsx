@@ -134,7 +134,12 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
     if (!file) return;
 
     // Allowed file types
-    const allowedTypes = ["image/jpeg", "image/jpg", "application/pdf"];
+    const allowedTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "application/pdf",
+    ];
     const maxSize = 1 * 1024 * 1024; // 1MB
 
     if (file.size > maxSize) {
@@ -218,7 +223,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
             <>
               <div>
                 <p className="m-0">
-                  Upload Schedule Slip (JPG, JPEG, or PDF, up to 1MB){" "}
+                  Upload Schedule Slip (JPG, JPEG, PNG or PDF, up to 1MB){" "}
                   {/* {file && file.size} */}
                 </p>
 
@@ -311,7 +316,9 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
           <button
             className="btn primaryButton d-flex justify-content-center align-items-center gap-1"
             onClick={() => handleChangeStatusRequest()}
-            disabled={documentDetails.status === "processing" && !file}
+            disabled={
+              (documentDetails.status === "processing" && !file) || isLoading
+            }
           >
             {isLoading ? (
               <>

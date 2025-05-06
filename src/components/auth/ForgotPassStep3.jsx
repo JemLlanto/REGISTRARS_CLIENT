@@ -54,14 +54,18 @@ const ForgotPassStep3 = ({
                 </span>
               </div>
               {errors[name] && Array.isArray(errors[name]) && (
-                <ul className="text-warning small mt-1">
+                <ul className="text-warning small mt-1 list-unstyled">
                   {errors[name].map((err, idx) => (
-                    <li key={idx}>{err}</li>
+                    <li key={idx}>
+                      <p className="m-0 ms-2">{err}</p>
+                    </li>
                   ))}
                 </ul>
               )}
               {errors[name] && !Array.isArray(errors[name]) && (
-                <div className="text-danger small mt-1">{errors[name]}</div>
+                <div className="text-danger small mt-1">
+                  <p className="m-0 ms-2">{errors[name]}</p>
+                </div>
               )}
             </div>
           </Col>

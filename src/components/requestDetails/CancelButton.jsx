@@ -1,4 +1,4 @@
-import { Modal, FloatingLabel, Form } from "react-bootstrap";
+import { Modal, FloatingLabel, Form, Spinner } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [formData, setFormData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (documentDetails) {
@@ -24,10 +25,12 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
 
   const handleCancelRequest = async () => {
     try {
+      setIsLoading(true);
       console.log("Sending cancellation request with data:", formData); // Debugging log
 
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/managingRequest/cancelRequest`,
         formData
       );
@@ -35,7 +38,8 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
       if (res.data.Status === "Success") {
         try {
           await axios.post(
-            `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            `${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
             }/api/emailNotification/sendStatusUpdate`,
             formData
           );
@@ -73,6 +77,8 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
         confirmButtonColor: "#d33",
         confirmButtonText: "OK",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -87,7 +93,6 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
       >
         <p className="m-0">Cancel</p>
       </button>
-
 
       <button
         className="btn btn-danger w-100 btn-sm btn-responsive d-block d-md-none"
@@ -133,11 +138,20 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
             <p className="m-0">Back</p>
           </button>
           <button
-            className="btn primaryButton"
+            className="btn primaryButton d-flex align-items-center gap-1"
             onClick={() => handleCancelRequest(documentDetails.requestID)}
-            disabled={formData.reason === ""}
+            disabled={formData.reason === "" || isLoading}
           >
-            <p className="m-0">Confirm</p>
+            {isLoading ? (
+              <>
+                <Spinner animation="border" variant="light" size="sm" />
+                <p className="m-0">Cancelling</p>
+              </>
+            ) : (
+              <>
+                <p className="m-0">Confirm</p>
+              </>
+            )}
           </button>
         </Modal.Footer>
       </Modal>
