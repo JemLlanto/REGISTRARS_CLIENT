@@ -80,7 +80,7 @@ const UserVerificationModal = ({
       const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/emailNotification/sendForgotPasswordOTP`,
+        }/api/emailNotification/resetPassword`,
         otpData
       );
 

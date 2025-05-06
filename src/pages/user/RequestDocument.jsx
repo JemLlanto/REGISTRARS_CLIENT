@@ -107,16 +107,16 @@ export default function RequestDocument() {
         return {
           ...prevData,
           // Only use user data if localStorage doesn't have a value (empty string is considered no value)
-          email: prevData.email || user.email || "",
-          userID: prevData.userID || user.userID || "",
-          firstName: prevData.firstName || user.firstName || "",
-          middleName: prevData.middleName || user.middleName || "",
-          lastName: prevData.lastName || user.lastName || "",
-          studentID: prevData.studentID || user.studentID || "",
-          dateOfBirth: formattedDate || user.dateOfBirth || "",
-          sex: prevData.sex || user.sex || "",
-          mobileNum: prevData.mobileNum || user.mobileNum || "+63",
-          program: prevData.program || user.program || "",
+          email: prevData.email || "",
+          userID: prevData.userID || "",
+          firstName: prevData.firstName || "",
+          middleName: prevData.middleName || "",
+          lastName: prevData.lastName || "",
+          studentID: prevData.studentID || "",
+          dateOfBirth: formattedDate || "",
+          sex: prevData.sex || "",
+          mobileNum: prevData.mobileNum || "+63",
+          program: prevData.program || "",
         };
       });
     }

@@ -34,7 +34,8 @@ const NotifButton = ({ user }) => {
         }
 
         const response = await axios.get(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/notifications/fetchNotification/${userID}`,
           {
             params: {
@@ -65,7 +66,7 @@ const NotifButton = ({ user }) => {
             setNotifications(newNotifications);
           }
         } else {
-          console.log(response.data.Message);
+          // console.log(response.data.Message);
         }
         setTimeout(() => {
           setLoading(false);
@@ -73,7 +74,7 @@ const NotifButton = ({ user }) => {
         }, 0);
         setNewNotif(false);
       } catch (error) {
-        console.error("Error fetching notifications:", error);
+        // console.error("Error fetching notifications:", error);
         setLoading(false);
         setLoadingMore(false);
       }
@@ -138,7 +139,7 @@ const NotifButton = ({ user }) => {
 
     // Listen for new notifications
     socket.on("new_notification", (notification) => {
-      console.log("New notification received:", notification);
+      // console.log("New notification received:", notification);
 
       setNewNotif(true);
 
@@ -196,11 +197,12 @@ const NotifButton = ({ user }) => {
     const targetPath = `/request-details/${notif.requestID}`;
     try {
       await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/notifications/markAsRead/${notif.requestID}`
       );
       fetchNotifications(1, false);
-      console.log("Navigating to:", targetPath);
+      // console.log("Navigating to:", targetPath);
 
       if (location.pathname === targetPath) {
         window.location.reload(); // Reload if already on the same page
@@ -215,7 +217,8 @@ const NotifButton = ({ user }) => {
   const handleMarkAllNotifAsRead = async () => {
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/notifications/markAllAsRead/${user.userID}`
       );
 
@@ -300,14 +303,14 @@ const NotifButton = ({ user }) => {
               style={{ color: "var(--main-color)" }}
             >
               {notifications.filter((notif) => notif.isRead === 0).length ===
-                0 ? (
+              0 ? (
                 <i className="bx bx-bell bx-sm"></i>
               ) : (
                 <i className="bx bxs-bell bx-tada bx-sm"></i>
               )}
             </h5>
             {notifications.filter((notif) => notif.isRead === 0).length ===
-              0 ? null : (
+            0 ? null : (
               <div
                 className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
                 style={{
@@ -366,7 +369,7 @@ const NotifButton = ({ user }) => {
                 </p>
               </div>
               {notifications.filter((notif) => notif.isRead === 0).length >
-                0 ? (
+              0 ? (
                 <button
                   className="btn btn-sm text-nowrap"
                   style={{
@@ -448,8 +451,6 @@ const NotifButton = ({ user }) => {
                       transition: "background-color 0.2s ease",
                     }}
                   >
-
-
                     {/* Notification content */}
                     <div
                       className="d-flex flex-column text-wrap text-break  flex-grow-1"
@@ -457,13 +458,13 @@ const NotifButton = ({ user }) => {
                     >
                       <div className="d-flex">
                         <p
-                          className={`mb-1 ${notif.isRead === 0 ? "fw-bold" : ""
-                            }`}
+                          className={`mb-1 ${
+                            notif.isRead === 0 ? "fw-bold" : ""
+                          }`}
                           style={{ fontSize: "0.7rem" }}
                         >
                           {notif.message}
                         </p>
-
 
                         {/* Unread indicator */}
                         {notif.isRead === 0 && (
@@ -477,7 +478,6 @@ const NotifButton = ({ user }) => {
                               flexShrink: "0",
                             }}
                           ></div>
-
                         )}
                       </div>
                       <div className="d-flex flex-wrap justify-content-between align-items-center">
@@ -507,8 +507,6 @@ const NotifButton = ({ user }) => {
                         </small>
                       </div>
                     </div>
-
-
                   </Dropdown.Item>
                 ))}
 
@@ -536,13 +534,12 @@ const NotifButton = ({ user }) => {
                     <div className="d-flex  justify-content-center gap-2">
                       <i
                         className="bx bx-check-circle "
-                        style={{ fontSize: "1.5rem", color: "var(--main-color)" }}
+                        style={{
+                          fontSize: "1.5rem",
+                          color: "var(--main-color)",
+                        }}
                       ></i>
-                      <p
-                        className="text-muted  m-0"
-                      >
-                        End of notifications
-                      </p>
+                      <p className="text-muted  m-0">End of notifications</p>
                     </div>
                   </div>
                 )}
