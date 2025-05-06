@@ -358,12 +358,12 @@ const NotifButton = ({ user }) => {
                   className="bx bx-bell me-2"
                   style={{ color: "var(--main-color)", fontSize: "1.25rem" }}
                 ></i>
-                <h6
+                <p
                   className="m-0 fw-bold"
                   style={{ color: "var(--main-color)" }}
                 >
                   Notifications
-                </h6>
+                </p>
               </div>
               {notifications.filter((notif) => notif.isRead === 0).length >
                 0 ? (
@@ -382,7 +382,7 @@ const NotifButton = ({ user }) => {
                 </button>
               ) : (
                 <button
-                  className="btn btn-sm text-nowrap"
+                  className="btn btn-sm text-nowrap border-0"
                   disabled
                   style={{
                     color: "var(--yellow-color-disabled)",
@@ -452,16 +452,34 @@ const NotifButton = ({ user }) => {
 
                     {/* Notification content */}
                     <div
-                      className="d-flex flex-column text-wrap text-break flex-grow-1"
+                      className="d-flex flex-column text-wrap text-break  flex-grow-1"
                       style={{ wordBreak: "break-word", whiteSpace: "normal" }}
                     >
-                      <p
-                        className={`mb-1 ${notif.isRead === 0 ? "fw-bold" : ""
-                          }`}
-                        style={{ fontSize: "0.9rem" }}
-                      >
-                        {notif.message}
-                      </p>
+                      <div className="d-flex">
+                        <p
+                          className={`mb-1 ${notif.isRead === 0 ? "fw-bold" : ""
+                            }`}
+                          style={{ fontSize: "0.7rem" }}
+                        >
+                          {notif.message}
+                        </p>
+
+
+                        {/* Unread indicator */}
+                        {notif.isRead === 0 && (
+                          <div
+                            style={{
+                              width: "10px",
+                              height: "10px",
+                              borderRadius: "50%",
+                              backgroundColor: "#ff4d4f",
+                              marginTop: "20px",
+                              flexShrink: "0",
+                            }}
+                          ></div>
+
+                        )}
+                      </div>
                       <div className="d-flex flex-wrap justify-content-between align-items-center">
                         {notif.requestID && (
                           <span
@@ -478,7 +496,7 @@ const NotifButton = ({ user }) => {
                           </span>
                         )}
                         <small
-                          className="ms-auto mt-1"
+                          className="ms-auto "
                           style={{
                             fontSize: "0.7rem",
                             color: "#777",
@@ -490,19 +508,7 @@ const NotifButton = ({ user }) => {
                       </div>
                     </div>
 
-                    {/* Unread indicator */}
-                    {notif.isRead === 0 && (
-                      <div
-                        style={{
-                          width: "10px",
-                          height: "10px",
-                          borderRadius: "50%",
-                          backgroundColor: "#ff4d4f",
-                          marginTop: "10px",
-                          flexShrink: "0",
-                        }}
-                      ></div>
-                    )}
+
                   </Dropdown.Item>
                 ))}
 
@@ -522,6 +528,22 @@ const NotifButton = ({ user }) => {
                     >
                       Loading more...
                     </span>
+                  </div>
+                )}
+                {/* End of notifications message */}
+                {!hasMore && notifications.length > 0 && !loadingMore && (
+                  <div className="text-center py-3 border-top">
+                    <div className="d-flex  justify-content-center gap-2">
+                      <i
+                        className="bx bx-check-circle "
+                        style={{ fontSize: "1.5rem", color: "var(--main-color)" }}
+                      ></i>
+                      <p
+                        className="text-muted  m-0"
+                      >
+                        End of notifications
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>
