@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 // Citizens Charter Step Component
-const CitizensCharterStep = ({ formData, handleChange }) => {
+const CitizensCharterStep = ({ formData, handleChange, setFormData }) => {
   const cc1 = [
     {
       value: 1,
@@ -92,7 +92,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
   ];
 
   return (
-    <div className="container p-1">
+    <div className=" p-1">
       <div className="mb-4">
         <h6 className="fw-bold">
           INSTRUCTIONS: Choose your answer to the Citizen's Charter (CC)
@@ -129,6 +129,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
               <div key={index} className="mb-1">
                 <Form.Check // prettier-ignore
                   type="checkbox"
+                  className="d-none d-sm-block"
                   label={
                     <>
                       <p className="m-0">
@@ -148,6 +149,40 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
                   checked={formData.cc1 === q1.value}
                   onChange={handleChange}
                 />
+                <div
+                  className="row d-flex d-sm-none align-items-start gap-2 mx-auto"
+                  onClick={() =>
+                    handleChange({ target: { name: "cc1", value: q1.value } })
+                  }
+                >
+                  <div
+                    className={`col-1 d-flex justify-content-center align-items-center`}
+                  >
+                    <div
+                      className={`col-3 border rounded-1 d-flex justify-content-center align-items-center overflow-hidden`}
+                      style={{ height: "1rem", width: "1rem" }}
+                    >
+                      <i
+                        class={`${
+                          formData.cc1 === q1.value
+                            ? "bg-primary text-light"
+                            : "d-none"
+                        } bx bx-check`}
+                      ></i>
+                    </div>
+                  </div>
+                  <div className="col px-0">
+                    <p className="m-0">
+                      {index + 1}. {q1.question}
+                      <span
+                        className="fst-italic text-muted"
+                        style={{ fontSize: "clamp(0.65rem, 1.75vw, .8rem)" }}
+                      >
+                        ({q1.tagalog})
+                      </span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </>
           ))}
@@ -173,6 +208,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
               <div key={index} className="mb-1">
                 <Form.Check // prettier-ignore
                   type="checkbox"
+                  className="d-none d-sm-block"
                   label={
                     <>
                       <p className="m-0">
@@ -191,8 +227,46 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
                   value={`${q2.value}`}
                   checked={formData.cc2 === q2.value}
                   disabled={formData.cc1 === 4}
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                 />
+                <div
+                  className="row d-flex d-sm-none align-items-start gap-2 mx-auto"
+                  onClick={() =>
+                    handleChange({ target: { name: "cc2", value: q2.value } })
+                  }
+                >
+                  <div
+                    className={`col-1 d-flex justify-content-center align-items-center`}
+                  >
+                    <div
+                      className={`col-3 border rounded-1 d-flex justify-content-center align-items-center overflow-hidden`}
+                      style={{ height: "1rem", width: "1rem" }}
+                    >
+                      <i
+                        className={`${
+                          formData.cc2 === q2.value
+                            ? "bg-primary text-light"
+                            : "d-none"
+                        } bx bx-check`}
+                      ></i>
+                    </div>
+                  </div>
+                  <div
+                    className={`${
+                      formData.cc1 === 4 ? "text-secondary" : ""
+                    } col px-0`}
+                  >
+                    <p className="m-0">
+                      {index + 1}. {q2.question}
+                      <span
+                        className="fst-italic text-muted"
+                        style={{ fontSize: "clamp(0.65rem, 1.75vw, .8rem)" }}
+                      >
+                        ({q2.tagalog})
+                      </span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </>
           ))}
@@ -202,7 +276,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
       {/* CC3 Question */}
       <div className="row">
         <div className="col-12">
-          <h6 className="m-0 fw-bold">
+          <h6 className="m-0 mb-2 fw-bold">
             CC3: If aware of CC (answered codes 1-3 in CC1), how much did the CC
             help you in your transaction?
             <span
@@ -218,6 +292,7 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
               <div key={index} className="mb-1">
                 <Form.Check // prettier-ignore
                   type="checkbox"
+                  className="d-none d-sm-block"
                   label={
                     <>
                       <p className="m-0">
@@ -238,6 +313,44 @@ const CitizensCharterStep = ({ formData, handleChange }) => {
                   disabled={formData.cc1 === 4}
                   onChange={handleChange}
                 />
+                <div
+                  className="row d-flex d-sm-none align-items-start gap-2 mx-auto"
+                  onClick={() =>
+                    handleChange({ target: { name: "cc3", value: q3.value } })
+                  }
+                >
+                  <div
+                    className={`col-1 d-flex justify-content-center align-items-center`}
+                  >
+                    <div
+                      className={`col-3 border rounded-1 d-flex justify-content-center align-items-center overflow-hidden`}
+                      style={{ height: "1rem", width: "1rem" }}
+                    >
+                      <i
+                        className={`${
+                          formData.cc3 === q3.value
+                            ? "bg-primary text-light"
+                            : "d-none"
+                        } bx bx-check`}
+                      ></i>
+                    </div>
+                  </div>
+                  <div
+                    className={`${
+                      formData.cc1 === 4 ? "text-secondary" : ""
+                    } col px-0`}
+                  >
+                    <p className="m-0">
+                      {index + 1}. {q3.question}
+                      <span
+                        className="fst-italic text-muted"
+                        style={{ fontSize: "clamp(0.65rem, 1.75vw, .8rem)" }}
+                      >
+                        ({q3.tagalog})
+                      </span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </>
           ))}

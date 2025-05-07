@@ -128,7 +128,6 @@
   z-index: 2;
 }
 
-
 /* Notification */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px; /* Very thin scrollbar */
@@ -502,3 +501,4 @@ iframe {
 .dropdown-item:hover {
   background-color: rgba(var(--main-color-rgb), 0.08) !important;
 }
+

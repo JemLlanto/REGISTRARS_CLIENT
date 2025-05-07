@@ -191,10 +191,7 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
       <button
         className="btn btn-success btn-sm btn-responsive w-100 d-block d-md-none"
         onClick={handleShowChangeStatusModal}
-        disabled={
-          documentDetails.status === "cancelled" ||
-          documentDetails.status === "completed"
-        }
+        disabled
       >
         <p className="m-0">
           {documentDetails.status === "pending"

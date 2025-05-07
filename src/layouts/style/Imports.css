@@ -100,3 +100,13 @@ label,
 .btn-light:hover {
   background-color: #c7c7c7 !important;
 }
+
+
+/* Try targeting the container if possible */
+#googleLoginButton iframe {
+  outline: none !important;
+}
+.google-login-container {
+  overflow: hidden;
+  border-radius: 8px; /* Optional: match the button’s shape */
+}

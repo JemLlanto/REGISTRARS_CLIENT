@@ -79,14 +79,33 @@ const SQDFormComponent = ({ formData, handleChange, documentDetails }) => {
                       })
                     }
                   >
-                    <input
-                      type="radio"
-                      className="form-check-input border border-dark"
-                      name={question.id}
-                      value={option.value}
-                      checked={formData[question.id] === option.value}
-                      onChange={handleChange}
-                    />
+                    <div className="d-flex justify-content-center align-items-center">
+                      <input
+                        type="radio"
+                        className="form-check-input border border-dark d-none d-md-block"
+                        name={question.id}
+                        value={option.value}
+                        checked={formData[question.id] === option.value}
+                        onChange={() =>
+                          handleChange({
+                            target: { name: question.id, value: option.value },
+                          })
+                        }
+                      />
+                      <div
+                        className={`${
+                          formData[question.id] === option.value
+                            ? "bg-primary"
+                            : ""
+                        } border border-dark d-flex justify-content-center align-items-center rounded-circle d-md-none`}
+                        style={{ height: "1rem", width: "1rem" }}
+                      >
+                        <div
+                          className="bg-white rounded-circle"
+                          style={{ height: ".4rem", width: ".4rem" }}
+                        ></div>
+                      </div>
+                    </div>
                   </td>
                 ))}
               </tr>

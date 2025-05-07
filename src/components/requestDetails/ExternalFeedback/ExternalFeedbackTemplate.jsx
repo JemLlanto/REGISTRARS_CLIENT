@@ -68,7 +68,7 @@ const ExternalFeedbackTemplate = ({
       // If cc1 is 4, set cc2 and cc3 to 5
       if (updatedFormData.cc1 === 4) {
         updatedFormData.cc2 = 5;
-        updatedFormData.cc3 = 5;
+        updatedFormData.cc3 = 4;
       }
 
       return updatedFormData;
@@ -228,6 +228,7 @@ const ExternalFeedbackTemplate = ({
             {currentStep === 2 && (
               <CitizensCharterStep
                 formData={formData}
+                setFormData={setFormData}
                 handleChange={handleChange}
               />
             )}
