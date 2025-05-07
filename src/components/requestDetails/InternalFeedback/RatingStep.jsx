@@ -53,14 +53,27 @@ const RatingStep = ({ formData, handleChange }) => {
                 onClick={() => handleCellClick("rating-courtesy", rating)}
                 style={{ cursor: "pointer" }}
               >
-                <input
-                  type="radio"
-                  className="form-check-input border border-dark"
-                  name="rating-courtesy"
-                  value={rating}
-                  onChange={handleChange}
-                  checked={formData.ratings.courtesy === rating}
-                />
+                <div className="d-flex justify-content-center align-items-center">
+                  <input
+                    type="radio"
+                    className="form-check-input border border-dark d-none d-md-block"
+                    name="rating-courtesy"
+                    value={rating}
+                    onChange={handleChange}
+                    checked={formData.ratings.courtesy === rating}
+                  />
+                  <div
+                    className={`${
+                      formData.ratings.courtesy === rating ? "bg-primary" : ""
+                    } border border-dark d-flex justify-content-center align-items-center rounded-circle d-md-none`}
+                    style={{ height: "1rem", width: "1rem" }}
+                  >
+                    <div
+                      className="bg-white rounded-circle"
+                      style={{ height: ".4rem", width: ".4rem" }}
+                    ></div>
+                  </div>
+                </div>
               </td>
             ))}
           </tr>
@@ -96,18 +109,35 @@ const RatingStep = ({ formData, handleChange }) => {
                   }
                   style={{ cursor: "pointer" }}
                 >
-                  <input
-                    type="radio"
-                    className="form-check-input border border-dark"
-                    name={`rating-service_${subCategory.toLowerCase()}`}
-                    value={rating}
-                    onChange={handleChange}
-                    checked={
-                      formData.ratings[
-                        `service_${subCategory.toLowerCase()}`
-                      ] === rating
-                    }
-                  />
+                  <div className="d-flex justify-content-center align-items-center">
+                    <input
+                      type="radio"
+                      className="form-check-input border border-dark d-none d-md-block"
+                      name={`rating-service_${subCategory.toLowerCase()}`}
+                      value={rating}
+                      onChange={handleChange}
+                      checked={
+                        formData.ratings[
+                          `service_${subCategory.toLowerCase()}`
+                        ] === rating
+                      }
+                    />
+                    <div
+                      className={`${
+                        formData.ratings[
+                          `service_${subCategory.toLowerCase()}`
+                        ] === rating
+                          ? "bg-primary"
+                          : ""
+                      } border border-dark d-flex justify-content-center align-items-center rounded-circle d-md-none`}
+                      style={{ height: "1rem", width: "1rem" }}
+                    >
+                      <div
+                        className="bg-white rounded-circle"
+                        style={{ height: ".4rem", width: ".4rem" }}
+                      ></div>
+                    </div>
+                  </div>
                 </td>
               ))}
             </tr>
@@ -146,18 +176,35 @@ const RatingStep = ({ formData, handleChange }) => {
                   }
                   style={{ cursor: "pointer" }}
                 >
-                  <input
-                    type="radio"
-                    className="form-check-input border border-dark"
-                    name={`rating-physical_${subCategory.toLowerCase()}`}
-                    value={rating}
-                    onChange={handleChange}
-                    checked={
-                      formData.ratings[
-                        `physical_${subCategory.toLowerCase()}`
-                      ] === rating
-                    }
-                  />
+                  <div className="d-flex justify-content-center align-items-center">
+                    <input
+                      type="radio"
+                      className="form-check-input border border-dark d-none d-md-block"
+                      name={`rating-physical_${subCategory.toLowerCase()}`}
+                      value={rating}
+                      onChange={handleChange}
+                      checked={
+                        formData.ratings[
+                          `physical_${subCategory.toLowerCase()}`
+                        ] === rating
+                      }
+                    />
+                    <div
+                      className={`${
+                        formData.ratings[
+                          `physical_${subCategory.toLowerCase()}`
+                        ] === rating
+                          ? "bg-primary"
+                          : ""
+                      } border border-dark d-flex justify-content-center align-items-center rounded-circle d-md-none`}
+                      style={{ height: "1rem", width: "1rem" }}
+                    >
+                      <div
+                        className="bg-white rounded-circle"
+                        style={{ height: ".4rem", width: ".4rem" }}
+                      ></div>
+                    </div>
+                  </div>
                 </td>
               ))}
             </tr>
