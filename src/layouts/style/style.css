@@ -128,7 +128,6 @@
   z-index: 2;
 }
 
-
 /* Notification */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px; /* Very thin scrollbar */
