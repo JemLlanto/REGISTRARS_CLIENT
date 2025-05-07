@@ -503,3 +503,9 @@ iframe {
   background-color: rgba(var(--main-color-rgb), 0.08) !important;
 }
 
+/* Customize the close button color */
+.toast .btn-close {
+  filter: invert(1); /* Makes the close icon white */
+  opacity: 1;
+}
+
