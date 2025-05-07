@@ -10,7 +10,12 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Feedback from "react-bootstrap/esm/Feedback";
 
-const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
+const ChangeStatusButton = ({
+  showPhoneStatusModal,
+  setShowPhoneStatusModal,
+  documentDetails,
+  fetchDocumentDetails,
+}) => {
   const [showChangeStatusModal, setShowChangeStatusModal] = useState(false);
   const [formData, setFormData] = useState({});
   const [feedbackType, setFeedbackType] = useState("");
@@ -190,8 +195,11 @@ const ChangeStatusButton = ({ documentDetails, fetchDocumentDetails }) => {
 
       <button
         className="btn btn-success btn-sm btn-responsive w-100 d-block d-md-none"
-        onClick={handleShowChangeStatusModal}
-        disabled
+        onClick={() => setShowPhoneStatusModal(true)}
+        disabled={
+          documentDetails.status === "cancelled" ||
+          documentDetails.status === "completed"
+        }
       >
         <p className="m-0">
           {documentDetails.status === "pending"

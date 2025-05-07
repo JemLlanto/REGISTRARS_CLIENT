@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import CancelButton from "../../components/requestDetails/CancelButton";
 import ChangeStatusButton from "../../components/requestDetails/ChangeStatusButton";
 import ViewScheduleSlip from "../../components/requestDetails/ViewScheduleSlip";
 import InternalFeedbackDownload from "../../components/DownloadButton/InternalFeedbackDownload";
 import ExternalFeedbackDownload from "../../components/DownloadButton/ExternalFeedbackDownload";
 import { Dropdown } from "react-bootstrap";
+import SendingScheduleSlipForMobile from "./SendingScheduleSlip";
 
 const RequestDetailsHeader = ({
   user,
   documentDetails,
   fetchDocumentDetails,
 }) => {
+  const [showPhoneStatusModal, setShowPhoneStatusModal] = useState(false);
+
   return (
     <div
       className="rounded-2  p-2 d-flex align-items-center justify-content-between"
@@ -22,6 +25,13 @@ const RequestDetailsHeader = ({
       >
         Request ID: {documentDetails.requestID}
       </h5>
+
+      <SendingScheduleSlipForMobile
+        showPhoneStatusModal={showPhoneStatusModal}
+        setShowPhoneStatusModal={setShowPhoneStatusModal}
+        documentDetails={documentDetails}
+        fetchDocumentDetails={fetchDocumentDetails}
+      />
 
       {user.isAdmin ? (
         <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
@@ -101,6 +111,8 @@ const RequestDetailsHeader = ({
                   </Dropdown.Item>
                   <Dropdown.Item className="text-dark bg-white py-0 mb-1">
                     <ChangeStatusButton
+                      showPhoneStatusModal={showPhoneStatusModal}
+                      setShowPhoneStatusModal={setShowPhoneStatusModal}
                       fetchDocumentDetails={fetchDocumentDetails}
                       documentDetails={documentDetails}
                       className="btn-sm btn-responsive w-100"
