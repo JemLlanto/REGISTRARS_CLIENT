@@ -38,7 +38,7 @@ const Reminder = ({
           information regarding the requested document/s will be sent via
           registered e-mail address.
         </p>
-        <p><span className="fw-bold">Working days:</span> Monday to Thursday, 7am to 5pm.</p>
+        <p><span className="fw-bold">Working days:</span> Monday to Thursday, 8AM to 4PM.</p>
 
         <p>
           <span className="fw-bold">Excluded days:</span> Friday, Saturday,
