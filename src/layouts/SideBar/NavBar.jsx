@@ -29,7 +29,7 @@ const NavBar = ({ user }) => {
         {/* Logo*/}
         <Link to={!user.isAdmin ? "/home" : "/admin/home"}>
           <img
-            src="/navLogo.png"
+            src="/CvSU-CCATMINI.png"
             alt="Registrar Logo"
             className="d-block d-lg-none img-fluid"
             style={{ maxWidth: "130px", objectFit: "cover", cursor: "pointer" }}

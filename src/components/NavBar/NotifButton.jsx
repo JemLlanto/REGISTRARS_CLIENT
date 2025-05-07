@@ -259,7 +259,7 @@ const NotifButton = ({ user }) => {
             onClose={() => closeToast(toast.toastId)}
             show={toast.show}
             delay={5000}
-            autohide
+
             animation={true}
           >
             <Toast.Header style={{ backgroundColor: "var(--main-color)" }}>

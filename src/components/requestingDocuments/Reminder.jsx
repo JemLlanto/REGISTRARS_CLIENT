@@ -38,13 +38,12 @@ const Reminder = ({
           information regarding the requested document/s will be sent via
           registered e-mail address.
         </p>
-        <p>
-          <span className="fw-bold">Working days:</span> Monday to Thursday only
-        </p>
+        <p><span className="fw-bold">Working days:</span> Monday to Thursday, 7am to 5pm.</p>
+
         <p>
           <span className="fw-bold">Excluded days:</span> Friday, Saturday,
           Sunday, Holiday (local and national) and Campus/University-wide
-          activities
+          activities.
         </p>
         <p className="text-danger fw-bold">--NO EXPEDITE REQUEST--</p>
         <p>Thank you.</p>

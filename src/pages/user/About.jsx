@@ -107,16 +107,12 @@ export default function About() {
           </div>
         </div>
         <div className="row g-3 d-flex justify-content-center">
-          <div className="col-12 col-sm-6 col-lg-3 mb-3">
+          <div className="col-12 col-sm-6 col-lg-3 mb-3 ">
             <div
               className="core-value text-center p-3 rounded h-100 d-flex flex-column"
               style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
             >
               <h3 className="text-warning fw-bold fs-4">TRUTH</h3>
-              <p className="text-white mb-0 small">
-                Commitment to honesty and transparency in all academic and
-                institutional pursuits.
-              </p>
             </div>
           </div>
 
@@ -126,10 +122,6 @@ export default function About() {
               style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
             >
               <h3 className="text-warning fw-bold fs-4">INTEGRITY</h3>
-              <p className="text-white mb-0 small">
-                Maintaining ethical standards and moral principles in education
-                and research.
-              </p>
             </div>
           </div>
 
@@ -139,10 +131,6 @@ export default function About() {
               style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
             >
               <h3 className="text-warning fw-bold fs-4">EXCELLENCE</h3>
-              <p className="text-white mb-0 small">
-                Striving for the highest quality in teaching, learning, and
-                institutional performance.
-              </p>
             </div>
           </div>
 
@@ -152,10 +140,6 @@ export default function About() {
               style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
             >
               <h3 className="text-warning fw-bold fs-4">SERVICE</h3>
-              <p className="text-white mb-0 small">
-                Dedicating ourselves to community development and societal
-                progress.
-              </p>
             </div>
           </div>
         </div>
