@@ -34,8 +34,7 @@ const NotifButton = ({ user }) => {
         }
 
         const response = await axios.get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/notifications/fetchNotification/${userID}`,
           {
             params: {
@@ -197,8 +196,7 @@ const NotifButton = ({ user }) => {
     const targetPath = `/request-details/${notif.requestID}`;
     try {
       await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/notifications/markAsRead/${notif.requestID}`
       );
       fetchNotifications(1, false);
@@ -217,8 +215,7 @@ const NotifButton = ({ user }) => {
   const handleMarkAllNotifAsRead = async () => {
     try {
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/notifications/markAllAsRead/${user.userID}`
       );
 
@@ -259,7 +256,7 @@ const NotifButton = ({ user }) => {
             onClose={() => closeToast(toast.toastId)}
             show={toast.show}
             delay={5000}
-
+            autohide
             animation={true}
           >
             <Toast.Header style={{ backgroundColor: "var(--main-color)" }}>
@@ -296,6 +293,7 @@ const NotifButton = ({ user }) => {
               width: "2.5rem",
               height: "2.5rem",
               transition: "all 0.2s ease",
+
             }}
           >
             <h5
@@ -303,14 +301,14 @@ const NotifButton = ({ user }) => {
               style={{ color: "var(--main-color)" }}
             >
               {notifications.filter((notif) => notif.isRead === 0).length ===
-              0 ? (
+                0 ? (
                 <i className="bx bx-bell bx-sm"></i>
               ) : (
                 <i className="bx bxs-bell bx-tada bx-sm"></i>
               )}
             </h5>
             {notifications.filter((notif) => notif.isRead === 0).length ===
-            0 ? null : (
+              0 ? null : (
               <div
                 className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
                 style={{
@@ -369,7 +367,7 @@ const NotifButton = ({ user }) => {
                 </p>
               </div>
               {notifications.filter((notif) => notif.isRead === 0).length >
-              0 ? (
+                0 ? (
                 <button
                   className="btn btn-sm text-nowrap"
                   style={{
@@ -458,9 +456,8 @@ const NotifButton = ({ user }) => {
                     >
                       <div className="d-flex">
                         <p
-                          className={`mb-1 ${
-                            notif.isRead === 0 ? "fw-bold" : ""
-                          }`}
+                          className={`mb-1 ${notif.isRead === 0 ? "fw-bold" : ""
+                            }`}
                           style={{ fontSize: "0.7rem" }}
                         >
                           {notif.message}
