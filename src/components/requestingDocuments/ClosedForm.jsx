@@ -56,7 +56,7 @@ const ClosedForm = ({ user, fetchUserData }) => {
             zIndex: "50",
           }}
         >
-          <h1 className="m-0 text-danger mb-2 fw-bold">
+          <h1 className="m-0 text-danger mb-2 fw-bold text-center">
             Form Submission Temporarily Unavailable
           </h1>
           <div className="mb-4 d-flex flex-column align-items-center justify-content-center">
