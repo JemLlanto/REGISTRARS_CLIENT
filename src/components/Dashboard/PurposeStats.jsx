@@ -12,10 +12,22 @@ import {
   LabelList,
   Cell,
 } from "recharts";
+import DocumentTypeStats from "./Modal/DocumentTypeStats";
 
 function PurposeStats({ requestedDocuments, isLoading, setIsLoading }) {
   const [currentDocuments, setCurrentDocuments] = useState([]);
+  const [showDocumentTypeStats, setShowDocumentTypeStats] = useState(false);
+  const [currentPurpose, setCurrentPurpose] = useState("");
   const [data, setData] = useState([]);
+
+  const handleShow = (purpose) => {
+    setCurrentPurpose(purpose);
+    setShowDocumentTypeStats(true);
+  };
+  const handleClose = () => {
+    setShowDocumentTypeStats(false);
+    setCurrentPurpose("");
+  };
   // Count documents by purpose
   useEffect(() => {
     // console.log("Updating current documents");
@@ -69,12 +81,12 @@ function PurposeStats({ requestedDocuments, isLoading, setIsLoading }) {
             textAlign: "center",
           }}
         >
-          <p
+          <h6
             className="mb-1 fw-bold"
             style={{ fontSize: "14px", color: "#555" }}
           >
             {label}
-          </p>
+          </h6>
           <p
             className="mb-0"
             style={{
@@ -83,7 +95,8 @@ function PurposeStats({ requestedDocuments, isLoading, setIsLoading }) {
               fontWeight: "600",
             }}
           >
-            Documents: <span style={{ color: "#333" }}>{payload[0].value}</span>
+            <span className="text-secondary">( Click to view more)</span> <br />
+            Request: <span style={{ color: "#333" }}>{payload[0].value}</span>
           </p>
         </div>
       );
@@ -93,68 +106,78 @@ function PurposeStats({ requestedDocuments, isLoading, setIsLoading }) {
 
   return (
     <>
-      <div
-        className="bg-white position-relative rounded w-100"
-        style={{ height: "45dvh" }}
-      >
-        {isLoading ? (
-          <div
-            className="position-absolute d-flex justify-content-center align-items-center"
-            style={{
-              height: "100%",
-              width: "100%",
-              backgroundColor: "rgb(255, 255, 255, 0.7)",
-              zIndex: 1,
-              borderRadius: "8px",
-              backdropFilter: "blur(2px)",
-            }}
-          >
-            <Spinner animation="border" variant="black" size="lg" />
-          </div>
-        ) : null}
-        {currentDocuments.length > 0 ? (
-          <div className="w-100" style={{ height: "100%" }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={data}
-                margin={{ top: 20, right: 60, left: 0, bottom: 20 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis
-                  dataKey="name"
-                  angle={0}
-                  textAnchor="start"
-                  height={0}
-                  interval={0}
-                />
-                <YAxis />
-                <Tooltip content={<CustomTooltip />} />
-                <Bar
-                  dataKey="value"
-                  name="Number of Documents"
-                  radius={[8, 8, 0, 0]}
+      <DocumentTypeStats
+        requestedDocuments={requestedDocuments}
+        currentPurpose={currentPurpose}
+        showDocumentTypeStats={showDocumentTypeStats}
+        setShowDocumentTypeStats={setShowDocumentTypeStats}
+        handleClose={handleClose}
+      />
+      <div className="w-100 d-flex flex-column justify-content-center align-items-center gap-2">
+        <div
+          className="bg-white position-relative rounded w-100"
+          style={{ height: "45dvh" }}
+        >
+          {isLoading ? (
+            <div
+              className="position-absolute d-flex justify-content-center align-items-center"
+              style={{
+                height: "100%",
+                width: "100%",
+                backgroundColor: "rgb(255, 255, 255, 0.7)",
+                zIndex: 1,
+                borderRadius: "8px",
+                backdropFilter: "blur(2px)",
+              }}
+            >
+              <Spinner animation="border" variant="black" size="lg" />
+            </div>
+          ) : null}
+          {currentDocuments.length > 0 ? (
+            <div className="w-100" style={{ height: "100%" }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={data}
+                  margin={{ top: 20, right: 60, left: 0, bottom: 20 }}
                 >
-                  {data.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                  <LabelList dataKey="value" position="top" />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        ) : (
-          <div
-            className="spinner-container d-flex justify-content-center align-items-center spinner-container"
-            style={{ height: "100%" }}
-          >
-            <p className="text-muted m-0 p-3 mt-3">
-              No document purposes to display for the selected period.
-            </p>
-          </div>
-        )}
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis
+                    dataKey="name"
+                    angle={0}
+                    textAnchor="start"
+                    height={0}
+                    interval={0}
+                  />
+                  <YAxis />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Bar
+                    dataKey="value"
+                    name="Number of Documents"
+                    radius={[8, 8, 0, 0]}
+                  >
+                    {data.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                        onClick={() => handleShow(entry.name)}
+                      />
+                    ))}
+                    <LabelList dataKey="value" position="top" />
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          ) : (
+            <div
+              className="spinner-container d-flex justify-content-center align-items-center spinner-container"
+              style={{ height: "100%" }}
+            >
+              <p className="text-muted m-0 p-3 mt-3">
+                No document purposes to display for the selected period.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
