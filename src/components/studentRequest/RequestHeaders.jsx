@@ -27,12 +27,12 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
   // Paginate requests
   const indexOfLastRequest = currentPage * requestsPerPage;
   const indexOfFirstRequest = indexOfLastRequest - requestsPerPage;
-  const currentRequests = filteredRequests.slice(
+  const currentRequests = filteredRequests?.slice(
     indexOfFirstRequest,
     indexOfLastRequest
   );
 
-  const totalPages = Math.ceil(filteredRequests.length / requestsPerPage);
+  const totalPages = Math.ceil(filteredRequests?.length / requestsPerPage);
 
   // Handle page change
   const handlePageChange = (pageNumber) => {
@@ -64,7 +64,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
           </>
         ) : (
           <>
-            {currentRequests.length > 0 ? (
+            {currentRequests?.length > 0 ? (
               currentRequests.map((request, index) => (
                 <Link
                   key={index}
@@ -72,7 +72,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                   to={`/request-details/${request.requestID}`}
                   style={{ animationDelay: `${index * 0.2}s` }}
                 >
-                  <div className="row mx-auto g-2 p-3">
+                  <div className="row text-center mx-auto g-2 p-3">
                     <div className="col-12 col-sm d-flex align-items-center justify-content-center">
                       <h5 className="m-0 text-muted me-1 d-block d-sm-none">
                         Name:
