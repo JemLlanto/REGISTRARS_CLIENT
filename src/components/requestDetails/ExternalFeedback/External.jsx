@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import jsPDF from "jspdf";
-import cvsuLogo from "/cvsu-logo.png";
+import cvsuLogo from "/CvSU-CCAT-FEEDBACK.png";
 import CitizensCharterStep from "./Citizen";
 import PersonalInfoStep from "./Personal";
 import SQDFormComponent from "./SQDForm";
@@ -98,7 +98,7 @@ const FeedbackExternal = () => {
 
             // First page - Steps 1 & 2 (Personal Info & Citizen's Charter)
             // Add logo
-            doc.addImage(cvsuLogo, "PNG", 50, 12, 18, 15);
+            doc.addImage(cvsuLogo, "PNG", 50, 12, 25, 15);
 
             // Set initial font size and style
             doc.setFontSize(7);

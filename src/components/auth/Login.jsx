@@ -120,8 +120,12 @@ const Login = ({ setActivePage }) => {
                 />
               </div>
               {errors.email && (
-                <div className="text-danger small">{errors.email}</div>
+                <div className="text-danger small d-flex align-items-center gap-1">
+                  <i className="bx bx-error-circle"></i>
+                  <p className="m-0">{errors.email}</p>
+                </div>
               )}
+
             </div>
 
             <div className="mb-2 position-relative">
@@ -149,8 +153,12 @@ const Login = ({ setActivePage }) => {
                 </span>
               </div>
               {errors.password && (
-                <div className="text-danger small">{errors.password}</div>
+                <div className="text-danger small d-flex align-items-center gap-1">
+                  <i className="bx bx-error-circle"></i>
+                  <p className="m-0">{errors.email}</p>
+                </div>
               )}
+
             </div>
             <div className="d-flex justify-content-end align-items-end mb-2">
               <ForgotPassword />
@@ -159,7 +167,7 @@ const Login = ({ setActivePage }) => {
             <button
               className="btn btn-warning w-100 d-flex align-items-center justify-content-center gap-2"
               onClick={handleLogin}
-            >
+              disabled={isLoading}          >
               {isLoading ? (
                 <>
                   <Spinner animation="border" variant="dark" size="sm" />{" "}

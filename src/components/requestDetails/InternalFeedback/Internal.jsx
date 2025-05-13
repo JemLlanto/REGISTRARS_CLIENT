@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import jsPDF from "jspdf";
-import cvsuLogo from "/cvsu-logo.png";
+import cvsuLogo from "/CvSU-CCAT-FEEDBACK.png";
 import RatingStep from "./RatingStep";
 import PersonalInfoStep from "./PersonalInfoStep";
 import CommentsStep from "./CommentsStep";
