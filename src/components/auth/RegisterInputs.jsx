@@ -115,7 +115,9 @@ const RegisterInputs = ({
                 </ul>
               )}
               {errors[name] && !Array.isArray(errors[name]) && (
-                <div className="text-danger small mt-1">{errors[name]}</div>
+                <div className="text-danger small mt-1">
+                  <i className="bx bx-error-circle"></i>
+                  {errors[name]}</div>
               )}
             </div>
           </Col>
