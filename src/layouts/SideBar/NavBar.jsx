@@ -85,7 +85,10 @@ const NavBar = ({ user }) => {
                 </>
               )}
             </Dropdown.Toggle>
-            <Dropdown.Menu className="text-center ">
+            <Dropdown.Menu className="text-center " style={{
+              transform: "translateX(-50%)",
+              animation: "fadeIn 0.2s ease-in-out",
+            }}>
               {!user ? (
                 <>
                   <div className="justify-content-center d-flex align-items-center gap-2 text-black">
