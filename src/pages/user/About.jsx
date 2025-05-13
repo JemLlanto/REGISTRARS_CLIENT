@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import LocationAndContact from "../../components/about/LocationAndContact";
 
 export default function About() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,22 +23,7 @@ export default function About() {
       </div>
 
       {/* Where are we? */}
-      <div className="mt-2 p-4 rounded text-white fade-in-section" style={{ backgroundColor: "var(--main-color)" }}>
-        <h4 className="text-center fw-bold text-warning">Registrar’s Office: Location and Contact</h4>
-        <p className="text-md-center ">
-          You can find the Office of the Registrar at the Student Center building near Gate 2 of CvSU-Rosario Campus, where student records and services are centrally managed.</p>
-        <div className="position-relative">
-          <img
-            src="/studentCenter.png"
-            alt="Registrar Office"
-            className="img-fluid w-100"
-          />
-          <div>
-          </div>
-
-        </div>
-      </div>
-
+      <LocationAndContact />
       {/* Misson Vision */}
       <div className="d-flex justify-content-between gap-2 mt-2 row mx-auto">
         <div
@@ -146,35 +132,65 @@ export default function About() {
       </div>
 
       {/* CCAT GOALS */}
-      <div className=" mt-3 p-4  rounded text-white" style={{ backgroundColor: "var(--main-color)" }}>
+      <div
+        className=" mt-3 p-4  rounded text-white"
+        style={{ backgroundColor: "var(--main-color)" }}
+      >
         <h2 className="text-center fw-bold text-warning">CvSU-CCAT-R GOALS</h2>
         <p className="text-center mb-4">
-          CvSU Rosario Campus aims to produce productive graduates, professionals, and experts marked by global excellence and moral uprightness through the following:
+          CvSU Rosario Campus aims to produce productive graduates,
+          professionals, and experts marked by global excellence and moral
+          uprightness through the following:
         </p>
 
         <div className="mb-3">
-          <p><strong>1. Relevant Programs</strong></p>
-          <p>Offer various programs/courses relevant to the needs of the clients for global competitiveness.</p>
+          <p>
+            <strong>1. Relevant Programs</strong>
+          </p>
+          <p>
+            Offer various programs/courses relevant to the needs of the clients
+            for global competitiveness.
+          </p>
         </div>
 
         <div className="mb-3">
-          <p><strong>2. Personnel Competence</strong></p>
-          <p>Upgrade the qualification and competencies of the teaching and non-teaching personnel for quality service.</p>
+          <p>
+            <strong>2. Personnel Competence</strong>
+          </p>
+          <p>
+            Upgrade the qualification and competencies of the teaching and
+            non-teaching personnel for quality service.
+          </p>
         </div>
 
         <div className="mb-3">
-          <p><strong>3. Facility Improvement</strong></p>
-          <p>Improve facilities relevant for effective and efficient education and training.</p>
+          <p>
+            <strong>3. Facility Improvement</strong>
+          </p>
+          <p>
+            Improve facilities relevant for effective and efficient education
+            and training.
+          </p>
         </div>
 
         <div className="mb-3">
-          <p><strong>4. Research & Extension</strong></p>
-          <p>Engage in research and extension projects/activities that will lead to instruction and community improvement.</p>
+          <p>
+            <strong>4. Research & Extension</strong>
+          </p>
+          <p>
+            Engage in research and extension projects/activities that will lead
+            to instruction and community improvement.
+          </p>
         </div>
 
         <div>
-          <p><strong>5. Strengthen Linkages</strong></p>
-          <p>Strengthen linkages with local and international agencies for instruction, research, development and production.</p>
+          <p>
+            <strong>5. Strengthen Linkages</strong>
+          </p>
+          <p>
+            Strengthen linkages with local and international agencies for
+            instruction, research, development and production.
+          </p>
         </div>
       </div>
     </div>

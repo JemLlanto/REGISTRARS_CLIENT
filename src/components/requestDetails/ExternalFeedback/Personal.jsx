@@ -3,14 +3,14 @@ import { FloatingLabel, Form } from "react-bootstrap";
 
 const PersonalInfoStep = ({ formData, handleChange }) => {
   return (
-    <div className="container p-1">
+    <div className=" p-1">
       <div className="mb-4">
         <h6 className="fw-bold">
           This Client Satisfaction Measurement (CSM) tracks the customer
           experience of government offices. Your feedback on your recently
           concluded transaction will help this office provide a better service.
-          Personal information shared will be kept confidential and you always
-          have the option to not answer this form. <br />
+          Personal information shared will be kept confidential.
+          <br />
           <span
             className="fst-italic fw-normal text-muted"
             style={{ fontSize: "clamp(0.7rem, 1.75vw, .8rem)" }}
@@ -20,8 +20,7 @@ const PersonalInfoStep = ({ formData, handleChange }) => {
             sa tanggapan ng pamahalaan. Makatutulong ang inyong puna sa
             katatapos lamang na transaksyon upang lalong mapagbuti namin ang
             aming serbisyo publiko. Ang personal na impormasyong iyong ibabahagi
-            ay mananatiling kompidensyal at lagi kayong may kalayaan sa pagtugon
-            sa sarbey na ito.)
+            ay mananatiling kompidensyal.)
           </span>
         </h6>
       </div>
