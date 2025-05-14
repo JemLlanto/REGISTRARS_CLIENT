@@ -9,26 +9,26 @@ const RequestTableTemplate = ({ Requests }) => {
       style={{ height: "50dvh" }}
     >
       <Table striped bordered hover>
-        <thead>
+        <thead className="">
           <tr>
             <th>Name</th>
             <th>Purpose</th>
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody >
           {Requests.map((request, index) => (
-            <tr key={index}>
+            <tr className="align-middle" key={index}>
               <td>
                 <p className="m-0">
                   {request.firstName} {request.middleName} {request.lastName}
                 </p>
               </td>
               <td>
-                <p>{request.purpose}</p>
+                <p className="m-0">{request.purpose}</p>
               </td>
               <td>
-                <div>
+                <div className="text-center">
                   <Link
                     style={{ backgroundColor: "var(--main-color)" }}
                     className="btn text-decoration-none text-white"
