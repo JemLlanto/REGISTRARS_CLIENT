@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import cvsuLogo from "/cvsu-logo.png";
 import Swal from "sweetalert2";
+import { OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
+
 
 const ExternalFeedbackDownload = ({ user, documentDetails }) => {
   const [feedbackData, setFeedbackData] = useState([]);
@@ -15,10 +17,8 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       try {
         // console.log("Fetching data for request ID:", documentDetails.requestID);
         const res = await axios.get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-          }/api/feedbackForm/fetchFeedbackExternalData?requestID=${
-            documentDetails.requestID
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/feedbackForm/fetchFeedbackExternalData?requestID=${documentDetails.requestID
           }`
         );
 
@@ -192,7 +192,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       // Service Availed
       doc.text(
         "Service Availed (Uri ng transaksyon o serbisyo): " +
-          (feedbackData.serviceAvailed || "_________________"),
+        (feedbackData.serviceAvailed || "_________________"),
         25,
         105
       );
@@ -649,32 +649,57 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
     <>
       <button
         type="button"
-        className="btn btn-warning d-none d-md-block"
+        className="btn btn-warning d-flex d-none d-md-block"
         onClick={fetchData}
         disabled={!documentDetails.responded || isLoading}
       >
-        <p className="m-0">
-          {documentDetails.responded
-            ? `Feedback(External)`
-            : documentDetails.feedbackType === ""
-            ? `Feedback(None)`
-            : `Feedback`}
-        </p>
+        {isLoading ? (
+          <>
+            <div className="d-flex align-items-center gap-2">
+              <span>
+                <Spinner animation="border" variant="dark" size="sm" />
+              </span>
+              <p className="m-0">Downloading</p>
+            </div>
+
+          </>
+        ) : (
+          <>
+            <p className="m-0">
+              {documentDetails.responded
+                ? `Feedback (ext.)`
+                : documentDetails.feedbackType === ""
+                  ? `Feedback (None)`
+                  : `Feedback`}
+            </p>
+          </>
+        )}
       </button>
 
       <button
         type="button"
-        className="btn btn-warning w-100  d-block d-md-none"
+        className="btn btn-warning w-100 d-flex d-block d-md-none"
         onClick={fetchData}
         disabled={!documentDetails.responded || isLoading}
       >
-        <p className="m-0">
-          {documentDetails.responded
-            ? `Feedback (ext.)`
-            : documentDetails.feedbackType === ""
-            ? `Feedback (None)`
-            : `Feedback`}
-        </p>
+
+        {isLoading ? (
+          <>
+            <span>
+              <Spinner animation="border" variant="light" size="sm" />
+            </span>
+          </>
+        ) : (
+          <>
+            <p className="m-0">
+              {documentDetails.responded
+                ? `Feedback (ext.)`
+                : documentDetails.feedbackType === ""
+                  ? `Feedback (None)`
+                  : `Feedback`}
+            </p>
+          </>
+        )}
       </button>
     </>
   );
