@@ -155,7 +155,7 @@ const DocumentTypeStats = ({
               <>
                 <h5 className="m-0 d-flex flex-column justify-content-center align-items-center gap-2">
                   <span style={{ fontSize: "clamp(2rem, 5dvw, 3rem)" }}>
-                    <i class="bx bx-loader-circle bx-spin"></i>
+                    <i className="bx bx-loader-circle bx-spin"></i>
                   </span>{" "}
                   <span>Fetching document types</span>
                 </h5>
@@ -211,7 +211,7 @@ const DocumentTypeStats = ({
                             <span
                               style={{ color: COLORS[index % COLORS.length] }}
                             >
-                              <i class="bx bxs-circle"></i>
+                              <i className="bx bxs-circle"></i>
                             </span>{" "}
                             {entry.value}
                           </span>

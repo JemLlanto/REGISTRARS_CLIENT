@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-const LocationAndContactModal = ({ location, fetchData }) => {
+const GuidingPrinciplesModal = ({ principle, fetchPrinciples }) => {
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
+    id: principle.id,
     title: "",
     description: "",
   });
@@ -14,10 +15,11 @@ const LocationAndContactModal = ({ location, fetchData }) => {
   useEffect(() => {
     setFormData((prevData) => ({
       ...prevData,
-      title: prevData.title || location.title || "",
-      description: prevData.description || location.description || "",
+      id: prevData.id || principle.id || "",
+      title: prevData.title || principle.title || "",
+      description: prevData.description || principle.description || "",
     }));
-  }, [location]);
+  }, [principle]);
 
   const handleShow = () => {
     setShow(true);
@@ -32,7 +34,7 @@ const LocationAndContactModal = ({ location, fetchData }) => {
       const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/about/updateLocationAndContacts`,
+        }/api/about/updateGuidingPrinciples`,
         formData
       );
       if (res.status === 200) {
@@ -41,7 +43,7 @@ const LocationAndContactModal = ({ location, fetchData }) => {
           title: "Update Successful",
           text: "Location and contact details have been updated.",
         });
-        fetchData();
+        fetchPrinciples();
         handleClose();
       } else {
         Swal.fire({
@@ -74,6 +76,7 @@ const LocationAndContactModal = ({ location, fetchData }) => {
         type="button"
         className="btn btn-light px-md-4 position-absolute end-0 top-0 m-2 m-md-3"
         onClick={handleShow}
+        style={{ zIndex: "10" }}
       >
         <p className="m-0">
           <span className="d-none d-md-block">Edit</span>
@@ -87,7 +90,7 @@ const LocationAndContactModal = ({ location, fetchData }) => {
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>
-            <h5 className="m-0">Edit location and contact</h5>
+            <h5 className="m-0">Edit {principle.title}</h5>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="overflow-y-auto overflow-x-hidden p-2 p-sm-3">
@@ -106,7 +109,7 @@ const LocationAndContactModal = ({ location, fetchData }) => {
               name="description"
               value={formData.description}
               placeholder="Description"
-              style={{ height: "150px" }}
+              style={{ height: "200px" }}
               onChange={handleChange}
             />
           </FloatingLabel>
@@ -118,8 +121,8 @@ const LocationAndContactModal = ({ location, fetchData }) => {
           <button
             className="btn primaryButton d-flex align-items-center justify-content-center gap-1"
             disabled={
-              (location.title === formData.title &&
-                location.description === formData.description) ||
+              (principle.title === formData.title &&
+                principle.description === formData.description) ||
               isLoading
             }
             onClick={handleSave}
@@ -127,7 +130,7 @@ const LocationAndContactModal = ({ location, fetchData }) => {
             {isLoading ? (
               <>
                 <span>
-                  <Spinner animation="border" variant="light" size="sm" />
+                  <i className="bx bx-loader bx-spin"></i>
                 </span>
                 <p className="m-0">Saving</p>
               </>
@@ -143,4 +146,4 @@ const LocationAndContactModal = ({ location, fetchData }) => {
   );
 };
 
-export default LocationAndContactModal;
+export default GuidingPrinciplesModal;

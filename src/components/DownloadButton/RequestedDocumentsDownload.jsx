@@ -12,7 +12,8 @@ const RequestedDocumentsDownload = ({
   const getDocTypes = async (requestID) => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/dashboard/fetchDocumentTypes`,
         {
           params: {
@@ -122,7 +123,7 @@ const RequestedDocumentsDownload = ({
     >
       {isDownloading ? (
         <>
-          <i class="bx bxs-analyse bx-spin"></i>
+          <i className="bx bxs-analyse bx-spin"></i>
           <p className="d-none d-sm-block m-0">Preparing...</p>
         </>
       ) : (

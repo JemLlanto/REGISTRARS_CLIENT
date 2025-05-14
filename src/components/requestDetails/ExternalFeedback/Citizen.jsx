@@ -163,7 +163,7 @@ const CitizensCharterStep = ({ formData, handleChange, setFormData }) => {
                       style={{ height: "1rem", width: "1rem" }}
                     >
                       <i
-                        class={`${
+                        className={`${
                           formData.cc1 === q1.value
                             ? "bg-primary text-light"
                             : "d-none"
