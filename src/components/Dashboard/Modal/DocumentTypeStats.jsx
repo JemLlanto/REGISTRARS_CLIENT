@@ -157,7 +157,7 @@ const DocumentTypeStats = ({
                   <span style={{ fontSize: "clamp(2rem, 5dvw, 3rem)" }}>
                     <i class="bx bx-loader-circle bx-spin"></i>
                   </span>{" "}
-                  <span>Fetching document types...</span>
+                  <span>Fetching document types</span>
                 </h5>
               </>
             ) : (
@@ -221,7 +221,7 @@ const DocumentTypeStats = ({
                   </>
                 ) : (
                   <>
-                    <h5 className="m-0">No document types found...</h5>
+                    <h5 className="m-0">No document types found</h5>
                   </>
                 )}
               </>

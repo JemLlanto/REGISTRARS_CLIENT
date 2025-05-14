@@ -1,8 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import "bootstrap";
-import "react-bootstrap";
-
+import "boxicons/css/boxicons.min.css";
 // STYLES
 import "./layouts/style/style.css";
 import "./layouts/style/animations.css";

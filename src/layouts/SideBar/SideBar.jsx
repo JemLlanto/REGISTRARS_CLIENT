@@ -23,8 +23,9 @@ const SideBar = ({ user }) => {
 
   return (
     <div
-      className={`SideBar d-flex flex-column justify-content-between ${showSidebar ? "toggled" : ""
-        }`}
+      className={`SideBar d-flex flex-column justify-content-between ${
+        showSidebar ? "toggled" : ""
+      }`}
       style={{ backgroundColor: "var(--main-color)" }}
     >
       <div>
@@ -35,15 +36,17 @@ const SideBar = ({ user }) => {
         >
           {/* Toggle Button - Registrar's Logo*/}
           <div
-            className={`position-relative  ${showSidebar ? "fade-in me-2" : "fade-out"
-              } ${!shouldRender ? "hidden" : ""}`}
+            className={`position-relative  ${
+              showSidebar ? "fade-in me-2" : "fade-out"
+            } ${!shouldRender ? "hidden" : ""}`}
             style={{ width: "12rem", height: "80%" }}
           >
             <img
               src="/CvSU-CCAT.png"
               alt="Registrar Logo"
-              className={`position-absolute mt-1 ${showSidebar ? "fade-in me-2" : "fade-out"
-                } ${!shouldRender ? "hidden" : ""}`}
+              className={`position-absolute mt-1 ${
+                showSidebar ? "fade-in me-2" : "fade-out"
+              } ${!shouldRender ? "hidden" : ""}`}
               style={{
                 top: "0",
                 // height: "80%",
@@ -61,8 +64,9 @@ const SideBar = ({ user }) => {
             style={{ height: "3rem", width: "3rem" }}
           >
             <i
-              className={`bx ${showSidebar ? "bx-x" : "bx-menu"
-                } transition-icon`}
+              className={`bx ${
+                showSidebar ? "bx-x" : "bx-menu"
+              } transition-icon`}
               style={{ color: "white" }}
             ></i>
           </button>
@@ -77,10 +81,11 @@ const SideBar = ({ user }) => {
                 {/* homepage and dashboard */}
                 {user.isAdmin ? (
                   <li
-                    className={`list-group-items rounded py-1 px-2 position-relative ${location.pathname.toLowerCase() === "/admin/home"
-                      ? "active"
-                      : ""
-                      }`}
+                    className={`list-group-items rounded py-1 px-2 position-relative ${
+                      location.pathname.toLowerCase() === "/admin/home"
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     <Link
                       className="d-flex align-items-center"
@@ -88,8 +93,9 @@ const SideBar = ({ user }) => {
                     >
                       <i className="bx bx-home"></i>
                       <p
-                        className={`m-0 ${showSidebar ? "fade-in" : "fade-out"
-                          } ${!shouldRender ? "hidden" : ""}`}
+                        className={`m-0 ${
+                          showSidebar ? "fade-in" : "fade-out"
+                        } ${!shouldRender ? "hidden" : ""}`}
                       >
                         Dashboard
                       </p>
@@ -100,16 +106,18 @@ const SideBar = ({ user }) => {
                   </li>
                 ) : (
                   <li
-                    className={`list-group-items rounded py-1 px-2 position-relative ${location.pathname.toLowerCase() === "/home"
-                      ? "active"
-                      : ""
-                      }`}
+                    className={`list-group-items rounded py-1 px-2 position-relative ${
+                      location.pathname.toLowerCase() === "/home"
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     <Link className="d-flex align-items-center" to="/home">
                       <i className="bx bx-home"></i>
                       <p
-                        className={`m-0 ${showSidebar ? "fade-in" : "fade-out"
-                          } ${!shouldRender ? "hidden" : ""}`}
+                        className={`m-0 ${
+                          showSidebar ? "fade-in" : "fade-out"
+                        } ${!shouldRender ? "hidden" : ""}`}
                       >
                         Homepage
                       </p>
@@ -123,11 +131,12 @@ const SideBar = ({ user }) => {
                 {/* student request form */}
                 {user.isAdmin ? (
                   <li
-                    className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() ===
+                    className={`list-group-items rounded py-1 px-2 ${
+                      location.pathname.toLowerCase() ===
                       "/admin/student-requests"
-                      ? "active"
-                      : ""
-                      }`}
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     <Link
                       className="d-flex align-items-center"
@@ -135,8 +144,9 @@ const SideBar = ({ user }) => {
                     >
                       <i className="bx bx-user-check "></i>
                       <p
-                        className={`m-0 ${showSidebar ? "fade-in" : "fade-out"
-                          } ${!shouldRender ? "hidden" : ""}`}
+                        className={`m-0 ${
+                          showSidebar ? "fade-in" : "fade-out"
+                        } ${!shouldRender ? "hidden" : ""}`}
                       >
                         Student Requests
                       </p>
@@ -150,11 +160,12 @@ const SideBar = ({ user }) => {
                 {/* student requested list */}
                 {user.isAdmin ? (
                   <li
-                    className={`list-group-items  rounded py-1 px-2  ${location.pathname.toLowerCase() ===
+                    className={`list-group-items  rounded py-1 px-2  ${
+                      location.pathname.toLowerCase() ===
                       "/admin/manage-request-form"
-                      ? "active"
-                      : ""
-                      }`}
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     <Link
                       className="d-flex align-items-center"
@@ -162,8 +173,9 @@ const SideBar = ({ user }) => {
                     >
                       <i className="bx bx-file"></i>
                       <p
-                        className={`m-0 ${showSidebar ? "fade-in" : "fade-out"
-                          } ${!shouldRender ? "hidden" : ""}`}
+                        className={`m-0 ${
+                          showSidebar ? "fade-in" : "fade-out"
+                        } ${!shouldRender ? "hidden" : ""}`}
                       >
                         Manage Form
                       </p>
@@ -174,10 +186,11 @@ const SideBar = ({ user }) => {
                   </li>
                 ) : (
                   <li
-                    className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/request-documents"
-                      ? "active"
-                      : ""
-                      }`}
+                    className={`list-group-items rounded py-1 px-2 ${
+                      location.pathname.toLowerCase() === "/request-documents"
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     <Link
                       className="d-flex align-items-center"
@@ -185,8 +198,9 @@ const SideBar = ({ user }) => {
                     >
                       <i className="bx bx-file"></i>
                       <p
-                        className={`m-0 ${showSidebar ? "fade-in" : "fade-out"
-                          } ${!shouldRender ? "hidden" : ""}`}
+                        className={`m-0 ${
+                          showSidebar ? "fade-in" : "fade-out"
+                        } ${!shouldRender ? "hidden" : ""}`}
                       >
                         Request Form
                       </p>
@@ -198,34 +212,13 @@ const SideBar = ({ user }) => {
                 )}
 
                 {/* about us and reports */}
-                {user.isAdmin ? null : ( // </li> //   <span className="tooltip">Reports</span> //   </Link> //     <p className="m-0">Reports</p> //     <i className="bx bx-bar-chart-alt-2"></i> //   <Link className="d-flex align-items-center" to="/admin/reports"> // > //   }`} //       : "" //       ? "active" //     location.pathname.toLowerCase() === "/admin/reports" //   className={`list-group-items rounded py-1 px-2 ${ // <li
-                  <li
-                    className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/about"
-                      ? "active"
-                      : ""
-                      }`}
-                  >
-                    <Link className="d-flex align-items-center" to="/about">
-                      <i className="bx bx-info-circle"></i>
-                      <p
-                        className={`m-0 ${showSidebar ? "fade-in" : "fade-out"
-                          } ${!shouldRender ? "hidden" : ""}`}
-                      >
-                        About Us
-                      </p>
-                    </Link>
-                    <div className="tooltip">
-                      <p className="m-0">About Us</p>
-                    </div>
-                  </li>
-                )}
-                {/* about us and reports */}
                 {user.isAdmin === 2 ? (
                   <li
-                    className={`list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/manage-admin"
-                      ? "active"
-                      : ""
-                      }`}
+                    className={`list-group-items rounded py-1 px-2 ${
+                      location.pathname.toLowerCase() === "/admin/manage-admin"
+                        ? "active"
+                        : ""
+                    }`}
                   >
                     <Link
                       className="d-flex align-items-center"
@@ -233,8 +226,9 @@ const SideBar = ({ user }) => {
                     >
                       <i className="bx bx-bar-chart-alt-2"></i>
                       <p
-                        className={`m-0 ${showSidebar ? "fade-in" : "fade-out"
-                          } ${!shouldRender ? "hidden" : ""}`}
+                        className={`m-0 ${
+                          showSidebar ? "fade-in" : "fade-out"
+                        } ${!shouldRender ? "hidden" : ""}`}
                       >
                         Manage Admin
                       </p>
@@ -244,6 +238,27 @@ const SideBar = ({ user }) => {
                     </div>
                   </li>
                 ) : null}
+
+                {/* about us and reports */}
+                <li
+                  className={`list-group-items rounded py-1 px-2 ${
+                    location.pathname.toLowerCase() === "/about" ? "active" : ""
+                  }`}
+                >
+                  <Link className="d-flex align-items-center" to="/about">
+                    <i className="bx bx-info-circle"></i>
+                    <p
+                      className={`m-0 ${showSidebar ? "fade-in" : "fade-out"} ${
+                        !shouldRender ? "hidden" : ""
+                      }`}
+                    >
+                      About Us
+                    </p>
+                  </Link>
+                  <div className="tooltip">
+                    <p className="m-0">About Us</p>
+                  </div>
+                </li>
               </ul>
             </>
           )}
