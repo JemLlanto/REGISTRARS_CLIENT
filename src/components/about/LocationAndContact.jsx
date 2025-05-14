@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import LocationAndContactModal from "./modal/LocationAndContactModal";
+import Swal from "sweetalert2";
 import axios from "axios";
 const LocationAndContact = () => {
   const [location, setLocation] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [file, setFile] = useState(null);
 
   const fetchData = async () => {
     try {
@@ -14,7 +16,7 @@ const LocationAndContact = () => {
         }/api/about/fetchLocationAndContacts`
       );
       if (res.status === 200) {
-        console.log(res.data.result);
+        // console.log(res.data.result);
         setLocation(res.data.result);
       }
     } catch (err) {
@@ -26,6 +28,78 @@ const LocationAndContact = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const upload = async (file) => {
+    console.log("Inserting Files...");
+
+    const data = new FormData();
+    data.append("file", file);
+    try {
+      setIsLoading(true);
+      const res = await axios.post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/about/uploadNewLocationImage`,
+        data,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      if (res.data.Status === "Success") {
+        fetchData();
+        Swal.fire({
+          icon: "success",
+          title: "Upload Successful",
+          text: "The image has been uploaded successfully.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Upload Failed",
+          text: "The server did not return a success status.",
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Upload Error",
+        text: "Something went wrong while uploading the file.",
+      });
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Allowed file types
+      const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+      const maxSize = 10 * 1024 * 1024; // 1MB
+
+      if (file.size > maxSize) {
+        Swal.fire({
+          icon: "warning",
+          title: "File Too Large",
+          text: "File size should not exceed 2MB.",
+        });
+        setFile(null);
+        return;
+      }
+
+      if (!allowedTypes.includes(file.type)) {
+        Swal.fire({
+          icon: "error",
+          title: "Invalid File Type",
+          text: "Only JPEG, JPG, and PNG files are allowed.",
+        });
+        setFile(null);
+        return;
+      }
+
+      setFile(file); // Set the file in parent component
+      upload(file);
+    }
+  };
   return (
     <div
       className="mt-2 pt-4 pb-2 pb-sm-4 px-2 px-sm-4 rounded text-white fade-in-section position-relative "
@@ -36,25 +110,45 @@ const LocationAndContact = () => {
       <h4 className="text-center fw-bold text-warning">{location.title}</h4>
       <p className="text-md-center ">{location.description}</p>
       <div className="position-relative overflow-hidden rounded">
-        <button
-          type="button"
-          className="btn btn-light px-md-4 position-absolute end-0 top-0 m-2 m-md-3"
+        <label
+          as="button"
+          className={`btn btn-light ${
+            isLoading ? "disabled" : ""
+          } px-md-4 position-absolute end-0 top-0 m-2 m-md-3`}
+          htmlFor="locImage"
         >
-          <p className="m-0">
-            <span className="d-none d-md-block">Replace</span>
-          </p>
+          {isLoading ? (
+            <>
+              <p className="m-0 d-flex align-items-center justify-content-center gap-1">
+                <i class="bx bx-loader bx-spin"></i>
+                <span className="d-none d-md-block">Uploading</span>
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="m-0">
+                <span className="d-none d-md-block">Replace</span>
+              </p>
+            </>
+          )}
           <h5 className="m-0">
             <span className="d-md-none d-flex align-items-center justify-content-center my-1">
-              <i class="bx  bx-edit"></i>
+              <i className="bx  bx-images"></i>
             </span>
           </h5>
-        </button>
+        </label>
+        <input
+          type="file"
+          id="locImage"
+          name="locImage"
+          hidden
+          onChange={(e) => handleFileChange(e)}
+        />
         <img
-          src="/studentCenter.png"
+          src={location.imageFile}
           alt="Registrar Office"
           className="img-fluid w-100"
         />
-        <div></div>
       </div>
     </div>
   );
