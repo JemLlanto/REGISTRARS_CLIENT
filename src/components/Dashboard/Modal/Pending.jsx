@@ -65,7 +65,9 @@ const Pending = ({ pendingRequests, CountUp }) => {
             </h5>
           </Modal.Title>
         </Modal.Header>
+        {/* RequestTableTemplate */}
         <RequestTableTemplate Requests={pendingRequests} />
+
         <Modal.Footer>
           <Button
             className="border-0"

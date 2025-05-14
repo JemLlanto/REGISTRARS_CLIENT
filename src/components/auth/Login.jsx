@@ -155,7 +155,7 @@ const Login = ({ setActivePage }) => {
               {errors.password && (
                 <div className="text-danger small d-flex align-items-center gap-1">
                   <i className="bx bx-error-circle"></i>
-                  <p className="m-0">{errors.email}</p>
+                  <p className="m-0">{errors.password}</p>
                 </div>
               )}
 
