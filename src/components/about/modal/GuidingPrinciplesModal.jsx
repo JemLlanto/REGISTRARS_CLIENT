@@ -83,7 +83,7 @@ const GuidingPrinciplesModal = ({ principle, fetchPrinciples }) => {
         </p>
         <h5 className="m-0">
           <span className="d-md-none d-flex align-items-center justify-content-center my-1">
-            <i class="bx  bx-edit"></i>
+            <i className="bx  bx-edit"></i>
           </span>
         </h5>
       </button>
@@ -130,7 +130,7 @@ const GuidingPrinciplesModal = ({ principle, fetchPrinciples }) => {
             {isLoading ? (
               <>
                 <span>
-                  <Spinner animation="border" variant="light" size="sm" />
+                  <i className="bx bx-loader bx-spin"></i>
                 </span>
                 <p className="m-0">Saving</p>
               </>

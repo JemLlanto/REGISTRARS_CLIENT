@@ -80,7 +80,7 @@ const LocationAndContactModal = ({ location, fetchData }) => {
         </p>
         <h5 className="m-0">
           <span className="d-md-none d-flex align-items-center justify-content-center my-1">
-            <i class="bx  bx-edit"></i>
+            <i className="bx  bx-edit"></i>
           </span>
         </h5>
       </button>
