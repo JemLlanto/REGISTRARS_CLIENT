@@ -15,8 +15,7 @@ const Step2 = ({ formData, handleChange }) => {
       try {
         setIsProgramLoading(true);
         const res = await axios.get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/fetchingDocuments/fetchPrograms`
         );
         if (res.data.Status === "Success") {
@@ -39,8 +38,7 @@ const Step2 = ({ formData, handleChange }) => {
       try {
         setIsPurposeLoading(true);
         const res = await axios.get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/fetchingDocuments/fetchPurposes`
         );
         if (res.data.Status === "Success") {
@@ -63,8 +61,7 @@ const Step2 = ({ formData, handleChange }) => {
       try {
         setIsYearGraduatedLoading(true);
         const res = await axios.get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/fetchingDocuments/fetchYearGraduated`
         );
         if (res.data.Status === "Success") {
@@ -101,6 +98,8 @@ const Step2 = ({ formData, handleChange }) => {
           id="program-select"
           value={formData.program}
           onChange={handleChange}
+          className={`${formData.program === "" ? "border-danger" : ""}`}
+
         >
           <option value="">Choose...</option>
           {isProgramLoading ? (
@@ -127,6 +126,7 @@ const Step2 = ({ formData, handleChange }) => {
           id="classification-select"
           value={formData.classification}
           onChange={handleChange}
+          className={`${formData.classification === "" ? "border-danger" : ""}`}
         >
           <option value="">Choose...</option>
           <option value="undergraduate">Undergraduate</option>
@@ -144,6 +144,8 @@ const Step2 = ({ formData, handleChange }) => {
             value={formData.yearGraduated}
             onChange={handleChange}
             disabled={!formData.classification}
+            className={`${formData.yearGraduated === "" ? "border-danger" : ""}`}
+
           >
             <option value="">Choose...</option>
             {isYearGraduatedLoading ? (
@@ -170,6 +172,7 @@ const Step2 = ({ formData, handleChange }) => {
             value={formData.yearLevel}
             onChange={handleChange}
             disabled={!formData.classification}
+            className={`${formData.yearLevel === "" ? "border-danger" : ""}`}
           >
             <option value="">Choose...</option>
             <option value="first-year">First Year</option>
@@ -194,6 +197,8 @@ const Step2 = ({ formData, handleChange }) => {
           min="1900"
           max={new Date().getFullYear()}
           step="1"
+          className={`${formData.schoolYearAttended === "" ? "border-danger" : ""}`}
+
         />
       </FloatingLabel>
       <FloatingLabel controlId="floatingPurpose" label="Purpose" className="">
@@ -201,6 +206,7 @@ const Step2 = ({ formData, handleChange }) => {
           name="purpose"
           value={formData.purpose}
           onChange={handleChange}
+          className={`${formData.purpose === "" ? "border-danger" : ""}`}
         >
           <option value="">Choose...</option>
           {isPurposeLoading ? (
