@@ -6,6 +6,7 @@ import axios from "axios";
 const LocationAndContactModal = ({ location, fetchData }) => {
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -28,7 +29,7 @@ const LocationAndContactModal = ({ location, fetchData }) => {
 
   const handleSave = async () => {
     try {
-      setIsLoading(true);
+      setIsUpdating(true);
       const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
@@ -57,7 +58,7 @@ const LocationAndContactModal = ({ location, fetchData }) => {
         text: "An error occurred while saving the data.",
       });
     } finally {
-      setIsLoading(false);
+      setIsUpdating(false);
     }
   };
 
@@ -120,11 +121,11 @@ const LocationAndContactModal = ({ location, fetchData }) => {
             disabled={
               (location.title === formData.title &&
                 location.description === formData.description) ||
-              isLoading
+              isUpdating
             }
             onClick={handleSave}
           >
-            {isLoading ? (
+            {isUpdating ? (
               <>
                 <span>
                   <Spinner animation="border" variant="light" size="sm" />

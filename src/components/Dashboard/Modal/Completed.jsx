@@ -56,7 +56,7 @@ const Completed = ({ completedRequests, CountUp }) => {
         >
           <Modal.Title>
             <h5 className="m-0 text-white">
-              Completed request ({completedRequests.length})
+              Completed ({completedRequests.length})
             </h5>
           </Modal.Title>
         </Modal.Header>

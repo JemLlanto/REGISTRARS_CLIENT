@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import LocationAndContactModal from "./modal/LocationAndContactModal";
 import Swal from "sweetalert2";
 import axios from "axios";
-const LocationAndContact = ({ isLoading, setIsLoading }) => {
+const LocationAndContact = ({ isAdmin, isLoading, setIsLoading }) => {
   const [location, setLocation] = useState({});
   const [file, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -36,7 +37,7 @@ const LocationAndContact = ({ isLoading, setIsLoading }) => {
     const data = new FormData();
     data.append("file", file);
     try {
-      setIsLoading(true);
+      setUploading(true);
       const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
@@ -66,7 +67,7 @@ const LocationAndContact = ({ isLoading, setIsLoading }) => {
       });
       throw err;
     } finally {
-      setIsLoading(false);
+      setUploading(false);
     }
   };
 
@@ -108,46 +109,61 @@ const LocationAndContact = ({ isLoading, setIsLoading }) => {
         <>
           <div
             className="mt-2 pt-4 pb-2 pb-sm-4 px-2 px-sm-4 rounded text-white fade-in-section position-relative "
-            style={{ backgroundColor: "var(--main-color)", minHeight: "40rem" }}
+            style={{ backgroundColor: "var(--main-color)", minHeight: "10rem" }}
           >
-            <LocationAndContactModal
-              location={location}
-              fetchData={fetchData}
-            />
+            {isAdmin ? (
+              <>
+                <LocationAndContactModal
+                  isAdmin={isAdmin}
+                  location={location}
+                  fetchData={fetchData}
+                />
+              </>
+            ) : (
+              <></>
+            )}
 
             <h4 className="text-center fw-bold text-warning">
               {location.title}
             </h4>
             <p className="text-center ">{location.description}</p>
             <div className="position-relative overflow-hidden rounded ">
-              <label
-                as="button"
-                className={`btn btn-light ${
-                  isLoading ? "disabled" : ""
-                } px-md-4 position-absolute end-0 top-0 m-2 m-md-3`}
-                htmlFor="locImage"
-                style={{ zIndex: 1 }}
-              >
-                {isLoading ? (
-                  <>
-                    <p className="m-0 d-flex align-items-center justify-content-center gap-1">
-                      <i className="bx bx-loader bx-spin my-1"></i>
-                      <span className="d-none d-md-block">Uploading</span>
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <p className="m-0">
-                      <span className="d-none d-md-block">Replace</span>
-                    </p>
-                    <h5 className="m-0">
-                      <span className="d-md-none d-flex align-items-center justify-content-center my-1">
-                        <i className="bx  bx-images"></i>
-                      </span>
-                    </h5>
-                  </>
-                )}
-              </label>
+              {isAdmin ? (
+                <>
+                  {" "}
+                  <label
+                    as="button"
+                    className={`btn btn-light ${
+                      uploading ? "disabled" : ""
+                    } px-md-4 position-absolute end-0 top-0 m-2 m-md-3`}
+                    htmlFor="locImage"
+                    style={{ zIndex: 1 }}
+                  >
+                    {uploading ? (
+                      <>
+                        <p className="m-0 d-flex align-items-center justify-content-center gap-1">
+                          <i className="bx bx-loader bx-spin my-1"></i>
+                          <span className="d-none d-md-block">Uploading</span>
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="m-0">
+                          <span className="d-none d-md-block">Replace</span>
+                        </p>
+                        <h5 className="m-0">
+                          <span className="d-md-none d-flex align-items-center justify-content-center my-1">
+                            <i className="bx  bx-images"></i>
+                          </span>
+                        </h5>
+                      </>
+                    )}
+                  </label>
+                </>
+              ) : (
+                <></>
+              )}
+
               <input
                 type="file"
                 id="locImage"

@@ -27,21 +27,25 @@ export default function About() {
       </div>
 
       {/* Where are we? */}
-      <LocationAndContact isLoading={isLoading} setIsLoading={setIsLoading} />
+      <LocationAndContact
+        isAdmin={user.isAdmin}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+      />
 
       {isLoading ? (
         <></>
       ) : (
         <>
           {/* Misson Vision */}
-          <GuidingPrinciples />
+          <GuidingPrinciples isAdmin={user.isAdmin} />
 
           {/* Core Values */}
           <CoreValues />
 
           {/* CCAT GOALS */}
           <div
-            className=" mt-3 p-4  rounded text-white"
+            className=" mt-2 p-4  rounded text-white"
             style={{ backgroundColor: "var(--main-color)" }}
           >
             <h2 className="text-center fw-bold text-warning">

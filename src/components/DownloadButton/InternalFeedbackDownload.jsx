@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 const InternalFeedbackDownload = ({ user, documentDetails }) => {
   const [feedbackData, setFeedbackData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [checked, setChecked] = useState(false);
 
   const fetchData = async () => {
@@ -243,12 +243,9 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         type="button"
         className="btn btn-warning d-none d-md-block"
         onClick={fetchData}
-        disabled={
-          !documentDetails.responded || !documentDetails.requestID || isLoading
-        }
+        disabled={!documentDetails.responded || isLoading}
       >
-        <p className="m-0">
-          {" "}
+        <p className="m-0 text-center">
           {documentDetails.responded
             ? "Feedback(Internal)"
             : documentDetails.feedbackType === ""
@@ -261,12 +258,9 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         type="button"
         className="w-100 btn btn-warning d-block d-md-none"
         onClick={fetchData}
-        disabled={
-          !documentDetails.responded || !documentDetails.requestID || isLoading
-        }
+        disabled={!documentDetails.responded || isLoading}
       >
-        <p className="m-0">
-          {" "}
+        <p className="m-0 text-center">
           {documentDetails.responded
             ? "Feedback (int.)"
             : documentDetails.feedbackType === ""

@@ -53,11 +53,12 @@ const PhoneSidebar = ({ user }) => {
             <ul className="sideBar-list list-unstyled d-flex flex-column gap-2">
               {/* Homepage & Dashboard */}
               <li
-                className={`p-list-group-items rounded py-1 px-2 position-relative ${location.pathname.toLowerCase() ===
+                className={`p-list-group-items rounded py-1 px-2 position-relative ${
+                  location.pathname.toLowerCase() ===
                   (user.isAdmin ? "/admin/home" : "/home")
-                  ? "active"
-                  : ""
-                  }`}
+                    ? "active"
+                    : ""
+                }`}
               >
                 <Link
                   className="d-flex align-items-center gap-1"
@@ -74,11 +75,12 @@ const PhoneSidebar = ({ user }) => {
               {/* Student Requests (Admin Only) */}
               {user?.isAdmin ? (
                 <li
-                  className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() ===
+                  className={`p-list-group-items rounded py-1 px-2 ${
+                    location.pathname.toLowerCase() ===
                     "/admin/student-requests"
-                    ? "active"
-                    : ""
-                    }`}
+                      ? "active"
+                      : ""
+                  }`}
                 >
                   <Link
                     className="d-flex align-items-center gap-1"
@@ -93,13 +95,14 @@ const PhoneSidebar = ({ user }) => {
 
               {/* Manage Requests / Request Form */}
               <li
-                className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() ===
+                className={`p-list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() ===
                   (user.isAdmin
                     ? "/admin/manage-request-form"
                     : "/request-documents")
-                  ? "active"
-                  : ""
-                  }`}
+                    ? "active"
+                    : ""
+                }`}
               >
                 <Link
                   className="d-flex align-items-center gap-1"
@@ -117,30 +120,14 @@ const PhoneSidebar = ({ user }) => {
                 </Link>
               </li>
 
-              {/* About Us (Non-Admin Only) */}
-              {!user.isAdmin && (
-                <li
-                  className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/about" ? "active" : ""
-                    }`}
-                >
-                  <Link
-                    className="d-flex align-items-center gap-1 bx-sm"
-                    to="/about"
-                    onClick={handleClose}
-                  >
-                    <i className="bx bx-info-circle"></i>
-                    <p className="m-0">About Us</p>
-                  </Link>
-                </li>
-              )}
-
               {/* Manage Admin (Only for Admin Level 2) */}
               {user.isAdmin === 2 && (
                 <li
-                  className={`p-list-group-items rounded py-1 px-2 ${location.pathname.toLowerCase() === "/admin/manage-admin"
-                    ? "active"
-                    : ""
-                    }`}
+                  className={`p-list-group-items rounded py-1 px-2 ${
+                    location.pathname.toLowerCase() === "/admin/manage-admin"
+                      ? "active"
+                      : ""
+                  }`}
                 >
                   <Link
                     className="d-flex align-items-center gap-1"
@@ -152,6 +139,22 @@ const PhoneSidebar = ({ user }) => {
                   </Link>
                 </li>
               )}
+
+              {/* About Us (Non-Admin Only) */}
+              <li
+                className={`p-list-group-items rounded py-1 px-2 ${
+                  location.pathname.toLowerCase() === "/about" ? "active" : ""
+                }`}
+              >
+                <Link
+                  className="d-flex align-items-center gap-1 bx-sm"
+                  to="/about"
+                  onClick={handleClose}
+                >
+                  <i className="bx bx-info-circle"></i>
+                  <p className="m-0">About Us</p>
+                </Link>
+              </li>
             </ul>
           </Offcanvas.Body>
           <footer
