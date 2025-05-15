@@ -91,7 +91,28 @@ export default function ProfileSetup() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    let newValue = value;
+
+    if (name === "mobileNum") {
+      // Remove all non-numeric characters
+      newValue = newValue.replace(/\D/g, "");
+
+      // Ensure the number starts with "63"
+      if (!newValue.startsWith("63")) {
+        newValue = "63" + newValue;
+      }
+
+      // Limit to 12 digits (including country code)
+      newValue = newValue.slice(0, 12);
+
+      // Add "+" at the beginning
+      newValue = "+" + newValue;
+    }
+
+    setFormData((prev) => {
+      const updatedData = { ...prev, [name]: newValue };
+      return updatedData;
+    });
 
     let validationErrors = { ...errors };
 
@@ -129,6 +150,7 @@ export default function ProfileSetup() {
       >
         <div className="">
           <PersonalInformation
+            user={user}
             handleEditInfo={handleEditInfo}
             handleCancelEditInfo={handleCancelEditInfo}
             handleChange={handleChange}

@@ -53,7 +53,7 @@ const FeedbackStats = ({ currentDocuments, isLoading }) => {
       {internalCount.length > 0 || externalCount.length > 0 ? (
         <>
           <>
-            <div className=" d-flex flex-column gap-3 w-100 px-5 py-4">
+            <div className=" d-flex flex-column gap-3 w-100 px-2 px-sm-5 py-3 py-md-4">
               <div>
                 <div className="d-flex justify-content-start align-items-center gap-2 mb-2">
                   <h5 className="m-0">Internal Feedbacks</h5>

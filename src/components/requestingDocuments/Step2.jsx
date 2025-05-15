@@ -15,7 +15,8 @@ const Step2 = ({ formData, handleChange }) => {
       try {
         setIsProgramLoading(true);
         const res = await axios.get(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/fetchingDocuments/fetchPrograms`
         );
         if (res.data.Status === "Success") {
@@ -38,7 +39,8 @@ const Step2 = ({ formData, handleChange }) => {
       try {
         setIsPurposeLoading(true);
         const res = await axios.get(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/fetchingDocuments/fetchPurposes`
         );
         if (res.data.Status === "Success") {
@@ -61,7 +63,8 @@ const Step2 = ({ formData, handleChange }) => {
       try {
         setIsYearGraduatedLoading(true);
         const res = await axios.get(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/fetchingDocuments/fetchYearGraduated`
         );
         if (res.data.Status === "Success") {
@@ -99,7 +102,6 @@ const Step2 = ({ formData, handleChange }) => {
           value={formData.program}
           onChange={handleChange}
           className={`${formData.program === "" ? "border-danger" : ""}`}
-
         >
           <option value="">Choose...</option>
           {isProgramLoading ? (
@@ -144,8 +146,9 @@ const Step2 = ({ formData, handleChange }) => {
             value={formData.yearGraduated}
             onChange={handleChange}
             disabled={!formData.classification}
-            className={`${formData.yearGraduated === "" ? "border-danger" : ""}`}
-
+            className={`${
+              formData.yearGraduated === "" ? "border-danger" : ""
+            }`}
           >
             <option value="">Choose...</option>
             {isYearGraduatedLoading ? (
@@ -197,8 +200,9 @@ const Step2 = ({ formData, handleChange }) => {
           min="1900"
           max={new Date().getFullYear()}
           step="1"
-          className={`${formData.schoolYearAttended === "" ? "border-danger" : ""}`}
-
+          className={`${
+            formData.schoolYearAttended < 1900 ? "border-danger" : ""
+          }`}
         />
       </FloatingLabel>
       <FloatingLabel controlId="floatingPurpose" label="Purpose" className="">

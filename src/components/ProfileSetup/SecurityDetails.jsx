@@ -82,7 +82,10 @@ const SecurityDetails = ({
               >
                 {isLoading ? (
                   <>
-                    <p className="m-0">Saving</p>
+                    <p className="m-0 d-flex align-items-center justify-content-center gap-1">
+                      <i className="bx bx-loader bx-spin my-1"></i>
+                      <span className="d-none d-md-block">Saving</span>
+                    </p>
                   </>
                 ) : (
                   <>
