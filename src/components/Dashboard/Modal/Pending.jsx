@@ -61,7 +61,7 @@ const Pending = ({ pendingRequests, CountUp }) => {
         >
           <Modal.Title>
             <h5 className="m-0 text-white">
-              Pending request ({pendingRequests.length})
+              Pending ({pendingRequests.length})
             </h5>
           </Modal.Title>
         </Modal.Header>

@@ -15,7 +15,7 @@ const Step1 = ({ formData, handleChange }) => {
               value={formData.email}
               placeholder="name@example.com"
               onChange={handleChange}
-              className="mb-2"
+              className={`${formData.email === "" ? "border-danger" : ""}`}
               autoComplete="none"
             />
           </FloatingLabel>
@@ -28,6 +28,8 @@ const Step1 = ({ formData, handleChange }) => {
               value={formData.studentID}
               onChange={handleChange}
               placeholder="Student ID"
+              className={`${formData.studentID === "" ? "border-danger " : ""} mb-2`}
+
             />
           </FloatingLabel>
           <p className=" text-secondary mx-2 my-1">
@@ -54,7 +56,7 @@ const Step1 = ({ formData, handleChange }) => {
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
-              className="mb-2"
+              className={`${formData.firstName === "" ? "border-danger" : ""} mb-2`}
             />
           </FloatingLabel>
         </Col>
@@ -88,6 +90,7 @@ const Step1 = ({ formData, handleChange }) => {
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
+              className={`${formData.lastName === "" ? "border-danger" : ""}`}
             />
           </FloatingLabel>
           <p className=" text-secondary mx-2 my-1">
@@ -126,6 +129,8 @@ const Step1 = ({ formData, handleChange }) => {
           name="sex"
           value={formData.sex}
           onChange={handleChange}
+          className={`${formData.sex === "" ? "border-danger" : ""}`}
+
         >
           <option>Choose...</option>
           <option value="male">Male</option>
@@ -138,7 +143,7 @@ const Step1 = ({ formData, handleChange }) => {
         <FloatingLabel
           controlId="floatingMobile"
           label="Mobile No.(+63XXXXX)"
-          className="mt-2"
+          className={`${formData.mobileNum === "+63" ? "border-danger" : ""} mt-2`}
         >
           <Form.Control
             type="text"

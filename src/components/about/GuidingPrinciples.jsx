@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import GuidingPrinciplesModal from "./modal/GuidingPrinciplesModal";
 
-const GuidingPrinciples = () => {
+const GuidingPrinciples = ({ isAdmin }) => {
   const [principles, setPrinciples] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,10 +43,16 @@ const GuidingPrinciples = () => {
                 className="core-value policy col-xl d-flex align-items-center justify-content-start shadow-sm rounded-2 flex-column py-3 p-2 p-md-4 fade-in-section"
                 style={{ animationDelay: `${1 * 0.2}s` }}
               >
-                <GuidingPrinciplesModal
-                  principle={principle}
-                  fetchPrinciples={fetchPrinciples}
-                />
+                {isAdmin ? (
+                  <>
+                    <GuidingPrinciplesModal
+                      principle={principle}
+                      fetchPrinciples={fetchPrinciples}
+                    />
+                  </>
+                ) : (
+                  <></>
+                )}
                 <div className="m-0">
                   <h4 className="m-0 fw-bold text-warning text-center">
                     {principle.title}

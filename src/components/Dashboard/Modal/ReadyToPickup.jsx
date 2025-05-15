@@ -56,7 +56,7 @@ const ReadyToPickup = ({ readyToPickupRequests, CountUp }) => {
         >
           <Modal.Title>
             <h5 className="m-0 text-white">
-              Ready to pickup request ({readyToPickupRequests.length})
+              Ready to pickup ({readyToPickupRequests.length})
             </h5>
           </Modal.Title>
         </Modal.Header>

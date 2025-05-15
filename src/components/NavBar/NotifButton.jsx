@@ -369,7 +369,7 @@ const NotifButton = ({ user }) => {
               {notifications.filter((notif) => notif.isRead === 0).length >
                 0 ? (
                 <button
-                  className="btn btn-sm text-nowrap"
+                  className="btn btn-sm text-nowrap border-0"
                   style={{
                     color: "var(--yellow-color)",
                     backgroundColor: "rgba(var(--yellow-color-rgb), 0.1)",

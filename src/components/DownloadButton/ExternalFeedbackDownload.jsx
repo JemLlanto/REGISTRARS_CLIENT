@@ -5,7 +5,6 @@ import cvsuLogo from "/cvsu-logo.png";
 import Swal from "sweetalert2";
 import { OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 
-
 const ExternalFeedbackDownload = ({ user, documentDetails }) => {
   const [feedbackData, setFeedbackData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,8 +16,10 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       try {
         // console.log("Fetching data for request ID:", documentDetails.requestID);
         const res = await axios.get(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-          }/api/feedbackForm/fetchFeedbackExternalData?requestID=${documentDetails.requestID
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          }/api/feedbackForm/fetchFeedbackExternalData?requestID=${
+            documentDetails.requestID
           }`
         );
 
@@ -192,7 +193,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       // Service Availed
       doc.text(
         "Service Availed (Uri ng transaksyon o serbisyo): " +
-        (feedbackData.serviceAvailed || "_________________"),
+          (feedbackData.serviceAvailed || "_________________"),
         25,
         105
       );
@@ -661,16 +662,15 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
               </span>
               <p className="m-0">Downloading</p>
             </div>
-
           </>
         ) : (
           <>
             <p className="m-0">
               {documentDetails.responded
-                ? `Feedback (ext.)`
+                ? `Feedback (External)`
                 : documentDetails.feedbackType === ""
-                  ? `Feedback (None)`
-                  : `Feedback`}
+                ? `Feedback (None)`
+                : `Feedback`}
             </p>
           </>
         )}
@@ -678,11 +678,10 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
 
       <button
         type="button"
-        className="btn btn-warning w-100 d-flex d-block d-md-none"
+        className="btn btn-warning w-100 d-flex justify-content-center align-items-center d-block d-md-none"
         onClick={fetchData}
         disabled={!documentDetails.responded || isLoading}
       >
-
         {isLoading ? (
           <>
             <span>
@@ -695,8 +694,8 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
               {documentDetails.responded
                 ? `Feedback (ext.)`
                 : documentDetails.feedbackType === ""
-                  ? `Feedback (None)`
-                  : `Feedback`}
+                ? `Feedback (None)`
+                : `Feedback`}
             </p>
           </>
         )}

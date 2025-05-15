@@ -56,7 +56,7 @@ const Processing = ({ processingRequests, CountUp }) => {
         >
           <Modal.Title>
             <h5 className="m-0 text-white">
-              Processing request ({processingRequests.length})
+              Processing ({processingRequests.length})
             </h5>
           </Modal.Title>
         </Modal.Header>
