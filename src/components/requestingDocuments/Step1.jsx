@@ -8,50 +8,30 @@ const Step1 = ({ formData, handleChange }) => {
       {/* Email and Student ID */}
       <Row className="mb-1">
         <Col md={6}>
-          {formData.email === "" ? (<FloatingLabel controlId="floatingEmail" label="Email address">
+          <FloatingLabel controlId="floatingEmail" label="Email address">
             <Form.Control
               type="email"
               name="email"
               value={formData.email}
               placeholder="name@example.com"
               onChange={handleChange}
-              className="mb-2 border-danger"
+              className={`${formData.email === "" ? "border-danger" : ""}`}
               autoComplete="none"
             />
           </FloatingLabel>
-          ) : (<FloatingLabel controlId="floatingEmail" label="Email address">
-            <Form.Control
-              type="email"
-              name="email"
-              value={formData.email}
-              placeholder="name@example.com"
-              onChange={handleChange}
-              className="mb-2"
-              autoComplete="none"
-            />
-          </FloatingLabel>)}
-
         </Col>
         <Col md={6}>
-          {formData.studentID === "" ? (<FloatingLabel controlId="floatingStudentID" label="Student ID No">
+          <FloatingLabel controlId="floatingStudentID" label="Student ID No">
             <Form.Control
               type="number"
               name="studentID"
               value={formData.studentID}
               onChange={handleChange}
               placeholder="Student ID"
-              className="border-danger"
-            />
-          </FloatingLabel>) : (<FloatingLabel controlId="floatingStudentID" label="Student ID No">
-            <Form.Control
-              type="number"
-              name="studentID"
-              value={formData.studentID}
-              onChange={handleChange}
-              placeholder="Student ID"
-            />
-          </FloatingLabel>)}
+              className={`${formData.studentID === "" ? "border-danger " : ""} mb-2`}
 
+            />
+          </FloatingLabel>
           <p className=" text-secondary mx-2 my-1">
             <span
               className="fw-bold"
@@ -69,27 +49,16 @@ const Step1 = ({ formData, handleChange }) => {
       {/* Name Fields in a Row */}
       <Row className="mb-1">
         <Col lg={"4"}>
-          {formData.firstName === "" ? (
-            <FloatingLabel controlId="floatingFirstname" label="Firstname">
-              <Form.Control
-                type="text"
-                placeholder="Firstname"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                className="mb-2 border-danger"
-              />
-            </FloatingLabel>) : (
-            <FloatingLabel controlId="floatingFirstname" label="Firstname">
-              <Form.Control
-                type="text"
-                placeholder="Firstname"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                className="mb-2"
-              />
-            </FloatingLabel>)}
+          <FloatingLabel controlId="floatingFirstname" label="Firstname">
+            <Form.Control
+              type="text"
+              placeholder="Firstname"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              className={`${formData.firstName === "" ? "border-danger" : ""} mb-2`}
+            />
+          </FloatingLabel>
         </Col>
         <Col lg={"4"}>
           <FloatingLabel controlId="floatingMiddlename" label="Middlename">
@@ -114,28 +83,16 @@ const Step1 = ({ formData, handleChange }) => {
           </p>
         </Col>
         <Col lg={"4"}>
-          {formData.lastName === "" ? (
-            <FloatingLabel controlId="floatingLastname" label="Lastname">
-              <Form.Control
-                type="text"
-                placeholder="Lastname"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                className="border-danger"
-
-              />
-            </FloatingLabel>) : (
-            <FloatingLabel controlId="floatingLastname" label="Lastname">
-              <Form.Control
-                type="text"
-                placeholder="Lastname"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-              />
-            </FloatingLabel>)}
-
+          <FloatingLabel controlId="floatingLastname" label="Lastname">
+            <Form.Control
+              type="text"
+              placeholder="Lastname"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              className={`${formData.lastName === "" ? "border-danger" : ""}`}
+            />
+          </FloatingLabel>
           <p className=" text-secondary mx-2 my-1">
             <span
               className="fw-bold"
@@ -151,19 +108,7 @@ const Step1 = ({ formData, handleChange }) => {
       </Row>
 
       {/* Date of Birth */}
-      {formData.dateOfBirth === "" ? (<FloatingLabel
-        controlId="floatingDOB"
-        label="Date of Birth"
-        className="mb-2 border-danger"
-      >
-        <Form.Control
-          type="date"
-          placeholder="Date of Birth"
-          name="dateOfBirth"
-          value={formData.dateOfBirth}
-          onChange={handleChange}
-        />
-      </FloatingLabel>) : (<FloatingLabel
+      <FloatingLabel
         controlId="floatingDOB"
         label="Date of Birth"
         className="mb-2"
@@ -175,9 +120,7 @@ const Step1 = ({ formData, handleChange }) => {
           value={formData.dateOfBirth}
           onChange={handleChange}
         />
-      </FloatingLabel>)}
-
-
+      </FloatingLabel>
 
       {/* Sex Selection */}
       <FloatingLabel controlId="floatingSelect" label="Sex">
@@ -186,6 +129,8 @@ const Step1 = ({ formData, handleChange }) => {
           name="sex"
           value={formData.sex}
           onChange={handleChange}
+          className={`${formData.sex === "" ? "border-danger" : ""}`}
+
         >
           <option>Choose...</option>
           <option value="male">Male</option>
@@ -198,7 +143,7 @@ const Step1 = ({ formData, handleChange }) => {
         <FloatingLabel
           controlId="floatingMobile"
           label="Mobile No.(+63XXXXX)"
-          className="mt-2"
+          className={`${formData.mobileNum === "+63" ? "border-danger" : ""} mt-2`}
         >
           <Form.Control
             type="text"
