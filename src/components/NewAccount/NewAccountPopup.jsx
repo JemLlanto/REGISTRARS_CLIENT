@@ -75,6 +75,7 @@ const NewAccountPopup = ({ user }) => {
   };
 
   const handleSaveChanges = () => {
+    setIsLoading(true);
     axios
       .post(
         `${
@@ -90,8 +91,10 @@ const NewAccountPopup = ({ user }) => {
             title: "Account Setup Successful",
             text: res.data.Message,
           }).then(() => {
+            setIsLoading(false);
+            handleCloseEditPopup();
             handleClosePopup();
-            window.location.reload();
+            // window.location.reload();
           });
         } else if (res.data.Error) {
           console.log("Error:", res.data.Error);
@@ -100,6 +103,7 @@ const NewAccountPopup = ({ user }) => {
             title: "Account Setup Failed",
             text: res.data.Error,
           });
+          setIsLoading(false);
         }
       })
       .catch((err) => {
@@ -109,6 +113,7 @@ const NewAccountPopup = ({ user }) => {
           title: "Error",
           text: "An unexpected error occurred. Please try again.",
         });
+        setIsLoading(false);
       });
   };
   const handleDontEditProfile = async () => {
@@ -222,12 +227,13 @@ const NewAccountPopup = ({ user }) => {
             <div>
               <FloatingLabel
                 controlId="floatingStudentID"
-                label="Student ID No"
+                label="Student ID No (2025XXXXX)"
               >
                 <Form.Control
                   className="otp-input"
                   type="number"
                   name="studentID"
+                  min={200000000}
                   value={formData.studentID}
                   onChange={handleChange}
                   placeholder="Student ID"
@@ -288,13 +294,28 @@ const NewAccountPopup = ({ user }) => {
             <p className="m-0">Cancel</p>
           </button>
           <button
-            className="primaryButton py-2 rounded"
+            className="btn primaryButton d-flex align-items-center justify-content-center"
             disabled={
-              !formData.dateOfBirth || !formData.mobileNum || !formData.program
+              !formData.dateOfBirth ||
+              !formData.mobileNum ||
+              !formData.program ||
+              formData.studentID < 200000000 ||
+              isLoading
             }
             onClick={handleSaveChanges}
           >
-            <p className="m-0"> Save changes</p>
+            {isLoading ? (
+              <>
+                <p className="m-0 d-flex align-items-center justify-content-center gap-1">
+                  <i className="bx bx-loader bx-spin my-1"></i>
+                  <span className="d-none d-md-block">Saving Changes</span>
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="m-0">Save changes</p>
+              </>
+            )}
           </button>
         </Modal.Footer>
       </Modal>

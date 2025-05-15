@@ -267,6 +267,11 @@ const Step3 = ({
                       label={input.inputDescription}
                     >
                       <Form.Control
+                        className={`${
+                          formData[`inputValue${index + 1}`] === ""
+                            ? "border-danger"
+                            : ""
+                        }`}
                         type="text"
                         placeholder={input.inputDescription}
                         name={`inputValue${index + 1}`}

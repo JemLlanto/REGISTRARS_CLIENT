@@ -334,7 +334,7 @@ const FormButtons = ({
                 !formData.lastName ||
                 !formData.dateOfBirth ||
                 !formData.sex ||
-                !formData.mobileNum
+                formData.mobileNum === "+63"
               : currentStep === 3
               ? !formData.program ||
                 !formData.classification ||
@@ -342,7 +342,7 @@ const FormButtons = ({
                   !formData.yearGraduated) ||
                 (formData.classification === "undergraduate" &&
                   !formData.yearLevel) ||
-                !formData.schoolYearAttended ||
+                formData.schoolYearAttended < 1900 ||
                 !formData.purpose
               : false
           }
