@@ -3,8 +3,10 @@ import { Table, Modal, Button, ToggleButton, Spinner } from "react-bootstrap";
 import AdminModal from "../../components/ManageAdmin/AdminModal";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useOutletContext, useNavigate } from "react-router-dom";
 
 const ManageAdmin = () => {
+  const { user } = useOutletContext();
   const [admins, setAdmins] = useState([]);
   const [selectedAdmin, setSelectedAdmin] = useState(null);
   const [selectedProgram, setSelectedProgram] = useState(null);
@@ -12,6 +14,16 @@ const ManageAdmin = () => {
   const [addingModal, setAddingModal] = useState(false);
   const [formData, setFormData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+
+  // IDENTIFY IF THE USER IS ADMIN
+  useEffect(() => {
+    if (user) {
+      if (!user?.isAdmin) {
+        navigate(-1);
+      }
+    }
+  }, [user, navigate]);
 
   useEffect(() => {
     if ((selectedProgram, selectedAdmin)) {

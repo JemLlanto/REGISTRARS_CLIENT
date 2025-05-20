@@ -18,11 +18,14 @@ export default function Home() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {
-    if (user.isAdmin) {
-      navigate("/admin/home");
+    if (user) {
+      if (user?.isAdmin) {
+        navigate(-1);
+      }
     }
-  }, [user.isAdmin, navigate]);
+  }, [user, navigate]);
 
   const userID = user?.userID;
 

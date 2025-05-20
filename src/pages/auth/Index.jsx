@@ -5,6 +5,7 @@ import Preloader from "../../components/Preloader/Preloader";
 import Register from "../../components/auth/Register";
 import Login from "../../components/auth/Login";
 import { Background } from "../../components/Background/Background";
+import UserCookieConsent from "../../components/auth/UserCookieConsent";
 
 const Index = () => {
   const [activePage, setActivePage] = useState("login");
@@ -63,6 +64,7 @@ const Index = () => {
         <Register setActivePage={setActivePage}></Register>
       )}
       <Background />
+      <UserCookieConsent></UserCookieConsent>
     </>
   );
 };

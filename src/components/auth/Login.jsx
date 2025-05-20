@@ -4,8 +4,9 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ForgotPassword from "./ForgotPassword";
-import { Spinner } from "react-bootstrap";
+import { Spinner, Offcanvas } from "react-bootstrap";
 import { GooleLogin } from "./GooleLogin";
+import CookieConsent from "./UserCookieConsent";
 
 const Login = ({ setActivePage }) => {
   const [inputs, setInputs] = useState({ email: "", password: "" });
@@ -125,7 +126,6 @@ const Login = ({ setActivePage }) => {
                   <p className="m-0">{errors.email}</p>
                 </div>
               )}
-
             </div>
 
             <div className="mb-2 position-relative">
@@ -158,7 +158,6 @@ const Login = ({ setActivePage }) => {
                   <p className="m-0">{errors.password}</p>
                 </div>
               )}
-
             </div>
             <div className="d-flex justify-content-end align-items-end mb-2">
               <ForgotPassword />
@@ -167,7 +166,8 @@ const Login = ({ setActivePage }) => {
             <button
               className="btn btn-warning w-100 d-flex align-items-center justify-content-center gap-2"
               onClick={handleLogin}
-              disabled={isLoading}          >
+              disabled={isLoading}
+            >
               {isLoading ? (
                 <>
                   <Spinner animation="border" variant="dark" size="sm" />{" "}

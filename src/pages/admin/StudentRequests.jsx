@@ -41,7 +41,7 @@ export default function StudentRequests() {
   useEffect(() => {
     if (user) {
       if (!user?.isAdmin) {
-        navigate("/home");
+        navigate(-1);
       }
     }
   }, [user, navigate]);

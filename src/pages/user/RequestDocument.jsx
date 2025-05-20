@@ -9,31 +9,36 @@ import FormBody from "../../components/requestingDocuments/FormBody";
 
 export default function RequestDocument() {
   const { user, fetchUserData } = useOutletContext();
+  const cookieConsent = localStorage.getItem("cookieConsent");
   const [storedFormData, setStoredFormData] = useState(
-    JSON.parse(localStorage.getItem("formData")) || {}
+    cookieConsent === "accepted"
+      ? JSON.parse(localStorage.getItem("formData"))
+      : {} || {}
   );
   const [formData, setFormData] = useState({
-    currentStep: storedFormData.currentStep || 1,
-    agree: storedFormData.agree || "no",
-    email: storedFormData.email || user.email || "",
-    userID: storedFormData.userID || user.userID || "",
-    firstName: storedFormData.firstName || user.firstName || "",
-    middleName: storedFormData.middleName || user.middleName || "",
-    lastName: storedFormData.lastName || user.lastName || "",
-    studentID: storedFormData.studentID || user.studentID || "",
-    dateOfBirth: storedFormData.dateOfBirth || user.dateOfBirth || "",
-    sex: storedFormData.sex || user.sex || "",
-    mobileNum: storedFormData.mobileNum || user.mobileNum || "+63",
-    classification: storedFormData.classification || "",
-    schoolYearAttended: storedFormData.schoolYearAttended || "",
-    yearGraduated: storedFormData.yearGraduated || "",
-    yearLevel: storedFormData.yearLevel || "",
-    program: storedFormData.program || user.program || "",
-    purpose: storedFormData.purpose || "",
-    upload: storedFormData.upload || "",
+    currentStep: storedFormData?.currentStep || 1,
+    agree: storedFormData?.agree || "no",
+    email: storedFormData?.email || user.email || "",
+    userID: storedFormData?.userID || user.userID || "",
+    firstName: storedFormData?.firstName || user.firstName || "",
+    middleName: storedFormData?.middleName || user.middleName || "",
+    lastName: storedFormData?.lastName || user.lastName || "",
+    studentID: storedFormData?.studentID || user.studentID || "",
+    dateOfBirth: storedFormData?.dateOfBirth || user.dateOfBirth || "",
+    sex: storedFormData?.sex || user.sex || "",
+    mobileNum: storedFormData
+      ? storedFormData?.mobileNum
+      : user.mobileNum || "+63",
+    classification: storedFormData?.classification || "",
+    schoolYearAttended: storedFormData?.schoolYearAttended || "",
+    yearGraduated: storedFormData?.yearGraduated || "",
+    yearLevel: storedFormData?.yearLevel || "",
+    program: storedFormData?.program || user.program || "",
+    purpose: storedFormData?.purpose || "",
+    upload: storedFormData?.upload || "",
   });
   const [currentStep, setCurrentStep] = useState(
-    storedFormData.currentStep || 1
+    storedFormData?.currentStep || 1
   );
   const [direction, setDirection] = useState(1);
   const [privacyConsent, setPrivacyConsent] = useState(false);
@@ -46,11 +51,14 @@ export default function RequestDocument() {
   const [docType, setDocType] = useState([]);
   const navigate = useNavigate();
 
+  // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {
-    if (user.isAdmin) {
-      navigate("/admin/home");
+    if (user) {
+      if (user?.isAdmin) {
+        navigate(-1);
+      }
     }
-  }, [user.isAdmin, navigate]);
+  }, [user, navigate]);
 
   const requestID = useRef(
     Date.now().toString() + Math.floor(Math.random() * 1000).toString()
@@ -92,7 +100,7 @@ export default function RequestDocument() {
       // Only update fields from user data if they don't exist in storedFormData
       setFormData((prevData) => {
         // Only format date if it exists
-        let formattedDate = prevData.dateOfBirth;
+        let formattedDate = prevData.dateOfBirth || user.dateOfBirth;
         if (prevData.dateOfBirth) {
           try {
             const date = new Date(prevData.dateOfBirth);
@@ -107,16 +115,16 @@ export default function RequestDocument() {
         return {
           ...prevData,
           // Only use user data if localStorage doesn't have a value (empty string is considered no value)
-          email: prevData.email || "",
-          userID: prevData.userID || "",
-          firstName: prevData.firstName || "",
-          middleName: prevData.middleName || "",
-          lastName: prevData.lastName || "",
-          studentID: prevData.studentID || "",
+          email: prevData.email || user.email || "",
+          userID: prevData.userID || user.userID || "",
+          firstName: prevData.firstName || user.firstName || "",
+          middleName: prevData.middleName || user.middleName || "",
+          lastName: prevData.lastName || user.lastName || "",
+          studentID: prevData.studentID || user.studentID || "",
           dateOfBirth: formattedDate || "",
-          sex: prevData.sex || "",
-          mobileNum: prevData.mobileNum || "+63",
-          program: prevData.program || "",
+          sex: prevData.sex || user.sex || "",
+          mobileNum: prevData.mobileNum || user.mobileNum || "+63",
+          program: prevData.program || user.program || "",
         };
       });
     }
@@ -146,7 +154,9 @@ export default function RequestDocument() {
       const updatedData = { ...prevData, [name]: newValue };
 
       // Save to localStorage
-      localStorage.setItem("formData", JSON.stringify(updatedData));
+      if (cookieConsent === "accedted") {
+        localStorage.setItem("formData", JSON.stringify(updatedData));
+      }
 
       return updatedData;
     });

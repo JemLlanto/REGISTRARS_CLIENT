@@ -1,13 +1,23 @@
-import React from "react";
+import { useEffect } from "react";
 import ProgramModal from "../../components/ManageRequestForm/programModal";
 import PurposeModal from "../../components/ManageRequestForm/purposeModal";
 import YearGraduatedModal from "../../components/ManageRequestForm/YearGraduatedModal";
 import FormSwitch from "../../components/ManageRequestForm/FormSwitch";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import AutomaticSwitch from "../../components/ManageRequestForm/AutomaticSwitch";
 
 const ManageRequestForm = () => {
   const { user, fetchUserData } = useOutletContext();
+  const navigate = useNavigate();
+
+  // IDENTIFY IF THE USER IS ADMIN
+  useEffect(() => {
+    if (user) {
+      if (!user?.isAdmin) {
+        navigate(-1);
+      }
+    }
+  }, [user, navigate]);
 
   return (
     <div

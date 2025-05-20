@@ -101,7 +101,6 @@ label,
   background-color: #c7c7c7 !important;
 }
 
-
 /* Try targeting the container if possible */
 #googleLoginButton iframe {
   outline: none !important;

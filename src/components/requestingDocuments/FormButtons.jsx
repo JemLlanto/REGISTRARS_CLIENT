@@ -36,7 +36,10 @@ const FormButtons = ({
       const updatedData = { ...prevData, currentStep: currentStep + 1 };
 
       // Save to localStorage
-      localStorage.setItem("formData", JSON.stringify(updatedData));
+      const cookieConsent = localStorage.getItem("cookieConsent");
+      if (cookieConsent === "accepted") {
+        localStorage.setItem("formData", JSON.stringify(updatedData));
+      }
 
       return updatedData;
     });
@@ -56,7 +59,10 @@ const FormButtons = ({
       const updatedData = { ...prevData, currentStep: currentStep - 1 };
 
       // Save to localStorage
-      localStorage.setItem("formData", JSON.stringify(updatedData));
+      const cookieConsent = localStorage.getItem("cookieConsent");
+      if (cookieConsent === "accepted") {
+        localStorage.setItem("formData", JSON.stringify(updatedData));
+      }
 
       return updatedData;
     });

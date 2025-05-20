@@ -7,8 +7,17 @@ const RequestInfo = ({ documentDetails }) => {
       }).format(new Date(documentDetails?.dateOfBirth))
     : "";
   return (
-    <div className="row shadow-sm bg-white d-flex align-items-center justify-content-center rounded-3 p-2 p-md-4 mx-0">
+    <div className="row shadow-sm bg-white d-flex align-items-center justify-content-start rounded-3 p-2 p-md-4 mx-0">
       <h5 className=" m-0 my-2">Request details</h5>
+
+      {/* Privacy Consent */}
+      <div className="col-12 col-lg-4 mb-3">
+        <p className="text-muted m-0 mb-md-1">Privacy Consent</p>
+        <div className="d-flex align-items-center">
+          <i className="bx bxs-lock fs-5 me-1"></i>
+          <h6 className="m-0">Agreed</h6>
+        </div>
+      </div>
 
       {/* Name */}
       <div className="col-12 col-lg-4 mb-3">
@@ -19,6 +28,27 @@ const RequestInfo = ({ documentDetails }) => {
             {documentDetails.firstName} {documentDetails.middleName}{" "}
             {documentDetails.lastName}
           </h6>
+        </div>
+      </div>
+
+      {/* Email */}
+      <div className="col-12 col-lg-4 mb-3">
+        <p className="text-muted m-0 mb-md-1">Email</p>
+        <div className="d-flex align-items-center">
+          <i className="bx bxs-envelope-open text-dark fs-5 me-1"></i>
+          <h6 className="m-0">{documentDetails.email}</h6>
+        </div>
+      </div>
+
+      {/* Line */}
+      <div className="bg-dark w-100 mb-2" style={{ height: "1.5px" }}></div>
+
+      {/* Phone Number */}
+      <div className="col-12 col-lg-4 mb-3">
+        <p className="text-muted m-0 mb-md-1">Phone Number</p>
+        <div className="d-flex align-items-center">
+          <i className="bx bxs-phone text-dark fs-5 me-1"></i>
+          <h6 className="m-0">{documentDetails.mobileNum}</h6>
         </div>
       </div>
 
@@ -33,7 +63,7 @@ const RequestInfo = ({ documentDetails }) => {
 
       {/* Gender */}
       <div className="col-12 col-lg-4 mb-3">
-        <p className="text-muted m-0 mb-md-1">Gender</p>
+        <p className="text-muted m-0 mb-md-1">Sex Assigned at Birth</p>
         <div className="d-flex align-items-center">
           <i className="bx bx-male-sign text-dark fs-5 me-1"></i>
           <h6 className="m-0">{documentDetails.sex}</h6>
@@ -41,7 +71,7 @@ const RequestInfo = ({ documentDetails }) => {
       </div>
 
       {/* Line */}
-      <div className="bg-dark w-100 mb-2" style={{ height: "1px" }}></div>
+      <div className="bg-dark w-100 mb-2" style={{ height: "1.5px" }}></div>
 
       {/* Course */}
       <div className="col-12 col-lg-4 mb-3">
@@ -61,26 +91,17 @@ const RequestInfo = ({ documentDetails }) => {
         </div>
       </div>
 
-      {/* Phone Number */}
-      <div className="col-12 col-lg-4 mb-3">
-        <p className="text-muted m-0 mb-md-1">Phone Number</p>
-        <div className="d-flex align-items-center">
-          <i className="bx bxs-phone text-dark fs-5 me-1"></i>
-          <h6 className="m-0">{documentDetails.mobileNum}</h6>
-        </div>
-      </div>
-
-      {/* Line */}
-      <div className="bg-dark w-100 mb-2" style={{ height: "1px" }}></div>
-
       {/* Classification */}
       <div className="col-12 col-lg-4 mb-3">
         <p className="text-muted m-0 mb-md-1">Classification</p>
-        <div className="d-flex align-items-center gap-2">
+        <div className="d-flex align-items-center">
           <i className="bx bxs-user-detail text-dark fs-5 me-1"></i>
           <h6 className="m-0">{documentDetails.classification}</h6>
         </div>
       </div>
+
+      {/* Line */}
+      <div className="bg-dark w-100 mb-2" style={{ height: "1.5px" }}></div>
 
       {/* Year Level / Year Graduated */}
       <div className="col-12 col-lg-4 mb-3">
