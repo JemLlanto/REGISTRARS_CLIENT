@@ -34,16 +34,21 @@ const CookieConsent = () => {
           {/* Message and Links */}
           <div style={{ flex: 1 }}>
             <div className="mb-2 d-flex align-items-center gap-2">
-              <i className='bx bx-sm bx-error' style={{ color: 'orange' }}></i>
+              <i className="bx bx-sm bx-error" style={{ color: "orange" }}></i>
               <p className="m-0">
                 Our website uses cookies to improve your experience. By
-                continuing, you have read and agree to our{' '}
+                continuing, you have read and agree to our{" "}
                 <span
-                  style={{ color: "var(--main-color)", textDecoration: "underline", cursor: "pointer" }}
+                  style={{
+                    color: "var(--main-color)",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                  }}
                   onClick={() => setShowModal(true)}
                 >
                   Privacy Policy
-                </span>.
+                </span>
+                .
               </p>
             </div>
           </div>

@@ -34,11 +34,10 @@ export default function Home() {
 
   // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {
-    if (!user) {
-      return;
-    }
-    if (!user.isAdmin) {
-      navigate("/home");
+    if (user) {
+      if (!user?.isAdmin) {
+        navigate(-1);
+      }
     }
   }, [user, navigate]);
 

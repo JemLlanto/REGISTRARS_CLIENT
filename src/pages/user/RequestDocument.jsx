@@ -46,11 +46,14 @@ export default function RequestDocument() {
   const [docType, setDocType] = useState([]);
   const navigate = useNavigate();
 
+  // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {
-    if (user.isAdmin) {
-      navigate("/admin/home");
+    if (user) {
+      if (user?.isAdmin) {
+        navigate(-1);
+      }
     }
-  }, [user.isAdmin, navigate]);
+  }, [user, navigate]);
 
   const requestID = useRef(
     Date.now().toString() + Math.floor(Math.random() * 1000).toString()
