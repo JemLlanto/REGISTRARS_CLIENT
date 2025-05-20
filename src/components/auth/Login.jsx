@@ -4,8 +4,9 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ForgotPassword from "./ForgotPassword";
-import { Spinner } from "react-bootstrap";
+import { Spinner, Offcanvas } from "react-bootstrap";
 import { GooleLogin } from "./GooleLogin";
+import CookieConsent from "./CookieConsent";
 
 const Login = ({ setActivePage }) => {
   const [inputs, setInputs] = useState({ email: "", password: "" });
@@ -197,6 +198,7 @@ const Login = ({ setActivePage }) => {
           </div>
         </div>
       </div>
+
     </>
   );
 };
