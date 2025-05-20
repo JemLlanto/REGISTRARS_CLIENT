@@ -17,7 +17,10 @@ const Reminder = ({
         const updatedData = { ...prevData, agree: updatedAgree };
 
         // Save to localStorage
-        localStorage.setItem("formData", JSON.stringify(updatedData));
+        const cookieConsent = localStorage.getItem("cookieConsent");
+        if (cookieConsent === "accepted") {
+          localStorage.setItem("formData", JSON.stringify(updatedData));
+        }
 
         return updatedData;
       });
@@ -38,7 +41,10 @@ const Reminder = ({
           information regarding the requested document/s will be sent via
           registered e-mail address.
         </p>
-        <p><span className="fw-bold">Working days:</span> Monday to Thursday, 8AM to 4PM.</p>
+        <p>
+          <span className="fw-bold">Working days:</span> Monday to Thursday, 8AM
+          to 4PM.
+        </p>
 
         <p>
           <span className="fw-bold">Excluded days:</span> Friday, Saturday,

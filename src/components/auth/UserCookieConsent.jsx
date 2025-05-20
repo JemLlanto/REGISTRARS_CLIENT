@@ -1,55 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CloseButton, Offcanvas } from "react-bootstrap";
 import PrivacyPolicyModal from "./PrivacyPolicyModal";
 
 const CookieConsent = () => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const consent = localStorage.getItem("cookieConsent");
+    if (!consent) {
+      setShow(true);
+    }
+  }, []);
+
+  const closeOffCanvass = () => {
+    setShow(false);
+  };
+
+  const handleShowModal = () => {
+    setShowModal(true);
+    setShow(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setShow(true);
+  };
+
+  const handleAcceptCookie = () => {
+    localStorage.setItem("cookieConsent", "accepted");
+    setShow(false);
+    setShowModal(false);
+  };
 
   return (
     <>
       <Offcanvas
         show={show}
-        onHide={() => setShow(false)}
+        onHide={closeOffCanvass}
         placement="bottom"
         style={{ height: "auto", minHeight: 100, maxHeight: 240 }}
       >
-        <Offcanvas.Header>
-          <Offcanvas.Title>
-            <h5>Cookie Consent</h5>
-          </Offcanvas.Title>
-        </Offcanvas.Header>
         <Offcanvas.Body
-          className="d-flex align-items-center"
+          className="d-flex align-items-center py-2 px-3"
           style={{ paddingTop: 0 }}
         >
-          {/* Badge/Logo */}
-          {/* <div className="me-3 d-flex align-items-center">
-                    <img
-                        src="/dpo-badge.png" // Replace with your badge path
-                        alt="DPO/DPS Badge"
-                        style={{ width: 70, height: 'auto' }}
-                    />
-                </div> */}
           {/* Message and Links */}
           <div style={{ flex: 1 }}>
-            <div className="mb-2 d-flex align-items-center gap-2">
-              <i className="bx bx-sm bx-error" style={{ color: "orange" }}></i>
-              <p className="m-0">
-                Our website uses cookies to improve your experience. By
-                continuing, you have read and agree to our{" "}
-                <span
-                  style={{
-                    color: "var(--main-color)",
-                    textDecoration: "underline",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => setShowModal(true)}
-                >
-                  Privacy Policy
+            <div className="d-flex align-items-center gap-2">
+              <h2 className="m-0 me-1">
+                <span className="d-flex align-items-center justify-content-center">
+                  <i className="bx bx-info-circle"></i>
                 </span>
-                .
-              </p>
+              </h2>
+
+              <div>
+                <h5 className="m-0">Privacy Policy</h5>
+                <p className="m-0">
+                  Our website uses cookies to improve your experience. By
+                  continuing, you have read and agree to our{" "}
+                  <span
+                    style={{
+                      color: "var(--main-color)",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                    onClick={handleShowModal}
+                  >
+                    Privacy Policy
+                  </span>
+                  .
+                </p>
+              </div>
             </div>
           </div>
           {/* Buttons */}
@@ -61,9 +83,7 @@ const CookieConsent = () => {
                 backgroundColor: "var(--main-color)",
                 color: "white",
               }}
-              onClick={() => {
-                setShow(false);
-              }}
+              onClick={handleAcceptCookie}
             >
               <p className="m-0">Accept</p>
             </button>
@@ -71,7 +91,11 @@ const CookieConsent = () => {
           </div>
         </Offcanvas.Body>
       </Offcanvas>
-      <PrivacyPolicyModal show={showModal} onHide={() => setShowModal(false)} />
+      <PrivacyPolicyModal
+        showModal={showModal}
+        handleCloseModal={handleCloseModal}
+        handleAcceptCookie={handleAcceptCookie}
+      />
     </>
   );
 };
