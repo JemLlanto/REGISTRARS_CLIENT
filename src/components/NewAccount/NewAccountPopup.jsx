@@ -173,8 +173,24 @@ const NewAccountPopup = ({ user }) => {
           </p>
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-secondary" onClick={handleDontEditProfile}>
-            <p className="m-0">Close</p>
+          <button
+            className="btn btn-secondary d-flex justify-content-center align-items-center"
+            onClick={handleDontEditProfile}
+            disabled={isLoading}
+          >
+            <p className="m-0">
+              {isLoading ? (
+                <>
+                  {" "}
+                  <span className="">
+                    <i class="bx bx-loader bx-spin me-1"></i>
+                  </span>
+                  Finishing
+                </>
+              ) : (
+                <>Close</>
+              )}
+            </p>
           </button>
           <button className="btn primaryButton">
             <p className="m-0" onClick={handleShowEditPopup}>
@@ -211,6 +227,9 @@ const NewAccountPopup = ({ user }) => {
                 className=""
               >
                 <Form.Select
+                  className={`${
+                    formData.program === "" ? "border-danger" : ""
+                  }`}
                   name="program"
                   value={formData.program}
                   onChange={handleChange}
@@ -230,15 +249,28 @@ const NewAccountPopup = ({ user }) => {
                 label="Student ID No (2025XXXXX)"
               >
                 <Form.Control
-                  className="otp-input"
+                  className={`${
+                    formData.studentID === "" ? "border-danger" : ""
+                  } `}
                   type="number"
                   name="studentID"
-                  min={200000000}
                   value={formData.studentID}
                   onChange={handleChange}
                   placeholder="Student ID"
                 />
               </FloatingLabel>
+              <p className=" text-secondary mx-2 my-1">
+                <span
+                  className="fw-bold"
+                  style={{ fontSize: "clamp(0.6rem, 1dvw, .7rem)" }}
+                >
+                  Note:{" "}
+                </span>{" "}
+                <span style={{ fontSize: "clamp(0.6rem, 1dvw, .7rem)" }}>
+                  If your student number is not available, kindly indicate the
+                  last school year attended/graduated in the University.
+                </span>
+              </p>
             </div>
             <div>
               {/* Date of Birth */}
@@ -248,6 +280,9 @@ const NewAccountPopup = ({ user }) => {
                 className=""
               >
                 <Form.Control
+                  className={`${
+                    formData.dateOfBirth === "" ? "border-danger" : ""
+                  } `}
                   type="date"
                   placeholder="Date of Birth"
                   name="dateOfBirth"
@@ -258,14 +293,18 @@ const NewAccountPopup = ({ user }) => {
             </div>
             <div>
               {/* Sex Selection */}
-              <FloatingLabel controlId="floatingSelect" label="Sex">
+              <FloatingLabel
+                controlId="floatingSelect"
+                label="Sex Assigned at Birth"
+              >
                 <Form.Select
+                  className={`${formData.sex === "" ? "border-danger" : ""} `}
                   aria-label="Floating label select example"
                   name="sex"
                   value={formData.sex}
                   onChange={handleChange}
                 >
-                  <option>Choose...</option>
+                  <option value="">Choose...</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                 </Form.Select>
@@ -276,9 +315,11 @@ const NewAccountPopup = ({ user }) => {
               <FloatingLabel
                 controlId="floatingMobile"
                 label="Mobile No.(+63XXXXXXXXXX)"
-                className=""
               >
                 <Form.Control
+                  className={`${
+                    formData.mobileNum === "+63" ? "border-danger" : ""
+                  } `}
                   type="text"
                   name="mobileNum"
                   value={formData.mobileNum}
@@ -297,9 +338,10 @@ const NewAccountPopup = ({ user }) => {
             className="btn primaryButton d-flex align-items-center justify-content-center"
             disabled={
               !formData.dateOfBirth ||
-              !formData.mobileNum ||
+              formData.mobileNum === "+63" ||
               !formData.program ||
-              formData.studentID < 200000000 ||
+              formData.studentID === "" ||
+              formData.sex === "" ||
               isLoading
             }
             onClick={handleSaveChanges}

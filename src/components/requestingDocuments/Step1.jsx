@@ -15,7 +15,7 @@ const Step1 = ({ formData, handleChange }) => {
               value={formData.email}
               placeholder="name@example.com"
               onChange={handleChange}
-              className={`${formData.email === "" ? "border-danger" : ""}`}
+              className={`${formData.email === "" ? "border-danger" : ""} mb-2`}
               autoComplete="none"
             />
           </FloatingLabel>
@@ -29,7 +29,7 @@ const Step1 = ({ formData, handleChange }) => {
               onChange={handleChange}
               placeholder="Student ID"
               className={`${
-                formData.studentID === "" ? "border-danger " : ""
+                formData.studentID === 190000000 ? "border-danger " : ""
               } mb-2`}
             />
           </FloatingLabel>
@@ -127,7 +127,7 @@ const Step1 = ({ formData, handleChange }) => {
       </FloatingLabel>
 
       {/* Sex Selection */}
-      <FloatingLabel controlId="floatingSelect" label="Sex">
+      <FloatingLabel controlId="floatingSelect" label="Sex Assigned at Birth">
         <Form.Select
           aria-label="Floating label select example"
           name="sex"
