@@ -28,7 +28,7 @@ const CookieConsent = ({ onAccept, onReject, onSettings }) => {
                 {/* Message and Links */}
                 <div style={{ flex: 1 }}>
                     <div className="mb-2" style={{ fontSize: 15 }}>
-                        <p>   We are using cookies to give you the best experience on our website.</p>
+                        <p>This website uses cookies to improve your experience. By continuing, you agree to our use of cookies.</p>
                     </div>
                     <div style={{ fontSize: 14 }}>
                         <p>                        You can <a href="#" style={{ color: '#14532d', fontWeight: 500 }}>find out more</a> about which cookies we are using or switch them off in <a href="#" style={{ color: '#14532d', fontWeight: 500 }}>Settings</a>.
