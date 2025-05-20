@@ -1,0 +1,60 @@
+import React, { useState } from "react";
+import { Offcanvas } from "react-bootstrap";
+
+const CookieConsent = ({ onAccept, onReject, onSettings }) => {
+    const [show, setShow] = useState(true);
+
+    return (
+        <Offcanvas
+            show={show}
+            onHide={() => setShow(false)}
+            placement="bottom"
+            style={{ height: 'auto', minHeight: 100, maxHeight: 240 }}
+        >
+            <Offcanvas.Header closeButton>
+                <Offcanvas.Title>
+                    <h5>Cookie Consent</h5>
+                </Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body className="d-flex align-items-center" style={{ paddingTop: 0 }}>
+                {/* Badge/Logo */}
+                {/* <div className="me-3 d-flex align-items-center">
+                    <img
+                        src="/dpo-badge.png" // Replace with your badge path
+                        alt="DPO/DPS Badge"
+                        style={{ width: 70, height: 'auto' }}
+                    />
+                </div> */}
+                {/* Message and Links */}
+                <div style={{ flex: 1 }}>
+                    <div className="mb-2" style={{ fontSize: 15 }}>
+                        <p>   We are using cookies to give you the best experience on our website.</p>
+                    </div>
+                    <div style={{ fontSize: 14 }}>
+                        <p>                        You can <a href="#" style={{ color: '#14532d', fontWeight: 500 }}>find out more</a> about which cookies we are using or switch them off in <a href="#" style={{ color: '#14532d', fontWeight: 500 }}>Settings</a>.
+                        </p>
+                    </div>
+                </div>
+                {/* Buttons */}
+                <div className="ms-3 d-flex flex-column gap-2 align-items-end">
+                    <button
+                        className="btn  w-100"
+                        style={{ borderRadius: 20, minWidth: 100, backgroundColor: 'var(--main-color)', color: 'white' }}
+                        onClick={() => { setShow(false); onAccept && onAccept(); }}
+                    >
+                        <p className="m-0">Accept</p>
+                    </button>
+                    <button
+                        className="btn  w-100"
+                        style={{ borderRadius: 20, minWidth: 100, backgroundColor: 'var(--main-color)', color: 'white' }}
+                        onClick={() => { setShow(false); onReject && onReject(); }}
+                    >
+                        <p className="m-0">Reject</p>
+                    </button>
+                </div>
+            </Offcanvas.Body>
+        </Offcanvas>
+    );
+};
+
+export default CookieConsent; 
