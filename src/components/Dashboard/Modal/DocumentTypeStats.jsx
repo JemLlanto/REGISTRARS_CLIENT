@@ -49,10 +49,10 @@ const DocumentTypeStats = ({
         // Process all responses and collect document types
         responses.forEach((res, index) => {
           if (res.status === 200) {
-            console.log(
-              `Document Types for requestID ${filteredDocs[index].requestID}:`,
-              res.data.data?.map((d) => d.documentType).join(", ")
-            );
+            // // console.log(
+            //   `Document Types for requestID ${filteredDocs[index].requestID}:`,
+            //   res.data.data?.map((d) => d.documentType).join(", ")
+            // );
             res.data.data?.map((d) =>
               setDocumentTypes((prev) => [...prev, d.documentType])
             );
@@ -76,7 +76,7 @@ const DocumentTypeStats = ({
   useEffect(() => {
     if (documentTypes.length > 0) {
       setIsLoading(true);
-      console.log("Document Types:", documentTypes);
+      // // console.log("Document Types:", documentTypes);
 
       const typeCounts = documentTypes.reduce((counts, item) => {
         if (item.documentType) {
@@ -91,13 +91,13 @@ const DocumentTypeStats = ({
         return counts; // This return was inside the forEach, which is wrong
       }, {});
 
-      console.log("Type counts:", typeCounts);
+      // // console.log("Type counts:", typeCounts);
 
       const pieChartData = Object.entries(typeCounts)
         .map(([name, value]) => ({ name, value }))
         .sort((a, b) => b.value - a.value);
 
-      console.log("Pie chart data:", pieChartData);
+      // // console.log("Pie chart data:", pieChartData);
       setDocumentTypeCounts(pieChartData);
       setIsLoading(false);
     } else {

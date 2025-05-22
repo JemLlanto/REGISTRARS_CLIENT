@@ -64,7 +64,7 @@ export default function RequestDocument() {
     Date.now().toString() + Math.floor(Math.random() * 1000).toString()
   ).current;
 
-  // console.log("requestID", requestID);
+  // // console.log("requestID", requestID);
 
   useEffect(() => {
     // Create new input value fields when inputsLength changes
@@ -78,7 +78,7 @@ export default function RequestDocument() {
       ...prevData,
       ...inputValue,
     }));
-    // console.log(inputValue);
+    // // console.log(inputValue);
   }, [inputsLength]);
 
   useEffect(() => {

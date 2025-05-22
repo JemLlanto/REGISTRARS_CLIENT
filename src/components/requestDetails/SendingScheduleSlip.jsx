@@ -63,7 +63,7 @@ const SendingScheduleSlip = ({
       );
       return res.data;
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       alert(err.message);
     }
   };
@@ -93,12 +93,12 @@ const SendingScheduleSlip = ({
           );
 
           if (emailRes.status === 200) {
-            console.log(emailRes.data.Message);
+            // console.log(emailRes.data.Message);
           } else {
-            console.log(emailRes.data.Message);
+            // console.log(emailRes.data.Message);
           }
         } catch (emailErr) {
-          console.log("An error occurred while sending email: ", emailErr);
+          // console.log("An error occurred while sending email: ", emailErr);
         }
 
         await Swal.fire({
@@ -121,7 +121,7 @@ const SendingScheduleSlip = ({
         });
       }
     } catch (err) {
-      console.log("Error changing status: ", err);
+      // console.log("Error changing status: ", err);
       await Swal.fire({
         title: "Error",
         text: "Something went wrong. Please try again later.",
@@ -227,53 +227,41 @@ const SendingScheduleSlip = ({
                     <p className="m-0">Feedback Form Type</p>
                     <div className="d-flex align-items-center gap-1">
                       <ToggleButton
-                        type="radio"
-                        id={`radioInternalButtons`}
+                        type="checkBox"
+                        id={`checkBoxInternalButtons`}
                         label="Internal"
                         checked={formData.feedbackType === "internal"}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFormData({
-                              ...formData,
-                              feedbackType: "internal",
-                            });
-                          } else {
-                            setFormData({ ...formData, feedbackType: "" });
-                          }
-                        }}
+                        onChange={() =>
+                          setFormData({
+                            ...formData,
+                            feedbackType: "internal",
+                          })
+                        }
                       >
                         Internal
                       </ToggleButton>
                       <ToggleButton
-                        type="radio"
-                        id={`radioExternalButtons`}
+                        type="checkBox"
+                        id={`checkBoxExternalButtons`}
                         label="External"
                         checked={formData.feedbackType === "external"}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFormData({
-                              ...formData,
-                              feedbackType: "external",
-                            });
-                          } else {
-                            setFormData({ ...formData, feedbackType: "" });
-                          }
-                        }}
+                        onChange={() =>
+                          setFormData({
+                            ...formData,
+                            feedbackType: "external",
+                          })
+                        }
                       >
                         External
                       </ToggleButton>
                       <ToggleButton
-                        type="radio"
-                        id={`radioNoneButtons`}
+                        type="checkBox"
+                        id={`checkBoxNoneButtons`}
                         label="None"
                         checked={formData.feedbackType === ""}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFormData({ ...formData, feedbackType: "" });
-                          } else {
-                            setFormData({ ...formData, feedbackType: "" });
-                          }
-                        }}
+                        onChange={() =>
+                          setFormData({ ...formData, feedbackType: "" })
+                        }
                       >
                         None
                       </ToggleButton>

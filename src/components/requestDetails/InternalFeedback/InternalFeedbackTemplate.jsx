@@ -118,12 +118,12 @@ const InternalFeedbackTemplate = ({
           );
 
           if (emailRes.status === 200) {
-            console.log(emailRes.data.message);
+            // console.log(emailRes.data.message);
           } else {
-            console.log(emailRes.data.message);
+            // console.log(emailRes.data.message);
           }
         } catch (emailErr) {
-          console.log("An error occurred while sending email: ", emailErr);
+          // console.log("An error occurred while sending email: ", emailErr);
         }
 
         handleCloseFeedbackModal();

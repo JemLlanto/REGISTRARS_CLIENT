@@ -51,14 +51,14 @@ function YearGraduatedModal() {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
+          // // console.log(res.data.data);
           setYearGraduated(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+          // console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
-        console.log("Error fetching yearGraduated:", err);
+        // console.log("Error fetching yearGraduated:", err);
       });
   };
 
@@ -90,7 +90,7 @@ function YearGraduatedModal() {
         setFormData({ yearOption: "" });
       }
     } catch (err) {
-      console.log("Error adding year:", err);
+      // console.log("Error adding year:", err);
       Swal.fire("Error!", "Failed to add year.", "error");
     } finally {
       setIsLoading(false);
@@ -117,7 +117,7 @@ function YearGraduatedModal() {
         Swal.fire("Error!", res.data.Message, "error");
       }
     } catch (err) {
-      console.log("Error updating year:", err);
+      // console.log("Error updating year:", err);
       Swal.fire("Error!", "Failed to update year.", "error");
     } finally {
       setIsLoading(false);
@@ -152,7 +152,7 @@ function YearGraduatedModal() {
           Swal.fire("Error!", res.data.Message, "error");
         }
       } catch (err) {
-        console.log("Error deleting year:", err);
+        // console.log("Error deleting year:", err);
         Swal.fire("Error!", "Failed to delete year.", "error");
       } finally {
         setSelectedYear("");

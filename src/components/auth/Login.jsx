@@ -70,7 +70,7 @@ const Login = ({ setActivePage }) => {
         text: "Something went wrong. Please try again later.",
         icon: "error",
       });
-      console.log(err);
+      // console.log(err);
     } finally {
       setIsLoading(false);
     }

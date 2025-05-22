@@ -22,7 +22,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         );
 
         if (res.status === 200) {
-          // console.log(res.data.result);
+          // // console.log(res.data.result);
           setFeedbackData(res.data.result);
           downloadPDF(res.data.result, documentDetails);
         } else {

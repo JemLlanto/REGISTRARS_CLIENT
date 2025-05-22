@@ -26,14 +26,14 @@ const NewAccountPopup = ({ user }) => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
+          // // console.log(res.data.data);
           setPrograms(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
+          // console.log("Error:", res.data.Message);
         }
       })
       .catch((err) => {
-        console.log("Error fetching Programs: ", err);
+        // console.log("Error fetching Programs: ", err);
       });
   }, []);
 
@@ -85,7 +85,7 @@ const NewAccountPopup = ({ user }) => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.Message);
+          // console.log(res.data.Message);
           Swal.fire({
             icon: "success",
             title: "Account Setup Successful",
@@ -97,7 +97,7 @@ const NewAccountPopup = ({ user }) => {
             // window.location.reload();
           });
         } else if (res.data.Error) {
-          console.log("Error:", res.data.Error);
+          // console.log("Error:", res.data.Error);
           Swal.fire({
             icon: "error",
             title: "Account Setup Failed",
@@ -107,7 +107,7 @@ const NewAccountPopup = ({ user }) => {
         }
       })
       .catch((err) => {
-        console.log("Error setting up account: ", err);
+        // console.log("Error setting up account: ", err);
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -126,7 +126,7 @@ const NewAccountPopup = ({ user }) => {
         formData
       );
       if (response.data.Status === "Success") {
-        console.log(response.data.Message);
+        // console.log(response.data.Message);
         Swal.fire({
           icon: "success",
           title: "Account Setup Successful",
@@ -135,7 +135,7 @@ const NewAccountPopup = ({ user }) => {
           handleClosePopup();
         });
       } else if (response.data.Error) {
-        console.log("Error:", response.data.Error);
+        // console.log("Error:", response.data.Error);
         Swal.fire({
           icon: "error",
           title: "Account Setup Failed",

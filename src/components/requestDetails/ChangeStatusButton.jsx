@@ -63,7 +63,7 @@ const ChangeStatusButton = ({
       );
       return res.data;
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       alert(err.message);
     }
   };
@@ -93,12 +93,12 @@ const ChangeStatusButton = ({
           );
 
           if (emailRes.status === 200) {
-            console.log(emailRes.data.Message);
+            // console.log(emailRes.data.Message);
           } else {
-            console.log(emailRes.data.Message);
+            // console.log(emailRes.data.Message);
           }
         } catch (emailErr) {
-          console.log("An error occurred while sending email: ", emailErr);
+          // console.log("An error occurred while sending email: ", emailErr);
         }
 
         await Swal.fire({
@@ -121,7 +121,7 @@ const ChangeStatusButton = ({
         });
       }
     } catch (err) {
-      console.log("Error changing status: ", err);
+      // console.log("Error changing status: ", err);
       await Swal.fire({
         title: "Error",
         text: "Something went wrong. Please try again later.",
@@ -252,9 +252,10 @@ const ChangeStatusButton = ({
                     checked={formData.feedbackType === "internal"}
                     onChange={(e) => {
                       if (e.target.checked) {
-                        setFormData({ ...formData, feedbackType: "internal" });
-                      } else {
-                        setFormData({ ...formData, feedbackType: "" });
+                        setFormData({
+                          ...formData,
+                          feedbackType: "internal",
+                        });
                       }
                     }}
                   >
@@ -268,8 +269,6 @@ const ChangeStatusButton = ({
                     onChange={(e) => {
                       if (e.target.checked) {
                         setFormData({ ...formData, feedbackType: "external" });
-                      } else {
-                        setFormData({ ...formData, feedbackType: "" });
                       }
                     }}
                   >
@@ -282,8 +281,6 @@ const ChangeStatusButton = ({
                     checked={formData.feedbackType === ""}
                     onChange={(e) => {
                       if (e.target.checked) {
-                        setFormData({ ...formData, feedbackType: "" });
-                      } else {
                         setFormData({ ...formData, feedbackType: "" });
                       }
                     }}

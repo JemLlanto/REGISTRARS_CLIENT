@@ -32,16 +32,16 @@ const SelectionSelections = ({ purpose }) => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
+          // // console.log(res.data.data);
           setSelections(res.data.data);
           setIsLoading(false);
         } else if (res.data.Message) {
-          // console.log("Error: ", res.data.Message);
+          // // console.log("Error: ", res.data.Message);
           setIsLoading(false);
         }
       })
       .catch((err) => {
-        console.log("Error fetching selections:", err);
+        // console.log("Error fetching selections:", err);
         setIsLoading(false);
       });
   };
@@ -93,10 +93,10 @@ const SelectionSelections = ({ purpose }) => {
           confirmButtonText: "OK",
         });
       } else if (res.data.Message) {
-        console.log("Error: ", res.data.Message);
+        // console.log("Error: ", res.data.Message);
       }
     } catch (err) {
-      console.log("Error adding selection:", err);
+      // console.log("Error adding selection:", err);
 
       // Show error alert
       Swal.fire({
@@ -143,10 +143,10 @@ const SelectionSelections = ({ purpose }) => {
           confirmButtonText: "OK",
         });
       } else if (res.data.Message) {
-        console.log("Error: ", res.data.Message);
+        // console.log("Error: ", res.data.Message);
       }
     } catch (err) {
-      console.log("Error updating selection:", err);
+      // console.log("Error updating selection:", err);
 
       // Show error alert
       Swal.fire({
@@ -200,7 +200,7 @@ const SelectionSelections = ({ purpose }) => {
           });
         }
       } catch (err) {
-        console.log("Error deleting selection:", err);
+        // console.log("Error deleting selection:", err);
 
         Swal.fire({
           title: "Error!",

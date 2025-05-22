@@ -25,14 +25,14 @@ function programModal() {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
+          // // console.log(res.data.data);
           setPrograms(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
+          // // console.log("Error:", res.data.Message);
         }
       })
       .catch((err) => {
-        console.log("Error fetching Programs: ", err);
+        // // console.log("Error fetching Programs: ", err);
       });
   };
 
@@ -84,7 +84,7 @@ function programModal() {
         setFormData({ programName: "" });
       }
     } catch (err) {
-      console.log("Error adding program:", err);
+      // // console.log("Error adding program:", err);
       Swal.fire("Error!", "Failed to add program.", "error");
     } finally {
       setIsLoading(false);
@@ -111,7 +111,7 @@ function programModal() {
         Swal.fire("Error!", res.data.Message, "error");
       }
     } catch (err) {
-      console.log("Error updating program:", err);
+      // // console.log("Error updating program:", err);
       Swal.fire("Error!", "Failed to update program.", "error");
     } finally {
       setSelectedProgram("");
@@ -147,7 +147,7 @@ function programModal() {
           Swal.fire("Error!", res.data.Message, "error");
         }
       } catch (err) {
-        console.log("Error deleting program:", err);
+        // // console.log("Error deleting program:", err);
         Swal.fire("Error!", "Failed to delete program.", "error");
       } finally {
         setSelectedProgram("");
