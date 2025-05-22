@@ -203,7 +203,7 @@ const ManageAdmin = () => {
               </>
             ) : (
               <>
-                <Table striped bordered hover className="table-fade-in">
+                <Table striped bordered hover className="table-fade-in m-0">
                   <thead>
                     <tr>
                       <th>
