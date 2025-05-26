@@ -5,6 +5,7 @@ import YearGraduatedModal from "../../components/ManageRequestForm/YearGraduated
 import FormSwitch from "../../components/ManageRequestForm/FormSwitch";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import AutomaticSwitch from "../../components/ManageRequestForm/AutomaticSwitch";
+import InternalFeedbackPDFModal from "../../components/DownloadButton/InternalFeedbackPDFModal";
 
 const ManageRequestForm = () => {
   const { user, fetchUserData } = useOutletContext();
@@ -65,6 +66,7 @@ const ManageRequestForm = () => {
           <h6 className="mb-1">Purposes</h6>
           <PurposeModal />
         </div>
+        <InternalFeedbackPDFModal></InternalFeedbackPDFModal>
       </div>
     </div>
   );
