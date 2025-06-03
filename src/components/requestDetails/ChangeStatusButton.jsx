@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Feedback from "react-bootstrap/esm/Feedback";
+import InternalFeedbackPDFModal from "../DownloadButton/InternalFeedbackPDFModal";
 
 const ChangeStatusButton = ({
   showPhoneStatusModal,
@@ -30,10 +31,10 @@ const ChangeStatusButton = ({
           documentDetails.status === "pending"
             ? "processing"
             : documentDetails.status === "processing"
-            ? "ready to pickup"
-            : documentDetails.status === "ready to pickup"
-            ? "completed"
-            : null,
+              ? "ready to pickup"
+              : documentDetails.status === "ready to pickup"
+                ? "completed"
+                : null,
         userID: documentDetails.userID,
         receiverEmail: documentDetails.email,
         feedbackType: "",
@@ -55,8 +56,7 @@ const ChangeStatusButton = ({
     data.append("file", file);
     try {
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/documents/uploadScheduleSlip`,
         data,
         { headers: { "Content-Type": "multipart/form-data" } }
@@ -71,8 +71,7 @@ const ChangeStatusButton = ({
     try {
       setIsLoading(true);
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/managingRequest/changeStatus`,
         formData,
         {
@@ -86,8 +85,7 @@ const ChangeStatusButton = ({
       if (res.data.Status === "Success") {
         try {
           const emailRes = await axios.post(
-            `${
-              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
             }/api/emailNotification/sendStatusUpdate`,
             formData
           );
@@ -184,12 +182,12 @@ const ChangeStatusButton = ({
           {documentDetails.status === "pending"
             ? "Processing"
             : documentDetails.status === "processing"
-            ? "Ready to Pickup"
-            : documentDetails.status === "ready to pickup"
-            ? "Completed"
-            : documentDetails.status === "cancelled"
-            ? "Cancelled"
-            : "Claimed"}
+              ? "Ready to Pickup"
+              : documentDetails.status === "ready to pickup"
+                ? "Completed"
+                : documentDetails.status === "cancelled"
+                  ? "Cancelled"
+                  : "Claimed"}
         </p>
       </button>
 
@@ -205,10 +203,10 @@ const ChangeStatusButton = ({
           {documentDetails.status === "pending"
             ? "Processing"
             : documentDetails.status === "processing"
-            ? "Ready to Pickup"
-            : documentDetails.status === "ready to pickup"
-            ? "Completed"
-            : "Claimed"}
+              ? "Ready to Pickup"
+              : documentDetails.status === "ready to pickup"
+                ? "Completed"
+                : "Claimed"}
         </p>
       </button>
 
@@ -241,6 +239,9 @@ const ChangeStatusButton = ({
                     onChange={(e) => handleFileChange(e)}
                   />
                 </InputGroup>
+              </div>
+              <div>
+                <InternalFeedbackPDFModal></InternalFeedbackPDFModal>
               </div>
               <div className="customToggleButton">
                 <p className="m-0">Feedback Form Type</p>
