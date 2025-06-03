@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import jsPDF from "jspdf";
-import cvsuLogo from "/cvsu-logo.png";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import cvsuLogo from "/cvsu-logo.png";
 
 const defaultDocumentTypes = [
     { label: "Transcript of Records (TOR)", amount: 50 },
@@ -18,7 +18,7 @@ const defaultDocumentTypes = [
     { label: "Documentary Stamp", amount: 30 },
 ];
 
-const requirements = [
+const defaultRequirements = [
     "Original Form 137/SF10 with remark 'Copy for CVSU-CCAT Campus'.",
     "Return Slip Original Copy",
     "Please surrender the School ID",
@@ -41,6 +41,7 @@ const InternalFeedbackPDFModal = () => {
         selectedDocs: [],
     });
     const [documentTypes, setDocumentTypes] = useState(defaultDocumentTypes);
+    const [requirements, setRequirements] = useState(defaultRequirements);
 
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
@@ -94,6 +95,29 @@ const InternalFeedbackPDFModal = () => {
         }));
     };
 
+    // Add handlers for requirements
+    const handleRequirementChange = (idx, value) => {
+        setRequirements(prev => prev.map((req, i) => i === idx ? value : req));
+    };
+
+    const handleAddRequirement = () => {
+        setRequirements(prev => [...prev, "New Requirement"]);
+    };
+
+    const handleRemoveRequirement = (idx) => {
+        setRequirements(prev => prev.filter((_, i) => i !== idx));
+    };
+
+    const handleMoveRequirement = (idx, direction) => {
+        setRequirements(prev => {
+            const newArr = [...prev];
+            const targetIdx = idx + direction;
+            if (targetIdx < 0 || targetIdx >= newArr.length) return prev;
+            [newArr[idx], newArr[targetIdx]] = [newArr[targetIdx], newArr[idx]];
+            return newArr;
+        });
+    };
+
     const getTotal = () => {
         return form.selectedDocs.reduce((sum, idx) => sum + (documentTypes[idx]?.amount || 0), 0);
     };
@@ -104,8 +128,8 @@ const InternalFeedbackPDFModal = () => {
             const left = 15, top = 15, width = 180, pageWidth = 210;
             let y = top;
 
-            // Header
-            doc.addImage(cvsuLogo, "PNG", left, y, 20, 20);
+            // Header - Remove logo temporarily to fix the error
+            doc.addImage(cvsuLogo, "PNG", left + 26, y, 20, 20);
             doc.setFontSize(10);
             doc.setFont("helvetica", "bold");
             doc.text("Republic of the Philippines", pageWidth / 2, y + 5, { align: "center" });
@@ -119,27 +143,41 @@ const InternalFeedbackPDFModal = () => {
             doc.setFontSize(11);
             doc.text("SCHEDULE SLIP", pageWidth / 2, y + 33, { align: "center" });
 
-            y += 38;
+            y += 40;
 
-            // Top info row
+            // NEW: Header table with student information
+            const headerTableHeight = 10;
+            doc.setLineWidth(0.3);
+            doc.rect(left, y, width, headerTableHeight);
+
+            // Draw vertical lines for header table
+            doc.line(left + 70, y, left + 70, y + headerTableHeight); // after Control No
+            doc.line(left + 120, y, left + 120, y + headerTableHeight); // after Student No
+
+            // Draw horizontal line in middle of header table
+            doc.line(left, y + 10, left + width, y + 10);
+
+            // Header table labels and values
             doc.setFontSize(8);
+            doc.setFont("helvetica", "bold");
+            doc.text("Control No.:", left + 1, y + -2);
+            doc.text("Student No.:", left + 122, y + -2);
+            doc.text("Name:", left + 1, y + 4);
+            doc.text("Course & Major:", left + 72, y + 4);
+            doc.text("Date requested:", left + 122, y + 4);
+
             doc.setFont("helvetica", "normal");
-            doc.text(`Control No: ${form.controlNo}`, left, y);
-            doc.text(`Student No.:`, left + 120, y);
-            doc.text(`${form.studentNo}`, left + 170, y);
-            y += 5;
-            doc.text(`Name:`, left, y);
-            doc.text(`${form.name}`, left + 20, y);
-            doc.text(`Date requested:`, left + 120, y);
-            doc.text(`${form.dateRequested}`, left + 170, y);
-            y += 5;
-            doc.text(`Course & Major:`, left, y);
-            doc.text(`${form.courseMajor}`, left + 30, y);
-            y += 5;
+            doc.text(form.controlNo, left + 20, y + -2);
+            doc.text(form.studentNo, left + 142, y + -2);
+            doc.text(form.name, left + 5, y + 8);
+            doc.text(form.courseMajor, left + 75, y + 8);
+            doc.text(form.dateRequested, left + 130, y + 8);
+
+            y += headerTableHeight + -4;
 
             // Draw main table box
-            const tableTop = y + 2;
-            const tableHeight = 60 + documentTypes.length * 4;
+            const tableTop = y + 4;
+            const tableHeight = 40 + documentTypes.length * 4;
             doc.setLineWidth(0.2);
             doc.rect(left, tableTop, width, tableHeight);
             // Draw vertical lines for columns
@@ -167,7 +205,6 @@ const InternalFeedbackPDFModal = () => {
                 rowY += 4;
             });
             // Draw horizontal line before total
-            doc.line(left, rowY + 1, left + width, rowY + 1);
             // Total row (highlighted)
             doc.setFillColor(180, 238, 180);
             doc.rect(left + 120, rowY + 2, 60, 6, "F");
@@ -176,42 +213,41 @@ const InternalFeedbackPDFModal = () => {
             doc.text(getTotal().toFixed(2), left + 175, rowY + 6, { align: "right" });
             doc.setFont("helvetica", "normal");
             // to be paid at cashier
-            doc.text("to be paid at the Cashier's Office", left + 120, rowY + 12);
+            doc.text("to be paid at the Cashier's Office", left + 125, rowY + 12);
 
             // Purpose, Date & Time, Processed by row (bottom box)
             let boxY = rowY + 18;
             doc.setLineWidth(0.2);
             doc.rect(left, boxY, width, 12);
-            doc.line(left + 90, boxY, left + 90, boxY + 12);
-            doc.line(left + 140, boxY, left + 140, boxY + 12);
             doc.setFont("helvetica", "bold");
             doc.text("Purpose:", left + 1, boxY + 4);
-            doc.text("Date & Time of release:", left + 92, boxY + 4);
-            doc.text("Processed by", left + 142, boxY + 4);
+            doc.text("Date & Time of release:", left + 72, boxY + 4);
+            doc.text("Processed by", left + 122, boxY + 4);
             doc.setFont("helvetica", "normal");
             doc.text(form.purpose, left + 1, boxY + 9);
-            doc.text(`${form.dateRelease} ${form.timeRelease}`, left + 92, boxY + 9);
-            doc.text(form.processedBy, left + 142, boxY + 9);
+            doc.text(`${form.dateRelease}`, left + 83, boxY + 8);
+            doc.text(`${form.timeRelease}`, left + 88, boxY + 11);
+            doc.text(form.processedBy, left + 125, boxY + 9);
             // Simulated signature
             doc.setFontSize(10);
-            doc.text("/s/", left + 170, boxY + 9);
             doc.setFontSize(8);
 
             // Green requirements box
             let reqY = boxY + 16;
-            doc.setFillColor(180, 238, 180);
-            doc.rect(left, reqY, width, 18, "F");
+            const reqBoxHeight = 8 + (requirements.length * 3) + 4; // Calculate height based on number of requirements
+            doc.setFillColor(180, 250, 180);
+            doc.rect(left, reqY, width, reqBoxHeight, "F");
             doc.setFont("helvetica", "bold");
             doc.text("Please bring the following Requirements:", left + 1, reqY + 4);
             doc.setFont("helvetica", "normal");
             requirements.forEach((req, i) => {
-                doc.text(`(/) ${req}`, left + 2, reqY + 8 + (i + 1) * 3);
+                doc.text(` ${req}`, left + 2, reqY + 8 + (i + 1) * 3);
             });
-            reqY += 8 + (requirements.length + 1) * 3;
+            reqY += reqBoxHeight + 2;
 
             // Notes
             doc.setFont("helvetica", "bold");
-            doc.text("Note:", left, reqY);
+            doc.text("Note:", left, reqY + 4);
             doc.setFont("helvetica", "normal");
             const notes = [
                 "As a proof of request the clients must have a copy of schedule slip either in printed copy or in an electronic copy (screenshot copy).",
@@ -220,8 +256,14 @@ const InternalFeedbackPDFModal = () => {
                 "Please be calm yourself at the CVSU-CCAT Registrar's Office.",
                 "If the scheduled date does not fit into your schedule due to valid reasons, kindly email us your preferred schedule.",
             ];
+
+            let currentY = reqY + 10;
             notes.forEach((note, i) => {
-                doc.text(`${i + 1}. ${note}`, left + 1, reqY + 4 + (i + 1) * 3);
+                const lines = doc.splitTextToSize(`${i + 1}. ${note}`, width - 2);
+                lines.forEach((line, lineIndex) => {
+                    doc.text(line, left + 1, currentY + (lineIndex * 3));
+                });
+                currentY += (lines.length * 3) + 1;
             });
 
             doc.save(`${form.name || "Schedule_Slip"}_Schedule_Slip.pdf`);
@@ -236,7 +278,7 @@ const InternalFeedbackPDFModal = () => {
             <Button variant="warning" className="w-100 mb-2" onClick={handleShow}>
                 <span>Open Schedule Slip Modal</span>
             </Button>
-            <Modal show={show} onHide={handleClose} size="lg" centered>
+            <Modal show={show} onHide={handleClose} size="lg" scrollable centered>
                 <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
                     <Modal.Title className="text-white">Schedule Slip Form</Modal.Title>
                 </Modal.Header>
@@ -312,6 +354,25 @@ const InternalFeedbackPDFModal = () => {
                                 + Add Document Type
                             </Button>
                         </div>
+                        <div className="mb-2">
+                            <label>Requirements:</label>
+                            {requirements.map((req, idx) => (
+                                <div key={idx} className="d-flex align-items-center mb-1">
+                                    <input
+                                        type="text"
+                                        className="form-control me-2"
+                                        value={req}
+                                        onChange={e => handleRequirementChange(idx, e.target.value)}
+                                    />
+                                    <Button variant="outline-secondary" size="sm" onClick={() => handleMoveRequirement(idx, -1)} disabled={idx === 0}>&uarr;</Button>
+                                    <Button variant="outline-secondary" size="sm" onClick={() => handleMoveRequirement(idx, 1)} disabled={idx === requirements.length - 1}>&darr;</Button>
+                                    <Button variant="outline-danger" size="sm" onClick={() => handleRemoveRequirement(idx)} disabled={requirements.length === 1}>&times;</Button>
+                                </div>
+                            ))}
+                            <Button variant="outline-primary" size="sm" className="mt-2" onClick={handleAddRequirement}>
+                                + Add Requirement
+                            </Button>
+                        </div>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
@@ -327,4 +388,4 @@ const InternalFeedbackPDFModal = () => {
     );
 };
 
-export default InternalFeedbackPDFModal; 
+export default InternalFeedbackPDFModal;
