@@ -6,6 +6,7 @@ import InternalFeedbackDownload from "../../components/DownloadButton/InternalFe
 import ExternalFeedbackDownload from "../../components/DownloadButton/ExternalFeedbackDownload";
 import { Dropdown } from "react-bootstrap";
 import ChangeStatusButtonMobile from "./ChangeStatusButtonMobile";
+import ScheduleSlipDownload from "../DownloadButton/ScheduleSlipDownload";
 
 const RequestDetailsHeader = ({
   user,
@@ -76,10 +77,7 @@ const RequestDetailsHeader = ({
           documentDetails.status === "completed" ? (
             <div className="d-none d-md-flex d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
               <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
-                <ViewScheduleSlip
-                  fetchDocumentDetails={fetchDocumentDetails}
-                  documentDetails={documentDetails}
-                />
+                <ScheduleSlipDownload documentDetails={documentDetails} />
               </div>
             </div>
           ) : null}
@@ -143,10 +141,7 @@ const RequestDetailsHeader = ({
               ) : (
                 <>
                   <Dropdown.Item className="text-dark bg-white py-0">
-                    <ViewScheduleSlip
-                      fetchDocumentDetails={fetchDocumentDetails}
-                      documentDetails={documentDetails}
-                    />
+                    <ScheduleSlipDownload documentDetails={documentDetails} />
                   </Dropdown.Item>
                 </>
               )}
