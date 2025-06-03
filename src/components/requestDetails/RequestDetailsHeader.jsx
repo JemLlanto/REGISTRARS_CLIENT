@@ -5,18 +5,26 @@ import ViewScheduleSlip from "../../components/requestDetails/ViewScheduleSlip";
 import InternalFeedbackDownload from "../../components/DownloadButton/InternalFeedbackDownload";
 import ExternalFeedbackDownload from "../../components/DownloadButton/ExternalFeedbackDownload";
 import { Dropdown } from "react-bootstrap";
-import SendingScheduleSlipForMobile from "./SendingScheduleSlip";
+import ChangeStatusButtonMobile from "./ChangeStatusButtonMobile";
 
 const RequestDetailsHeader = ({
   user,
   documentDetails,
   fetchDocumentDetails,
 }) => {
-  const [showPhoneStatusModal, setShowPhoneStatusModal] = useState(false);
+  const [showChangeStatusPhoneModal, setShowChangeStatusPhoneModal] =
+    useState(false);
+
+  const handleShowChangeStatusPhoneModal = () => {
+    setShowChangeStatusPhoneModal(true);
+  };
+  const handleCloseChangeStatusPhoneModal = () => {
+    setShowChangeStatusPhoneModal(false);
+  };
 
   return (
     <div
-      className="rounded-2  p-2 d-flex align-items-center justify-content-between"
+      className="rounded-2  p-2 d-flex align-items-center justify-content-between position-relative"
       style={{ backgroundColor: "var(--main-color)" }}
     >
       <h5
@@ -26,9 +34,9 @@ const RequestDetailsHeader = ({
         Request ID: {documentDetails.requestID}
       </h5>
 
-      <SendingScheduleSlipForMobile
-        showPhoneStatusModal={showPhoneStatusModal}
-        setShowPhoneStatusModal={setShowPhoneStatusModal}
+      <ChangeStatusButtonMobile
+        show={showChangeStatusPhoneModal}
+        handleClose={handleCloseChangeStatusPhoneModal}
         documentDetails={documentDetails}
         fetchDocumentDetails={fetchDocumentDetails}
       />
@@ -55,6 +63,7 @@ const RequestDetailsHeader = ({
               className="btn-sm btn-responsive"
             />
             <ChangeStatusButton
+              user={user}
               fetchDocumentDetails={fetchDocumentDetails}
               documentDetails={documentDetails}
               className="btn-sm btn-responsive"
@@ -110,13 +119,25 @@ const RequestDetailsHeader = ({
                     />
                   </Dropdown.Item>
                   <Dropdown.Item className="text-dark bg-white py-0 mb-1">
-                    <ChangeStatusButton
-                      showPhoneStatusModal={showPhoneStatusModal}
-                      setShowPhoneStatusModal={setShowPhoneStatusModal}
-                      fetchDocumentDetails={fetchDocumentDetails}
-                      documentDetails={documentDetails}
-                      className="btn-sm btn-responsive w-100"
-                    />
+                    {/* FOR MOBILE STATUS UPDATE */}
+                    <button
+                      className="btn btn-success btn-sm btn-responsive w-100 d-md-none"
+                      onClick={handleShowChangeStatusPhoneModal}
+                      disabled={
+                        documentDetails.status === "cancelled" ||
+                        documentDetails.status === "completed"
+                      }
+                    >
+                      <p className="m-0">
+                        {documentDetails.status === "pending"
+                          ? "Processing"
+                          : documentDetails.status === "processing"
+                          ? "Ready to Pickup"
+                          : documentDetails.status === "ready to pickup"
+                          ? "Completed"
+                          : "Claimed"}
+                      </p>
+                    </button>
                   </Dropdown.Item>
                 </>
               ) : (

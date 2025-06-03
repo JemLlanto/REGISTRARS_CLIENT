@@ -10,13 +10,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const SendingScheduleSlip = ({
-  showPhoneStatusModal,
-  setShowPhoneStatusModal,
+const ChangeStatusButtonMobile = ({
+  show,
+  handleClose,
   documentDetails,
   fetchDocumentDetails,
 }) => {
-  const [showChangeStatusModal, setShowChangeStatusModal] = useState(false);
   const [formData, setFormData] = useState({});
   const [feedbackType, setFeedbackType] = useState("");
   const [file, setFile] = useState(null);
@@ -40,13 +39,6 @@ const SendingScheduleSlip = ({
       });
     }
   }, [documentDetails]);
-
-  const handleShowChangeStatusModal = () => {
-    setShowChangeStatusModal(true);
-  };
-  const handleCloseChangeStatusModal = () => {
-    setShowChangeStatusModal(false);
-  };
 
   const uploadScheduleSlip = async () => {
     const data = new FormData();
@@ -173,8 +165,8 @@ const SendingScheduleSlip = ({
     <>
       <div
         className={`${
-          showPhoneStatusModal ? "d-flex" : "d-none"
-        } justify-content-center align-items-center position-absolute`}
+          show ? "d-flex" : "d-none"
+        } justify-content-center align-items-center position-fixed`}
         style={{
           left: "50%",
           top: "50%",
@@ -184,7 +176,7 @@ const SendingScheduleSlip = ({
           zIndex: 1000,
           backgroundColor: "rgba(0, 0, 0, 0.5)",
         }}
-        onClick={() => setShowPhoneStatusModal(false)}
+        onClick={handleClose}
       >
         <div
           className={`d-flex flex-column justify-content-between align-items-center mx-2 overflow-hidden`}
@@ -200,7 +192,7 @@ const SendingScheduleSlip = ({
           <div className="w-100">
             <div className="modal-header d-flex justify-content-between p-3">
               <h5 className="m-0">Update request status</h5>
-              <CloseButton onClick={() => setShowPhoneStatusModal(false)} />
+              <CloseButton onClick={handleClose} />
             </div>
 
             {/* BODY */}
@@ -230,16 +222,14 @@ const SendingScheduleSlip = ({
                         type="radio"
                         id={`radioInternalButtons`}
                         label="Internal"
+                        name="feedbackType"
+                        value="internal"
                         checked={formData.feedbackType === "internal"}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFormData({
-                              ...formData,
-                              feedbackType: "internal",
-                            });
-                          } else {
-                            setFormData({ ...formData, feedbackType: "" });
-                          }
+                        onChange={() => {
+                          setFormData({
+                            ...formData,
+                            feedbackType: "internal",
+                          });
                         }}
                       >
                         Internal
@@ -248,16 +238,14 @@ const SendingScheduleSlip = ({
                         type="radio"
                         id={`radioExternalButtons`}
                         label="External"
+                        name="feedbackType"
+                        value="external"
                         checked={formData.feedbackType === "external"}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFormData({
-                              ...formData,
-                              feedbackType: "external",
-                            });
-                          } else {
-                            setFormData({ ...formData, feedbackType: "" });
-                          }
+                        onChange={() => {
+                          setFormData({
+                            ...formData,
+                            feedbackType: "external",
+                          });
                         }}
                       >
                         External
@@ -266,13 +254,11 @@ const SendingScheduleSlip = ({
                         type="radio"
                         id={`radioNoneButtons`}
                         label="None"
+                        name="feedbackType"
+                        value=""
                         checked={formData.feedbackType === ""}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFormData({ ...formData, feedbackType: "" });
-                          } else {
-                            setFormData({ ...formData, feedbackType: "" });
-                          }
+                        onChange={() => {
+                          setFormData({ ...formData, feedbackType: "" });
                         }}
                       >
                         None
@@ -302,10 +288,7 @@ const SendingScheduleSlip = ({
 
           <div className="w-100 d-flex justify-content-end align-items-center border-top gap-2 p-3">
             {/* FOOTER */}
-            <button
-              className="btn btn-secondary"
-              onClick={() => setShowPhoneStatusModal(false)}
-            >
+            <button className="btn btn-secondary" onClick={handleClose}>
               <p className="m-0">Back</p>
             </button>
             <button
@@ -333,4 +316,4 @@ const SendingScheduleSlip = ({
   );
 };
 
-export default SendingScheduleSlip;
+export default ChangeStatusButtonMobile;
