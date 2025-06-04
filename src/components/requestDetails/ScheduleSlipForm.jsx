@@ -133,7 +133,7 @@ const ScheduleSlipForm = ({
   // Editable document type handlers
   const handleDocTypeLabelChange = (idx, value) => {
     setDocumentTypes((prev) =>
-      prev.map((doc, i) => (i === idx ? { ...doc, label: value } : doc))
+      prev.map((doc, i) => (i === idx ? { ...doc, documentType: value } : doc))
     );
   };
   const handleDocTypeAmountChange = (idx, value) => {
@@ -533,7 +533,6 @@ const ScheduleSlipForm = ({
         return null;
     }
   };
-
   return (
     <>
       <button
