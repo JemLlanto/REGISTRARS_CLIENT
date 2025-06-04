@@ -48,10 +48,8 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
 
     axios
       .get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/fetchingDocuments/fetchRequestedDocumentTypes/${
-          documentDetails.requestID
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchRequestedDocumentTypes/${documentDetails.requestID
         }`
       )
       .then((res) => {
@@ -177,8 +175,7 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
 
   const uploadDetails = async () => {
     const res = await axios.post(
-      `${
-        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+      `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
       }/api/scheduleSlip/sendScheduleSlipDetails`,
       formData
     );
@@ -196,8 +193,7 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
     };
 
     const res = await axios.post(
-      `${
-        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+      `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
       }/api/scheduleSlip/sendScheduleSlipDocTypes`,
       payload
     );
@@ -215,8 +211,7 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
     };
 
     const res = await axios.post(
-      `${
-        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+      `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
       }/api/scheduleSlip/sendScheduleSlipRequirements`,
       payload
     );
@@ -256,97 +251,111 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
         </Modal.Header>
         <Modal.Body>
           <form>
-            <div className="mb-2">
-              <label>Control No.:</label>
-              <input
-                type="number"
-                className="form-control"
-                name="controlNum"
-                value={formData.controlNum}
-                onChange={handleChange}
-              />
+            <div className="row">
+              <div className="mb-2 col-md-4">
+                <label>Control No.:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="controlNo"
+                  value={formData.controlNo}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="mb-2 col-md-8">
+                <label>Student No.:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="studentNo"
+                  value={formData.studentNo}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-            <div className="mb-2">
-              <label>Name:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-              />
+
+            <div className="row">
+              <div className="mb-2 col-md-6">
+                <label>Name:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-2 col-md-6">
+                <label>Course & Major:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="courseMajor"
+                  value={formData.courseMajor}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-            <div className="mb-2">
-              <label>Course & Major:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="courseMajor"
-                value={formData.courseMajor}
-                onChange={handleChange}
-              />
+            <div className="row">
+              <div className="mb-2 col-md-4">
+                <label>Date requested:</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  name="dateRequested"
+                  value={formData.dateRequested}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-2 col-md-4">
+                <label>Date of Release:</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  name="dateRelease"
+                  value={formData.dateRelease}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-2 col-md-4">
+                <label>Time of Release:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="timeRelease"
+                  value={formData.timeRelease}
+                  onChange={handleChange}
+                  placeholder="e.g. 02:00PM - 05:00PM"
+                />
+              </div>
             </div>
-            <div className="mb-2">
-              <label>Student No.:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="studentNum"
-                value={formData.studentNum}
-                onChange={handleChange}
-              />
+
+            <div className="row">
+              <div className="mb-2 col-md-6">
+                <label>Purpose:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="purpose"
+                  value={formData.purpose}
+                  onChange={handleChange}
+                />
+              </div>
+
+
+              <div className="mb-2 col-md-6">
+                <label>Processed by:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="processedBy"
+                  value={formData.processedBy}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-            <div className="mb-2">
-              <label>Date requested:</label>
-              <input
-                type="date"
-                className="form-control"
-                name="dateRequested"
-                value={formData.dateRequested}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-2">
-              <label>Purpose:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="purpose"
-                value={formData.purpose}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-2">
-              <label>Date of Release:</label>
-              <input
-                type="date"
-                className="form-control"
-                name="dateRelease"
-                value={formData.dateRelease}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-2">
-              <label>Time of Release:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="timeRelease"
-                value={formData.timeRelease}
-                onChange={handleChange}
-                placeholder="e.g. 02:00PM - 05:00PM"
-              />
-            </div>
-            <div className="mb-2">
-              <label>Processed by:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="processedBy"
-                value={formData.processedBy}
-                onChange={handleChange}
-              />
-            </div>
+
             <div className="mb-2">
               <label>Types of documents requested:</label>
               {documentTypes.map((docType, idx) => (
@@ -452,7 +461,7 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
               </Button>
             </div>
           </form>
-        </Modal.Body>
+        </Modal.Body >
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
@@ -461,7 +470,7 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
             Send
           </button>
         </Modal.Footer>
-      </Modal>
+      </Modal >
     </>
   );
 };
