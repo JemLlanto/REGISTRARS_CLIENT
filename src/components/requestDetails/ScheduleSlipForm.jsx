@@ -25,7 +25,6 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
     purpose: "",
     dateRelease: "",
     timeRelease: "",
-    timeReleaseEnd: "",
     processedBy: "",
     selectedDocs: [],
   });
@@ -93,6 +92,7 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
     setCurrentStep(currentStep - 1);
   };
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -110,7 +110,7 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
   // Editable document type handlers
   const handleDocTypeLabelChange = (idx, value) => {
     setDocumentTypes((prev) =>
-      prev.map((doc, i) => (i === idx ? { ...doc, label: value } : doc))
+      prev.map((doc, i) => (i === idx ? { ...doc, documentType: value } : doc))
     );
   };
   const handleDocTypeAmountChange = (idx, value) => {
@@ -120,17 +120,10 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
       )
     );
   };
-  const handleDocTypePagesChange = (idx, value) => {
-    setDocumentTypes((prev) =>
-      prev.map((doc, i) =>
-        i === idx ? { ...doc, pages: parseInt(value) || 1 } : doc
-      )
-    );
-  };
   const handleAddDocType = () => {
     setDocumentTypes((prev) => [
       ...prev,
-      { documentType: "New Document", amount: 0, pages: 1 },
+      { documentType: "", amount: 0 },
     ]);
   };
   const handleRemoveDocType = (idx) => {
@@ -296,7 +289,7 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
           doc.text("/", left + 3, rowY);
         }
         doc.text(") " + docType.documentType, left + 6, rowY);
-        doc.text(docType.pages?.toString() || "1", left + 110, rowY, { align: "right" });
+        doc.text("1", left + 110, rowY, { align: "right" }); // Default to 1 page
         doc.text(docType.amount.toFixed(2), left + 175, rowY, {
           align: "right",
         });
@@ -516,28 +509,14 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
                   <input
                     type="text"
                     className="form-control"
-                    value={docType.documentType}
-                    onChange={(e) =>
-                      handleDocTypeLabelChange(idx, e.target.value)
-                    }
+                    value={docType.documentType || ""}
+                    onChange={(e) => handleDocTypeLabelChange(idx, e.target.value)}
                   />
                   <input
                     type="number"
-                    className="form-control "
-                    value={docType.pages || 1}
-                    onChange={(e) =>
-                      handleDocTypePagesChange(idx, e.target.value)
-                    }
-                    min="1"
-                    placeholder="Pages"
-                  />
-                  <input
-                    type="number"
-                    className="form-control "
-                    value={docType.amount}
-                    onChange={(e) =>
-                      handleDocTypeAmountChange(idx, e.target.value)
-                    }
+                    className="form-control"
+                    value={docType.amount || 0}
+                    onChange={(e) => handleDocTypeAmountChange(idx, e.target.value)}
                   />
                   <Button
                     variant="outline-danger"
@@ -592,7 +571,6 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
         return null;
     }
   };
-
   return (
     <>
       <Button variant="warning" className="w-100 mb-2" onClick={handleShow}>
