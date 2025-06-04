@@ -74,10 +74,13 @@ const RequestDetailsHeader = ({
       ) : (
         <>
           {documentDetails.status === "ready to pickup" ||
-            documentDetails.status === "completed" ? (
+          documentDetails.status === "completed" ? (
             <div className="d-none d-md-flex d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
               <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
-                <ScheduleSlipDownload documentDetails={documentDetails} />
+                <ScheduleSlipDownload
+                  documentDetails={documentDetails}
+                  fetchDocumentDetails={fetchDocumentDetails}
+                />
               </div>
             </div>
           ) : null}
@@ -130,10 +133,10 @@ const RequestDetailsHeader = ({
                         {documentDetails.status === "pending"
                           ? "Processing"
                           : documentDetails.status === "processing"
-                            ? "Ready to Pickup"
-                            : documentDetails.status === "ready to pickup"
-                              ? "Completed"
-                              : "Claimed"}
+                          ? "Ready to Pickup"
+                          : documentDetails.status === "ready to pickup"
+                          ? "Completed"
+                          : "Claimed"}
                       </p>
                     </button>
                   </Dropdown.Item>
@@ -141,7 +144,10 @@ const RequestDetailsHeader = ({
               ) : (
                 <>
                   <Dropdown.Item className="text-dark bg-white py-0">
-                    <ScheduleSlipDownload documentDetails={documentDetails} />
+                    <ScheduleSlipDownload
+                      documentDetails={documentDetails}
+                      fetchDocumentDetails={fetchDocumentDetails}
+                    />
                   </Dropdown.Item>
                 </>
               )}

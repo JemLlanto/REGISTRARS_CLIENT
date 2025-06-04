@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import jsPDF from "jspdf";
 import cvsuLogo from "../../../public/cvsu-logo.png";
 import axios from "axios";
+import Swal from "sweetalert2";
+import InternalFeedbackTemplate from "../requestDetails/InternalFeedback/InternalFeedbackTemplate";
+import ExternalFeedbackTemplate from "../requestDetails/ExternalFeedback/ExternalFeedbackTemplate";
 
-const ScheduleSlipDownload = ({ documentDetails }) => {
+const ScheduleSlipDownload = ({ documentDetails, fetchDocumentDetails }) => {
   const [scheduleSlipDetails, setScheduleSlipDetails] = useState([]);
   const [scheduleSlipDocTypes, setScheduleSlipDocTypes] = useState([]);
   const [scheduleSlipRequirements, setScheduleSlipRequirements] = useState([]);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchDetails = async () => {
@@ -16,7 +20,7 @@ const ScheduleSlipDownload = ({ documentDetails }) => {
       }/api/scheduleSlip/fetchScheduleSlipDetails/${documentDetails.requestID}`
     );
     if (res.status === 200) {
-      console.log(res.data.result);
+      // console.log(res.data.result);
       // setScheduleSlipDetails(res.data.result);
       return res.data.result;
     }
@@ -29,7 +33,7 @@ const ScheduleSlipDownload = ({ documentDetails }) => {
       }/api/scheduleSlip/fetchScheduleSlipDocTypes/${documentDetails.requestID}`
     );
     if (res.status === 200) {
-      console.log(res.data.result);
+      // console.log(res.data.result);
       // setScheduleSlipDocTypes(res.data.result);
       return res.data.result;
     }
@@ -44,7 +48,7 @@ const ScheduleSlipDownload = ({ documentDetails }) => {
       }`
     );
     if (res.status === 200) {
-      console.log(res.data.result);
+      // console.log(res.data.result);
       // setScheduleSlipRequirements(res.data.result);
       return res.data.result;
     }
@@ -66,10 +70,29 @@ const ScheduleSlipDownload = ({ documentDetails }) => {
     }
   };
 
+  const handleDownloadScheduleSlip = () => {
+    if (documentDetails.responded) {
+      fetchScheduleSlipData();
+    } else {
+      if (documentDetails.feedbackType === "") {
+        fetchScheduleSlipData();
+      } else {
+        Swal.fire({
+          icon: "info",
+          title: "Feedback Required",
+          text: `Kindly complete our feedback form to download the schedule slip. ${documentDetails.feedbackType}`,
+          confirmButtonText: "OK",
+        }).then(() => {
+          setShowFeedbackModal(true);
+        });
+      }
+    }
+  };
+
   const fetchScheduleSlipData = async () => {
     try {
       setIsLoading(true);
-      console.log("Fetching data...");
+      // console.log("Fetching data...");
 
       const [details, docTypes, requirements] = await Promise.all([
         fetchDetails(),
@@ -83,7 +106,7 @@ const ScheduleSlipDownload = ({ documentDetails }) => {
 
       generatePDF(details, docTypes, requirements);
 
-      console.log("Data fetched successfully");
+      // console.log("Data fetched successfully");
     } catch (err) {
       console.error("Error generating pdf:", err);
     } finally {
@@ -147,8 +170,8 @@ const ScheduleSlipDownload = ({ documentDetails }) => {
       // Header table labels and values
       doc.setFontSize(8);
       doc.setFont("helvetica", "bold");
-      doc.text("Control No.:", left + 1, y + -2);
-      doc.text("Student No.:", left + 122, y + -2);
+      doc.text("Control No:", left + 1, y + -2);
+      doc.text("Student No:", left + 122, y + -2);
       doc.text("Name:", left + 1, y + 4);
       doc.text("Course & Major:", left + 72, y + 4);
       doc.text("Date requested:", left + 122, y + 4);
@@ -183,16 +206,21 @@ const ScheduleSlipDownload = ({ documentDetails }) => {
       let rowY = tableTop + 10;
       let total = 0;
 
-      docTypes.forEach((docType, idx) => {
-        total += docType.price || 0;
+      if (docTypes.length > 0) {
+        docTypes.forEach((docType, idx) => {
+          total += docType.price * docType.page || 0;
 
-        doc.text(docType.documentName || "", left + 6, rowY);
-        doc.text("1", left + 110, rowY, { align: "right" });
-        doc.text((docType.price || 0).toFixed(2), left + 175, rowY, {
-          align: "right",
+          doc.text(docType.documentName || "", left + 3, rowY);
+          doc.text(String(docType.page), left + 110, rowY, { align: "right" });
+          doc.text((docType.price || 0).toFixed(2), left + 175, rowY, {
+            align: "right",
+          });
+          rowY += 4;
         });
-        rowY += 4;
-      });
+      } else {
+        doc.text("No documents requested", left + 3, rowY);
+      }
+
       // Draw horizontal line before total
       // Total row (highlighted)
       doc.setFillColor(180, 238, 180);
@@ -215,8 +243,8 @@ const ScheduleSlipDownload = ({ documentDetails }) => {
       doc.setFont("helvetica", "normal");
       doc.text(details.purpose, left + 1, boxY + 9);
 
-      doc.text(formatDate(details.releaseDate), left + 83, boxY + 8);
-      doc.text(`${details.releaseTime} only`, left + 88, boxY + 11);
+      doc.text(formatDate(details.releaseDate), left + 75, boxY + 8);
+      doc.text(`${details.releaseTime} only`, left + 75, boxY + 11);
       doc.text(details.processedBy, left + 125, boxY + 9);
       // Simulated signature
       doc.setFontSize(10);
@@ -242,8 +270,8 @@ const ScheduleSlipDownload = ({ documentDetails }) => {
       const notes = [
         "As a proof of request the clients must have a copy of schedule slip either in printed copy or in an electronic copy (screenshot copy).",
         "Strictly follow the scheduled date & and time to avoid inconvenience. We will not entertain those who are not on their schedule.",
-        "In the event that the client cannot claim personally, he/she must provide an AUTHORIZATION LETTER and a photocopy of I.D. to his/her authorized person, in pursuant to the Republic Act 10173 - Data Privacy Act of 2012 in addition to the above requirements.",
-        "Please be calm yourself at the CVSU-CCAT Registrar's Office.",
+        "In the event that the client cannot claim personally, he/she must provide an AUTHORIZATION LETTER and a photocopy of I.D. to his/her authorized person, in pursuant to the Republic Act 10173 - Data Privacy Act of 2012 in addition on the above requirements.",
+        "Please claim your request at the CVSU-CCAT Registrar's Office.",
         "If the scheduled date does not fit into your schedule due to valid reasons, kindly email us your preferred schedule.",
       ];
 
@@ -264,9 +292,48 @@ const ScheduleSlipDownload = ({ documentDetails }) => {
   };
   return (
     <>
-      <button className="btn btn-warning" onClick={fetchScheduleSlipData}>
-        <p className="m-0">Download Schedule Slip</p>
+      <button
+        className="btn btn-warning position-relative"
+        onClick={handleDownloadScheduleSlip}
+        disabled={isLoading || documentDetails.status != "ready to pickup"}
+      >
+        <p className={`m-0 ${isLoading ? "opacity-0" : ""}`}>
+          Download Schedule Slip
+        </p>
+        {isLoading ? (
+          <>
+            <h5
+              className="m-0 position-absolute"
+              style={{
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <span className="d-flex align-items-center">
+                <i className="bx bxs-analyse bx-spin"></i>
+              </span>
+            </h5>
+          </>
+        ) : null}
       </button>
+      {documentDetails.feedbackType === "internal" ? (
+        <InternalFeedbackTemplate
+          fetchScheduleSlipData={fetchScheduleSlipData}
+          fetchDocumentDetails={fetchDocumentDetails}
+          documentDetails={documentDetails}
+          showFeedbackModal={showFeedbackModal}
+          setShowFeedbackModal={setShowFeedbackModal}
+        />
+      ) : (
+        <ExternalFeedbackTemplate
+          fetchScheduleSlipData={fetchScheduleSlipData}
+          fetchDocumentDetails={fetchDocumentDetails}
+          documentDetails={documentDetails}
+          showFeedbackModal={showFeedbackModal}
+          setShowFeedbackModal={setShowFeedbackModal}
+        />
+      )}
     </>
   );
 };

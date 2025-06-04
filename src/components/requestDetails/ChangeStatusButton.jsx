@@ -23,6 +23,7 @@ const ChangeStatusButton = ({
   const [feedbackType, setFeedbackType] = useState("");
   const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isScheduled, setIsScheduled] = useState(documentDetails.isScheduled);
 
   useEffect(() => {
     if (documentDetails) {
@@ -50,25 +51,6 @@ const ChangeStatusButton = ({
     setShowChangeStatusModal(false);
   };
 
-  const uploadScheduleSlip = async () => {
-    const data = new FormData();
-    data.append("requestID", formData.requestID);
-    data.append("feedbackType", formData.feedbackType);
-    data.append("file", file);
-    try {
-      const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/documents/uploadScheduleSlip`,
-        data,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-      return res.data;
-    } catch (err) {
-      console.log(err);
-      alert(err.message);
-    }
-  };
   const handleChangeStatusRequest = async () => {
     try {
       setIsLoading(true);
@@ -82,9 +64,6 @@ const ChangeStatusButton = ({
         }
       );
 
-      if (file) {
-        await uploadScheduleSlip();
-      }
       if (res.data.Status === "Success") {
         try {
           const emailRes = await axios.post(
@@ -229,23 +208,9 @@ const ChangeStatusButton = ({
           {documentDetails.status === "processing" ? (
             <>
               <div>
-                <p className="m-0">
-                  Upload Schedule Slip (JPG, JPEG, PNG or PDF, up to 1MB){" "}
-                  {/* {file && file.size} */}
-                </p>
-
-                <InputGroup className="mb-3">
-                  <Form.Control
-                    type="file"
-                    placeholder="ScheduleSlip"
-                    aria-label="ScheduleSlip"
-                    aria-describedby="basic-addon1"
-                    onChange={(e) => handleFileChange(e)}
-                  />
-                </InputGroup>
-              </div>
-              <div>
                 <ScheduleSlipForm
+                  isScheduled={isScheduled}
+                  setIsScheduled={setIsScheduled}
                   documentDetails={documentDetails}
                   user={user}
                 />
@@ -286,6 +251,7 @@ const ChangeStatusButton = ({
                   >
                     None
                   </ToggleButton>
+                  {formData.feedbackType}
                 </div>
               </div>
             </>
@@ -316,9 +282,10 @@ const ChangeStatusButton = ({
           </button>
           <button
             className="btn primaryButton d-flex justify-content-center align-items-center gap-1"
-            onClick={() => handleChangeStatusRequest()}
+            onClick={handleChangeStatusRequest}
             disabled={
-              (documentDetails.status === "processing" && !file) || isLoading
+              (!isScheduled && documentDetails.status === "processing") ||
+              isLoading
             }
           >
             {isLoading ? (

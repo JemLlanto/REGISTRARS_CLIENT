@@ -6,14 +6,12 @@ import CommentsStep from "./CommentsStep";
 import Swal from "sweetalert2";
 
 const InternalFeedbackTemplate = ({
+  fetchScheduleSlipData,
   fetchDocumentDetails,
   documentDetails,
-  showScheduleModal,
-  setShowScheduleModal,
   showFeedbackModal,
   setShowFeedbackModal,
 }) => {
-  const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     ratings: {
@@ -73,24 +71,6 @@ const InternalFeedbackTemplate = ({
     }
   };
 
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => {
-    setShowModal(false);
-    // Reset form data when closing modal
-    // setFormData({
-    //   requestID: "",
-    //   userID: "",
-    //   ratings: {
-    //     courtesy: "",
-    //     service_quality: "",
-    //     service_timeliness: "",
-    //     service_efficiency: "",
-    //     physical_cleanliness: "",
-    //     physical_comfort: "",
-    //   },
-    //   comments: "",
-    // });
-  };
   const submitFeedback = async () => {
     try {
       setIsLoading(true);
@@ -141,6 +121,7 @@ const InternalFeedbackTemplate = ({
           comments: "",
         });
         fetchDocumentDetails();
+        fetchScheduleSlipData();
 
         Swal.fire({
           icon: "success",
@@ -200,7 +181,7 @@ const InternalFeedbackTemplate = ({
           <button
             className="btn primaryButton d-flex justify-content-center align-items-center gap-1"
             onClick={submitFeedback}
-            disabled={!allFilled}
+            disabled={!allFilled || isLoading}
           >
             {isLoading ? (
               <>
