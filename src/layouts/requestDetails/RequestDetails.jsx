@@ -1,6 +1,7 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 import React, { useEffect, useState } from "react";
-import { useOutletContext, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import RequestInfo from "../../components/requestDetails/RequestInfo";
 import DocumentFileModal from "../../components/requestDetails/DocumentFileModal";
 import { OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
@@ -15,6 +16,8 @@ const RequestDetails = () => {
   const [documentInputs, setDocumentInputs] = useState([]);
   const [documentFile, setDocumentFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(true);
+  const navigate = useNavigate();
 
   const fetchDocumentDetails = async () => {
     try {
@@ -26,7 +29,23 @@ const RequestDetails = () => {
       );
 
       if (res.data.Status === "Success") {
+        setIsAuthorized(true);
         setDocumentDetails(res.data.data);
+        if (!user.isAdmin) {
+          if (res.data.data.userID !== user.userID) {
+            setIsAuthorized(false);
+            Swal.fire({
+              icon: "error",
+              title: "Access Denied",
+              text: "You are not authorized to view this document request.",
+              confirmButtonText: "Go Back",
+            }).then(() => {
+              navigate(-1);
+            });
+          } else {
+            setIsAuthorized(true);
+          }
+        }
       } else if (res.data.Message) {
         // Handle any specific message from the response
         // console.log("Error: ", res.data.Message);
@@ -44,6 +63,7 @@ const RequestDetails = () => {
       fetchDocumentDetails();
     }
   }, [requestID, user]);
+
   //FETCHING DOCUMENT TYPES
   useEffect(() => {
     axios
@@ -131,7 +151,7 @@ const RequestDetails = () => {
 
   return (
     <>
-      {isLoading || !user ? (
+      {!isAuthorized || !user || isLoading ? (
         <>
           <div className="d-flex flex-column align-items-center justify-content-center gap-2 w-100 h-100">
             <Spinner animation="border" variant="dark" size="lg" />
@@ -146,7 +166,6 @@ const RequestDetails = () => {
             documentDetails={documentDetails}
             fetchDocumentDetails={fetchDocumentDetails}
           />
-
           <div
             className="custom-scrollbar overflow-x-hidden overflow-y-auto mt-2 d-flex flex-column gap-2 rounded "
             style={{
