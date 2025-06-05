@@ -295,7 +295,7 @@ const ScheduleSlipForm = ({
       handleClose();
       Swal.fire({
         icon: "success",
-        title: "Schedule slip sent!",
+        title: "Schedule slip saved!",
         showConfirmButton: false,
         timer: 2000,
       });
@@ -323,7 +323,9 @@ const ScheduleSlipForm = ({
                 <label>Control No:</label>
                 <input
                   type="number"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.controlNum <= 0 ? "border-danger" : ""
+                  }`}
                   name="controlNum"
                   value={formData.controlNum}
                   onChange={handleChange}
@@ -334,7 +336,9 @@ const ScheduleSlipForm = ({
                 <label>Student No:</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.studentNum === "" ? "border-danger" : ""
+                  }`}
                   name="studentNum"
                   value={formData.studentNum}
                   onChange={handleChange}
@@ -347,7 +351,9 @@ const ScheduleSlipForm = ({
                 <label>Name:</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.name === "" ? "border-danger" : ""
+                  }`}
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
@@ -357,7 +363,9 @@ const ScheduleSlipForm = ({
                 <label>Course & Major:</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.courseMajor === "" ? "border-danger" : ""
+                  }`}
                   name="courseMajor"
                   value={formData.courseMajor}
                   onChange={handleChange}
@@ -369,17 +377,21 @@ const ScheduleSlipForm = ({
                 <label>Date requested:</label>
                 <input
                   type="date"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.dateRequested === "" ? "border-danger" : ""
+                  }`}
                   name="dateRequested"
                   value={formData.dateRequested}
                   onChange={handleChange}
                 />
               </div>
               <div className="mb-2 col-md-4">
-                <label>Date of Release:{formData.dateRelease}</label>
+                <label>Date of Release:</label>
                 <input
                   type="date"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.dateRelease === "" ? "border-danger" : ""
+                  }`}
                   name="dateRelease"
                   value={formData.dateRelease}
                   onChange={handleChange}
@@ -390,7 +402,9 @@ const ScheduleSlipForm = ({
                 <div className="d-flex gap-2">
                   <input
                     type="time"
-                    className="form-control"
+                    className={`form-control ${
+                      formData.timeReleaseStart === "" ? "border-danger" : ""
+                    }`}
                     name="timeReleaseStart"
                     value={formData.timeReleaseStart}
                     onChange={handleChange}
@@ -398,7 +412,9 @@ const ScheduleSlipForm = ({
                   />
                   <input
                     type="time"
-                    className="form-control"
+                    className={`form-control ${
+                      formData.timeReleaseEnd === "" ? "border-danger" : ""
+                    }`}
                     name="timeReleaseEnd"
                     value={formData.timeReleaseEnd}
                     onChange={handleChange}
@@ -413,7 +429,9 @@ const ScheduleSlipForm = ({
                 <label>Purpose:</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.purpose === "" ? "border-danger" : ""
+                  }`}
                   name="purpose"
                   value={formData.purpose}
                   onChange={handleChange}
@@ -423,7 +441,9 @@ const ScheduleSlipForm = ({
                 <label>Processed by:</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.processedBy === "" ? "border-danger" : ""
+                  }`}
                   name="processedBy"
                   value={formData.processedBy}
                   onChange={handleChange}
@@ -437,72 +457,83 @@ const ScheduleSlipForm = ({
           <div>
             <h5 className="mb-3">Step 2: Document Details</h5>
             <div className="mb-2">
-              <div className="d-flex justify-content-between mb-2">
-                <label className="m-0">Types of documents requested:</label>
+              <div className="d-flex justify-content-start align-items-center gap-2 mb-2">
+                <h6 className="m-0">Types of documents requested:</h6>
                 <Button
-                  variant="outline-primary"
+                  variant="primary"
                   size="sm"
-                  className=""
+                  className="d-flex align-items-center gap-2"
                   onClick={handleAddDocType}
                 >
-                  + Add Document Type
+                  + <span className="d-none d-sm-block">Add Document Type</span>
                 </Button>
               </div>
-
-              {documentTypes.map((docType, idx) => (
-                <div
-                  key={idx}
-                  className="d-flex align-items-center justify-content-between gap-1 mb-1"
-                >
-                  <div className="w-100 d-flex align-items-center justify-content-between gap-1">
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={docType.documentType}
-                      onChange={(e) =>
-                        handleDocTypeLabelChange(idx, e.target.value)
-                      }
-                    />
-                    <input
-                      type="number"
-                      className="form-control w-25"
-                      value={docType.page}
-                      onChange={(e) =>
-                        handleDocTypePagesChange(idx, e.target.value)
-                      }
-                      placeholder="Page/s"
-                    />
-                    <input
-                      type="number"
-                      className="form-control w-50"
-                      placeholder="Price(PHP)"
-                      value={docType.amount}
-                      onChange={(e) =>
-                        handleDocTypeAmountChange(idx, e.target.value)
-                      }
-                    />
-                  </div>
-                  <Button
-                    variant="outline-danger"
-                    size="sm"
-                    onClick={() => handleRemoveDocType(idx)}
-                    disabled={documentTypes.length === 1}
-                  >
-                    &times;
-                  </Button>
-                </div>
-              ))}
+              {documentTypes.length > 0 ? (
+                <>
+                  {documentTypes.map((docType, idx) => (
+                    <div
+                      key={idx}
+                      className="d-flex align-items-center justify-content-between gap-1 mb-1"
+                    >
+                      <div className="w-100 d-flex align-items-center justify-content-between gap-1">
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={docType.documentType}
+                          onChange={(e) =>
+                            handleDocTypeLabelChange(idx, e.target.value)
+                          }
+                        />
+                        <input
+                          type="number"
+                          className="form-control w-25"
+                          value={docType.page}
+                          onChange={(e) =>
+                            handleDocTypePagesChange(idx, e.target.value)
+                          }
+                          placeholder="Page/s"
+                        />
+                        <input
+                          type="number"
+                          className="form-control w-50"
+                          placeholder="Price(PHP)"
+                          value={docType.amount}
+                          onChange={(e) =>
+                            handleDocTypeAmountChange(idx, e.target.value)
+                          }
+                        />
+                      </div>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => handleRemoveDocType(idx)}
+                      >
+                        <p className="m-0">&times;</p>
+                      </Button>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <>
+                  <input
+                    type="text"
+                    className="form-control w-100"
+                    placeholder="No document requested."
+                    disabled
+                  />
+                </>
+              )}
             </div>
             <div className="mb-2">
-              <div className="d-flex justify-content-between mb-2">
-                <label className="m-0">Requirements:</label>
+              <div className="d-flex justify-content-start align-items-center gap-2 mb-2 mt-3">
+                <h6 className="m-0">Requirements </h6>
                 <Button
-                  variant="outline-primary"
+                  variant="primary"
                   size="sm"
-                  className=""
+                  className="d-flex align-items-center gap-2"
                   onClick={handleAddRequirement}
                 >
-                  + Add Requirement
+                  + <span className="d-none d-sm-block">Add Requirement</span>
                 </Button>
               </div>
 
@@ -517,12 +548,11 @@ const ScheduleSlipForm = ({
                     }
                   />
                   <Button
-                    variant="outline-danger"
+                    variant="danger"
                     size="sm"
                     onClick={() => handleRemoveRequirement(idx)}
-                    disabled={requirements.length === 1}
                   >
-                    &times;
+                    <p className="m-0">&times;</p>
                   </Button>
                 </div>
               ))}
@@ -552,12 +582,12 @@ const ScheduleSlipForm = ({
         <Modal.Body>{renderStep()}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            <p className="m-0">Close</p>
           </Button>
           <div className="d-flex align-items-center gap-2">
             {currentStep > 1 && (
               <Button variant="secondary" onClick={prevStep} className="">
-                Previous
+                <p className="m-0">Previous</p>
               </Button>
             )}
             {currentStep < 2 ? (
@@ -566,7 +596,7 @@ const ScheduleSlipForm = ({
                 onClick={nextStep}
                 disabled={isInvalidFormData}
               >
-                Next
+                <p className="m-0">Next</p>
               </button>
             ) : (
               <button
@@ -576,7 +606,7 @@ const ScheduleSlipForm = ({
               >
                 {isLoading ? (
                   <>
-                    <span>
+                    <span className="d-flex align-items-center">
                       <i className="bx bx-loader bx-spin"></i>
                     </span>
                     <p className="m-0">Sending</p>

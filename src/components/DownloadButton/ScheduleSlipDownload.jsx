@@ -80,7 +80,7 @@ const ScheduleSlipDownload = ({ documentDetails, fetchDocumentDetails }) => {
         Swal.fire({
           icon: "info",
           title: "Feedback Required",
-          text: `Kindly complete our feedback form to download the schedule slip. ${documentDetails.feedbackType}`,
+          text: `Kindly complete our feedback form to download the schedule slip.`,
           confirmButtonText: "OK",
         }).then(() => {
           setShowFeedbackModal(true);

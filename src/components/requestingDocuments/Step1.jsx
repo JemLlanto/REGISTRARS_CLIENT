@@ -29,7 +29,7 @@ const Step1 = ({ formData, handleChange }) => {
               onChange={handleChange}
               placeholder="Student ID"
               className={`${
-                formData.studentID === 190000000 ? "border-danger " : ""
+                formData.studentID === "" ? "border-danger " : ""
               } mb-2`}
             />
           </FloatingLabel>

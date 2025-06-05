@@ -115,42 +115,6 @@ const ChangeStatusButton = ({
     }
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    // Allowed file types
-    const allowedTypes = [
-      "image/jpeg",
-      "image/jpg",
-      "image/png",
-      "application/pdf",
-    ];
-    const maxSize = 1 * 1024 * 1024; // 1MB
-
-    if (file.size > maxSize) {
-      Swal.fire({
-        icon: "warning",
-        title: "File Too Large",
-        text: "File size should not exceed 1MB.",
-      });
-      setFile(null);
-      return;
-    }
-
-    if (!allowedTypes.includes(file.type)) {
-      Swal.fire({
-        icon: "error",
-        title: "Invalid File Type",
-        text: "Only JPEG, JPG, and PDF files are allowed.",
-      });
-      setFile(null);
-      return;
-    }
-
-    setFile(file);
-  };
-
   return (
     <>
       <button
@@ -251,7 +215,6 @@ const ChangeStatusButton = ({
                   >
                     None
                   </ToggleButton>
-                  {formData.feedbackType}
                 </div>
               </div>
             </>

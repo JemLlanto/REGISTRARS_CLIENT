@@ -244,8 +244,8 @@ const ExternalFeedbackTemplate = ({
                 : currentStep === 2
                 ? !step2Complete
                 : currentStep === 3
-                ? !step3Complete
-                : false || isLoading
+                ? !step3Complete || isLoading
+                : false
             }
           >
             {isLoading ? (
