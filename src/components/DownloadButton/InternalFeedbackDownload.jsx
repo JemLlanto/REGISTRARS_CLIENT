@@ -249,7 +249,10 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         className="btn btn-warning d-none d-md-block"
         onClick={fetchData}
         disabled={
-          !documentDetails.responded || isLoading || !feedbackData.length < 0
+          !documentDetails.responded ||
+          isLoading ||
+          !feedbackData.length < 0 ||
+          documentDetails.status != "ready to pickup"
         }
       >
         <p className="m-0 text-center">
@@ -265,7 +268,12 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         type="button"
         className="w-100 btn btn-warning d-block d-md-none"
         onClick={fetchData}
-        disabled={!documentDetails.responded || isLoading}
+        disabled={
+          !documentDetails.responded ||
+          isLoading ||
+          !feedbackData.length < 0 ||
+          documentDetails.status != "ready to pickup"
+        }
       >
         <p className="m-0 text-center">
           {documentDetails.responded

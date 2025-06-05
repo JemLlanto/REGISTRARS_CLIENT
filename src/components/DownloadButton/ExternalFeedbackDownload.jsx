@@ -655,6 +655,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         disabled={
           !documentDetails.responded ||
           isLoading ||
+          !feedbackData.length < 0 ||
           documentDetails.status != "ready to pickup"
         }
       >
@@ -684,7 +685,12 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         type="button"
         className="btn btn-warning w-100 d-flex justify-content-center align-items-center d-block d-md-none"
         onClick={fetchData}
-        disabled={!documentDetails.responded || isLoading}
+        disabled={
+          !documentDetails.responded ||
+          isLoading ||
+          !feedbackData.length < 0 ||
+          documentDetails.status != "ready to pickup"
+        }
       >
         {isLoading ? (
           <>
