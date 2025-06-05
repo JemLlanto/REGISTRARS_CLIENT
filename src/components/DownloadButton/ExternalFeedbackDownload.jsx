@@ -652,7 +652,11 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         type="button"
         className="btn btn-warning d-flex d-none d-md-block"
         onClick={fetchData}
-        disabled={!documentDetails.responded || isLoading}
+        disabled={
+          !documentDetails.responded ||
+          isLoading ||
+          documentDetails.status != "ready to pickup"
+        }
       >
         {isLoading ? (
           <>

@@ -9,18 +9,20 @@ import {
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import ScheduleSlipForm from "./ScheduleSlipForm";
 
-const SendingScheduleSlip = ({
-  showPhoneStatusModal,
-  setShowPhoneStatusModal,
+const ChangeStatusButtonMobile = ({
+  user,
+  show,
+  handleClose,
   documentDetails,
   fetchDocumentDetails,
 }) => {
-  const [showChangeStatusModal, setShowChangeStatusModal] = useState(false);
   const [formData, setFormData] = useState({});
   const [feedbackType, setFeedbackType] = useState("");
   const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isScheduled, setIsScheduled] = useState(documentDetails.isScheduled);
 
   useEffect(() => {
     if (documentDetails) {
@@ -41,32 +43,6 @@ const SendingScheduleSlip = ({
     }
   }, [documentDetails]);
 
-  const handleShowChangeStatusModal = () => {
-    setShowChangeStatusModal(true);
-  };
-  const handleCloseChangeStatusModal = () => {
-    setShowChangeStatusModal(false);
-  };
-
-  const uploadScheduleSlip = async () => {
-    const data = new FormData();
-    data.append("requestID", formData.requestID);
-    data.append("feedbackType", formData.feedbackType);
-    data.append("file", file);
-    try {
-      const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/documents/uploadScheduleSlip`,
-        data,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-      return res.data;
-    } catch (err) {
-      // console.log(err);
-      alert(err.message);
-    }
-  };
   const handleChangeStatusRequest = async () => {
     try {
       setIsLoading(true);
@@ -80,9 +56,6 @@ const SendingScheduleSlip = ({
         }
       );
 
-      if (file) {
-        await uploadScheduleSlip();
-      }
       if (res.data.Status === "Success") {
         try {
           const emailRes = await axios.post(
@@ -109,7 +82,7 @@ const SendingScheduleSlip = ({
           confirmButtonText: "OK",
         });
 
-        handleCloseChangeStatusModal();
+        handleClose();
         fetchDocumentDetails();
       } else if (res.data.Status === "Failed") {
         await Swal.fire({
@@ -134,47 +107,12 @@ const SendingScheduleSlip = ({
     }
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    // Allowed file types
-    const allowedTypes = [
-      "image/jpeg",
-      "image/jpg",
-      "image/png",
-      "application/pdf",
-    ];
-    const maxSize = 1 * 1024 * 1024; // 1MB
-
-    if (file.size > maxSize) {
-      Swal.fire({
-        icon: "warning",
-        title: "File Too Large",
-        text: "File size should not exceed 1MB.",
-      });
-      setFile(null);
-      return;
-    }
-
-    if (!allowedTypes.includes(file.type)) {
-      Swal.fire({
-        icon: "error",
-        title: "Invalid File Type",
-        text: "Only JPEG, JPG, and PDF files are allowed.",
-      });
-      setFile(null);
-      return;
-    }
-
-    setFile(file);
-  };
   return (
     <>
       <div
         className={`${
-          showPhoneStatusModal ? "d-flex" : "d-none"
-        } justify-content-center align-items-center position-absolute`}
+          show ? "d-flex" : "d-none"
+        } justify-content-center align-items-center position-fixed`}
         style={{
           left: "50%",
           top: "50%",
@@ -184,7 +122,7 @@ const SendingScheduleSlip = ({
           zIndex: 1000,
           backgroundColor: "rgba(0, 0, 0, 0.5)",
         }}
-        onClick={() => setShowPhoneStatusModal(false)}
+        onClick={handleClose}
       >
         <div
           className={`d-flex flex-column justify-content-between align-items-center mx-2 overflow-hidden`}
@@ -200,7 +138,7 @@ const SendingScheduleSlip = ({
           <div className="w-100">
             <div className="modal-header d-flex justify-content-between p-3">
               <h5 className="m-0">Update request status</h5>
-              <CloseButton onClick={() => setShowPhoneStatusModal(false)} />
+              <CloseButton onClick={handleClose} />
             </div>
 
             {/* BODY */}
@@ -208,20 +146,12 @@ const SendingScheduleSlip = ({
               {documentDetails.status === "processing" ? (
                 <>
                   <div>
-                    <p className="m-0">
-                      Upload Schedule Slip (JPG, JPEG, PNG or PDF, up to 1MB){" "}
-                      {/* {file && file.size} */}
-                    </p>
-
-                    <InputGroup className="mb-3">
-                      <Form.Control
-                        type="file"
-                        placeholder="ScheduleSlip"
-                        aria-label="ScheduleSlip"
-                        aria-describedby="basic-addon1"
-                        onChange={(e) => handleFileChange(e)}
-                      />
-                    </InputGroup>
+                    <ScheduleSlipForm
+                      isScheduled={isScheduled}
+                      setIsScheduled={setIsScheduled}
+                      documentDetails={documentDetails}
+                      user={user}
+                    />
                   </div>
                   <div className="customToggleButton">
                     <p className="m-0">Feedback Form Type</p>
@@ -230,13 +160,15 @@ const SendingScheduleSlip = ({
                         type="checkBox"
                         id={`checkBoxInternalButtons`}
                         label="Internal"
+                        name="feedbackType"
+                        value="internal"
                         checked={formData.feedbackType === "internal"}
-                        onChange={() =>
+                        onChange={() => {
                           setFormData({
                             ...formData,
                             feedbackType: "internal",
-                          })
-                        }
+                          });
+                        }}
                       >
                         Internal
                       </ToggleButton>
@@ -244,13 +176,15 @@ const SendingScheduleSlip = ({
                         type="checkBox"
                         id={`checkBoxExternalButtons`}
                         label="External"
+                        name="feedbackType"
+                        value="external"
                         checked={formData.feedbackType === "external"}
-                        onChange={() =>
+                        onChange={() => {
                           setFormData({
                             ...formData,
                             feedbackType: "external",
-                          })
-                        }
+                          });
+                        }}
                       >
                         External
                       </ToggleButton>
@@ -258,10 +192,12 @@ const SendingScheduleSlip = ({
                         type="checkBox"
                         id={`checkBoxNoneButtons`}
                         label="None"
+                        name="feedbackType"
+                        value=""
                         checked={formData.feedbackType === ""}
-                        onChange={() =>
-                          setFormData({ ...formData, feedbackType: "" })
-                        }
+                        onChange={() => {
+                          setFormData({ ...formData, feedbackType: "" });
+                        }}
                       >
                         None
                       </ToggleButton>
@@ -290,17 +226,15 @@ const SendingScheduleSlip = ({
 
           <div className="w-100 d-flex justify-content-end align-items-center border-top gap-2 p-3">
             {/* FOOTER */}
-            <button
-              className="btn btn-secondary"
-              onClick={() => setShowPhoneStatusModal(false)}
-            >
+            <button className="btn btn-secondary" onClick={handleClose}>
               <p className="m-0">Back</p>
             </button>
             <button
               className="btn primaryButton d-flex justify-content-center align-items-center gap-1"
-              onClick={() => handleChangeStatusRequest()}
+              onClick={handleChangeStatusRequest}
               disabled={
-                (documentDetails.status === "processing" && !file) || isLoading
+                (!isScheduled && documentDetails.status === "processing") ||
+                isLoading
               }
             >
               {isLoading ? (
@@ -321,4 +255,4 @@ const SendingScheduleSlip = ({
   );
 };
 
-export default SendingScheduleSlip;
+export default ChangeStatusButtonMobile;
