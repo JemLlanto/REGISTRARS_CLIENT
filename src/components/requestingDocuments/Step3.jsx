@@ -60,14 +60,14 @@ const Step3 = ({
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
+          // // console.log(res.data.data);
           setPurposeData(res.data.data);
         } else if (res.data.Status === "Error") {
-          // console.log("Error: ", res.data.Message);
+          // // console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
-        console.log("Error fetching purposeData: ", err);
+        // console.log("Error fetching purposeData: ", err);
       });
   }, [formData.purpose]);
 
@@ -125,7 +125,7 @@ const Step3 = ({
           setUploadsState(uploadData);
         }
       } catch (err) {
-        console.log("Error fetching data: ", err);
+        // console.log("Error fetching data: ", err);
       } finally {
         setIsLoading(false);
       }
@@ -139,7 +139,7 @@ const Step3 = ({
   }, [purposeID]);
 
   // useEffect(() => {
-  //   console.log("formData updated:", formData);
+  //   // console.log("formData updated:", formData);
   // }, [formData]);
 
   const handleFileChange = (event, uploadID) => {

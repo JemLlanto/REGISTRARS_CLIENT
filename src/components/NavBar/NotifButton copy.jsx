@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Dropdown, Toast, ToastContainer } from "react-bootstrap";
@@ -35,7 +34,8 @@ const NotifButton = ({ user }) => {
         }
 
         const response = await axios.get(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
           }/api/notifications/fetchNotification/${userID}`,
           {
             params: {
@@ -66,7 +66,7 @@ const NotifButton = ({ user }) => {
             setNotifications(newNotifications);
           }
         } else {
-          console.log(response.data.Message);
+          // console.log(response.data.Message);
         }
         setTimeout(() => {
           setLoading(false);
@@ -139,7 +139,7 @@ const NotifButton = ({ user }) => {
 
     // Listen for new notifications
     socket.on("new_notification", (notification) => {
-      console.log("New notification received:", notification);
+      // console.log("New notification received:", notification);
 
       setNewNotif(true);
 
@@ -197,11 +197,12 @@ const NotifButton = ({ user }) => {
     const targetPath = `/request-details/${notif.requestID}`;
     try {
       await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/notifications/markAsRead/${notif.requestID}`
       );
       fetchNotifications(1, false);
-      console.log("Navigating to:", targetPath);
+      // console.log("Navigating to:", targetPath);
 
       if (location.pathname === targetPath) {
         window.location.reload(); // Reload if already on the same page
@@ -216,7 +217,8 @@ const NotifButton = ({ user }) => {
   const handleMarkAllNotifAsRead = async () => {
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/notifications/markAllAsRead/${user.userID}`
       );
 
@@ -296,14 +298,14 @@ const NotifButton = ({ user }) => {
             style={{ color: "var(--main-color)" }}
           >
             {notifications.filter((notif) => notif.isRead === 0).length ===
-              0 ? (
+            0 ? (
               <i className="bx bx-bell bx-sm"></i>
             ) : (
               <i className="bx bxs-bell bx-tada bx-sm"></i>
             )}
           </h5>
           {notifications.filter((notif) => notif.isRead === 0).length ===
-            0 ? null : (
+          0 ? null : (
             <div
               className="position-absolute rounded-circle d-flex align-items-center justify-content-center"
               style={{
@@ -319,7 +321,7 @@ const NotifButton = ({ user }) => {
                 style={{ fontSize: "clamp(.5rem, 1dvw, .7rem)" }}
               >
                 {notifications.filter((notif) => notif.isRead === 0).length >
-                  9 ? (
+                9 ? (
                   <>9+</>
                 ) : (
                   <>
@@ -334,7 +336,7 @@ const NotifButton = ({ user }) => {
         <Dropdown.Menu
           align="center"
           style={{
-            top: "100%",           // <== So it drops below the buttonWWW
+            top: "100%", // <== So it drops below the buttonWWW
             width: "300px",
             maxHeight: "450px",
           }}
@@ -406,7 +408,9 @@ const NotifButton = ({ user }) => {
                 <Dropdown.Item
                   key={notif.notificationID || index}
                   onClick={() => handleNotificationClick(notif)}
-                  className={`border-bottom  p-2 d-flex align-items-center gap-2 ${notif.isRead === 0 ? " fw-bold" : "bg-white"}`}
+                  className={`border-bottom  p-2 d-flex align-items-center gap-2 ${
+                    notif.isRead === 0 ? " fw-bold" : "bg-white"
+                  }`}
                 >
                   <div
                     className="d-flex flex-column text-wrap text-break flex-grow-1"
@@ -417,7 +421,9 @@ const NotifButton = ({ user }) => {
                     </p>
                     <div className="d-flex justify-content-between gap-1">
                       {notif.requestID && (
-                        <small style={{ fontSize: "clamp(.6rem, .8dvw, .9rem)" }}>
+                        <small
+                          style={{ fontSize: "clamp(.6rem, .8dvw, .9rem)" }}
+                        >
                           Request No.{notif.requestID}
                         </small>
                       )}
@@ -432,7 +438,10 @@ const NotifButton = ({ user }) => {
                     className="d-flex flex-column text-wrap text-break flex-grow-1"
                     style={{ wordBreak: "break-word", whiteSpace: "normal" }}
                   >
-                    <p className={`mb-1 ${notif.isRead === 0 ? "fw-bold" : ""}`} style={{ fontSize: "0.9rem" }}>
+                    <p
+                      className={`mb-1 ${notif.isRead === 0 ? "fw-bold" : ""}`}
+                      style={{ fontSize: "0.9rem" }}
+                    >
                       {notif.message}
                     </p>
                     <div className="d-flex flex-wrap justify-content-between align-items-center">
@@ -443,7 +452,7 @@ const NotifButton = ({ user }) => {
                             backgroundColor: "rgba(var(--main-color-rgb), 0.1)",
                             color: "var(--main-color)",
                             fontSize: "0.7rem",
-                            fontWeight: "600"
+                            fontWeight: "600",
                           }}
                         >
                           Request #{notif.requestID}
@@ -454,7 +463,7 @@ const NotifButton = ({ user }) => {
                         style={{
                           fontSize: "0.7rem",
                           color: "#777",
-                          fontWeight: notif.isRead === 0 ? "600" : "normal"
+                          fontWeight: notif.isRead === 0 ? "600" : "normal",
                         }}
                       >
                         {formatNotificationDate(notif.created)}
@@ -471,7 +480,7 @@ const NotifButton = ({ user }) => {
                         borderRadius: "50%",
                         backgroundColor: "#ff4d4f",
                         marginTop: "6px",
-                        flexShrink: "0"
+                        flexShrink: "0",
                       }}
                     ></div>
                   )}
@@ -485,15 +494,16 @@ const NotifButton = ({ user }) => {
                     className="spinner-border spinner-border-sm"
                     role="status"
                     style={{ color: "var(--yellow-color)" }}
+                  ></div>
+                  <span
+                    className="ms-2"
+                    style={{ color: "var(--yellow-color)" }}
                   >
-                  </div>
-                  <span className="ms-2" style={{ color: "var(--yellow-color)" }}>
                     Loading more...
                   </span>
                 </div>
               )}
             </div>
-
           )}
         </Dropdown.Menu>
       </Dropdown>

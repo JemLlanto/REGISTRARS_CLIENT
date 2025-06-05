@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import cvsuLogo from "/cvsu-logo.png";
+import Swal from "sweetalert2";
 import axios from "axios";
 
 const defaultRequirements = [
@@ -13,23 +13,32 @@ const defaultRequirements = [
   "Balance of 2,725.00 pesos (1st Sem. 2009-2010)",
 ];
 
-const ScheduleSlipForm = ({ documentDetails, user }) => {
+const ScheduleSlipForm = ({
+  documentDetails,
+  user,
+  setIsScheduled,
+  isScheduled,
+}) => {
   const [show, setShow] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    controlNo: "",
+    controlNum: null,
+    requestID: null,
     name: "",
     courseMajor: "",
-    studentNo: "",
+    studentNum: "",
     dateRequested: "",
     purpose: "",
     dateRelease: "",
     timeRelease: "",
+    timeReleaseStart: "",
+    timeReleaseEnd: "",
     processedBy: "",
     selectedDocs: [],
   });
   const [documentTypes, setDocumentTypes] = useState([]);
   const [requirements, setRequirements] = useState(defaultRequirements);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     let formattedDate = "";
@@ -48,8 +57,10 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
 
     axios
       .get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/fetchingDocuments/fetchRequestedDocumentTypes/${documentDetails.requestID
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchRequestedDocumentTypes/${
+          documentDetails.requestID
         }`
       )
       .then((res) => {
@@ -64,6 +75,7 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
 
     setFormData({
       ...formData,
+      requestID: documentDetails.requestID,
       name:
         documentDetails.firstName +
         " " +
@@ -71,7 +83,7 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
         " " +
         documentDetails.lastName,
       courseMajor: documentDetails.program,
-      studentNo: documentDetails.studentID,
+      studentNum: documentDetails.studentID,
       dateRequested: formattedDate,
       purpose: documentDetails.purpose,
       processedBy: user.firstName + " " + user.middleName + " " + user.lastName,
@@ -92,19 +104,30 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
     setCurrentStep(currentStep - 1);
   };
 
+  const formatTo12Hour = (time) => {
+    if (!time) return "";
+    const [hourStr, minute] = time.split(":");
+    let hour = parseInt(hourStr, 10);
+    const ampm = hour >= 12 ? "PM" : "AM";
+    hour = hour % 12 || 12; // Convert 0 to 12 for 12 AM
+    return `${String(hour).padStart(2, "0")}:${minute} ${ampm}`;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
-  const handleDocChange = (index) => {
-    setFormData((prev) => {
-      const selected = prev.selectedDocs.includes(index)
-        ? prev.selectedDocs.filter((i) => i !== index)
-        : [...prev.selectedDocs, index];
-      return { ...prev, selectedDocs: selected };
-    });
+    const updatedFormData = {
+      ...formData,
+      [name]: value,
+    };
+
+    if (name === "timeRelease" || name === "timeReleaseEnd") {
+      const startFormatted = formatTo12Hour(updatedFormData.timeReleaseStart);
+      const endFormatted = formatTo12Hour(updatedFormData.timeReleaseEnd);
+      updatedFormData.timeRelease = `${startFormatted} - ${endFormatted}`;
+    }
+
+    setFormData(updatedFormData);
   };
 
   // Editable document type handlers
@@ -116,14 +139,21 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
   const handleDocTypeAmountChange = (idx, value) => {
     setDocumentTypes((prev) =>
       prev.map((doc, i) =>
-        i === idx ? { ...doc, amount: parseFloat(value) || 0 } : doc
+        i === idx ? { ...doc, amount: parseFloat(value) } : doc
+      )
+    );
+  };
+  const handleDocTypePagesChange = (idx, value) => {
+    setDocumentTypes((prev) =>
+      prev.map((doc, i) =>
+        i === idx ? { ...doc, page: parseInt(value) } : doc
       )
     );
   };
   const handleAddDocType = () => {
     setDocumentTypes((prev) => [
       ...prev,
-      { documentType: "", amount: 0 },
+      { documentType: "New Document", amount: 0, page: 1 },
     ]);
   };
   const handleRemoveDocType = (idx) => {
@@ -133,23 +163,6 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
       selectedDocs: prev.selectedDocs
         .filter((i) => i !== idx)
         .map((i) => (i > idx ? i - 1 : i)),
-    }));
-  };
-  const handleMoveDocType = (idx, direction) => {
-    setDocumentTypes((prev) => {
-      const newArr = [...prev];
-      const targetIdx = idx + direction;
-      if (targetIdx < 0 || targetIdx >= newArr.length) return prev;
-      [newArr[idx], newArr[targetIdx]] = [newArr[targetIdx], newArr[idx]];
-      return newArr;
-    });
-    setFormData((prev) => ({
-      ...prev,
-      selectedDocs: prev.selectedDocs.map((i) => {
-        if (i === idx) return idx + direction;
-        if (i === idx + direction) return idx;
-        return i;
-      }),
     }));
   };
 
@@ -166,203 +179,136 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
     setRequirements((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  const handleMoveRequirement = (idx, direction) => {
-    setRequirements((prev) => {
-      const newArr = [...prev];
-      const targetIdx = idx + direction;
-      if (targetIdx < 0 || targetIdx >= newArr.length) return prev;
-      [newArr[idx], newArr[targetIdx]] = [newArr[targetIdx], newArr[idx]];
-      return newArr;
-    });
-  };
-
-  const getTotal = () => {
-    return formData.selectedDocs.reduce(
-      (sum, idx) => sum + (documentTypes[idx]?.amount || 0),
-      0
+  const isInvalidDocTypes =
+    Array.isArray(documentTypes) &&
+    documentTypes.length > 0 &&
+    documentTypes.some(
+      (doc) =>
+        !doc.page ||
+        Number(doc.page) <= 0 ||
+        !doc.amount ||
+        Number(doc.amount) <= 0
     );
-  };
 
-  const formatTimeTo12Hour = (time24) => {
-    if (!time24) return '';
-    try {
-      const [hours, minutes] = time24.split(':');
-      const hour = parseInt(hours);
-      const ampm = hour >= 12 ? 'PM' : 'AM';
-      const hour12 = hour % 12 || 12;
-      return `${hour12}:${minutes} ${ampm}`;
-    } catch (error) {
-      console.error('Error formatting time:', error);
-      return time24;
+  const isInvalidFormData =
+    !formData.controlNum?.trim() ||
+    !formData.name?.trim() ||
+    !formData.studentNum?.trim() ||
+    !formData.courseMajor?.trim() ||
+    !formData.dateRequested?.trim() ||
+    !formData.dateRelease?.trim() ||
+    !formData.timeReleaseStart?.trim() ||
+    !formData.timeReleaseEnd?.trim() ||
+    !formData.processedBy?.trim();
+
+  const uploadDetails = async () => {
+    const res = await axios.post(
+      `${
+        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+      }/api/scheduleSlip/sendScheduleSlipDetails`,
+      formData
+    );
+    if (res.status === 200) {
+      console.log("Details uploaded!");
     }
+    return res.data;
   };
 
-  const generatePDF = () => {
+  const uploadDocTypes = async () => {
+    const payload = {
+      requestID: formData.requestID,
+      documentTypes,
+    };
+    const res = await axios.post(
+      `${
+        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+      }/api/scheduleSlip/sendScheduleSlipDocTypes`,
+      payload
+    );
+    if (res.status === 200) {
+      console.log("Document types uploaded!");
+    }
+    return res.data;
+  };
+
+  const uploadRequirements = async () => {
+    const payload = {
+      requestID: formData.requestID,
+      requirements,
+    };
+    const res = await axios.post(
+      `${
+        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+      }/api/scheduleSlip/sendScheduleSlipRequirements`,
+      payload
+    );
+    if (res.status === 200) {
+      console.log("Requirements uploaded!");
+    }
+    return res.data;
+  };
+
+  const handleSubmit = async () => {
     try {
-      const doc = new jsPDF();
-      const left = 15,
-        top = 15,
-        width = 180,
-        pageWidth = 210;
-      let y = top;
+      setIsLoading(true);
 
-      // Header - Remove logo temporarily to fix the error
-      doc.addImage(cvsuLogo, "PNG", left + 26, y, 20, 20);
-      doc.setFontSize(10);
-      doc.setFont("helvetica", "bold");
-      doc.text("Republic of the Philippines", pageWidth / 2, y + 5, {
-        align: "center",
+      Swal.fire({
+        title: "Uploading...",
+        text: "Sending schedule slip details...",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
       });
-      doc.setFontSize(12);
-      doc.text("CAVITE STATE UNIVERSITY - CCAT", pageWidth / 2, y + 12, {
-        align: "center",
-      });
-      doc.setFontSize(8);
-      doc.text(
-        "(Formerly Cavite College of Arts and Trades)",
-        pageWidth / 2,
-        y + 17,
-        { align: "center" }
-      );
-      doc.text("Rosario, Cavite", pageWidth / 2, y + 21, { align: "center" });
-      doc.setFontSize(10);
-      doc.text("OFFICE OF THE CAMPUS REGISTRAR", pageWidth / 2, y + 27, {
-        align: "center",
-      });
-      doc.setFontSize(11);
-      doc.text("SCHEDULE SLIP", pageWidth / 2, y + 33, { align: "center" });
 
-      y += 40;
+      // Upload details
+      try {
+        await uploadDetails();
+      } catch (error) {
+        throw new Error(
+          "Failed to upload details. Please check the form and try again."
+        );
+      }
 
-      // NEW: Header table with student information
-      const headerTableHeight = 10;
-      doc.setLineWidth(0.3);
-      doc.rect(left, y, width, headerTableHeight);
+      if (documentTypes.length > 0) {
+        Swal.getPopup().querySelector("div.swal2-html-container").textContent =
+          "Uploading document types...";
 
-      // Draw vertical lines for header table
-      doc.line(left + 70, y, left + 70, y + headerTableHeight); // after Control No
-      doc.line(left + 120, y, left + 120, y + headerTableHeight); // after Student No
-
-      // Draw horizontal line in middle of header table
-      doc.line(left, y + 10, left + width, y + 10);
-
-      // Header table labels and values
-      doc.setFontSize(8);
-      doc.setFont("helvetica", "bold");
-      doc.text("Control No.:", left + 1, y + -2);
-      doc.text("Student No.:", left + 122, y + -2);
-      doc.text("Name:", left + 1, y + 4);
-      doc.text("Course & Major:", left + 72, y + 4);
-      doc.text("Date requested:", left + 122, y + 4);
-
-      doc.setFont("helvetica", "normal");
-      doc.text(formData.controlNo, left + 20, y + -2);
-      doc.text(formData.studentNo, left + 142, y + -2);
-      doc.text(formData.name, left + 5, y + 8);
-      doc.text(formData.courseMajor, left + 75, y + 8);
-      doc.text(formData.dateRequested, left + 130, y + 8);
-
-      y += headerTableHeight + -4;
-
-      // Draw main table box
-      const tableTop = y + 4;
-      const tableHeight = 40 + documentTypes.length * 4;
-      doc.setLineWidth(0.2);
-      doc.rect(left, tableTop, width, tableHeight);
-      // Draw vertical lines for columns
-      doc.line(left + 70, tableTop, left + 70, tableTop + tableHeight); // after doc types
-      doc.line(left + 120, tableTop, left + 120, tableTop + tableHeight); // after pages
-      // Draw horizontal lines for header and after doc rows
-      doc.line(left, tableTop + 6, left + width, tableTop + 6); // header
-      // Table headers
-      doc.setFont("helvetica", "bold");
-      doc.text("Types of documents requested:", left + 1, tableTop + 4);
-      doc.text("Number of page/pages:", left + 72, tableTop + 4);
-      doc.text("Amount to be paid:", left + 122, tableTop + 4);
-      doc.setFont("helvetica", "normal");
-
-      // Table rows
-      let rowY = tableTop + 10;
-      documentTypes.forEach((docType, idx) => {
-        doc.text("(", left + 1, rowY);
-        if (formData.selectedDocs.includes(idx)) {
-          doc.text("/", left + 3, rowY);
+        // Upload document types
+        try {
+          await uploadDocTypes();
+        } catch (error) {
+          throw new Error("Failed to upload document types.");
         }
-        doc.text(") " + docType.documentType, left + 6, rowY);
-        doc.text("1", left + 110, rowY, { align: "right" }); // Default to 1 page
-        doc.text(docType.amount.toFixed(2), left + 175, rowY, {
-          align: "right",
-        });
-        rowY += 4;
-      });
-      // Draw horizontal line before total
-      // Total row (highlighted)
-      doc.setFillColor(180, 238, 180);
-      doc.rect(left + 120, rowY + 2, 60, 6, "F");
-      doc.setFont("helvetica", "bold");
-      doc.text("Total amount:", left + 122, rowY + 6);
-      doc.text(getTotal().toFixed(2), left + 175, rowY + 6, { align: "right" });
-      doc.setFont("helvetica", "normal");
-      // to be paid at cashier
-      doc.text("to be paid at the Cashier's Office", left + 125, rowY + 12);
+      }
 
-      // Purpose, Date & Time, Processed by row (bottom box)
-      let boxY = rowY + 18;
-      doc.setLineWidth(0.2);
-      doc.rect(left, boxY, width, 12);
-      doc.setFont("helvetica", "bold");
-      doc.text("Purpose:", left + 1, boxY + 4);
-      doc.text("Date & Time of release:", left + 72, boxY + 4);
-      doc.text("Processed by", left + 122, boxY + 4);
-      doc.setFont("helvetica", "normal");
-      doc.text(formData.purpose, left + 1, boxY + 9);
-      doc.text(`${formData.dateRelease}`, left + 83, boxY + 8);
-      const formattedStartTime = formatTimeTo12Hour(formData.timeRelease);
-      const formattedEndTime = formatTimeTo12Hour(formData.timeReleaseEnd);
-      doc.text(`${formattedStartTime} - ${formattedEndTime}`, left + 88, boxY + 11);
-      doc.text(formData.processedBy, left + 125, boxY + 9);
-      // Simulated signature
-      doc.setFontSize(10);
-      doc.setFontSize(8);
+      Swal.getPopup().querySelector("div.swal2-html-container").textContent =
+        "Uploading requirements...";
 
-      // Green requirements box
-      let reqY = boxY + 16;
-      const reqBoxHeight = 8 + requirements.length * 3 + 4; // Calculate height based on number of requirements
-      doc.setFillColor(180, 250, 180);
-      doc.rect(left, reqY, width, reqBoxHeight, "F");
-      doc.setFont("helvetica", "bold");
-      doc.text("Please bring the following Requirements:", left + 1, reqY + 4);
-      doc.setFont("helvetica", "normal");
-      requirements.forEach((req, i) => {
-        doc.text(` ${req}`, left + 2, reqY + 8 + (i + 1) * 3);
-      });
-      reqY += reqBoxHeight + 2;
-
-      // Notes
-      doc.setFont("helvetica", "bold");
-      doc.text("Note:", left, reqY + 4);
-      doc.setFont("helvetica", "normal");
-      const notes = [
-        "As a proof of request the clients must have a copy of schedule slip either in printed copy or in an electronic copy (screenshot copy).",
-        "Strictly follow the scheduled date & and time to avoid inconvenience. We will not entertain those who are not on their schedule.",
-        "In the event that the client cannot claim personally, he/she must provide an AUTHORIZATION LETTER and a photocopy of I.D. to his/her authorized person, in pursuant to the Republic Act 10173 - Data Privacy Act of 2012 in addition to the above requirements.",
-        "Please be calm yourself at the CVSU-CCAT Registrar's Office.",
-        "If the scheduled date does not fit into your schedule due to valid reasons, kindly email us your preferred schedule.",
-      ];
-
-      let currentY = reqY + 10;
-      notes.forEach((note, i) => {
-        const lines = doc.splitTextToSize(`${i + 1}. ${note}`, width - 2);
-        lines.forEach((line, lineIndex) => {
-          doc.text(line, left + 1, currentY + lineIndex * 3);
-        });
-        currentY += lines.length * 3 + 1;
-      });
-
-      doc.save(`${formData.name || "Schedule_Slip"}_Schedule_Slip.pdf`);
+      // Upload requirements
+      try {
+        await uploadRequirements();
+      } catch (error) {
+        throw new Error("Failed to upload requirements.");
+      }
+      setIsScheduled(true);
       handleClose();
+      Swal.fire({
+        icon: "success",
+        title: "Schedule slip saved!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     } catch (error) {
-      alert("PDF Generation Failed: " + error.message);
+      console.error(error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Upload failed",
+        text: error.message || "An unknown error occurred.",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -374,23 +320,27 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
             <h5 className="mb-3">Step 1: Basic Information</h5>
             <div className="row">
               <div className="mb-2 col-md-6">
-                <label>Control No.:</label>
+                <label>Control No:</label>
                 <input
-                  type="text"
-                  className="form-control"
-                  name="controlNo"
-                  value={formData.controlNo}
+                  type="number"
+                  className={`form-control ${
+                    formData.controlNum <= 0 ? "border-danger" : ""
+                  }`}
+                  name="controlNum"
+                  value={formData.controlNum}
                   onChange={handleChange}
                 />
               </div>
 
               <div className="mb-2 col-md-6">
-                <label>Student No.:</label>
+                <label>Student No:</label>
                 <input
                   type="text"
-                  className="form-control"
-                  name="studentNo"
-                  value={formData.studentNo}
+                  className={`form-control ${
+                    formData.studentNum === "" ? "border-danger" : ""
+                  }`}
+                  name="studentNum"
+                  value={formData.studentNum}
                   onChange={handleChange}
                 />
               </div>
@@ -401,7 +351,9 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
                 <label>Name:</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.name === "" ? "border-danger" : ""
+                  }`}
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
@@ -411,7 +363,9 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
                 <label>Course & Major:</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.courseMajor === "" ? "border-danger" : ""
+                  }`}
                   name="courseMajor"
                   value={formData.courseMajor}
                   onChange={handleChange}
@@ -423,7 +377,9 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
                 <label>Date requested:</label>
                 <input
                   type="date"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.dateRequested === "" ? "border-danger" : ""
+                  }`}
                   name="dateRequested"
                   value={formData.dateRequested}
                   onChange={handleChange}
@@ -433,7 +389,9 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
                 <label>Date of Release:</label>
                 <input
                   type="date"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.dateRelease === "" ? "border-danger" : ""
+                  }`}
                   name="dateRelease"
                   value={formData.dateRelease}
                   onChange={handleChange}
@@ -444,22 +402,25 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
                 <div className="d-flex gap-2">
                   <input
                     type="time"
-                    className="form-control"
-                    name="timeRelease"
-                    value={formData.timeRelease}
+                    className={`form-control ${
+                      formData.timeReleaseStart === "" ? "border-danger" : ""
+                    }`}
+                    name="timeReleaseStart"
+                    value={formData.timeReleaseStart}
                     onChange={handleChange}
                     style={{ width: "50%" }}
                   />
                   <input
                     type="time"
-                    className="form-control"
+                    className={`form-control ${
+                      formData.timeReleaseEnd === "" ? "border-danger" : ""
+                    }`}
                     name="timeReleaseEnd"
                     value={formData.timeReleaseEnd}
                     onChange={handleChange}
                     style={{ width: "50%" }}
                   />
                 </div>
-                <small className="text-muted">Format: Start Time - End Time</small>
               </div>
             </div>
 
@@ -468,7 +429,9 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
                 <label>Purpose:</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.purpose === "" ? "border-danger" : ""
+                  }`}
                   name="purpose"
                   value={formData.purpose}
                   onChange={handleChange}
@@ -478,7 +441,9 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
                 <label>Processed by:</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${
+                    formData.processedBy === "" ? "border-danger" : ""
+                  }`}
                   name="processedBy"
                   value={formData.processedBy}
                   onChange={handleChange}
@@ -492,54 +457,83 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
           <div>
             <h5 className="mb-3">Step 2: Document Details</h5>
             <div className="mb-2">
-              <div className="d-flex justify-content-between mb-2">
-                <label className="m-0">Types of documents requested:</label>
+              <div className="d-flex justify-content-start align-items-center gap-2 mb-2">
+                <h6 className="m-0">Types of documents requested:</h6>
                 <Button
-                  variant="outline-primary"
+                  variant="primary"
                   size="sm"
-                  className=""
+                  className="d-flex align-items-center gap-2"
                   onClick={handleAddDocType}
                 >
-                  + Add Document Type
+                  + <span className="d-none d-sm-block">Add Document Type</span>
                 </Button>
               </div>
-
-              {documentTypes.map((docType, idx) => (
-                <div key={idx} className="d-flex align-items-center justify-content-between gap-1 mb-1">
+              {documentTypes.length > 0 ? (
+                <>
+                  {documentTypes.map((docType, idx) => (
+                    <div
+                      key={idx}
+                      className="d-flex align-items-center justify-content-between gap-1 mb-1"
+                    >
+                      <div className="w-100 d-flex align-items-center justify-content-between gap-1">
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={docType.documentType}
+                          onChange={(e) =>
+                            handleDocTypeLabelChange(idx, e.target.value)
+                          }
+                        />
+                        <input
+                          type="number"
+                          className="form-control w-25"
+                          value={docType.page}
+                          onChange={(e) =>
+                            handleDocTypePagesChange(idx, e.target.value)
+                          }
+                          placeholder="Page/s"
+                        />
+                        <input
+                          type="number"
+                          className="form-control w-50"
+                          placeholder="Price(PHP)"
+                          value={docType.amount}
+                          onChange={(e) =>
+                            handleDocTypeAmountChange(idx, e.target.value)
+                          }
+                        />
+                      </div>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => handleRemoveDocType(idx)}
+                      >
+                        <p className="m-0">&times;</p>
+                      </Button>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <>
                   <input
                     type="text"
-                    className="form-control"
-                    value={docType.documentType || ""}
-                    onChange={(e) => handleDocTypeLabelChange(idx, e.target.value)}
+                    className="form-control w-100"
+                    placeholder="No document requested."
+                    disabled
                   />
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={docType.amount || 0}
-                    onChange={(e) => handleDocTypeAmountChange(idx, e.target.value)}
-                  />
-                  <Button
-                    variant="outline-danger"
-                    size="sm"
-                    onClick={() => handleRemoveDocType(idx)}
-                    disabled={documentTypes.length === 1}
-                  >
-                    &times;
-                  </Button>
-                </div>
-              ))}
-
+                </>
+              )}
             </div>
             <div className="mb-2">
-              <div className="d-flex justify-content-between mb-2">
-                <label className="m-0">Requirements:</label>
+              <div className="d-flex justify-content-start align-items-center gap-2 mb-2 mt-3">
+                <h6 className="m-0">Requirements </h6>
                 <Button
-                  variant="outline-primary"
+                  variant="primary"
                   size="sm"
-                  className=""
+                  className="d-flex align-items-center gap-2"
                   onClick={handleAddRequirement}
                 >
-                  + Add Requirement
+                  + <span className="d-none d-sm-block">Add Requirement</span>
                 </Button>
               </div>
 
@@ -554,16 +548,14 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
                     }
                   />
                   <Button
-                    variant="outline-danger"
+                    variant="danger"
                     size="sm"
                     onClick={() => handleRemoveRequirement(idx)}
-                    disabled={requirements.length === 1}
                   >
-                    &times;
+                    <p className="m-0">&times;</p>
                   </Button>
                 </div>
               ))}
-
             </div>
           </div>
         );
@@ -573,9 +565,13 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
   };
   return (
     <>
-      <Button variant="warning" className="w-100 mb-2" onClick={handleShow}>
-        <span>Open Schedule Slip Modal{formData.dateRequested}</span>
-      </Button>
+      <button
+        className="w-100 mb-2 btn btn-warning"
+        onClick={handleShow}
+        disabled={isScheduled || isLoading}
+      >
+        <p className="m-0">Send Schedule Slip</p>
+      </button>
       <Modal show={show} onHide={handleClose} size="lg" scrollable centered>
         <Modal.Header
           closeButton
@@ -583,29 +579,44 @@ const ScheduleSlipForm = ({ documentDetails, user }) => {
         >
           <Modal.Title className="text-white">Schedule Slip Form</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-
-
-          {renderStep()}
-        </Modal.Body>
+        <Modal.Body>{renderStep()}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            <p className="m-0">Close</p>
           </Button>
-          <div>
+          <div className="d-flex align-items-center gap-2">
             {currentStep > 1 && (
-              <Button variant="secondary" onClick={prevStep} className="me-2">
-                Previous
+              <Button variant="secondary" onClick={prevStep} className="">
+                <p className="m-0">Previous</p>
               </Button>
             )}
             {currentStep < 2 ? (
-              <Button variant="primary" onClick={nextStep}>
-                Next
-              </Button>
+              <button
+                className="btn primaryButton"
+                onClick={nextStep}
+                disabled={isInvalidFormData}
+              >
+                <p className="m-0">Next</p>
+              </button>
             ) : (
-              <Button variant="success" onClick={generatePDF}>
-                Download PDF
-              </Button>
+              <button
+                className="btn primaryButton d-flex align-items-center justify-content-center gap-1"
+                onClick={handleSubmit}
+                disabled={isLoading || isInvalidDocTypes || isInvalidFormData}
+              >
+                {isLoading ? (
+                  <>
+                    <span className="d-flex align-items-center">
+                      <i className="bx bx-loader bx-spin"></i>
+                    </span>
+                    <p className="m-0">Sending</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="m-0">Send</p>
+                  </>
+                )}
+              </button>
             )}
           </div>
         </Modal.Footer>

@@ -22,7 +22,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         );
 
         if (res.status === 200) {
-          // console.log(res.data.result);
+          // // console.log(res.data.result);
           setFeedbackData(res.data.result);
           downloadPDF(res.data.result, documentDetails);
         } else {
@@ -107,7 +107,12 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
       doc.setFont("helvetica", "bold");
       doc.text("Name:", 25, 50);
       doc.setFont("helvetica", "normal");
-      doc.text(name || "(Not provided)", 55, 50);
+      doc.text(
+        `${feedbackData.firstName} ${feedbackData.middleName} ${feedbackData.lastName}` ||
+          "(Not provided)",
+        55,
+        50
+      );
 
       doc.setFont("helvetica", "bold");
       doc.text("Agency:", 25, 55);
@@ -243,7 +248,12 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         type="button"
         className="btn btn-warning d-none d-md-block"
         onClick={fetchData}
-        disabled={!documentDetails.responded || isLoading}
+        disabled={
+          !documentDetails.responded ||
+          isLoading ||
+          !feedbackData.length < 0 ||
+          documentDetails.status != "ready to pickup"
+        }
       >
         <p className="m-0 text-center">
           {documentDetails.responded
@@ -258,7 +268,12 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         type="button"
         className="w-100 btn btn-warning d-block d-md-none"
         onClick={fetchData}
-        disabled={!documentDetails.responded || isLoading}
+        disabled={
+          !documentDetails.responded ||
+          isLoading ||
+          !feedbackData.length < 0 ||
+          documentDetails.status != "ready to pickup"
+        }
       >
         <p className="m-0 text-center">
           {documentDetails.responded

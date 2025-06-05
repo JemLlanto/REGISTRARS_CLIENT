@@ -22,10 +22,10 @@ const Step2 = ({ formData, handleChange }) => {
         if (res.data.Status === "Success") {
           setPrograms(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error:", res.data.Message);
+          // console.log("Error:", res.data.Message);
         }
       } catch (err) {
-        console.log("Error fetching Programs: ", err);
+        // console.log("Error fetching Programs: ", err);
       } finally {
         setIsProgramLoading(false);
       }
@@ -46,10 +46,10 @@ const Step2 = ({ formData, handleChange }) => {
         if (res.data.Status === "Success") {
           setPurposes(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+          // console.log("Error: ", res.data.Message);
         }
       } catch (err) {
-        console.log("Error fetching purposes:", err);
+        // console.log("Error fetching purposes:", err);
       } finally {
         setIsPurposeLoading(false);
       }
@@ -70,10 +70,10 @@ const Step2 = ({ formData, handleChange }) => {
         if (res.data.Status === "Success") {
           setYearGraduated(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+          // console.log("Error: ", res.data.Message);
         }
       } catch (err) {
-        console.log("Error fetching year graduated:", err);
+        // console.log("Error fetching year graduated:", err);
       } finally {
         setIsYearGraduatedLoading(false);
       }

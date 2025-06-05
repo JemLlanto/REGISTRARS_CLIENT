@@ -83,7 +83,7 @@ export default function StudentRequests() {
 
   // Filter documents based on search input and status
   useEffect(() => {
-    // console.log("Filtering documents");
+    // // console.log("Filtering documents");
 
     const normalizeStatus = (status) => status.toLowerCase().trim();
 
@@ -117,7 +117,7 @@ export default function StudentRequests() {
         return priorityA - priorityB;
       });
 
-    // console.log("Filtered Requests", filtered);
+    // // console.log("Filtered Requests", filtered);
     setFilteredRequests(filtered);
   }, [searchTerm, status, requestedDocuments]);
 

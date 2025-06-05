@@ -16,19 +16,20 @@ const AddingNewAdmin = ({ setAdminModal }) => {
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/manageAdmin/fetchAdmin`
       )
       .then((res) => {
         if (res.data.Status === "Success") {
           setAdmins(res.data.data);
-          console.log(res.data.data);
+          // // console.log(res.data.data);
         } else {
-          console.log(res.data.Message);
+          // console.log(res.data.Message);
         }
       })
       .catch((err) => {
-        console.log("Error fetching admins: ", err);
+        // // console.log("Error fetching admins: ", err);
       });
   }, []);
   return (
@@ -43,7 +44,10 @@ const AddingNewAdmin = ({ setAdminModal }) => {
       </Button>
 
       <Modal show={addingModal} onHide={handleClose} centered>
-        <Modal.Header closeButton style={{ backgroundColor: "var(--main-color)" }}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "var(--main-color)" }}
+        >
           <Modal.Title>Administrators</Modal.Title>
         </Modal.Header>
         <Modal.Body></Modal.Body>
@@ -51,7 +55,9 @@ const AddingNewAdmin = ({ setAdminModal }) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button style={{ backgroundColor: "var(--main-color)" }}>Add admin</Button>
+          <Button style={{ backgroundColor: "var(--main-color)" }}>
+            Add admin
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

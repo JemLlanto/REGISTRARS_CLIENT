@@ -36,7 +36,7 @@ export default function StudentRequests() {
   const fetchAdminPrograms = async (userID) => {
     try {
       setIsLoading(true);
-      console.log("Fetching admin programs for userID:", userID);
+      // console.log("Fetching admin programs for userID:", userID);
       const res = await axios.get(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
@@ -48,7 +48,7 @@ export default function StudentRequests() {
         }
       );
       if (res.status === 200) {
-        console.log("Admin Programs", res.data);
+        // console.log("Admin Programs", res.data);
         setAdminPrograms(res.data);
       }
     } catch (err) {
@@ -82,14 +82,14 @@ export default function StudentRequests() {
 
         if (res.data.Status === "Success") {
           if (res.data.data.length === 0) {
-            console.log("requestedDocuments not found");
+            // console.log("requestedDocuments not found");
             setRequestedDocuments([]);
           } else {
             setRequestedDocuments(res.data.data);
-            console.log("requestedDocuments", res.data.data);
+            // console.log("requestedDocuments", res.data.data);
           }
         } else {
-          console.log("requestedDocuments not found");
+          // console.log("requestedDocuments not found");
           setRequestedDocuments([]);
         }
       } catch (err) {

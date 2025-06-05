@@ -7,10 +7,9 @@ import SQDFormComponent from "./SQDForm";
 import Swal from "sweetalert2";
 
 const ExternalFeedbackTemplate = ({
+  fetchScheduleSlipData,
   fetchDocumentDetails,
   documentDetails,
-  showScheduleModal,
-  setShowScheduleModal,
   showFeedbackModal,
   setShowFeedbackModal,
 }) => {
@@ -75,24 +74,6 @@ const ExternalFeedbackTemplate = ({
     });
   };
 
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => {
-    setShowModal(false);
-    // Reset form data when closing modal
-    setFormData({
-      requestID: "",
-      userID: "",
-      ratings: {
-        courtesy: "",
-        service_quality: "",
-        service_timeliness: "",
-        service_efficiency: "",
-        physical_cleanliness: "",
-        physical_comfort: "",
-      },
-      comments: "",
-    });
-  };
   const submitFeedback = async () => {
     try {
       setIsLoading(true);
@@ -114,12 +95,12 @@ const ExternalFeedbackTemplate = ({
           );
 
           if (emailRes.status === 200) {
-            console.log(emailRes.data.message);
+            // console.log(emailRes.data.message);
           } else {
-            console.log(emailRes.data.message);
+            // console.log(emailRes.data.message);
           }
         } catch (emailErr) {
-          console.log("An error occurred while sending email: ", emailErr);
+          // console.log("An error occurred while sending email: ", emailErr);
         }
 
         handleCloseFeedbackModal();
@@ -147,6 +128,7 @@ const ExternalFeedbackTemplate = ({
           suggestions: "",
         });
         fetchDocumentDetails();
+        fetchScheduleSlipData();
 
         Swal.fire({
           icon: "success",
@@ -262,8 +244,8 @@ const ExternalFeedbackTemplate = ({
                 : currentStep === 2
                 ? !step2Complete
                 : currentStep === 3
-                ? !step3Complete
-                : false || isLoading
+                ? !step3Complete || isLoading
+                : false
             }
           >
             {isLoading ? (

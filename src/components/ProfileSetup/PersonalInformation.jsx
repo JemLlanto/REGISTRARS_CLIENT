@@ -23,14 +23,14 @@ const PersonalInformation = ({
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setPrograms(res.data.data);
         } else if (res.data.Message) {
-          // console.log("Error:", res.data.Message);
+          // // console.log("Error:", res.data.Message);
         }
       })
       .catch((err) => {
-        console.log("Error fetching Programs: ", err);
+        // console.log("Error fetching Programs: ", err);
       });
   }, []);
   const handleUpdatePersonalInfo = async () => {

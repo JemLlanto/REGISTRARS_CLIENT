@@ -14,7 +14,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
     if (documentDetails.requestID) {
       setIsLoading(true);
       try {
-        // console.log("Fetching data for request ID:", documentDetails.requestID);
+        // // console.log("Fetching data for request ID:", documentDetails.requestID);
         const res = await axios.get(
           `${
             import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
@@ -24,7 +24,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         );
 
         if (res.status === 200) {
-          // console.log("Fetch data", res.data.result);
+          // // console.log("Fetch data", res.data.result);
           setFeedbackData(res.data.result);
           downloadPDF(res.data.result, documentDetails);
         } else {
@@ -652,7 +652,12 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         type="button"
         className="btn btn-warning d-flex d-none d-md-block"
         onClick={fetchData}
-        disabled={!documentDetails.responded || isLoading}
+        disabled={
+          !documentDetails.responded ||
+          isLoading ||
+          !feedbackData.length < 0 ||
+          documentDetails.status != "ready to pickup"
+        }
       >
         {isLoading ? (
           <>
@@ -680,7 +685,12 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         type="button"
         className="btn btn-warning w-100 d-flex justify-content-center align-items-center d-block d-md-none"
         onClick={fetchData}
-        disabled={!documentDetails.responded || isLoading}
+        disabled={
+          !documentDetails.responded ||
+          isLoading ||
+          !feedbackData.length < 0 ||
+          documentDetails.status != "ready to pickup"
+        }
       >
         {isLoading ? (
           <>

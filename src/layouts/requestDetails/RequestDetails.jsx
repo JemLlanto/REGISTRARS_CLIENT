@@ -29,10 +29,10 @@ const RequestDetails = () => {
         setDocumentDetails(res.data.data);
       } else if (res.data.Message) {
         // Handle any specific message from the response
-        console.log("Error: ", res.data.Message);
+        // console.log("Error: ", res.data.Message);
       }
     } catch (err) {
-      console.log("Error fetching details: ", err);
+      // console.log("Error fetching details: ", err);
     } finally {
       setIsLoading(false);
     }
@@ -54,14 +54,14 @@ const RequestDetails = () => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
+          // // console.log(res.data.data);
           setDocumentTypes(res.data.data);
         } else if (res.data.Message) {
-          // console.log("Error: ", res.data.Message);
+          // // console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
-        console.log("Error fetching details: ", err);
+        // console.log("Error fetching details: ", err);
       });
   }, [requestID]);
   //FETCHING DOCUMENT FILES
@@ -76,11 +76,11 @@ const RequestDetails = () => {
         if (res.data.Status === "Success") {
           setDocumentFile(res.data.data);
         } else if (res.data.Message) {
-          // console.log("Error: ", res.data.Message);s
+          // // console.log("Error: ", res.data.Message);s
         }
       })
       .catch((err) => {
-        console.log("Error fetching details: ", err);
+        // console.log("Error fetching details: ", err);
       });
   }, [requestID]);
   //FETCHING DOCUMENT INPUTS
@@ -93,14 +93,14 @@ const RequestDetails = () => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
+          // // console.log(res.data.data);
           setDocumentInputValues(res.data.data);
         } else if (res.data.Message) {
-          // console.log("Error: ", res.data.Message);
+          // // console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
-        console.log("Error fetching details: ", err);
+        // console.log("Error fetching details: ", err);
       });
   }, [requestID]);
   // FETCHING INPUTS
@@ -116,14 +116,14 @@ const RequestDetails = () => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
+          // // console.log(res.data.data);
           setDocumentInputs(res.data.data);
         } else if (res.data.Message) {
-          // console.log("Error: ", res.data.Message);
+          // // console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
-        console.log("Error fetching details: ", err);
+        // console.log("Error fetching details: ", err);
       });
   }, [documentDetails.purposeID]);
 

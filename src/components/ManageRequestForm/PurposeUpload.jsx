@@ -32,16 +32,16 @@ const PurposeUpload = ({ purpose }) => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
+          // // console.log(res.data.data);
           setUploads(res.data.data);
           setIsLoading(false);
         } else if (res.data.Message) {
-          // console.log("Error: ", res.data.Message);
+          // // console.log("Error: ", res.data.Message);
           setIsLoading(false);
         }
       })
       .catch((err) => {
-        console.log("Error fetching uploads:", err);
+        // console.log("Error fetching uploads:", err);
         setIsLoading(false);
       });
   };
@@ -91,7 +91,7 @@ const PurposeUpload = ({ purpose }) => {
         });
       }
     } catch (err) {
-      console.log("Error adding uploads:", err);
+      // console.log("Error adding uploads:", err);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -134,7 +134,7 @@ const PurposeUpload = ({ purpose }) => {
         });
       }
     } catch (err) {
-      console.log("Error updating uploads:", err);
+      // console.log("Error updating uploads:", err);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -185,7 +185,7 @@ const PurposeUpload = ({ purpose }) => {
           });
         }
       } catch (err) {
-        console.log("Error deleting upload:", err);
+        // console.log("Error deleting upload:", err);
         Swal.fire({
           icon: "error",
           title: "Error",

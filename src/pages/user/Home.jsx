@@ -56,7 +56,7 @@ export default function Home() {
 
   // Filter documents based on search input
   useEffect(() => {
-    // console.log("Filtering documents");
+    // // console.log("Filtering documents");
 
     const normalizeStatus = (status) => status.toLowerCase().trim();
 
@@ -84,7 +84,7 @@ export default function Home() {
         return priorityA - priorityB;
       });
 
-    // console.log("Filtered Requests", filtered);
+    // // console.log("Filtered Requests", filtered);
     setFilteredRequests(filtered);
   }, [status, requestedDocuments]);
 

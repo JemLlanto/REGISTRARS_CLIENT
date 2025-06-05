@@ -160,7 +160,7 @@ const AdminModal = ({ admins, fetchAllAdmins }) => {
         }
       })
       .catch((err) => {
-        console.log("Error: ", err);
+        // console.log("Error: ", err);
       });
   };
   useEffect(() => {

@@ -69,7 +69,7 @@ const FormButtons = ({
   };
 
   const upload = async () => {
-    console.log("Inserting Files...");
+    // console.log("Inserting Files...");
 
     const data = new FormData();
     data.append("requestID", formData.requestID);
@@ -83,15 +83,15 @@ const FormButtons = ({
         { headers: { "Content-Type": "multipart/form-data" } }
       );
       if (res.data.Status === "Success") {
-        console.log("Document files Submitted!");
+        // console.log("Document files Submitted!");
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       throw err;
     }
   };
   const insertDocTypes = async () => {
-    console.log("Inserting DocTypes...");
+    // console.log("Inserting DocTypes...");
 
     try {
       const res = await axios.post(
@@ -104,17 +104,17 @@ const FormButtons = ({
         }
       );
       if (res.data.Status === "Success") {
-        console.log("Document type/s Submitted!");
+        // console.log("Document type/s Submitted!");
       }
-      // console.log("Insert response:", res.data);
+      // // console.log("Insert response:", res.data);
       // return res.data;
     } catch (err) {
-      console.log("Error inserting document types:", err);
+      // console.log("Error inserting document types:", err);
       throw err;
     }
   };
   const insertInputs = async () => {
-    console.log("Inserting Data...");
+    // console.log("Inserting Data...");
 
     try {
       const res = await axios.post(
@@ -124,15 +124,15 @@ const FormButtons = ({
         formData
       );
       if (res.data.Status === "Success") {
-        console.log("Inputs Submitted!");
+        // console.log("Inputs Submitted!");
       }
-      // console.log(response.data);
+      // // console.log(response.data);
     } catch (error) {
       console.error("Error inserting inputs:", error);
     }
   };
   const sendEmail = async () => {
-    console.log("Sending email...");
+    // console.log("Sending email...");
 
     try {
       const emailRes = await axios.post(
@@ -146,11 +146,11 @@ const FormButtons = ({
         // alert(emailRes.data.message);
         // alert(emailRes.data.message);
       } else {
-        console.log(emailRes.data.message);
+        // console.log(emailRes.data.message);
         // alert(emailRes.data.message);
       }
     } catch (emailErr) {
-      console.log("An error occurred while sending email: ", emailErr);
+      // console.log("An error occurred while sending email: ", emailErr);
       // alert("An error occurred while sending email: ", emailErr.err);
     }
   };
