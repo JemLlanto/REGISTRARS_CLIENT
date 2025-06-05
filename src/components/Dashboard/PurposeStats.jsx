@@ -31,13 +31,13 @@ function PurposeStats({ requestedDocuments, isLoading, setIsLoading }) {
   };
   // Count documents by purpose
   useEffect(() => {
-    // console.log("Updating current documents");
+    // // console.log("Updating current documents");
     setCurrentDocuments((prev) => requestedDocuments);
   }, [requestedDocuments]);
 
   useEffect(() => {
     if (currentDocuments.length > 0) {
-      // console.log("Current documents:", currentDocuments);
+      // // console.log("Current documents:", currentDocuments);
       setIsLoading(true);
       const purposeCounts = currentDocuments.reduce((counts, doc) => {
         const purpose = doc.purpose || "Unspecified";

@@ -32,16 +32,16 @@ const PurposeInput = ({ purpose }) => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
+          // // console.log(res.data.data);
           setInputs(res.data.data);
           setIsLoading(false);
         } else if (res.data.Message) {
-          // console.log("Error: ", res.data.Message);
+          // // console.log("Error: ", res.data.Message);
           setIsLoading(false);
         }
       })
       .catch((err) => {
-        // console.log("Error fetching inputs:", err);
+        // // console.log("Error fetching inputs:", err);
         setIsLoading(false);
       });
   };
@@ -90,10 +90,10 @@ const PurposeInput = ({ purpose }) => {
           text: res.data.Message,
         });
       } else if (res.data.Message) {
-        console.log("Error: ", res.data.Message);
+        // // console.log("Error: ", res.data.Message);
       }
     } catch (err) {
-      console.log("Error adding inputs:", err);
+      // console.log("Error adding inputs:", err);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -134,10 +134,10 @@ const PurposeInput = ({ purpose }) => {
           text: res.data.Message,
         });
       } else if (res.data.Message) {
-        console.log("Error: ", res.data.Message);
+        // console.log("Error: ", res.data.Message);
       }
     } catch (err) {
-      console.log("Error updating inputs:", err);
+      // console.log("Error updating inputs:", err);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -184,7 +184,7 @@ const PurposeInput = ({ purpose }) => {
           });
         }
       } catch (err) {
-        console.log("Error deleting input:", err);
+        // console.log("Error deleting input:", err);
         Swal.fire({
           icon: "error",
           title: "Error",

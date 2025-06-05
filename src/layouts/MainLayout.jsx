@@ -19,7 +19,7 @@ const MainLayout = () => {
 
   const fetchUserData = () => {
     const storedToken = localStorage.getItem("token");
-    // console.log("Raw token from localStorage to be sent:", storedToken);
+    // // console.log("Raw token from localStorage to be sent:", storedToken);
 
     axios
       .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`, {
@@ -39,7 +39,7 @@ const MainLayout = () => {
         }
       })
       .catch((err) => {
-        // console.log("Error fetching user:", err.response?.data || err.message);
+        // // console.log("Error fetching user:", err.response?.data || err.message);
         setAuth(false);
         localStorage.removeItem("formData");
         localStorage.removeItem("token");
@@ -49,10 +49,10 @@ const MainLayout = () => {
       });
   };
   useEffect(() => {
-    // console.log("Raw token from localStorage:", storedToken);
+    // // console.log("Raw token from localStorage:", storedToken);
 
     if (!storedToken || storedToken === "null" || storedToken.trim() === "") {
-      // console.log("No valid token found — logging out");
+      // // console.log("No valid token found — logging out");
       setAuth(false);
       setIsLoading(false);
       localStorage.removeItem("formData");

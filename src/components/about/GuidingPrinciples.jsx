@@ -15,11 +15,11 @@ const GuidingPrinciples = ({ isAdmin }) => {
         }/api/about/fetchGuidingPrinciples`
       );
       if (res.status === 200) {
-        // console.log(res.data.result);
+        // // console.log(res.data.result);
         setPrinciples(res.data.result);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     } finally {
       setTimeout(() => {
         setIsLoading(false);

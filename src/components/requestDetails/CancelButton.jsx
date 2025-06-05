@@ -26,7 +26,7 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
   const handleCancelRequest = async () => {
     try {
       setIsLoading(true);
-      console.log("Sending cancellation request with data:", formData); // Debugging log
+      // console.log("Sending cancellation request with data:", formData); // Debugging log
 
       const res = await axios.post(
         `${
@@ -44,7 +44,7 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
             formData
           );
         } catch (emailErr) {
-          console.log("Email notification error:", emailErr);
+          // console.log("Email notification error:", emailErr);
         }
 
         Swal.fire({

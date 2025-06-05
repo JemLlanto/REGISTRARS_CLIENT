@@ -16,11 +16,11 @@ const LocationAndContact = ({ isAdmin, isLoading, setIsLoading }) => {
         }/api/about/fetchLocationAndContacts`
       );
       if (res.status === 200) {
-        console.log(res.data.result);
+        // // console.log(res.data.result);
         setLocation(res.data.result);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     } finally {
       setTimeout(() => {
         setIsLoading(false);
@@ -32,7 +32,7 @@ const LocationAndContact = ({ isAdmin, isLoading, setIsLoading }) => {
   }, []);
 
   const upload = async (file) => {
-    // console.log("Inserting Files...");
+    // // console.log("Inserting Files...");
 
     const data = new FormData();
     data.append("file", file);

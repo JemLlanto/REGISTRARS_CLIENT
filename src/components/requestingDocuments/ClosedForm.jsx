@@ -17,12 +17,12 @@ const ClosedForm = ({ user, fetchUserData }) => {
         (hour === 16 && minutes === 0);
       const isWithinOperatingHours = isWorkingDays && isWorkingHours;
 
-      //   console.log("Current Time:", now.toLocaleString());
-      //   console.log("isWorkingDays:", isWorkingDays);
-      //   console.log("isWorkingHours:", isWorkingHours);
-      //   console.log("isWithinOperatingHours:", isWithinOperatingHours);
-      //   console.log("user.isAutomatic:", user.isAutomatic);
-      //   console.log("user.isOn:", user.isOn);
+      //   // console.log("Current Time:", now.toLocaleString());
+      //   // console.log("isWorkingDays:", isWorkingDays);
+      //   // console.log("isWorkingHours:", isWorkingHours);
+      //   // console.log("isWithinOperatingHours:", isWithinOperatingHours);
+      //   // console.log("user.isAutomatic:", user.isAutomatic);
+      //   // console.log("user.isOn:", user.isOn);
 
       if (user.isAutomatic) {
         setIsOpen(isWithinOperatingHours);

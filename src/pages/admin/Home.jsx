@@ -83,7 +83,7 @@ export default function Home() {
 
   // Separate function for the API call that can be called directly
   // const fetchRequestedDocuments = () => {
-  //   console.log(startDate, endDate);
+  //   // console.log(startDate, endDate);
   //   if (startDate && endDate) {
   //     axios
   //       .get(
@@ -101,7 +101,7 @@ export default function Home() {
   //         if (res.data.Status === "Success") {
   //           setIsLoading(false);
   //           setRequestedDocuments(res.data.data);
-  //           console.log("requestedDocuments", res.data.data);
+  //           // console.log("requestedDocuments", res.data.data);
   //         } else {
   //           setRequestedDocuments([]);
   //         }

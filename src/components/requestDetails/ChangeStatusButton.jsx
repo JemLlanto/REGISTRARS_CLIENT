@@ -74,12 +74,12 @@ const ChangeStatusButton = ({
           );
 
           if (emailRes.status === 200) {
-            console.log(emailRes.data.Message);
+            // console.log(emailRes.data.Message);
           } else {
-            console.log(emailRes.data.Message);
+            // console.log(emailRes.data.Message);
           }
         } catch (emailErr) {
-          console.log("An error occurred while sending email: ", emailErr);
+          // console.log("An error occurred while sending email: ", emailErr);
         }
 
         await Swal.fire({
@@ -102,7 +102,7 @@ const ChangeStatusButton = ({
         });
       }
     } catch (err) {
-      console.log("Error changing status: ", err);
+      // console.log("Error changing status: ", err);
       await Swal.fire({
         title: "Error",
         text: "Something went wrong. Please try again later.",

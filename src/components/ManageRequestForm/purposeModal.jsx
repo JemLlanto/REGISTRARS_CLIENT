@@ -67,14 +67,14 @@ function purposeModal() {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          // console.log(res.data.data);
+          // // console.log(res.data.data);
           setPurposes(res.data.data);
         } else if (res.data.Message) {
-          console.log("Error: ", res.data.Message);
+          // console.log("Error: ", res.data.Message);
         }
       })
       .catch((err) => {
-        console.log("Error fetching purposes:", err);
+        // console.log("Error fetching purposes:", err);
       });
   };
 
@@ -117,7 +117,7 @@ function purposeModal() {
 
         setFormData({ purposeName: "" });
       } else if (res.data.Message) {
-        console.log("Error:", res.data.Message);
+        // console.log("Error:", res.data.Message);
       }
     } catch (err) {
       Swal.fire({
@@ -127,7 +127,7 @@ function purposeModal() {
         confirmButtonColor: "#d33",
       });
 
-      console.log("Error adding purpose:", err);
+      // console.log("Error adding purpose:", err);
     } finally {
       setIsLoading(false);
     }
@@ -163,7 +163,7 @@ function purposeModal() {
           confirmButtonColor: "#d33",
         });
       } else if (res.data.Message) {
-        console.log("Error:", res.data.Message);
+        // console.log("Error:", res.data.Message);
       }
     } catch (err) {
       Swal.fire({
@@ -173,7 +173,7 @@ function purposeModal() {
         confirmButtonColor: "#d33",
       });
 
-      console.log("Error updating purpose:", err);
+      // console.log("Error updating purpose:", err);
     } finally {
       setIsLoading(false);
     }
@@ -229,7 +229,7 @@ function purposeModal() {
           confirmButtonColor: "#d33",
         });
 
-        console.log("Error deleting purpose:", err);
+        // console.log("Error deleting purpose:", err);
       } finally {
         setIsLoading(false);
       }

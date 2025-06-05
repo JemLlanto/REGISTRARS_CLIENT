@@ -11,7 +11,7 @@ export const fetchAdminPrograms = async (
   try {
     if (isAdmin === 1) {
       setIsLoading(true);
-      // console.log("Fetching admin programs for userID:", userID);
+      // // console.log("Fetching admin programs for userID:", userID);
 
       const res = await axios.get(
         `${baseUrl}/api/dashboard/fetchAdminPrograms`,
@@ -23,7 +23,7 @@ export const fetchAdminPrograms = async (
       );
 
       if (res.status === 200) {
-        // console.log("Admin Programs", res.data.data);
+        // // console.log("Admin Programs", res.data.data);
         setAdminPrograms(res.data.data);
         return res.data.data;
       }
@@ -81,30 +81,30 @@ export const fetchRequestedDocuments = async (
 
         if (user.isAdmin === 1) {
           // Create a Set of program names for faster lookup
-          // console.log("Fetching documents for admins");
+          // // console.log("Fetching documents for admins");
           const adminProgramNames = new Set(
             adminPrograms.map((program) => program.programName)
           );
-          // console.log("Admin Programs", adminPrograms);
-          // console.log("Admin Program Names", adminProgramNames);
+          // // console.log("Admin Programs", adminPrograms);
+          // // console.log("Admin Program Names", adminProgramNames);
           const filteredDocuments = dateFilteredDocuments.filter((document) => {
             return adminProgramNames.has(document.program);
           });
 
-          // console.log(
+          // // console.log(
           //   `Filtered from ${res.data.data.length} to ${filteredDocuments.length} documents`
           // );
-          // console.log("Filtered Documents", filteredDocuments);
+          // // console.log("Filtered Documents", filteredDocuments);
           setRequestedDocuments(filteredDocuments);
           setFilteredRequests(filteredDocuments);
         } else {
           // For non-admin users, show all documents
-          // console.log("Fetching documents for non-admins", res.data.data);
+          // // console.log("Fetching documents for non-admins", res.data.data);
           setRequestedDocuments(dateFilteredDocuments);
           setFilteredRequests(dateFilteredDocuments);
         }
       } else {
-        // console.log("No documents found");
+        // // console.log("No documents found");
 
         setRequestedDocuments([]);
         setFilteredRequests([]);
@@ -163,7 +163,7 @@ export const handlePeriodChange = (
     end = new Date(start);
     end.setDate(start.getDate() + 6);
 
-    // console.log(
+    // // console.log(
     //   `Week period: ${start.toDateString()} to ${end.toDateString()}`
     // );
   } else if (period === "month") {

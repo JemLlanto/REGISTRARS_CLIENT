@@ -70,7 +70,7 @@ const ManageAdmin = () => {
         });
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -150,11 +150,11 @@ const ManageAdmin = () => {
       .then(([programAdminsRes, adminsRes]) => {
         if (programAdminsRes.data.Status === "Success") {
           setProgramAdmins(programAdminsRes.data.result);
-          // console.log("Program Admins: ", programAdminsRes.data.result);
+          // // console.log("Program Admins: ", programAdminsRes.data.result);
         }
         if (adminsRes.data.Status === "Success") {
           setAdmins(adminsRes.data.data);
-          // console.log("Admins: ", adminsRes.data.data);
+          // // console.log("Admins: ", adminsRes.data.data);
         }
       })
       .catch((err) => {
@@ -203,7 +203,7 @@ const ManageAdmin = () => {
               </>
             ) : (
               <>
-                <Table striped bordered hover className="table-fade-in">
+                <Table striped bordered hover className="table-fade-in m-0">
                   <thead>
                     <tr>
                       <th>

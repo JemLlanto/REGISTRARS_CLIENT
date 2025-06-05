@@ -66,12 +66,12 @@ const ChangeStatusButtonMobile = ({
           );
 
           if (emailRes.status === 200) {
-            console.log(emailRes.data.Message);
+            // console.log(emailRes.data.Message);
           } else {
-            console.log(emailRes.data.Message);
+            // console.log(emailRes.data.Message);
           }
         } catch (emailErr) {
-          console.log("An error occurred while sending email: ", emailErr);
+          // console.log("An error occurred while sending email: ", emailErr);
         }
 
         await Swal.fire({
@@ -94,7 +94,7 @@ const ChangeStatusButtonMobile = ({
         });
       }
     } catch (err) {
-      console.log("Error changing status: ", err);
+      // console.log("Error changing status: ", err);
       await Swal.fire({
         title: "Error",
         text: "Something went wrong. Please try again later.",
@@ -157,8 +157,8 @@ const ChangeStatusButtonMobile = ({
                     <p className="m-0">Feedback Form Type</p>
                     <div className="d-flex align-items-center gap-1">
                       <ToggleButton
-                        type="radio"
-                        id={`radioInternalButtons`}
+                        type="checkBox"
+                        id={`checkBoxInternalButtons`}
                         label="Internal"
                         name="feedbackType"
                         value="internal"
@@ -173,8 +173,8 @@ const ChangeStatusButtonMobile = ({
                         Internal
                       </ToggleButton>
                       <ToggleButton
-                        type="radio"
-                        id={`radioExternalButtons`}
+                        type="checkBox"
+                        id={`checkBoxExternalButtons`}
                         label="External"
                         name="feedbackType"
                         value="external"
@@ -189,8 +189,8 @@ const ChangeStatusButtonMobile = ({
                         External
                       </ToggleButton>
                       <ToggleButton
-                        type="radio"
-                        id={`radioNoneButtons`}
+                        type="checkBox"
+                        id={`checkBoxNoneButtons`}
                         label="None"
                         name="feedbackType"
                         value=""

@@ -23,10 +23,10 @@ const RequestedDocumentsDownload = ({
       );
       if (res.status === 200) {
         const docTypes = res.data.data;
-        console.log(
-          "Document Types",
-          docTypes.map((doc) => doc.documentType).join(", ")
-        );
+        // // console.log(
+        //   "Document Types",
+        //   docTypes.map((doc) => doc.documentType).join(", ")
+        // );
 
         return docTypes.map((doc) => doc.documentType).join(", ");
       }
