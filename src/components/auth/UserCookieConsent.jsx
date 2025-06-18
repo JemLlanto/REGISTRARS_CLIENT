@@ -130,7 +130,7 @@ const CookieConsent = () => {
             >
               <p className="m-0">Accept</p>
             </button>
-            <CloseButton className="m-0 mx-0" onClick={() => setShow(false)} />
+            <CloseButton className="m-0 mx-0 ms-2" onClick={() => setShow(false)} />
           </div>
         </Offcanvas.Body>
       </Offcanvas>
