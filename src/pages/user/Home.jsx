@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import MainHeaders from "../../components/studentRequest/MainHeaders";
-import RequestList from "../../components/user/RequestList";
+import RequestHeaders from "../../components/studentRequest/RequestHeaders";
 
 export default function Home() {
   const { user } = useOutletContext();
@@ -122,12 +122,16 @@ export default function Home() {
       </div>
 
       <MainHeaders status={status} handleSelect={handleSelect} />
-
-      <RequestList
-        status={status}
-        filteredRequests={filteredRequests}
-        isLoading={isLoading}
-      />
+      <div
+        className="d-flex flex-column justify-content-between gap-3"
+        style={{ height: "70dvh" }}
+      >
+        <RequestHeaders
+          status={status}
+          filteredRequests={filteredRequests}
+          isLoading={isLoading}
+        />
+      </div>
     </div>
   );
 }

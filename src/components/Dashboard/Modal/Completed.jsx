@@ -2,9 +2,20 @@ import React, { useState } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import RequestTableTemplate from "../RequestTableTemplate";
+import { useEffect } from "react";
 
-const Completed = ({ completedRequests, CountUp }) => {
+const Completed = ({ totalRequest, completedRequests, CountUp }) => {
   const [showPendingModal, setShowPendingModal] = useState(false);
+  const [percentage, setPercentage] = useState(0);
+
+  useEffect(() => {
+    if (totalRequest === 0) {
+      setPercentage(0);
+    } else {
+      const percent = (completedRequests.length / totalRequest) * 100;
+      setPercentage(percent);
+    }
+  }, [completedRequests, totalRequest]);
 
   const handleShowModal = () => {
     setShowPendingModal(true);
@@ -20,7 +31,16 @@ const Completed = ({ completedRequests, CountUp }) => {
       >
         <div className="card-hover shadow-sm rounded p-3 h-100 bg-white">
           <div className="d-flex justify-content-between align-items-center">
-            <p className="text-dark m-0">Completed</p>
+            <div className="d-flex align-items-center justify-content-start">
+              <p className="text-dark m-0">
+                Completed(
+                <span className="m-0">
+                  <CountUp end={percentage.toFixed(0)} duration={1.5} />%
+                </span>
+                )
+              </p>
+            </div>
+
             <div
               className="d-flex justify-content-center align-items-center rounded-circle"
               style={{
@@ -36,7 +56,7 @@ const Completed = ({ completedRequests, CountUp }) => {
             </div>
           </div>
 
-          <div className="text-start mt-2">
+          <div className="text-start mt-2 d-flex justify-content-start align-items-center gap-2">
             <h4 className="text-success m-0">
               <CountUp end={completedRequests.length} duration={1.5} />
             </h4>

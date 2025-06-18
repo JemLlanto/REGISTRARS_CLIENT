@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import RequestTableTemplate from "../RequestTableTemplate";
 
-const Pending = ({ pendingRequests, CountUp }) => {
+const Pending = ({ totalRequest, pendingRequests, CountUp }) => {
   const [showPendingModal, setShowPendingModal] = useState(false);
+  const [percentage, setPercentage] = useState(0);
+
+  useEffect(() => {
+    if (totalRequest === 0) {
+      setPercentage(0);
+    } else {
+      const percent = (pendingRequests.length / totalRequest) * 100;
+      setPercentage(percent);
+    }
+  }, [pendingRequests, totalRequest]);
 
   const handleShowModal = () => {
     setShowPendingModal(true);
@@ -25,7 +35,15 @@ const Pending = ({ pendingRequests, CountUp }) => {
           }}
         >
           <div className="d-flex justify-content-between align-items-center">
-            <p className="text-white m-0">Pending</p>
+            <div className="d-flex align-items-center justify-content-start">
+              <p className="text-light m-0">
+                Pending(
+                <span className="m-0">
+                  <CountUp end={percentage.toFixed(0)} duration={1.5} />%
+                </span>
+                )
+              </p>
+            </div>
             <div
               className="d-flex justify-content-center align-items-center rounded-circle"
               style={{
