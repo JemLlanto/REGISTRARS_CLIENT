@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import RequestTableTemplate from "../RequestTableTemplate";
 
-const Processing = ({ processingRequests, CountUp }) => {
+const Processing = ({ totalRequest, processingRequests, CountUp }) => {
   const [showPendingModal, setShowPendingModal] = useState(false);
+  const [percentage, setPercentage] = useState(0);
+
+  useEffect(() => {
+    if (totalRequest === 0) {
+      setPercentage(0);
+    } else {
+      const percent = (processingRequests.length / totalRequest) * 100;
+      setPercentage(percent);
+    }
+  }, [processingRequests, totalRequest]);
 
   const handleShowModal = () => {
     setShowPendingModal(true);
@@ -20,7 +30,15 @@ const Processing = ({ processingRequests, CountUp }) => {
       >
         <div className="card-hover shadow-sm rounded p-3 h-100 bg-white">
           <div className="d-flex justify-content-between align-items-center">
-            <p className="text-dark m-0">Processing</p>
+            <div className="d-flex align-items-center justify-content-start">
+              <p className="text-dark m-0">
+                Processing(
+                <span className="m-0">
+                  <CountUp end={percentage.toFixed(0)} duration={1.5} />%
+                </span>
+                )
+              </p>
+            </div>
             <div
               className="d-flex justify-content-center align-items-center rounded-circle"
               style={{

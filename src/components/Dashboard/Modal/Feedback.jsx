@@ -37,7 +37,7 @@ const Feedback = ({ feedbackData, type }) => {
               <tr>
                 <th>Name</th>
                 <th>Status</th>
-                <th>Action</th>
+                <th className="text-center">Action</th>
               </tr>
             </thead>
             <tbody>
