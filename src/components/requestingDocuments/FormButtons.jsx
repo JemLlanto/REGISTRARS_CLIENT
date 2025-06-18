@@ -47,7 +47,7 @@ const FormButtons = ({
 
   // Function to go to the previous step
   const prevStep = () => {
-    setDocType([]);
+    // setDocType([]);
     fetchUserData();
     setHasSelection(false);
     setHasFile(false);
@@ -158,8 +158,8 @@ const FormButtons = ({
     e.preventDefault();
 
     const isConfirmed = await Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to submit the request?",
+      title: "Are you sure? Changes cannot be made afterward.",
+      text: "I verify that the data I am about to submit is accurate to the best of my knowledge.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, submit!",
