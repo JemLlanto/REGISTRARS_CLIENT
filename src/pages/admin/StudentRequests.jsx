@@ -270,11 +270,16 @@ export default function StudentRequests() {
       <div className="d-none d-md-block mt-2">
         <MainHeaders status={status} handleSelect={handleSelect} />
       </div>
-      <RequestHeaders
-        status={status}
-        filteredRequests={filteredRequests}
-        isLoading={isLoading}
-      />
+      <div
+        className="d-flex flex-column justify-content-between gap-3"
+        style={{ height: "62dvh" }}
+      >
+        <RequestHeaders
+          status={status}
+          filteredRequests={filteredRequests}
+          isLoading={isLoading}
+        />
+      </div>
     </div>
   );
 }

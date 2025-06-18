@@ -36,7 +36,7 @@ const RequestInfo = ({ documentDetails }) => {
         <p className="text-muted m-0 mb-md-1">Email</p>
         <div className="d-flex align-items-center">
           <i className="bx bxs-envelope-open text-dark fs-5 me-1"></i>
-          <h6 className="m-0">{documentDetails.email}</h6>
+          <h6 className="m-0 text-break">{documentDetails.email}</h6>
         </div>
       </div>
 

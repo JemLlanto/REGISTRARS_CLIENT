@@ -13,7 +13,7 @@ const RequestTableTemplate = ({ Requests }) => {
           <tr>
             <th>Name</th>
             <th>Purpose</th>
-            <th>Action</th>
+            <th className="text-center">Action</th>
           </tr>
         </thead>
         <tbody>
