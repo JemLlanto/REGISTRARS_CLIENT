@@ -2,12 +2,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Modal } from "react-bootstrap";
 import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
   Tooltip,
-  Legend,
+  ResponsiveContainer,
+  Cell,
 } from "recharts";
 
 const DocumentTypeStats = ({
@@ -164,31 +166,25 @@ const DocumentTypeStats = ({
               <>
                 {documentTypeCounts.length > 0 ? (
                   <>
-                    <ResponsiveContainer className="" width="100%" height="80%">
-                      <PieChart>
-                        <Pie
-                          data={documentTypeCounts}
-                          cx="50%"
-                          cy="50%"
-                          labelLine={true}
-                          innerRadius={80}
-                          outerRadius={130}
-                          fill="#8884d8"
-                          dataKey="value"
-                          nameKey="name"
-                        >
-                          {documentTypeCounts.map((entry, index) => (
-                            <Cell
-                              key={`cell-${index}`}
-                              fill={COLORS[index % COLORS.length]}
-                            />
-                          ))}
-                        </Pie>
+                    <ResponsiveContainer className="" width="100%" height="85%">
+                      <BarChart
+                        data={documentTypeCounts}
+                        margin={{
+                          top: 10,
+                          right: 35,
+                          left: 0,
+                          bottom: 10,
+                        }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                        <XAxis dataKey="name" hide={true} />
+                        <YAxis />
                         <Tooltip
-                          formatter={(value, name, index) => [
+                          dataKey="name"
+                          formatter={(value, name) => [
                             <>
                               <p className="m-0">
-                                {name}: {value}(
+                                Count: {value} (
                                 {((value / documentTypes.length) * 100).toFixed(
                                   0
                                 )}
@@ -196,15 +192,23 @@ const DocumentTypeStats = ({
                               </p>
                             </>,
                           ]}
+                          labelFormatter={(name) => `Document: ${name}`}
                         />
-                        {/* <Legend
-                  layout="horizontal"
-                  verticalAlign="bottom"
-                  align="center"
-                /> */}
-                      </PieChart>
+                        <Bar
+                          dataKey="value"
+                          fill="#001957f7"
+                          radius={[8, 8, 0, 0]}
+                        >
+                          {documentTypeCounts.map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={COLORS[index % COLORS.length]}
+                            />
+                          ))}
+                        </Bar>
+                      </BarChart>
                     </ResponsiveContainer>
-                    <div className="mx-3">
+                    {/* <div className="mx-3">
                       <p className="m-0 text-center text-secondary">
                         {documentTypeCounts.map((entry, index) => (
                           <span className="me-3">
@@ -217,7 +221,7 @@ const DocumentTypeStats = ({
                           </span>
                         ))}
                       </p>
-                    </div>
+                    </div> */}
                   </>
                 ) : (
                   <>

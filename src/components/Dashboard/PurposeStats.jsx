@@ -140,7 +140,7 @@ function PurposeStats({ requestedDocuments, isLoading, setIsLoading }) {
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     data={data}
-                    margin={{ top: 20, right: 60, left: 0, bottom: 20 }}
+                    margin={{ top: 30, right: 60, left: 0, bottom: 20 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
