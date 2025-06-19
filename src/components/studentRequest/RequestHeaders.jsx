@@ -44,7 +44,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
   // Render pagination items
 
   const renderTooltip = (day, props) => (
-    <Tooltip id="button-tooltip" {...props}>
+    <Tooltip style={{}} id="button-tooltip" {...props}>
       {day === 1 ? (
         <>
           {day}st day, {10 - day} days remaining before pick-up.
@@ -203,6 +203,9 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                                     : remainingDays(request?.created) <= 10
                                     ? "#ff8000"
                                     : "#cc2900",
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation;
                               }}
                             >
                               <span
