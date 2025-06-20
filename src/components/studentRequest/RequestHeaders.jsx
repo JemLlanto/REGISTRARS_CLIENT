@@ -15,6 +15,8 @@ const getStatusColor = (status) => {
       return "text-success"; // Green
     case "cancelled":
       return "text-danger"; // Red
+    case "unclaimed":
+      return "text-secondary"; // Red
     default:
       return "text-dark"; // Default color
   }
@@ -47,23 +49,23 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
     <Tooltip style={{}} id="button-tooltip" {...props}>
       {day === 1 ? (
         <>
-          {day}st day, {10 - day} days remaining before pick-up.
+          {day}st day, {10 - day} days remaining before expected pick-up.
         </>
       ) : day === 2 ? (
         <>
-          {day}nd day, {10 - day} days remaining before pick-up.
+          {day}nd day, {10 - day} days remaining before expected pick-up.
         </>
       ) : day === 3 ? (
         <>
-          {day}rd day, {10 - day} days remaining before pick-up.
+          {day}rd day, {10 - day} days remaining before expected pick-up.
         </>
       ) : day > 3 && day <= 10 ? (
         <>
           {day}th day,{" "}
           {day >= 9 ? (
-            <>{10 - day} day remaining before pick-up</>
+            <>{10 - day} day remaining before expected pick-up</>
           ) : (
-            <>{10 - day} days remaining before pick-up</>
+            <>{10 - day} days remaining before expected pick-up</>
           )}
           .
         </>
@@ -178,8 +180,8 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                             : ""}
                           {/* {request?.created} */}
                         </p>
-                        {request.status === "completed" ||
-                        request.status === "cancelled" ? null : (
+                        {request.status === "pending" ||
+                        request.status === "processing" ? (
                           <OverlayTrigger
                             placement="bottom"
                             delay={{ show: 250, hide: 400 }}
@@ -218,7 +220,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
                               </span>
                             </div>
                           </OverlayTrigger>
-                        )}
+                        ) : null}
                       </div>
                     </div>
 

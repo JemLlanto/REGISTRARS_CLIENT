@@ -128,6 +128,22 @@ const RequestInfo = ({ documentDetails }) => {
           <h6 className="m-0">{documentDetails.schoolYearAttended}</h6>
         </div>
       </div>
+
+      {/* Request Date */}
+      <div className="col-12 col-lg-4 mb-3">
+        <p className="text-muted m-0 mb-md-1">Request Date</p>
+        <div className="d-flex align-items-center">
+          <i className="bx bx-calendar-event text-dark fs-5 me-1"></i>
+          <h6 className="m-0">
+            {documentDetails.created
+              ? new Intl.DateTimeFormat("en-US", {
+                  dateStyle: "medium",
+                  timeZone: "Asia/Manila", // Philippine timezone (UTC+8)
+                }).format(new Date(documentDetails.created))
+              : ""}
+          </h6>
+        </div>
+      </div>
     </div>
   );
 };
