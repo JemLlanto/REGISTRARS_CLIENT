@@ -6,8 +6,10 @@ const FeedbackStats = ({ currentDocuments, isLoading }) => {
   const [docCount, setDocCount] = useState(0);
   const [internalRespond, setInternalRespond] = useState([]);
   const [internalCount, setInternalCount] = useState([]);
+  const [internalPercent, setInternalPercent] = useState([]);
   const [externalRespond, setExternalRespond] = useState([]);
   const [externalCount, setExternalCount] = useState([]);
+  const [externalPercent, setExternalPercent] = useState([]);
 
   useEffect(() => {
     const docCount = currentDocuments.length;
@@ -27,6 +29,18 @@ const FeedbackStats = ({ currentDocuments, isLoading }) => {
     setExternalRespond(externalRespond);
     setExternalCount(external);
   }, [currentDocuments]);
+
+  useEffect(() => {
+    const nowInternal = Math.round(
+      101 - (internalRespond.length / internalCount.length) * 100
+    );
+    setInternalPercent(nowInternal);
+
+    const nowExternal = Math.round(
+      101 - (externalRespond.length / externalCount.length) * 100
+    );
+    setExternalPercent(nowExternal);
+  }, [internalRespond, internalCount]);
 
   return (
     <div
@@ -62,6 +76,7 @@ const FeedbackStats = ({ currentDocuments, isLoading }) => {
                 {internalCount.length > 0 ? (
                   <>
                     <ProgressBar>
+                      {/* PERCENTAGE OF ANSWERED INTERNAL FEEDBACK FORM */}
                       <ProgressBar
                         animated
                         now={
@@ -72,22 +87,24 @@ const FeedbackStats = ({ currentDocuments, isLoading }) => {
                         )}%)`}
                         style={{ backgroundColor: "var(--main-color)" }}
                       />
-                      <ProgressBar
-                        animated
-                        now={Math.round(
-                          101 -
-                            (internalRespond.length / internalCount.length) *
-                              100
-                        )}
-                        label={`${
-                          internalCount.length - internalRespond.length
-                        } (${Math.round(
-                          100 -
-                            (internalRespond.length / internalCount.length) *
-                              100
-                        )}%)`}
-                        style={{ backgroundColor: "#b3b3b3" }}
-                      />
+
+                      {/* PERCENTAGE OF UNANSWERED INTERNAL FEEDBACK FORM */}
+                      {internalPercent === 1 ? (
+                        <ProgressBar animated now={0} />
+                      ) : (
+                        <ProgressBar
+                          animated
+                          now={internalPercent}
+                          label={`${
+                            internalCount.length - internalRespond.length
+                          } (${Math.round(
+                            100 -
+                              (internalRespond.length / internalCount.length) *
+                                100
+                          )}%)`}
+                          style={{ backgroundColor: "#b3b3b3" }}
+                        />
+                      )}
                     </ProgressBar>
                   </>
                 ) : (
@@ -110,6 +127,7 @@ const FeedbackStats = ({ currentDocuments, isLoading }) => {
                 {externalCount.length > 0 ? (
                   <>
                     <ProgressBar>
+                      {/* PERCENTAGE OF ANSWERED EXTERNAL FEEDBACK FORM */}
                       <ProgressBar
                         animated
                         now={
@@ -120,22 +138,28 @@ const FeedbackStats = ({ currentDocuments, isLoading }) => {
                         )}%)`}
                         style={{ backgroundColor: "var(--main-color)" }}
                       />
-                      <ProgressBar
-                        animated
-                        now={Math.round(
-                          101 -
-                            (externalRespond.length / externalCount.length) *
-                              100
-                        )}
-                        label={`${
-                          externalCount.length - externalRespond.length
-                        } (${Math.round(
-                          100 -
-                            (externalRespond.length / externalCount.length) *
-                              100
-                        )}%)`}
-                        style={{ backgroundColor: "#b3b3b3" }}
-                      />
+
+                      {/* PERCENTAGE OF UNANSWERED EXTERNAL FEEDBACK FORM */}
+                      {externalPercent === 1 ? (
+                        <ProgressBar animated now={0} />
+                      ) : (
+                        <ProgressBar
+                          animated
+                          now={Math.round(
+                            101 -
+                              (externalRespond.length / externalCount.length) *
+                                100
+                          )}
+                          label={`${
+                            externalCount.length - externalRespond.length
+                          } (${Math.round(
+                            100 -
+                              (externalRespond.length / externalCount.length) *
+                                100
+                          )}%)`}
+                          style={{ backgroundColor: "#b3b3b3" }}
+                        />
+                      )}
                     </ProgressBar>
                   </>
                 ) : (
