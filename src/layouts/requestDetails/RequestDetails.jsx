@@ -203,6 +203,8 @@ const RequestDetails = () => {
                           ? "text-success"
                           : status === "cancelled"
                           ? "text-danger"
+                          : status === "unclaimed"
+                          ? "text-secondary"
                           : null
                       } `}
                     >
@@ -233,7 +235,9 @@ const RequestDetails = () => {
                                 ? "Your request has been successfully completed."
                                 : documentDetails.status === "cancelled"
                                 ? "Your request has been cancelled. Please review the details below."
-                                : ""}
+                                : documentDetails.status === "unclaimed"
+                                ? "Your request has been marked as unclaimed. Please ensure that you claim your requested document within the scheduled timeframe to avoid it being marked as unclaimed."
+                                : null}
                             </Tooltip>
                           }
                         >

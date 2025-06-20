@@ -8,6 +8,7 @@ import RequestDatepicker from "../../components/studentRequest/RequestDatepicker
 import CountUp from "react-countup";
 import MainHeaders from "../../components/studentRequest/MainHeaders";
 import RequestedDocumentsDownload from "../../components/DownloadButton/RequestedDocumentsDownload";
+import Swal from "sweetalert2";
 
 // FUNCTIONS
 import {
@@ -36,6 +37,7 @@ export default function StudentRequests() {
   const [status, setStatus] = useState("all");
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [detecting, setDetecting] = useState(true);
 
   // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {
@@ -80,6 +82,122 @@ export default function StudentRequests() {
       );
     }
   }, [startDate, endDate, user, adminPrograms]);
+
+  const markUnclaimedDocs = async (unclaimedDocs) => {
+    // console.log("Unclaimed documents: ", unclaimedDocs);
+
+    try {
+      setDetecting(true);
+
+      Swal.fire({
+        title: "Unclaimed documents detected",
+        text: "They are being marked as unclaimed.",
+        icon: "info",
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      const res = await axios.post(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/managingRequest/markUnclaimedRequest`,
+        unclaimedDocs,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (res.data.Status === "Success") {
+        try {
+          // SENDING EMAIL FOR EACH UNCLAIMED DOCUMENTS
+          for (const doc of unclaimedDocs) {
+            const emailRes = await axios.post(
+              `${
+                import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+              }/api/emailNotification/sendStatusUpdate`,
+              doc // Send each doc individually
+            );
+
+            if (emailRes.status === 200) {
+              // console.log(`Email sent to ${doc.receiverEmail}`);
+            } else {
+              // console.warn(`Failed to send email to ${doc.receiverEmail}`);
+            }
+          }
+          await Swal.fire({
+            title: "Success!",
+            text: "Successfully processed unclaimed documents.",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "OK",
+          });
+        } catch (emailErr) {
+          console.log("An error occurred while sending email: ", emailErr);
+        }
+      } else if (res.data.Status === "Failed") {
+        await Swal.fire({
+          title: "Failed",
+          text: res.data.Message,
+          icon: "error",
+          confirmButtonColor: "#d33",
+          confirmButtonText: "Try Again",
+        });
+      }
+    } catch (err) {
+      // console.log("Error changing status: ", err);
+      await Swal.fire({
+        title: "Error",
+        text: "Something went wrong. Please try again later.",
+        icon: "error",
+        confirmButtonColor: "#d33",
+        confirmButtonText: "OK",
+      });
+    } finally {
+      setTimeout(() => {
+        setDetecting(false);
+      }, 600);
+    }
+  };
+
+  //CHECKING UNCLAIMED DOCUMENTS
+  useEffect(() => {
+    if (!requestedDocuments || requestedDocuments.length === 0) {
+      return;
+    }
+    const unclaimedPeriod = new Date();
+    unclaimedPeriod.setMonth(unclaimedPeriod.getMonth() - 2);
+    const unclaimedDocs = [];
+    // console.log("Documents to check: ", requestedDocuments.length);
+
+    requestedDocuments.forEach((doc) => {
+      // console.log("checking: ", doc.requestID);
+
+      const readyDate = new Date(doc.readyToReleaseDate);
+      const isOlderThan2Months = readyDate <= unclaimedPeriod;
+      const isUnclaimed = doc.status === "ready to pickup";
+
+      if (isOlderThan2Months && isUnclaimed) {
+        unclaimedDocs.push({
+          requestID: doc.requestID,
+          userID: doc.userID,
+          receiverEmail: doc.email,
+          newStatus: "unclaimed",
+        });
+        // console.log("Unclaimed document ID:", doc.requestID);
+      }
+    });
+
+    if (unclaimedDocs.length > 0) {
+      markUnclaimedDocs(unclaimedDocs);
+    } else {
+      setTimeout(() => {
+        setDetecting(false);
+      }, 600);
+    }
+  }, [requestedDocuments]);
 
   // Filter documents based on search input and status
   useEffect(() => {
@@ -156,7 +274,7 @@ export default function StudentRequests() {
           style={{ color: "var(--secondMain-color)" }}
         >
           Student Request List
-          {isLoading ? (
+          {detecting ? (
             <>
               <span className="d-flex align-items-center justify-content-center">
                 (<Spinner animation="border" variant="light" size="sm" />)
@@ -277,7 +395,7 @@ export default function StudentRequests() {
         <RequestHeaders
           status={status}
           filteredRequests={filteredRequests}
-          isLoading={isLoading}
+          isLoading={detecting}
         />
       </div>
     </div>

@@ -67,6 +67,9 @@ const MainHeaders = ({ status, handleSelect }) => {
               <Dropdown.Item onClick={() => handleSelect("cancelled")}>
                 Cancelled
               </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleSelect("unclaimed")}>
+                Unclaimed
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>
