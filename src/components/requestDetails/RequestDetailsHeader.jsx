@@ -127,7 +127,10 @@ const RequestDetailsHeader = ({
                       onClick={handleShowChangeStatusPhoneModal}
                       disabled={
                         documentDetails.status === "cancelled" ||
-                        documentDetails.status === "completed"
+                        documentDetails.status === "completed" ||
+                        documentDetails.status === "unclaimed" ||
+                        documentDetails.status === "" ||
+                        !documentDetails.status
                       }
                     >
                       <p className="m-0">
@@ -137,6 +140,10 @@ const RequestDetailsHeader = ({
                           ? "Ready to Pickup"
                           : documentDetails.status === "ready to pickup"
                           ? "Completed"
+                          : documentDetails.status === "cancelled"
+                          ? "Cancelled"
+                          : documentDetails.status === "unclaimed"
+                          ? "Unclaimed"
                           : "Claimed"}
                       </p>
                     </button>
