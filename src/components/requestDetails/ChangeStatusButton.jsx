@@ -124,7 +124,8 @@ const ChangeStatusButton = ({
           documentDetails.status === "cancelled" ||
           documentDetails.status === "completed" ||
           documentDetails.status === "unclaimed" ||
-          documentDetails.status === ""
+          documentDetails.status === "" ||
+          !documentDetails.status
         }
       >
         <p className="m-0">
@@ -142,14 +143,15 @@ const ChangeStatusButton = ({
         </p>
       </button>
 
-      <button
+      {/* <button
         className="btn btn-success btn-sm btn-responsive w-100 d-block d-md-none"
         onClick={() => setShowPhoneStatusModal(true)}
         disabled={
           documentDetails.status === "cancelled" ||
           documentDetails.status === "completed" ||
           documentDetails.status === "unclaimed" ||
-          documentDetails.status === ""
+          documentDetails.status === "" ||
+          !documentDetails.status
         }
       >
         <p className="m-0">
@@ -163,7 +165,7 @@ const ChangeStatusButton = ({
             ? "Unclaimed"
             : "Claimed"}
         </p>
-      </button>
+      </button> */}
 
       <Modal
         show={showChangeStatusModal}
