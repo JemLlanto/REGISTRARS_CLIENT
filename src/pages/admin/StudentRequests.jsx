@@ -168,7 +168,7 @@ export default function StudentRequests() {
       return;
     }
     const unclaimedPeriod = new Date();
-    unclaimedPeriod.setMonth(unclaimedPeriod.getMonth() - 2);
+    unclaimedPeriod.setDate(unclaimedPeriod.getDate() - 1);
     const unclaimedDocs = [];
     // console.log("Documents to check: ", requestedDocuments.length);
 

@@ -26,9 +26,10 @@ export default function RequestDocument() {
     studentID: storedFormData?.studentID || user.studentID || "",
     dateOfBirth: storedFormData?.dateOfBirth || user.dateOfBirth || "",
     sex: storedFormData?.sex || user.sex || "",
-    mobileNum: storedFormData
-      ? storedFormData?.mobileNum
-      : user.mobileNum || "+63",
+    mobileNum:
+      storedFormData?.mobileNum === "+63"
+        ? user.mobileNum
+        : storedFormData?.mobileNum || "+63",
     classification: storedFormData?.classification || "",
     schoolYearAttended: storedFormData?.schoolYearAttended || "",
     yearGraduated: storedFormData?.yearGraduated || "",
@@ -46,7 +47,7 @@ export default function RequestDocument() {
   const [hasInput, setHasInput] = useState(false);
   const [inputsLength, setInputsLength] = useState(0);
   const [hasFile, setHasFile] = useState(false);
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState([]);
   const [hasSelection, setHasSelection] = useState(false);
   const [docType, setDocType] = useState([]);
   const navigate = useNavigate();
@@ -59,6 +60,10 @@ export default function RequestDocument() {
       }
     }
   }, [user, navigate]);
+
+  useEffect(() => {
+    console.log("Files to be uploaded: ", file);
+  }, [file]);
 
   const requestID = useRef(
     Date.now().toString() + Math.floor(Math.random() * 1000).toString()
@@ -123,7 +128,10 @@ export default function RequestDocument() {
           studentID: prevData.studentID || user.studentID || "",
           dateOfBirth: formattedDate || "",
           sex: prevData.sex || user.sex || "",
-          mobileNum: prevData.mobileNum || user.mobileNum || "+63",
+          mobileNum:
+            prevData.mobileNum === "+63"
+              ? user.mobileNum
+              : user.mobileNum || "+63",
           program: prevData.program || user.program || "",
         };
       });

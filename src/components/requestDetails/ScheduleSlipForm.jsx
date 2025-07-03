@@ -22,7 +22,7 @@ const ScheduleSlipForm = ({
   const [show, setShow] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    controlNum: null,
+    controlNum: "",
     requestID: null,
     name: "",
     courseMajor: "",
@@ -66,7 +66,7 @@ const ScheduleSlipForm = ({
       .then((res) => {
         if (res.data.Status === "Success") {
           setDocumentTypes(res.data.data);
-          console.log("Document Types:", res.data.data);
+          // console.log("Document Types:", res.data.data);
         }
       })
       .catch((err) => {
@@ -209,7 +209,7 @@ const ScheduleSlipForm = ({
       formData
     );
     if (res.status === 200) {
-      console.log("Details uploaded!");
+      // console.log("Details uploaded!");
     }
     return res.data;
   };
@@ -226,7 +226,7 @@ const ScheduleSlipForm = ({
       payload
     );
     if (res.status === 200) {
-      console.log("Document types uploaded!");
+      // console.log("Document types uploaded!");
     }
     return res.data;
   };
@@ -243,7 +243,7 @@ const ScheduleSlipForm = ({
       payload
     );
     if (res.status === 200) {
-      console.log("Requirements uploaded!");
+      // console.log("Requirements uploaded!");
     }
     return res.data;
   };
@@ -322,7 +322,7 @@ const ScheduleSlipForm = ({
               <div className="mb-2 col-md-6">
                 <label>Control No:</label>
                 <input
-                  type="number"
+                  type="text"
                   className={`form-control ${
                     formData.controlNum <= 0 ? "border-danger" : ""
                   }`}
