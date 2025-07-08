@@ -68,12 +68,78 @@ const FormButtons = ({
     });
   };
 
-  const upload = async () => {
-    // console.log("Inserting Files...");
+  // const upload = async () => {
+  //   // console.log("Inserting Files...");
 
+  //   const data = new FormData();
+  //   data.append("requestID", formData.requestID);
+  //   data.append("file", file);
+  //   try {
+  //     const res = await axios.post(
+  //       `${
+  //         import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+  //       }/api/documents/uploadDocuments`,
+  //       data,
+  //       { headers: { "Content-Type": "multipart/form-data" } }
+  //     );
+  //     if (res.data.Status === "Success") {
+  //       // console.log("Document files Submitted!");
+  //     }
+  //   } catch (err) {
+  //     // console.log(err);
+  //     throw err;
+  //   }
+  // };
+  // Helper function to upload a single file
+
+  const uploadAllFiles = async () => {
+    console.log("Uploading files...");
+
+    // Get all files from your files object
+    const fileEntries = Object.entries(file);
+
+    if (fileEntries.length === 0) {
+      console.log("No files to upload");
+      return;
+    }
+
+    // Create upload promises for each file
+    const uploadPromises = fileEntries.map(([uploadID, file]) => {
+      return uploadSingleFile(file, uploadID);
+    });
+
+    try {
+      // Execute all uploads concurrently
+      const results = await Promise.all(uploadPromises);
+      console.log("All files uploaded successfully:", results);
+
+      // Handle success - maybe show success message
+      // Swal.fire({
+      //   icon: "success",
+      //   title: "Upload Complete",
+      //   text: `Successfully uploaded ${results.length} files.`,
+      // });
+
+      return results;
+    } catch (error) {
+      console.error("One or more uploads failed:", error);
+
+      // Handle error
+      Swal.fire({
+        icon: "error",
+        title: "Upload Failed",
+        text: "Some files failed to upload. Please try again.",
+      });
+
+      throw error;
+    }
+  };
+  const uploadSingleFile = async (file, uploadID) => {
     const data = new FormData();
     data.append("requestID", formData.requestID);
+    data.append("uploadID", uploadID); // Add uploadID to identify which upload this is
     data.append("file", file);
+
     try {
       const res = await axios.post(
         `${
@@ -82,12 +148,14 @@ const FormButtons = ({
         data,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
+
       if (res.data.Status === "Success") {
-        // console.log("Document files Submitted!");
+        console.log(`File ${uploadID} uploaded successfully`);
+        return { uploadID, success: true, data: res.data };
       }
     } catch (err) {
-      // console.log(err);
-      throw err;
+      console.error(`Failed to upload file ${uploadID}:`, err);
+      return { uploadID, success: false, error: err };
     }
   };
   const insertDocTypes = async () => {
@@ -206,7 +274,7 @@ const FormButtons = ({
         if (file) {
           Swal.update({ text: "Uploading files..." });
           Swal.showLoading();
-          await upload();
+          await uploadAllFiles();
         }
 
         Swal.update({ text: "Finalizing..." });

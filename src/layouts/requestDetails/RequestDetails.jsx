@@ -14,7 +14,7 @@ const RequestDetails = () => {
   const [documentTypes, setDocumentTypes] = useState([]);
   const [documentInputValues, setDocumentInputValues] = useState([]);
   const [documentInputs, setDocumentInputs] = useState([]);
-  const [documentFile, setDocumentFile] = useState(null);
+  const [documentFiles, setDocumentFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(true);
   const navigate = useNavigate();
@@ -31,6 +31,7 @@ const RequestDetails = () => {
       if (res.data.Status === "Success") {
         setIsAuthorized(true);
         setDocumentDetails(res.data.data);
+        // console.log("Document details: ", res.data.data);
         if (!user.isAdmin) {
           if (res.data.data.userID !== user.userID) {
             setIsAuthorized(false);
@@ -94,7 +95,8 @@ const RequestDetails = () => {
       )
       .then((res) => {
         if (res.data.Status === "Success") {
-          setDocumentFile(res.data.data);
+          setDocumentFiles(res.data.data);
+          console.log("Document files: ", res.data.data);
         } else if (res.data.Message) {
           // // console.log("Error: ", res.data.Message);s
         }
@@ -321,7 +323,7 @@ const RequestDetails = () => {
                 </table>
               </div>
             )}
-            {documentFile && (
+            {documentFiles && (
               <div
                 className="fade-in-section bg-white w-100 rounded-2 d-flex flex-column p-2 p-md-4"
                 style={{
@@ -332,7 +334,7 @@ const RequestDetails = () => {
                 <h5 className="m-0 ms-2 py-2">Uploaded document</h5>
                 <div className="w-100 d-flex align-items-center justify-content-center">
                   <DocumentFileModal
-                    documentFile={documentFile}
+                    documentFiles={documentFiles}
                     documentDetails={documentDetails}
                     user={user}
                   />

@@ -14,6 +14,8 @@ const defaultRequirements = [
 ];
 
 const ScheduleSlipForm = ({
+  formDataForReleaseDate,
+  setFormDataForReleaseDate,
   documentDetails,
   user,
   setIsScheduled,
@@ -22,14 +24,13 @@ const ScheduleSlipForm = ({
   const [show, setShow] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    controlNum: null,
+    controlNum: "",
     requestID: null,
     name: "",
     courseMajor: "",
     studentNum: "",
     dateRequested: "",
     purpose: "",
-    dateRelease: "",
     timeRelease: "",
     timeReleaseStart: "",
     timeReleaseEnd: "",
@@ -66,7 +67,7 @@ const ScheduleSlipForm = ({
       .then((res) => {
         if (res.data.Status === "Success") {
           setDocumentTypes(res.data.data);
-          console.log("Document Types:", res.data.data);
+          // console.log("Document Types:", res.data.data);
         }
       })
       .catch((err) => {
@@ -125,6 +126,13 @@ const ScheduleSlipForm = ({
       const startFormatted = formatTo12Hour(updatedFormData.timeReleaseStart);
       const endFormatted = formatTo12Hour(updatedFormData.timeReleaseEnd);
       updatedFormData.timeRelease = `${startFormatted} - ${endFormatted}`;
+    }
+
+    if (name === "dateRelease") {
+      setFormDataForReleaseDate({
+        ...formDataForReleaseDate,
+        dateRelease: value,
+      });
     }
 
     setFormData(updatedFormData);
@@ -196,7 +204,7 @@ const ScheduleSlipForm = ({
     !formData.studentNum?.trim() ||
     !formData.courseMajor?.trim() ||
     !formData.dateRequested?.trim() ||
-    !formData.dateRelease?.trim() ||
+    !formDataForReleaseDate?.dateRelease?.trim() ||
     !formData.timeReleaseStart?.trim() ||
     !formData.timeReleaseEnd?.trim() ||
     !formData.processedBy?.trim();
@@ -209,7 +217,7 @@ const ScheduleSlipForm = ({
       formData
     );
     if (res.status === 200) {
-      console.log("Details uploaded!");
+      // console.log("Details uploaded!");
     }
     return res.data;
   };
@@ -226,7 +234,7 @@ const ScheduleSlipForm = ({
       payload
     );
     if (res.status === 200) {
-      console.log("Document types uploaded!");
+      // console.log("Document types uploaded!");
     }
     return res.data;
   };
@@ -243,7 +251,7 @@ const ScheduleSlipForm = ({
       payload
     );
     if (res.status === 200) {
-      console.log("Requirements uploaded!");
+      // console.log("Requirements uploaded!");
     }
     return res.data;
   };
@@ -266,7 +274,7 @@ const ScheduleSlipForm = ({
         await uploadDetails();
       } catch (error) {
         throw new Error(
-          "Failed to upload details. Please check the form and try again."
+          "Failed to upload details. Control number already exist."
         );
       }
 
@@ -322,7 +330,7 @@ const ScheduleSlipForm = ({
               <div className="mb-2 col-md-6">
                 <label>Control No:</label>
                 <input
-                  type="number"
+                  type="text"
                   className={`form-control ${
                     formData.controlNum <= 0 ? "border-danger" : ""
                   }`}
@@ -390,10 +398,12 @@ const ScheduleSlipForm = ({
                 <input
                   type="date"
                   className={`form-control ${
-                    formData.dateRelease === "" ? "border-danger" : ""
+                    formDataForReleaseDate?.dateRelease === ""
+                      ? "border-danger"
+                      : ""
                   }`}
                   name="dateRelease"
-                  value={formData.dateRelease}
+                  value={formDataForReleaseDate?.dateRelease}
                   onChange={handleChange}
                 />
               </div>

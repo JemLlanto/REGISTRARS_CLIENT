@@ -40,6 +40,7 @@ const InternalFeedbackTemplate = ({
         comments: "",
         email: documentDetails.email,
         program: documentDetails.program,
+        purpose: documentDetails.purpose,
         firstName: documentDetails.firstName,
         lastName: documentDetails.lastName,
       });

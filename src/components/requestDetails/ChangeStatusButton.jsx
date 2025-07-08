@@ -36,9 +36,16 @@ const ChangeStatusButton = ({
             ? "ready to pickup"
             : documentDetails.status === "ready to pickup"
             ? "completed"
+            : documentDetails.status === "unclaimed"
+            ? "completed"
             : null,
         userID: documentDetails.userID,
         receiverEmail: documentDetails.email,
+        dateRelease: documentDetails.readyToReleaseDate
+          ? new Date(documentDetails.readyToReleaseDate).toLocaleDateString(
+              "en-CA"
+            )
+          : "",
         feedbackType: "",
       });
     }
@@ -74,12 +81,12 @@ const ChangeStatusButton = ({
           );
 
           if (emailRes.status === 200) {
-            // console.log(emailRes.data.Message);
+            console.log(emailRes.data.Message);
           } else {
-            // console.log(emailRes.data.Message);
+            console.log(emailRes.data.Message);
           }
         } catch (emailErr) {
-          // console.log("An error occurred while sending email: ", emailErr);
+          console.log("An error occurred while sending email: ", emailErr);
         }
 
         await Swal.fire({
@@ -102,7 +109,7 @@ const ChangeStatusButton = ({
         });
       }
     } catch (err) {
-      // console.log("Error changing status: ", err);
+      console.log("Error changing status: ", err);
       await Swal.fire({
         title: "Error",
         text: "Something went wrong. Please try again later.",
@@ -123,11 +130,11 @@ const ChangeStatusButton = ({
         disabled={
           documentDetails.status === "cancelled" ||
           documentDetails.status === "completed" ||
-          documentDetails.status === "unclaimed" ||
           documentDetails.status === "" ||
           !documentDetails.status
         }
       >
+        {/* {formData.dateRelease} */}
         <p className="m-0">
           {documentDetails.status === "pending"
             ? "Processing"
@@ -138,7 +145,7 @@ const ChangeStatusButton = ({
             : documentDetails.status === "cancelled"
             ? "Cancelled"
             : documentDetails.status === "unclaimed"
-            ? "Unclaimed"
+            ? "Completed"
             : "Claimed"}
         </p>
       </button>
@@ -183,6 +190,8 @@ const ChangeStatusButton = ({
             <>
               <div>
                 <ScheduleSlipForm
+                  formDataForReleaseDate={formData}
+                  setFormDataForReleaseDate={setFormData}
                   isScheduled={isScheduled}
                   setIsScheduled={setIsScheduled}
                   documentDetails={documentDetails}
@@ -237,6 +246,8 @@ const ChangeStatusButton = ({
                 ) : documentDetails.status === "processing" ? (
                   <>ready to pickup</>
                 ) : documentDetails.status === "ready to pickup" ? (
+                  <>completed</>
+                ) : documentDetails.status === "unclaimed" ? (
                   <>completed</>
                 ) : (
                   <></>
