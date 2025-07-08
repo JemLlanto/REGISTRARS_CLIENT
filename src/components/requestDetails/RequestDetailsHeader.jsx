@@ -128,7 +128,6 @@ const RequestDetailsHeader = ({
                       disabled={
                         documentDetails.status === "cancelled" ||
                         documentDetails.status === "completed" ||
-                        documentDetails.status === "unclaimed" ||
                         documentDetails.status === "" ||
                         !documentDetails.status
                       }
@@ -143,7 +142,7 @@ const RequestDetailsHeader = ({
                           : documentDetails.status === "cancelled"
                           ? "Cancelled"
                           : documentDetails.status === "unclaimed"
-                          ? "Unclaimed"
+                          ? "Completed"
                           : "Claimed"}
                       </p>
                     </button>

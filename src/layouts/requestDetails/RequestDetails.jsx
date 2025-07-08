@@ -31,6 +31,7 @@ const RequestDetails = () => {
       if (res.data.Status === "Success") {
         setIsAuthorized(true);
         setDocumentDetails(res.data.data);
+        // console.log("Document details: ", res.data.data);
         if (!user.isAdmin) {
           if (res.data.data.userID !== user.userID) {
             setIsAuthorized(false);

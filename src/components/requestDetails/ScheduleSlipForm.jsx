@@ -14,6 +14,8 @@ const defaultRequirements = [
 ];
 
 const ScheduleSlipForm = ({
+  formDataForReleaseDate,
+  setFormDataForReleaseDate,
   documentDetails,
   user,
   setIsScheduled,
@@ -29,7 +31,6 @@ const ScheduleSlipForm = ({
     studentNum: "",
     dateRequested: "",
     purpose: "",
-    dateRelease: "",
     timeRelease: "",
     timeReleaseStart: "",
     timeReleaseEnd: "",
@@ -127,6 +128,13 @@ const ScheduleSlipForm = ({
       updatedFormData.timeRelease = `${startFormatted} - ${endFormatted}`;
     }
 
+    if (name === "dateRelease") {
+      setFormDataForReleaseDate({
+        ...formDataForReleaseDate,
+        dateRelease: value,
+      });
+    }
+
     setFormData(updatedFormData);
   };
 
@@ -196,7 +204,7 @@ const ScheduleSlipForm = ({
     !formData.studentNum?.trim() ||
     !formData.courseMajor?.trim() ||
     !formData.dateRequested?.trim() ||
-    !formData.dateRelease?.trim() ||
+    !formDataForReleaseDate?.dateRelease?.trim() ||
     !formData.timeReleaseStart?.trim() ||
     !formData.timeReleaseEnd?.trim() ||
     !formData.processedBy?.trim();
@@ -266,7 +274,7 @@ const ScheduleSlipForm = ({
         await uploadDetails();
       } catch (error) {
         throw new Error(
-          "Failed to upload details. Please check the form and try again."
+          "Failed to upload details. Control number already exist."
         );
       }
 
@@ -390,10 +398,12 @@ const ScheduleSlipForm = ({
                 <input
                   type="date"
                   className={`form-control ${
-                    formData.dateRelease === "" ? "border-danger" : ""
+                    formDataForReleaseDate?.dateRelease === ""
+                      ? "border-danger"
+                      : ""
                   }`}
                   name="dateRelease"
-                  value={formData.dateRelease}
+                  value={formDataForReleaseDate?.dateRelease}
                   onChange={handleChange}
                 />
               </div>

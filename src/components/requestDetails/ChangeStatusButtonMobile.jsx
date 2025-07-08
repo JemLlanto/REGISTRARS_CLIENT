@@ -35,9 +35,16 @@ const ChangeStatusButtonMobile = ({
             ? "ready to pickup"
             : documentDetails.status === "ready to pickup"
             ? "completed"
+            : documentDetails.status === "unclaimed"
+            ? "completed"
             : null,
         userID: documentDetails.userID,
         receiverEmail: documentDetails.email,
+        dateRelease: documentDetails.readyToReleaseDate
+          ? new Date(documentDetails.readyToReleaseDate).toLocaleDateString(
+              "en-CA"
+            )
+          : "",
         feedbackType: "",
       });
     }
@@ -147,6 +154,8 @@ const ChangeStatusButtonMobile = ({
                 <>
                   <div>
                     <ScheduleSlipForm
+                      formDataForReleaseDate={formData}
+                      setFormDataForReleaseDate={setFormData}
                       isScheduled={isScheduled}
                       setIsScheduled={setIsScheduled}
                       documentDetails={documentDetails}
@@ -207,12 +216,15 @@ const ChangeStatusButtonMobile = ({
               ) : (
                 <>
                   <p className="m-0">
+                    {formData.dateRelease}
                     Are you sure you want to mark this request as{" "}
                     {documentDetails.status === "pending" ? (
                       <>being processed</>
                     ) : documentDetails.status === "processing" ? (
                       <>ready to pickup</>
                     ) : documentDetails.status === "ready to pickup" ? (
+                      <>completed</>
+                    ) : documentDetails.status === "unclaimed" ? (
                       <>completed</>
                     ) : (
                       <></>

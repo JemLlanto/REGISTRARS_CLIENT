@@ -132,14 +132,15 @@ const ManageCourseAdmin = ({
       <div className="w-100 d-flex flex-column gap-2 p-1 mx-0 bg-white shadow-sm rounded-2">
         <div
           className="requestList custom-scrollbar p-2 overflow-y-scroll"
-          style={{ height: "max-content" }}
+          style={{ height: "max-content", minHeight: "30rem" }}
         >
           {isLoading ? (
             <>
               <div
-                className="d-flex align-items-center justify-content-center "
+                className="d-flex flex-column align-items-center justify-content-center "
                 style={{ height: "100%" }}
               >
+                <h5>Loading Course Admins</h5>
                 <Spinner animation="border" variant="black" size="lg" />
               </div>
             </>
