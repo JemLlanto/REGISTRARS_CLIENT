@@ -48,9 +48,10 @@ const CookieConsent = () => {
           {/* Message and Links */}
           <div className="d-none d-md-block" style={{ flex: 1 }}>
             <div className="d-flex align-items-center gap-2">
-              <h2 className="m-0 me-1">
+              <h2 className="m-0 me-2">
                 <span className="d-flex align-items-center justify-content-center">
-                  <i className="bx bx-info-circle"></i>
+                  {/* <i className="bx bx-info-circle"></i> */}
+                  <img src="./DPO.jpg" alt="DPO/DPS" className="" style={{ height: "50px" }} />
                 </span>
               </h2>
 
