@@ -234,7 +234,7 @@ const DocumentTypeStats = ({
         </Modal.Body>
         <Modal.Footer>
           <button className="btn btn-secondary" onClick={handleClose}>
-            Close
+            <p className="m-0">Close</p>
           </button>
         </Modal.Footer>
       </Modal>
