@@ -15,6 +15,7 @@ import {
   setMonthDefault,
   handlePeriodChange,
 } from "../../utils/documentServices";
+import DashboardDownload from "../../components/DownloadButton/DashboardDownload";
 
 export default function Home() {
   const { user } = useOutletContext();
@@ -81,37 +82,6 @@ export default function Home() {
     setMonthDefault(startDate, setStartDate, endDate, setEndDate);
   }, [timeFiltersData]);
 
-  // Separate function for the API call that can be called directly
-  // const fetchRequestedDocuments = () => {
-  //   // console.log(startDate, endDate);
-  //   if (startDate && endDate) {
-  //     axios
-  //       .get(
-  //         `${
-  //           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-  //         }/api/dashboard/fetchRequestedDocuments`,
-  //         {
-  //           params: {
-  //             startDate: startDate,
-  //             endDate: endDate,
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         if (res.data.Status === "Success") {
-  //           setIsLoading(false);
-  //           setRequestedDocuments(res.data.data);
-  //           // console.log("requestedDocuments", res.data.data);
-  //         } else {
-  //           setRequestedDocuments([]);
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //       });
-  //   }
-  // };
-
   return (
     <div
       className="custom-scrollbar w-100 overflow-y-scroll overflow-x-hidden rounded px-0"
@@ -128,18 +98,25 @@ export default function Home() {
           Dashboard
           {/* {isLoading ? "loading" : ""} */}
         </h5>
-        <div className="d-block d-md-none rounded ">
-          <div className="d-flex align-items-center rounded  ">
-            <RequestDatepicker
-              startDate={startDate}
-              endDate={endDate}
-              selectedPeriod={selectedPeriod}
-              handlePeriodChange={handlePeriodChange}
-              setSelectedPeriod={setSelectedPeriod}
-              setStartDate={setStartDate}
-              setEndDate={setEndDate}
-            />
+        <div className="d-flex align-items-center justify-content-center gap-2">
+          <div className="d-block d-md-none rounded ">
+            <div className="d-flex align-items-center rounded  ">
+              <RequestDatepicker
+                startDate={startDate}
+                endDate={endDate}
+                selectedPeriod={selectedPeriod}
+                handlePeriodChange={handlePeriodChange}
+                setSelectedPeriod={setSelectedPeriod}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+              />
+            </div>
           </div>
+          <DashboardDownload
+            startDate={startDate}
+            endDate={endDate}
+            requestedDocuments={requestedDocuments}
+          />
         </div>
       </div>
 
