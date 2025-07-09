@@ -210,7 +210,7 @@ const PurposeUpload = ({ purpose }) => {
         <thead>
           <tr>
             <th className="">
-              <h5 className="m-0 fw-bold">Required File</h5>
+              <h5 className="m-0 fw-bold">Required File(5 files max)</h5>
             </th>
             <th className="text-center align-middle w-25">
               <h5 className="m-0 fw-bold">Action</h5>
@@ -472,7 +472,7 @@ const PurposeUpload = ({ purpose }) => {
                           purposeID: purpose.purposeID,
                         });
                     }}
-                    disabled={uploads.length >= 1}
+                    disabled={uploads.length >= 5}
                   >
                     <p className="m-0">Add</p>
                   </button>

@@ -8,7 +8,20 @@ const RequestInfo = ({ documentDetails }) => {
     : "";
   return (
     <div className="row shadow-sm bg-white d-flex align-items-center justify-content-start rounded-3 p-2 p-md-4 mx-0">
-      <h5 className=" m-0 my-2">Request details</h5>
+      <div className="d-flex align-items-center flex-wrap my-2">
+        <h5 className=" m-0">Request details </h5>
+        <p className="m-0 text-secondary">
+          {documentDetails.readyToReleaseDate ? (
+            <>
+              (Release date:{" "}
+              {new Intl.DateTimeFormat("en-US", {
+                dateStyle: "medium",
+              }).format(new Date(documentDetails?.readyToReleaseDate))}
+              )
+            </>
+          ) : null}
+        </p>
+      </div>
 
       {/* Privacy Consent */}
       <div className="col-12 col-lg-4 mb-3">

@@ -155,7 +155,11 @@ const Step3 = ({
           title: "File Too Large",
           text: "File size should not exceed 2MB.",
         });
-        setFile(null);
+        setFile((prevFiles) => {
+          const newFiles = { ...prevFiles };
+          delete newFiles[uploadID];
+          return newFiles;
+        });
         return;
       }
 
@@ -165,11 +169,19 @@ const Step3 = ({
           title: "Invalid File Type",
           text: "Only JPEG, JPG, and PNG files are allowed.",
         });
-        setFile(null);
+        setFile((prevFiles) => {
+          const newFiles = { ...prevFiles };
+          delete newFiles[uploadID];
+          return newFiles;
+        });
         return;
       }
 
-      setFile(file); // Set the file in parent component
+      // Set the file for this specific uploadID
+      setFile((prevFiles) => ({
+        ...prevFiles,
+        [uploadID]: file,
+      }));
 
       const reader = new FileReader();
       reader.onload = () => {
@@ -203,7 +215,11 @@ const Step3 = ({
     );
 
     // If this was the active file in the parent component, clear it
-    setFile(null);
+    setFile((prevFiles) => {
+      const newFiles = { ...prevFiles };
+      delete newFiles[uploadID];
+      return newFiles;
+    });
   };
 
   return (
@@ -288,7 +304,7 @@ const Step3 = ({
               <div className="d-flex flex-column gap-2">
                 <h5 className="m-0 mt-2 fw-bold">Upload necessary files:</h5>
                 {uploadsState.map((upload, index) => (
-                  <div key={index} className="input-group mb-3">
+                  <div key={index} className="input-group mb-1">
                     <div className="w-100 border rounded p-3">
                       {/* Show upload description and button only if no preview */}
                       {!upload.preview ? (
@@ -302,20 +318,24 @@ const Step3 = ({
                           </label>
                         </div>
                       ) : (
-                        <div className="mt-3 position-relative">
+                        <div className=" position-relative">
+                          <p className="m-0">{upload.uploadDescription}</p>
                           <div className="d-flex justify-content-center position-relative">
                             <div
-                              className="position-relative overflow-hidden rounded bg-danger"
-                              style={{ height: "15rem", width: "15rem" }}
+                              className="position-relative overflow-hidden rounded"
+                              style={{
+                                height: "clamp(10rem, 50dvw, 20rem)",
+                                width: "clamp(10rem, 50dvw, 35rem)",
+                              }}
                             >
                               <img
                                 src={upload.preview}
                                 alt="Uploaded Preview"
-                                className="shadow-sm"
+                                className="shadow-sm rounded"
                                 style={{
                                   height: "100%",
                                   width: "100%",
-                                  objectFit: "cover",
+                                  objectFit: "contain",
                                 }}
                               />
                               <Button
