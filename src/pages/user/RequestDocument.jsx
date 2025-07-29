@@ -24,10 +24,10 @@ export default function RequestDocument() {
     middleName: storedFormData?.middleName || user.middleName || "",
     lastName: storedFormData?.lastName || user.lastName || "",
     studentID: storedFormData?.studentID || user.studentID || "",
-    dateOfBirth: storedFormData?.dateOfBirth || user.dateOfBirth || "",
+    dateOfBirth: storedFormData?.dateOfBirth || user?.dateOfBirth || "",
     sex: storedFormData?.sex || user.sex || "",
     mobileNum:
-      storedFormData?.mobileNum === "+63"
+      storedFormData?.mobileNum === "+63" || !storedFormData?.mobileNum
         ? user.mobileNum
         : storedFormData?.mobileNum || "+63",
     classification: storedFormData?.classification || "",
@@ -41,6 +41,7 @@ export default function RequestDocument() {
   const [currentStep, setCurrentStep] = useState(
     storedFormData?.currentStep || 1
   );
+  const [isDataRetrieved, setIsDataRetrieved] = useState(false);
   const [direction, setDirection] = useState(1);
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -101,19 +102,22 @@ export default function RequestDocument() {
   }, [requestID]);
 
   useEffect(() => {
-    if (user) {
+    if (user && !isDataRetrieved) {
+      console.log("Retrieving saved data");
       // Only update fields from user data if they don't exist in storedFormData
       setFormData((prevData) => {
-        // Only format date if it exists
-        let formattedDate = prevData.dateOfBirth || user.dateOfBirth;
-        if (prevData.dateOfBirth) {
+        let formattedDate = "";
+        // Check if user.dateOfBirth exists and is valid
+        if (prevData.dateOfBirth || user.dateOfBirth) {
           try {
-            const date = new Date(prevData.dateOfBirth);
-            formattedDate = `${date.getFullYear()}-${String(
-              date.getMonth() + 1
-            ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+            const date = new Date(prevData.dateOfBirth || user.dateOfBirth);
+            if (!isNaN(date.getTime())) {
+              formattedDate = `${date.getFullYear()}-${String(
+                date.getMonth() + 1
+              ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+            }
           } catch (error) {
-            console.error("Date formatting error:", error);
+            console.error("Error formatting date:", error);
           }
         }
 
@@ -128,13 +132,11 @@ export default function RequestDocument() {
           studentID: prevData.studentID || user.studentID || "",
           dateOfBirth: formattedDate || "",
           sex: prevData.sex || user.sex || "",
-          mobileNum:
-            prevData.mobileNum === "+63"
-              ? user.mobileNum
-              : user.mobileNum || "+63",
+          mobileNum: prevData.mobileNum || user.mobileNum || "+63",
           program: prevData.program || user.program || "",
         };
       });
+      setIsDataRetrieved(true);
     }
   }, [user]);
 
@@ -162,7 +164,7 @@ export default function RequestDocument() {
       const updatedData = { ...prevData, [name]: newValue };
 
       // Save to localStorage
-      if (cookieConsent === "accedted") {
+      if (cookieConsent === "accepted") {
         localStorage.setItem("formData", JSON.stringify(updatedData));
       }
 

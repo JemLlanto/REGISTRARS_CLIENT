@@ -10,6 +10,7 @@ import ScheduleSlipDownload from "../DownloadButton/ScheduleSlipDownload";
 
 const RequestDetailsHeader = ({
   user,
+  adminDetails,
   documentDetails,
   fetchDocumentDetails,
 }) => {
@@ -66,6 +67,7 @@ const RequestDetailsHeader = ({
             />
             <ChangeStatusButton
               user={user}
+              adminDetails={adminDetails}
               fetchDocumentDetails={fetchDocumentDetails}
               documentDetails={documentDetails}
               className="btn-sm btn-responsive"

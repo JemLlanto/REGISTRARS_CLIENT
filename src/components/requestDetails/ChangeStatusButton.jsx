@@ -13,8 +13,7 @@ import ScheduleSlipForm from "./ScheduleSlipForm";
 
 const ChangeStatusButton = ({
   user,
-  showPhoneStatusModal,
-  setShowPhoneStatusModal,
+  adminDetails,
   documentDetails,
   fetchDocumentDetails,
 }) => {
@@ -47,6 +46,7 @@ const ChangeStatusButton = ({
             )
           : "",
         feedbackType: "",
+        adminDetails: adminDetails,
       });
     }
   }, [documentDetails]);
@@ -134,7 +134,6 @@ const ChangeStatusButton = ({
           !documentDetails.status
         }
       >
-        {/* {formData.dateRelease} */}
         <p className="m-0">
           {documentDetails.status === "pending"
             ? "Processing"

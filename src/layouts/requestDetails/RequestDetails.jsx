@@ -10,6 +10,7 @@ import RequestDetailsHeader from "../../components/requestDetails/RequestDetails
 const RequestDetails = () => {
   const { user } = useOutletContext();
   const { requestID } = useParams();
+  const [adminDetails, setAdminDetails] = useState(null);
   const [documentDetails, setDocumentDetails] = useState([]);
   const [documentTypes, setDocumentTypes] = useState([]);
   const [documentInputValues, setDocumentInputValues] = useState([]);
@@ -18,6 +19,26 @@ const RequestDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(true);
   const navigate = useNavigate();
+
+  const fetchAdminDetails = async (adminID) => {
+    try {
+      const res = await axios.get(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/fetchingDocuments/fetchAdminDetails/${adminID}`
+      );
+
+      if (res.status === 200) {
+        console.log("Admin details fetched: ", res.data.data);
+        setAdminDetails(res.data.data);
+      } else if (res.data.Message) {
+        // Handle any specific message from the response
+        console.log("Error: ", res.data.Message);
+      }
+    } catch (err) {
+      console.log("Error fetching details: ", err);
+    }
+  };
 
   const fetchDocumentDetails = async () => {
     try {
@@ -30,6 +51,7 @@ const RequestDetails = () => {
 
       if (res.data.Status === "Success") {
         setIsAuthorized(true);
+        await fetchAdminDetails(res.data.data.adminAssigned);
         setDocumentDetails(res.data.data);
         // console.log("Document details: ", res.data.data);
         if (!user.isAdmin) {
@@ -96,7 +118,7 @@ const RequestDetails = () => {
       .then((res) => {
         if (res.data.Status === "Success") {
           setDocumentFiles(res.data.data);
-          console.log("Document files: ", res.data.data);
+          // console.log("Document files: ", res.data.data);
         } else if (res.data.Message) {
           // // console.log("Error: ", res.data.Message);s
         }
@@ -105,6 +127,7 @@ const RequestDetails = () => {
         // console.log("Error fetching details: ", err);
       });
   }, [requestID]);
+
   //FETCHING DOCUMENT INPUTS
   useEffect(() => {
     axios
@@ -165,6 +188,7 @@ const RequestDetails = () => {
           {/* Header Section */}
           <RequestDetailsHeader
             user={user}
+            adminDetails={adminDetails}
             documentDetails={documentDetails}
             fetchDocumentDetails={fetchDocumentDetails}
           />
@@ -323,7 +347,7 @@ const RequestDetails = () => {
                 </table>
               </div>
             )}
-            {documentFiles && (
+            {documentFiles.length > 0 && (
               <div
                 className="fade-in-section bg-white w-100 rounded-2 d-flex flex-column p-2 p-md-4"
                 style={{
@@ -341,6 +365,34 @@ const RequestDetails = () => {
                 </div>
               </div>
             )}
+
+            {adminDetails ? (
+              <div
+                className="fade-in-section row bg-success text-white d-flex align-items-center justify-content-between rounded-3 p-2 p-md-4 mx-0 shadow-sm"
+                style={{
+                  boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                  zIndex: "1",
+                  animationDelay: `${1 * 0.2}s`,
+                }}
+              >
+                {/* Contact Info */}
+                <div className="col p-0 d-flex gap-1">
+                  <div className="d-flex align-items-center justify-content-start gap-1">
+                    <h4 className="m-0 d-flex align-items-center mx-2 mx-md-0">
+                      <i className="bx bx-help-circle"></i>
+                    </h4>
+                    <h5 className="m-0 text-break">
+                      For inquiries, email:{" "}
+                      {`${adminDetails.firstName} ${
+                        adminDetails.middleName
+                          ? adminDetails.middleName.charAt(0) + "."
+                          : ""
+                      } ${adminDetails.lastName}(${adminDetails.email})`}
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       )}
