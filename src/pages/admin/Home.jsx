@@ -10,7 +10,6 @@ import RequestDatepicker from "../../components/studentRequest/RequestDatepicker
 
 // FUNCTIONS
 import {
-  fetchAdminPrograms,
   fetchRequestedDocuments,
   setMonthDefault,
   handlePeriodChange,
@@ -23,7 +22,6 @@ export default function Home() {
     ? JSON.parse(localStorage.getItem("timeFilters"))
     : null;
   const navigate = useNavigate();
-  const [adminPrograms, setAdminPrograms] = useState([]);
   const [requestedDocuments, setRequestedDocuments] = useState([]);
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [selectedPeriod, setSelectedPeriod] = useState(
@@ -44,38 +42,20 @@ export default function Home() {
 
   // Fetch documents whenever dates change
   useEffect(() => {
-    if (user) {
-      fetchAdminPrograms(
-        user.isAdmin,
-        user.userID,
-        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL,
-        setIsLoading,
-        setAdminPrograms
-      );
-    }
-  }, [user]);
-
-  // Fetch documents whenever dates change
-  useEffect(() => {
     const isProgramAdmin = user?.isAdmin === 1;
 
-    if (
-      startDate &&
-      endDate &&
-      (!isProgramAdmin || (isProgramAdmin && adminPrograms.length > 0))
-    ) {
+    if (startDate && endDate && (!isProgramAdmin || isProgramAdmin)) {
       fetchRequestedDocuments(
         startDate,
         endDate,
         user,
         import.meta.env.VITE_REACT_APP_BACKEND_BASEURL,
-        adminPrograms,
         setRequestedDocuments,
         setFilteredRequests,
         setIsLoading
       );
     }
-  }, [startDate, endDate, user, adminPrograms]);
+  }, [startDate, endDate, user]);
 
   // Set default dates on mount
   useEffect(() => {

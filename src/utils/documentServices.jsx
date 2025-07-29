@@ -1,47 +1,11 @@
 // utils/programService.js or similar file
 import axios from "axios";
 
-export const fetchAdminPrograms = async (
-  isAdmin,
-  userID,
-  baseUrl,
-  setIsLoading,
-  setAdminPrograms
-) => {
-  try {
-    if (isAdmin === 1) {
-      setIsLoading(true);
-      // // console.log("Fetching admin programs for userID:", userID);
-
-      const res = await axios.get(
-        `${baseUrl}/api/dashboard/fetchAdminPrograms`,
-        {
-          params: {
-            adminID: userID,
-          },
-        }
-      );
-
-      if (res.status === 200) {
-        // // console.log("Admin Programs", res.data.data);
-        setAdminPrograms(res.data.data);
-        return res.data.data;
-      }
-      return null;
-    }
-  } catch (err) {
-    console.error(err);
-    return null;
-  } finally {
-    setIsLoading(false);
-  }
-};
 export const fetchRequestedDocuments = async (
   startDate,
   endDate,
   user,
   baseUrl,
-  adminPrograms,
   setRequestedDocuments,
   setFilteredRequests,
   setIsLoading
@@ -82,15 +46,11 @@ export const fetchRequestedDocuments = async (
         if (user.isAdmin === 1) {
           // Create a Set of program names for faster lookup
           // // console.log("Fetching documents for admins");
-          const adminProgramNames = new Set(
-            adminPrograms.map((program) => program.programName)
-          );
-          // // console.log("Admin Programs", adminPrograms);
-          // // console.log("Admin Program Names", adminProgramNames);
+          // console.log("Admin Programs", adminPrograms);
+          // console.log("Admin Program Names", adminProgramNames);
           const filteredDocuments = dateFilteredDocuments.filter((document) => {
-            return adminProgramNames.has(document.program);
+            return user.userID === document.adminAssigned;
           });
-
           // // console.log(
           //   `Filtered from ${res.data.data.length} to ${filteredDocuments.length} documents`
           // );

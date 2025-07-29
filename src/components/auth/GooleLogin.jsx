@@ -1,3 +1,4 @@
+import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +48,8 @@ export const GooleLogin = ({ setIsLoading, isLoading }) => {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/auth/google-login`,
         {
           token: response.credential,
@@ -103,9 +105,16 @@ export const GooleLogin = ({ setIsLoading, isLoading }) => {
         className="google-login-container d-flex justify-content-center align-items-center bg-white rounded py-1"
         style={{ width: "100%", border: "none" }}
       >
-        <div className="" id="googleLoginButton" style={{}}></div>
+        {/* <div className="" id="googleLoginButton" style={{}}></div> */}
+        <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            handleGoogleResponse(credentialResponse);
+          }}
+          onError={() => {
+            console.error("Login Failed");
+          }}
+        />
       </div>
-
     </>
   );
 };
