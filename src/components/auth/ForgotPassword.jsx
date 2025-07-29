@@ -124,8 +124,7 @@ const ForgotPassword = () => {
       };
 
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/emailNotification/resetPassword`,
         otpData
       );
@@ -223,8 +222,7 @@ const ForgotPassword = () => {
       setIsLoading(true);
 
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/auth/forgotPassword`,
         formData
       );
@@ -268,7 +266,7 @@ const ForgotPassword = () => {
     <>
       <button
         className="border-0 bg-transparent fw-bold d-flex align-items-end"
-        style={{ color: "var(--yellow-color)" }}
+        style={{ color: "#e4b703fb" }}
         onClick={handleShow}
       >
         <p className="m-0">Forgot password</p>

@@ -39,24 +39,31 @@ const CookieConsent = () => {
         show={show}
         onHide={closeOffCanvass}
         placement="bottom"
-        style={{ height: "auto", minHeight: 100, maxHeight: 240 }}
+        style={{
+          height: "auto", minHeight: 200, maxHeight: 280,
+          width: "clamp(10px, 90vw, 500px)"
+        }}
+        className="m-3 rounded-2"
       >
         <Offcanvas.Body
-          className="d-flex align-items-center py-2 px-3"
+          className="d-flex align-items-center justify-content-center py-2 px-3"
           style={{ paddingTop: 0 }}
         >
           {/* Message and Links */}
           <div className="d-none d-md-block" style={{ flex: 1 }}>
-            <div className="d-flex align-items-center gap-2">
+            <div className="d-flex">
               <h2 className="m-0 me-2">
                 <span className="d-flex align-items-center justify-content-center">
                   {/* <i className="bx bx-info-circle"></i> */}
-                  <img src="./DPO.jpg" alt="DPO/DPS" className="" style={{ height: "50px" }} />
+                  <img src="./DPO.jpg" alt="DPO/DPS" className="" style={{ height: "180px" }} />
                 </span>
               </h2>
 
-              <div>
-                <h5 className="m-0">Privacy Policy</h5>
+              <div className="">
+                <div className="d-flex justify-content-between">
+                  <h5 className="m-0">Privacy Policy</h5>
+                  <CloseButton className="" onClick={() => setShow(false)} />
+                </div>
                 <p className="m-0">
                   Our website uses cookies to improve your experience. By
                   continuing, you have read and agree to our{" "}
@@ -73,6 +80,23 @@ const CookieConsent = () => {
                   .
                 </p>
               </div>
+              {/* Buttons */}
+              <div className="d-flex justify-content-center align-items-center gap-3 d-none d-md-block position-relative">
+                <button
+                  className="btn primaryButton position-absolute"
+                  style={{
+                    minWidth: 100,
+                    backgroundColor: "var (--main-color)",
+                    color: "white",
+                    right: "0",
+                    bottom: "0"
+                  }}
+                  onClick={handleAcceptCookie}
+                >
+                  <p className="m-0">Accept</p>
+                </button>
+              </div>
+
             </div>
           </div>
 
@@ -118,21 +142,7 @@ const CookieConsent = () => {
               </button>
             </div>
           </div>
-          {/* Buttons */}
-          <div className="d-flex justify-content-center align-items-center gap-3 d-none d-md-block">
-            <button
-              className="btn primaryButton"
-              style={{
-                minWidth: 100,
-                backgroundColor: "var(--main-color)",
-                color: "white",
-              }}
-              onClick={handleAcceptCookie}
-            >
-              <p className="m-0">Accept</p>
-            </button>
-            <CloseButton className="m-0 mx-0 ms-2" onClick={() => setShow(false)} />
-          </div>
+
         </Offcanvas.Body>
       </Offcanvas>
       <PrivacyPolicyModal
