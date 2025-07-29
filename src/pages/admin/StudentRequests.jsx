@@ -12,7 +12,6 @@ import Swal from "sweetalert2";
 
 // FUNCTIONS
 import {
-  fetchAdminPrograms,
   fetchRequestedDocuments,
   setMonthDefault,
   handlePeriodChange,
@@ -24,7 +23,8 @@ export default function StudentRequests() {
     ? JSON.parse(localStorage.getItem("timeFilters"))
     : null;
   const [requestedDocuments, setRequestedDocuments] = useState([]);
-  const [adminPrograms, setAdminPrograms] = useState([]);
+  const [adminPrograms, setAdminPrograms] = useState([null]);
+  const [adminPurpose, setAdminPurpose] = useState([null]);
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const navigate = useNavigate();
@@ -50,38 +50,20 @@ export default function StudentRequests() {
 
   // Fetch documents whenever dates change
   useEffect(() => {
-    if (user) {
-      fetchAdminPrograms(
-        user.isAdmin,
-        user.userID,
-        import.meta.env.VITE_REACT_APP_BACKEND_BASEURL,
-        setIsLoading,
-        setAdminPrograms
-      );
-    }
-  }, [user]);
-
-  // Fetch documents whenever dates change
-  useEffect(() => {
     const isProgramAdmin = user?.isAdmin === 1;
 
-    if (
-      startDate &&
-      endDate &&
-      (!isProgramAdmin || (isProgramAdmin && adminPrograms.length > 0))
-    ) {
+    if (startDate && endDate && (!isProgramAdmin || isProgramAdmin)) {
       fetchRequestedDocuments(
         startDate,
         endDate,
         user,
         import.meta.env.VITE_REACT_APP_BACKEND_BASEURL,
-        adminPrograms,
         setRequestedDocuments,
         setFilteredRequests,
         setIsLoading
       );
     }
-  }, [startDate, endDate, user, adminPrograms]);
+  }, [startDate, endDate, user]);
 
   const markUnclaimedDocs = async (unclaimedDocs) => {
     // console.log("Unclaimed documents: ", unclaimedDocs);
@@ -274,7 +256,7 @@ export default function StudentRequests() {
           style={{ color: "var(--secondMain-color)" }}
         >
           Student Request List
-          {detecting ? (
+          {isLoading || detecting ? (
             <>
               <span className="d-flex align-items-center justify-content-center">
                 (<Spinner animation="border" variant="light" size="sm" />)
@@ -395,7 +377,8 @@ export default function StudentRequests() {
         <RequestHeaders
           status={status}
           filteredRequests={filteredRequests}
-          isLoading={detecting}
+          isLoading={isLoading}
+          detecting={detecting}
         />
       </div>
     </div>
