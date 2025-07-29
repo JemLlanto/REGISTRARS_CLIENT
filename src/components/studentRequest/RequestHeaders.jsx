@@ -22,7 +22,7 @@ const getStatusColor = (status) => {
   }
 };
 
-const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
+const RequestHeaders = ({ status, filteredRequests, isLoading, detecting }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const requestsPerPage = 20;
 
@@ -119,7 +119,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading }) => {
         className="requestList custom-scrollbar mt-2 d-flex flex-column gap-2 overflow-auto rounded"
         style={{ height: "85%" }}
       >
-        {isLoading ? (
+        {isLoading || detecting ? (
           <>
             <div
               className="spinner-container d-flex justify-content-center align-items-center spinner-container gap-1"
