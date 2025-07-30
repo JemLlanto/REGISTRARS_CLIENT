@@ -29,7 +29,7 @@ const RequestDetails = () => {
       );
 
       if (res.status === 200) {
-        console.log("Admin details fetched: ", res.data.data);
+        // console.log("Admin details fetched: ", res.data.data);
         setAdminDetails(res.data.data);
       } else if (res.data.Message) {
         // Handle any specific message from the response

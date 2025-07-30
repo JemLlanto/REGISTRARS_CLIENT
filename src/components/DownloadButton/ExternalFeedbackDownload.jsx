@@ -45,12 +45,6 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       }
     }
   };
-  // useEffect(() => {
-  //   setChecked(true);
-  //   if (documentDetails.requestID && !checked) {
-  //     fetchData();
-  //   }
-  // }, [documentDetails.requestID]);
 
   const formatDate = (date) =>
     date.toLocaleDateString("en-US", {
@@ -646,6 +640,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       });
     }
   };
+  const isAbleToDownload = documentDetails.status === "ready to pickup";
   return (
     <>
       <button
@@ -656,7 +651,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
           !documentDetails.responded ||
           isLoading ||
           !feedbackData.length < 0 ||
-          documentDetails.status != "ready to pickup"
+          !isAbleToDownload
         }
       >
         {isLoading ? (
@@ -671,10 +666,11 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         ) : (
           <>
             <p className="m-0">
-              {documentDetails.responded
+              {documentDetails.responded &&
+              documentDetails.feedbackType === "external"
                 ? `Feedback (External)`
                 : documentDetails.feedbackType === ""
-                ? `Feedback (None)`
+                ? `Feedback (completed)`
                 : `Feedback`}
             </p>
           </>
@@ -689,7 +685,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
           !documentDetails.responded ||
           isLoading ||
           !feedbackData.length < 0 ||
-          documentDetails.status != "ready to pickup"
+          !isAbleToDownload
         }
       >
         {isLoading ? (
@@ -701,10 +697,11 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         ) : (
           <>
             <p className="m-0">
-              {documentDetails.responded
+              {documentDetails.responded &&
+              documentDetails.feedbackType === "external"
                 ? `Feedback (ext.)`
                 : documentDetails.feedbackType === ""
-                ? `Feedback (None)`
+                ? `Feedback (completed)`
                 : `Feedback`}
             </p>
           </>

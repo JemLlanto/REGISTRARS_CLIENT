@@ -62,7 +62,7 @@ const DocumentFileModal = ({ documentFiles, documentDetails, user }) => {
     <>
       <div className="d-flex flex-column gap-3 py-4 py-md-2">
         {documentFiles.map((file, index) => (
-          <div className="">
+          <div key={index} className="">
             <h5 className="m-0 text-secondary">
               {file.fileName ? file.fileName : "Untitled Document"}
             </h5>
