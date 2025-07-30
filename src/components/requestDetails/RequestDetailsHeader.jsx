@@ -38,6 +38,7 @@ const RequestDetailsHeader = ({
 
       <ChangeStatusButtonMobile
         user={user}
+        adminDetails={adminDetails}
         show={showChangeStatusPhoneModal}
         handleClose={handleCloseChangeStatusPhoneModal}
         documentDetails={documentDetails}

@@ -242,6 +242,8 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
       });
     }
   };
+
+  const isAbleToDownload = documentDetails.status === "ready to pickup";
   return (
     <>
       <button
@@ -252,7 +254,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
           !documentDetails.responded ||
           isLoading ||
           !feedbackData.length < 0 ||
-          documentDetails.status != "ready to pickup"
+          !isAbleToDownload
         }
       >
         <p className="m-0 text-center">
@@ -272,7 +274,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
           !documentDetails.responded ||
           isLoading ||
           !feedbackData.length < 0 ||
-          documentDetails.status != "ready to pickup"
+          !isAbleToDownload
         }
       >
         <p className="m-0 text-center">
