@@ -35,22 +35,22 @@ const CookieConsent = () => {
 
   return (
     <>
+      {/* Desktop */}
       <Offcanvas
         show={show}
         onHide={closeOffCanvass}
         placement="bottom"
         style={{
           height: "auto", minHeight: 200, maxHeight: 280,
-          width: "clamp(10px, 90vw, 500px)"
+          width: 500,
         }}
-        className="m-3 rounded-2"
+        className="rounded-2 m-2 p-2 d-none d-md-block"
       >
         <Offcanvas.Body
           className="d-flex align-items-center justify-content-center py-2 px-3"
-          style={{ paddingTop: 0 }}
         >
           {/* Message and Links */}
-          <div className="d-none d-md-block" style={{ flex: 1 }}>
+          <div className=" " style={{ flex: 1 }}>
             <div className="d-flex">
               <h2 className="m-0 me-2">
                 <span className="d-flex align-items-center justify-content-center">
@@ -61,7 +61,7 @@ const CookieConsent = () => {
 
               <div className="">
                 <div className="d-flex justify-content-between">
-                  <h5 className="m-0">Privacy Policy</h5>
+                  <h5 className="m-0 fw-bold">Privacy Policy</h5>
                   <CloseButton className="" onClick={() => setShow(false)} />
                 </div>
                 <p className="m-0">
@@ -81,7 +81,7 @@ const CookieConsent = () => {
                 </p>
               </div>
               {/* Buttons */}
-              <div className="d-flex justify-content-center align-items-center gap-3 d-none d-md-block position-relative">
+              <div className="d-flex justify-content-center  align-items-center gap-3 d-none d-md-block position-relative">
                 <button
                   className="btn primaryButton position-absolute"
                   style={{
@@ -96,23 +96,39 @@ const CookieConsent = () => {
                   <p className="m-0">Accept</p>
                 </button>
               </div>
-
             </div>
           </div>
+        </Offcanvas.Body>
+      </Offcanvas>
+      {/* Phone device */}
 
-
-
-          <div className="d-block d-md-none" style={{ flex: 1 }}>
+      <Offcanvas
+        show={show}
+        onHide={closeOffCanvass}
+        placement="bottom"
+        className="d-block d-md-none m-2 rounded-2"
+        style={{
+          height: "auto"
+        }}
+      >
+        <Offcanvas.Body
+          className="d-flex align-items-center justify-content-center "
+        >
+          <div className="d-block d-md-none " style={{ flex: 1 }}>
             <div className="d-flex justify-content-center text-center align-items-center gap-2 position-relative">
-              <div className="d-flex align-items-center justify-content-center gap-2">
-                <i className="bx bx-info-circle"></i>
-                <h5 className="m-0">Privacy Policy</h5>
+              <div className="d-flex align-items-center justify-content-center flex-column gap-2">
+                <h2 className="m-0 me-2">
+                  <span className="d-flex align-items-center justify-content-center">
+                    {/* <i className="bx bx-info-circle"></i> */}
+                    <img src="./DPO.jpg" alt="DPO/DPS" className="" style={{ height: "120px" }} />
+                  </span>
+                </h2>
+                <h5 className="m-0 fw-bold">Privacy Policy</h5>
               </div>
-              <div className="position-absolute d-flex align-items-center" style={{ right: "0" }}>
+              <div className="position-absolute d-flex align-items-center" style={{ right: "0", top: "0" }}>
                 <CloseButton className="m-0" onClick={() => setShow(false)} />
               </div>
             </div>
-
             <div className="d-flex justify-content-center gap-2 flex-column">
               <p className="m-0 text-center">
                 Our website uses cookies to improve your experience. By
@@ -142,9 +158,9 @@ const CookieConsent = () => {
               </button>
             </div>
           </div>
-
         </Offcanvas.Body>
       </Offcanvas>
+
       <PrivacyPolicyModal
         showModal={showModal}
         handleCloseModal={handleCloseModal}

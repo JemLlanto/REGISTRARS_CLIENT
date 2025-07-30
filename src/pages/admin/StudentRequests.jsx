@@ -37,7 +37,7 @@ export default function StudentRequests() {
   const [status, setStatus] = useState("all");
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [detecting, setDetecting] = useState(true);
+  const [detecting, setDetecting] = useState(false);
 
   // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {

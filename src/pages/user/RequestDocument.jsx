@@ -5,11 +5,16 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 import ClosedForm from "../../components/requestingDocuments/ClosedForm";
 import FormButtons from "../../components/requestingDocuments/FormButtons";
 import FormBody from "../../components/requestingDocuments/FormBody";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import PrivacyPolicyModal from "../../components/auth/PrivacyPolicyModal";
+
 // import ReqProgressBarSmall from "../../components/requestingDocuments/ReqProgressBarSmall";
 
 export default function RequestDocument() {
   const { user, fetchUserData } = useOutletContext();
-  const cookieConsent = localStorage.getItem("cookieConsent");
+  const [cookieConsent, setCookieConsent] = useState(
+    localStorage.getItem("cookieConsent")
+  );
   const [storedFormData, setStoredFormData] = useState(
     cookieConsent === "accepted"
       ? JSON.parse(localStorage.getItem("formData"))
@@ -52,7 +57,14 @@ export default function RequestDocument() {
   const [hasSelection, setHasSelection] = useState(false);
   const [docType, setDocType] = useState([]);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
   // IDENTIFY IF THE USER IS ADMIN
   useEffect(() => {
     if (user) {
@@ -172,11 +184,49 @@ export default function RequestDocument() {
     });
   };
 
+  const isAccepted = cookieConsent === "accepted";
+
+  const handleAcceptCookie = () => {
+    localStorage.setItem("cookieConsent", "accepted");
+    setCookieConsent("accepted");
+    setShowModal(false);
+  };
+
+  const renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      <p className="m-0">
+        {isAccepted ? (
+          <>Autosave is currently enabled.</>
+        ) : (
+          <>
+            To enable autosave, please review and accept our{" "}
+            <span
+              style={{
+                color: "var(--primary-color)",
+                textDecoration: "underline",
+                cursor: "pointer",
+              }}
+              onClick={handleShowModal}
+            >
+              Privacy Policy
+            </span>
+            .
+          </>
+        )}
+      </p>
+    </Tooltip>
+  );
+
   return (
     <div
       className="w-100 px-1 row justify-content-center"
       style={{ height: "85dvh" }}
     >
+      <PrivacyPolicyModal
+        showModal={showModal}
+        handleCloseModal={handleCloseModal}
+        handleAcceptCookie={handleAcceptCookie}
+      />
       <div className="col p-0">
         <div
           className="rounded shadow-sm d-flex align-items-center p-3"
@@ -188,6 +238,30 @@ export default function RequestDocument() {
           >
             Request Submission
           </h5>
+          <OverlayTrigger
+            placement="bottom"
+            delay={{ show: 250, hide: 800 }}
+            overlay={renderTooltip}
+          >
+            <h4
+              className={`m-0 d-flex align-items-center position-relative`}
+              style={{
+                color: isAccepted ? "#ffffff" : "rgba(255, 255, 255, 0.5)",
+                cursor: "pointer",
+              }}
+            >
+              <i class="bx bx-save"></i>{" "}
+              <i
+                class={`bx ${isAccepted ? "bx-loader bx-spin" : "bx-x"}`}
+                style={{
+                  fontSize: "clamp(.4rem, .4rem + .5vw, .8rem)",
+                  position: "absolute",
+                  left: "clamp(0.7rem, 0.75rem + .65vw, 1.5rem)",
+                  top: "-.1rem",
+                }}
+              ></i>
+            </h4>
+          </OverlayTrigger>
         </div>
 
         <div

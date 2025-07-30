@@ -78,13 +78,13 @@ const PrivacyPolicyModal = ({
             If you have any concerns or questions about how your data is
             handled, contact us at{" "}
             <a
-              href="https://mail.google.com/mail/?view=cm&to=registrar@cvsu-rosario.edu.ph"
+              href="https://mail.google.com/mail/?view=cm&to=registrar.ccat@cvsu.edu.ph"
               target="_blank"
               rel="noopener noreferrer"
               className="text-decoration-underline"
               style={{ color: "var(--main-color)" }}
             >
-              registrar@cvsu-rosario.edu.ph
+              registrar.ccat@cvsu.edu.ph
             </a>
             .
           </p>
