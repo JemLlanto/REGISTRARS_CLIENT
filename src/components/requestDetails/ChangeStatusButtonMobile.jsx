@@ -13,6 +13,7 @@ import ScheduleSlipForm from "./ScheduleSlipForm";
 
 const ChangeStatusButtonMobile = ({
   user,
+  adminDetails,
   show,
   handleClose,
   documentDetails,
@@ -46,6 +47,7 @@ const ChangeStatusButtonMobile = ({
             )
           : "",
         feedbackType: "",
+        adminDetails: adminDetails,
       });
     }
   }, [documentDetails]);
@@ -252,7 +254,7 @@ const ChangeStatusButtonMobile = ({
               {isLoading ? (
                 <>
                   <Spinner animation="border" variant="light" size="sm" />{" "}
-                  <p className="m-0">Saving...</p>
+                  <p className="m-0">Saving</p>
                 </>
               ) : (
                 <>
