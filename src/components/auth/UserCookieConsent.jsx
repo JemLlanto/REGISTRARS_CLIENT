@@ -35,6 +35,7 @@ const CookieConsent = () => {
 
   return (
     <>
+      {/* Desktop */}
       <Offcanvas
         show={show}
         onHide={closeOffCanvass}
@@ -43,7 +44,7 @@ const CookieConsent = () => {
           height: "auto", minHeight: 200, maxHeight: 280,
           width: 500,
         }}
-        className="rounded-2 m-2 d-none d-md-block"
+        className="rounded-2 m-2 p-2 d-none d-md-block"
       >
         <Offcanvas.Body
           className="d-flex align-items-center justify-content-center py-2 px-3"
@@ -60,7 +61,7 @@ const CookieConsent = () => {
 
               <div className="">
                 <div className="d-flex justify-content-between">
-                  <h5 className="m-0">Privacy Policy</h5>
+                  <h5 className="m-0 fw-bold">Privacy Policy</h5>
                   <CloseButton className="" onClick={() => setShow(false)} />
                 </div>
                 <p className="m-0">
@@ -99,10 +100,7 @@ const CookieConsent = () => {
           </div>
         </Offcanvas.Body>
       </Offcanvas>
-
-
-
-
+      {/* Phone device */}
 
       <Offcanvas
         show={show}
@@ -125,13 +123,12 @@ const CookieConsent = () => {
                     <img src="./DPO.jpg" alt="DPO/DPS" className="" style={{ height: "120px" }} />
                   </span>
                 </h2>
-                <h5 className="m-0">Privacy Policy</h5>
+                <h5 className="m-0 fw-bold">Privacy Policy</h5>
               </div>
               <div className="position-absolute d-flex align-items-center" style={{ right: "0", top: "0" }}>
                 <CloseButton className="m-0" onClick={() => setShow(false)} />
               </div>
             </div>
-
             <div className="d-flex justify-content-center gap-2 flex-column">
               <p className="m-0 text-center">
                 Our website uses cookies to improve your experience. By
@@ -162,12 +159,7 @@ const CookieConsent = () => {
             </div>
           </div>
         </Offcanvas.Body>
-
-
-
       </Offcanvas>
-
-
 
       <PrivacyPolicyModal
         showModal={showModal}
