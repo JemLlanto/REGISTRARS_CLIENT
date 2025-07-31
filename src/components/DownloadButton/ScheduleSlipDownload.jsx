@@ -284,7 +284,7 @@ const ScheduleSlipDownload = ({ documentDetails, fetchDocumentDetails }) => {
         currentY += lines.length * 3 + 1;
       });
 
-      doc.save(`(${details.name || "Schedule_Slip"})_Schedule_Slip.pdf`);
+      doc.save(`${details.name || "Schedule_Slip"}_Schedule_Slip.pdf`);
       // handleClose();
     } catch (error) {
       alert("PDF Generation Failed: " + error.message);
