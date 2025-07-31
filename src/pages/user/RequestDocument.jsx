@@ -75,7 +75,7 @@ export default function RequestDocument() {
   }, [user, navigate]);
 
   useEffect(() => {
-    console.log("Files to be uploaded: ", file);
+    // console.log("Files to be uploaded: ", file);
   }, [file]);
 
   const requestID = useRef(
@@ -115,7 +115,7 @@ export default function RequestDocument() {
 
   useEffect(() => {
     if (user && !isDataRetrieved) {
-      console.log("Retrieving saved data");
+      // console.log("Retrieving saved data");
       // Only update fields from user data if they don't exist in storedFormData
       setFormData((prevData) => {
         let formattedDate = "";
