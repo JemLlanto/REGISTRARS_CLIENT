@@ -93,13 +93,13 @@ const FormButtons = ({
   // Helper function to upload a single file
 
   const uploadAllFiles = async () => {
-    console.log("Uploading files...");
+    // console.log("Uploading files...");
 
     // Get all files from your files object
     const fileEntries = Object.entries(file);
 
     if (fileEntries.length === 0) {
-      console.log("No files to upload");
+      // console.log("No files to upload");
       return;
     }
 
@@ -111,7 +111,7 @@ const FormButtons = ({
     try {
       // Execute all uploads concurrently
       const results = await Promise.all(uploadPromises);
-      console.log("All files uploaded successfully:", results);
+      // console.log("All files uploaded successfully:", results);
 
       // Handle success - maybe show success message
       // Swal.fire({
@@ -150,7 +150,7 @@ const FormButtons = ({
       );
 
       if (res.data.Status === "Success") {
-        console.log(`File ${uploadID} uploaded successfully`);
+        // console.log(`File ${uploadID} uploaded successfully`);
         return { uploadID, success: true, data: res.data };
       }
     } catch (err) {
