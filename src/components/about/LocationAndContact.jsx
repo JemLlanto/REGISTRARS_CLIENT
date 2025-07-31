@@ -126,7 +126,9 @@ const LocationAndContact = ({ isAdmin, isLoading, setIsLoading }) => {
             <h4 className="text-center fw-bold text-warning">
               {location.title}
             </h4>
-            <p className="text-center ">{location.description}</p>
+            <p className="text-center " style={{ whiteSpace: "pre-line" }}>
+              {location.description}
+            </p>
             <div className="position-relative overflow-hidden rounded ">
               {isAdmin ? (
                 <>

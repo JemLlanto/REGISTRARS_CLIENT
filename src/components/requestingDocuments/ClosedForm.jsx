@@ -49,7 +49,7 @@ const ClosedForm = ({ user, fetchUserData }) => {
     <>
       {user.hasUncompletedRequest ? (
         <>
-          {/* <div
+          <div
             className="position-absolute text-center rounded d-flex flex-column align-items-center justify-content-center"
             style={{
               width: "100%",
@@ -83,7 +83,7 @@ const ClosedForm = ({ user, fetchUserData }) => {
                 .
               </p>
             </div>
-          </div> */}
+          </div>
         </>
       ) : (
         <>
