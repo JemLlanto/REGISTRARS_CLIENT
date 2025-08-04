@@ -76,13 +76,13 @@ const LocationAndContact = ({ isAdmin, isLoading, setIsLoading }) => {
     if (file) {
       // Allowed file types
       const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-      const maxSize = 10 * 1024 * 1024; // 1MB
+      const maxSize = 200 * 1024 * 1024; // 20MB
 
       if (file.size > maxSize) {
         Swal.fire({
           icon: "warning",
           title: "File Too Large",
-          text: "File size should not exceed 2MB.",
+          text: "File size should not exceed 20MB.",
         });
         setFile(null);
         return;

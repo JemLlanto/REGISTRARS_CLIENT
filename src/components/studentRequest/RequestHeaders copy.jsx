@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Spinner, Pagination } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Spinner, Pagination, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { renderPaginationItems } from "../../utils/requestServices";
 
@@ -44,6 +44,36 @@ const RequestHeaders = ({ status, filteredRequests, isLoading, detecting }) => {
     setCurrentPage(1);
   }, [status, filteredRequests]);
   // Render pagination items
+
+  const renderTooltip = (day, props) => (
+    <Tooltip style={{}} id="button-tooltip" {...props}>
+      {day === 1 ? (
+        <>
+          {day}st day, {10 - day} days remaining before expected pick-up.
+        </>
+      ) : day === 2 ? (
+        <>
+          {day}nd day, {10 - day} days remaining before expected pick-up.
+        </>
+      ) : day === 3 ? (
+        <>
+          {day}rd day, {10 - day} days remaining before expected pick-up.
+        </>
+      ) : day > 3 && day <= 10 ? (
+        <>
+          {day}th day,{" "}
+          {day >= 9 ? (
+            <>{10 - day} day remaining before expected pick-up</>
+          ) : (
+            <>{10 - day} days remaining before expected pick-up</>
+          )}
+          .
+        </>
+      ) : (
+        <>This request is overdue.</>
+      )}
+    </Tooltip>
+  );
 
   const getWorkingDaysPassed = (startDate) => {
     if (!startDate) return 0;
@@ -152,28 +182,44 @@ const RequestHeaders = ({ status, filteredRequests, isLoading, detecting }) => {
                         </p>
                         {request.status === "pending" ||
                         request.status === "processing" ? (
-                          <div
-                            className={`ms-1 text-light d-flex justify-content-center align-items-center position-absolute`}
-                            style={{
-                              right: "-1.5rem",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              width: "clamp(1rem, 2dvw, 1rem)",
-                              height: "clamp(1rem, 2dvw, 1rem)",
-                              borderRadius: "50%",
-                              backgroundColor:
-                                remainingDays(request?.created) <= 3
-                                  ? "#009900"
-                                  : remainingDays(request?.created) <= 6
-                                  ? "#e6b800"
-                                  : remainingDays(request?.created) <= 10
-                                  ? "#ff8000"
-                                  : "#cc2900",
-                            }}
-                            onClick={(e) => {
-                              e.stopPropagation;
-                            }}
-                          ></div>
+                          <OverlayTrigger
+                            placement="bottom"
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={renderTooltip(
+                              remainingDays(request?.created)
+                            )}
+                          >
+                            <div
+                              className={`ms-1 text-light d-flex justify-content-center align-items-center position-absolute`}
+                              style={{
+                                right: "-2rem",
+                                top: "0",
+                                width: "clamp(1rem, 2dvw, 1.3rem)",
+                                height: "clamp(1rem, 2dvw, 1.3rem)",
+                                borderRadius: "50%",
+                                backgroundColor:
+                                  remainingDays(request?.created) <= 3
+                                    ? "#009900"
+                                    : remainingDays(request?.created) <= 6
+                                    ? "#e6b800"
+                                    : remainingDays(request?.created) <= 10
+                                    ? "#ff8000"
+                                    : "#cc2900",
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation;
+                              }}
+                            >
+                              <span
+                                className="m-0 d-flex align-items-center justify-content-center"
+                                style={{
+                                  fontSize: "clamp(.6rem, 1.5dvw, .8rem)",
+                                }}
+                              >
+                                {remainingDays(request?.created)}
+                              </span>
+                            </div>
+                          </OverlayTrigger>
                         ) : null}
                       </div>
                     </div>
