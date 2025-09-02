@@ -19,6 +19,7 @@ const FormBody = ({
   setDocType,
   setFile,
   inputsLength,
+  setInputs,
   setInputsLength,
   setHasSelection,
   setHasFile,
@@ -106,6 +107,7 @@ const FormBody = ({
               setFile={setFile}
               setInputsLength={setInputsLength}
               inputsLength={inputsLength}
+              setInputs={setInputs}
               formData={formData}
               handleChange={handleChange}
               setHasSelection={setHasSelection}

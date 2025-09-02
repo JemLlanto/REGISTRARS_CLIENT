@@ -3,6 +3,8 @@ import { Button, Spinner } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import RequestInfoModal from "./RequestInfoModal";
+import { useEffect } from "react";
 
 const FormButtons = ({
   fetchUserData,
@@ -15,7 +17,9 @@ const FormButtons = ({
   file,
   hasSelection,
   hasFile,
+  setFile,
   hasInput,
+  inputs,
   setInputsLength,
   setHasSelection,
   setHasFile,
@@ -52,6 +56,7 @@ const FormButtons = ({
     setHasSelection(false);
     setHasFile(false);
     setHasInput(false);
+    setFile([]);
     setInputsLength(0);
     setDirection(-1);
     setCurrentStep((prevStep) => (prevStep > 1 ? prevStep - 1 : prevStep));
@@ -68,6 +73,10 @@ const FormButtons = ({
     });
   };
 
+  useEffect(() => {
+    setDocType("");
+    setFile([]);
+  }, [formData.purpose]);
   // const upload = async () => {
   //   // console.log("Inserting Files...");
 
@@ -339,10 +348,10 @@ const FormButtons = ({
   };
 
   const isFileFilled = () => {
-    if (!hasFile) {
+    if (Object.keys(hasFile).length === 0) {
       return true;
     }
-    return !!file;
+    return hasFile.length === Object.keys(file).length;
   };
 
   const isInputsFilled = () => {
@@ -358,9 +367,15 @@ const FormButtons = ({
         return false; // If any input is empty, return false
       }
     }
-
     return true; // All inputs are filled
   };
+
+  // const isFormValid = () => {
+  //   return isSelectionFilled() && isFileFilled() && isInputsFilled();
+  // };
+
+  // console.log("isFormValid:", isFormValid());
+
   return (
     <div className="d-flex justify-content-between gap-2 mt-3">
       <Button
@@ -375,24 +390,20 @@ const FormButtons = ({
         </p>
       </Button>
       {currentStep === 4 ? (
-        <button
-          type="button"
-          className="primaryButton btn d-flex align-items-center justify-content-center gap-1"
-          onClick={handleSubmit}
-          disabled={
-            !(isSelectionFilled() && isFileFilled() && isInputsFilled())
-          }
-          style={{ width: "10rem" }}
-        >
-          {isLoading ? (
-            <>
-              <Spinner animation="border" variant="light" size="sm" />
-              <p className="m-0 ">Submitting...</p>
-            </>
-          ) : (
-            <p className="m-0 ">Submit</p>
-          )}
-        </button>
+        <>
+          <RequestInfoModal
+            handleSubmit={handleSubmit}
+            formData={formData}
+            inputsLength={inputsLength}
+            inputs={inputs}
+            docType={docType}
+            file={file}
+            isSelectionFilled={isSelectionFilled}
+            isFileFilled={isFileFilled}
+            isInputsFilled={isInputsFilled}
+            isLoading={isLoading}
+          />
+        </>
       ) : (
         <button
           type="button"
