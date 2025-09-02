@@ -15,6 +15,7 @@ const Step3 = ({
   setFile,
   setInputsLength,
   inputsLength,
+  setInputs,
   formData,
   handleChange,
   setHasSelection,
@@ -26,7 +27,7 @@ const Step3 = ({
   );
   const [purposeData, setPurposeData] = useState([]);
   const [selection, setSelection] = useState([]);
-  const [inputs, setInputs] = useState([]);
+  const [inputs, setInputsQuestions] = useState([]);
   const [uploads, setUploads] = useState([]);
   const [uploadsState, setUploadsState] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -116,10 +117,11 @@ const Step3 = ({
         if (inputsRes.data.Status === "Success") {
           setHasInput(true);
           setInputs(inputsRes.data.data);
+          setInputsQuestions(inputsRes.data.data);
         }
 
         if (uploadsRes.data.Status === "Success") {
-          setHasFile(true);
+          setHasFile({ hasFile: true, length: uploadsRes.data.data.length });
           const uploadData = uploadsRes.data.data;
           setUploads(uploadData);
           setUploadsState(uploadData);
@@ -142,7 +144,7 @@ const Step3 = ({
   //   // console.log("formData updated:", formData);
   // }, [formData]);
 
-  const handleFileChange = (event, uploadID) => {
+  const handleFileChange = (event, uploadID, uploadDescription) => {
     const file = event.target.files[0];
     if (file) {
       // Allowed file types
@@ -180,7 +182,7 @@ const Step3 = ({
       // Set the file for this specific uploadID
       setFile((prevFiles) => ({
         ...prevFiles,
-        [uploadID]: file,
+        [uploadID]: { file, description: uploadDescription },
       }));
 
       const reader = new FileReader();
@@ -369,7 +371,13 @@ const Step3 = ({
                       type="file"
                       className="form-control"
                       id={`inputGroupFile${upload.uploadID}`}
-                      onChange={(e) => handleFileChange(e, upload.uploadID)}
+                      onChange={(e) =>
+                        handleFileChange(
+                          e,
+                          upload.uploadID,
+                          upload.uploadDescription
+                        )
+                      }
                     />
                   </div>
                 ))}
