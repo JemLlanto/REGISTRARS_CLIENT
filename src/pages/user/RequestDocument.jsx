@@ -52,7 +52,8 @@ export default function RequestDocument() {
   const [isLoading, setIsLoading] = useState(false);
   const [hasInput, setHasInput] = useState(false);
   const [inputsLength, setInputsLength] = useState(0);
-  const [hasFile, setHasFile] = useState(false);
+  const [inputs, setInputs] = useState([]);
+  const [hasFile, setHasFile] = useState({});
   const [file, setFile] = useState([]);
   const [hasSelection, setHasSelection] = useState(false);
   const [docType, setDocType] = useState([]);
@@ -217,6 +218,8 @@ export default function RequestDocument() {
     </Tooltip>
   );
 
+  // console.log("inputs:", inputs);
+
   return (
     <div
       className="w-100 px-1 row justify-content-center"
@@ -285,6 +288,7 @@ export default function RequestDocument() {
               setDocType={setDocType}
               setFile={setFile}
               inputsLength={inputsLength}
+              setInputs={setInputs}
               setInputsLength={setInputsLength}
               setHasSelection={setHasSelection}
               setHasFile={setHasFile}
@@ -299,6 +303,7 @@ export default function RequestDocument() {
               isLoading={isLoading}
               privacyConsent={privacyConsent}
               inputsLength={inputsLength}
+              inputs={inputs}
               docType={docType}
               file={file}
               hasSelection={hasSelection}
@@ -311,6 +316,7 @@ export default function RequestDocument() {
               setDirection={setDirection}
               setHasSelection={setHasSelection}
               setHasFile={setHasFile}
+              setFile={setFile}
               setHasInput={setHasInput}
               setIsLoading={setIsLoading}
             />
