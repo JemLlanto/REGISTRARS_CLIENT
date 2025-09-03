@@ -402,6 +402,9 @@ const FormButtons = ({
             isFileFilled={isFileFilled}
             isInputsFilled={isInputsFilled}
             isLoading={isLoading}
+            hasSelection={hasSelection}
+            hasFile={hasFile}
+            hasInput={hasInput}
           />
         </>
       ) : (
