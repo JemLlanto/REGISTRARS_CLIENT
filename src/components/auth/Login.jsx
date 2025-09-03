@@ -66,7 +66,7 @@ const Login = ({ setActivePage }) => {
       }
     } catch (err) {
       Swal.fire({
-        title: "Error",
+        title: "Login Failed",
         text: "Something went wrong. Please try again later.",
         icon: "error",
       });
