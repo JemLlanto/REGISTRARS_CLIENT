@@ -64,7 +64,7 @@ export const GooleLogin = ({ setIsLoading, isLoading }) => {
         await Swal.fire({
           icon: "success",
           title: "Login Successful",
-          text: res.data.message,
+          text: "Welcome back!",
           confirmButtonColor: "#3085d6",
         });
 
@@ -86,8 +86,8 @@ export const GooleLogin = ({ setIsLoading, isLoading }) => {
       console.error("Login error:", err);
       await Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: "An error occurred during login",
+        title: "Login Failed",
+        text: "Something went wrong during login. Please try again later.",
       });
     } finally {
       setIsLoading(false);

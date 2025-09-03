@@ -21,6 +21,9 @@ const RequestInfoModal = ({
   isFileFilled,
   isInputsFilled,
   isLoading,
+  hasSelection,
+  hasFile,
+  hasInput,
 }) => {
   const [imageModal, setImageModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -190,17 +193,35 @@ const RequestInfoModal = ({
                   />
                 </FloatingLabel>
               </Col>
-              <Col lg={4} sm={12} className="px-1 mb-2">
-                <FloatingLabel controlId="yearLevel" label="Year Level">
-                  <Form.Control
-                    type="text"
-                    name="yearLevel"
-                    value={formData.yearLevel}
-                    disabled
-                    placeholder=""
-                  />
-                </FloatingLabel>
-              </Col>
+              {formData.classification === "graduated" ? (
+                <Col lg={4} sm={12} className="px-1 mb-2">
+                  <FloatingLabel
+                    controlId="yearGraduated"
+                    label="Year Graduated"
+                  >
+                    <Form.Control
+                      type="text"
+                      name="yearGraduated"
+                      value={formData.yearGraduated}
+                      disabled
+                      placeholder=""
+                    />
+                  </FloatingLabel>
+                </Col>
+              ) : (
+                <Col lg={4} sm={12} className="px-1 mb-2">
+                  <FloatingLabel controlId="yearLevel" label="Year Level">
+                    <Form.Control
+                      type="text"
+                      name="yearLevel"
+                      value={formData.yearLevel}
+                      disabled
+                      placeholder=""
+                    />
+                  </FloatingLabel>
+                </Col>
+              )}
+
               <Col lg={4} sm={12} className="px-1 mb-2">
                 <FloatingLabel
                   controlId="schoolYearAttended"
@@ -217,7 +238,8 @@ const RequestInfoModal = ({
               </Col>
             </Row>
           </div>
-          {docType ? (
+          {/* FOR DOCUMENT TYPES */}
+          {docType && hasSelection ? (
             <>
               <div>
                 <h5 className="m-0 mt-2 fw-bold">Document types requested:</h5>
@@ -230,7 +252,8 @@ const RequestInfoModal = ({
               </div>
             </>
           ) : null}
-          {inputs && (
+          {/* FOR INPUTS */}
+          {inputs && hasInput ? (
             <div className="d-flex flex-column gap-2">
               <h5 className="m-0 mt-2 fw-bold">Request Questions:</h5>
               {inputs.map((input, index) => {
@@ -246,8 +269,9 @@ const RequestInfoModal = ({
                 );
               })}
             </div>
-          )}
-          {file && Object.values(file).length > 0 ? (
+          ) : null}
+          {/* FOR FILES UPLOADED */}
+          {file && Object.values(file).length > 0 && hasFile ? (
             <div className="d-flex flex-column gap-2">
               <h5 className="m-0 mt-2 fw-bold">Files to be uploaded:</h5>
               {Object.values(file).map((upload, index) => (

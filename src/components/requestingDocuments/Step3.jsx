@@ -112,12 +112,16 @@ const Step3 = ({
         if (selectionsRes.data.Status === "Success") {
           setHasSelection(true);
           setSelection(selectionsRes.data.data);
+        } else {
+          setHasSelection(false);
         }
 
         if (inputsRes.data.Status === "Success") {
           setHasInput(true);
           setInputs(inputsRes.data.data);
           setInputsQuestions(inputsRes.data.data);
+        } else {
+          setHasInput(false);
         }
 
         if (uploadsRes.data.Status === "Success") {
@@ -125,6 +129,8 @@ const Step3 = ({
           const uploadData = uploadsRes.data.data;
           setUploads(uploadData);
           setUploadsState(uploadData);
+        } else {
+          setHasFile({ hasFile: false, length: 0 });
         }
       } catch (err) {
         // console.log("Error fetching data: ", err);
