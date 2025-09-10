@@ -155,13 +155,13 @@ const Step3 = ({
     if (file) {
       // Allowed file types
       const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-      const maxSize = 2 * 1024 * 1024; // 1MB
+      const maxSize = 5 * 1024 * 1024; // 1MB
 
       if (file.size > maxSize) {
         Swal.fire({
           icon: "warning",
           title: "File Too Large",
-          text: "File size should not exceed 2MB.",
+          text: "File size should not exceed 5MB.",
         });
         setFile((prevFiles) => {
           const newFiles = { ...prevFiles };
@@ -310,7 +310,9 @@ const Step3 = ({
 
             {uploadsState.length > 0 && (
               <div className="d-flex flex-column gap-2">
-                <h5 className="m-0 mt-2 fw-bold">Upload necessary files:</h5>
+                <h5 className="m-0 mt-2 fw-bold">
+                  Upload required files (JPEG, JPG, PNG — max 5 MB):
+                </h5>
                 {uploadsState.map((upload, index) => (
                   <div key={index} className="input-group mb-1">
                     <div className="w-100 border rounded p-3">
