@@ -107,14 +107,21 @@ const FormButtons = ({
     // Get all files from your files object
     const fileEntries = Object.entries(file);
 
+    console.log("Files to upload:", fileEntries);
+
     if (fileEntries.length === 0) {
       // console.log("No files to upload");
       return;
     }
 
     // Create upload promises for each file
-    const uploadPromises = fileEntries.map(([uploadID, file]) => {
-      return uploadSingleFile(file, uploadID);
+    const uploadPromises = fileEntries.map(([uploadID, fileData]) => {
+      // fileData is an object like {description: "...", file: FileObject}
+      const actualFile = fileData.file; // Extract the actual File object
+
+      console.log(`Uploading file for uploadID ${uploadID}:`, actualFile.name);
+
+      return uploadSingleFile(actualFile, uploadID); // Pass the actual File object
     });
 
     try {
@@ -159,11 +166,11 @@ const FormButtons = ({
       );
 
       if (res.data.Status === "Success") {
-        // console.log(`File ${uploadID} uploaded successfully`);
+        console.log(`File ${uploadID} uploaded successfully`);
         return { uploadID, success: true, data: res.data };
       }
     } catch (err) {
-      console.error(`Failed to upload file ${uploadID}:`, err);
+      console.error(`Failed to upload file ${uploadID}:`, err.message);
       return { uploadID, success: false, error: err };
     }
   };
