@@ -171,7 +171,7 @@ const Login = ({ setActivePage }) => {
               {isLoading ? (
                 <>
                   <Spinner animation="border" variant="dark" size="sm" />{" "}
-                  <p className="m-0">Verifying credentials...</p>
+                  <p className="m-0">Verifying credentials</p>
                 </>
               ) : (
                 <p className="m-0">Login</p>

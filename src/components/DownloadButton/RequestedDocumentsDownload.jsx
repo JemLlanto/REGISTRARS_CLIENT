@@ -8,7 +8,16 @@ const RequestedDocumentsDownload = ({
   endDate,
 }) => {
   const [isDownloading, setIsDownloading] = useState(false);
-
+  const formatDate = (date) => {
+    if (!date) return ""; // handle undefined/null gracefully
+    const d = new Date(date); // convert ISO string to Date
+    if (isNaN(d)) return ""; // handle invalid date strings
+    return d.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  };
   const getDocTypes = async (requestID) => {
     try {
       const res = await axios.get(
@@ -22,13 +31,10 @@ const RequestedDocumentsDownload = ({
         }
       );
       if (res.status === 200) {
-        const docTypes = res.data.data;
-        // // console.log(
-        //   "Document Types",
-        //   docTypes.map((doc) => doc.documentType).join(", ")
-        // );
-
-        return docTypes.map((doc) => doc.documentType).join(", ");
+        const docTypes = res.data?.data ?? []; // default to empty array if undefined/null
+        if (!Array.isArray(docTypes)) return ""; // handle case where it's not an array
+        // console.log("docTypes:", docTypes);
+        return docTypes.map((doc) => doc?.documentType).join(", ");
       }
     } catch (err) {
       console.error(err);
@@ -50,17 +56,17 @@ const RequestedDocumentsDownload = ({
 
       // Extract only the needed fields
       const dataToExport = requestsWithDocs.map((request) => ({
-        RequestID: request.requestID || "",
+        RequestID: String(request.requestID) || "",
         DataPrivacyConsent: request.agree || "",
         FirstName: request.firstName || "",
         MiddleName: request.middleName || "",
         LastName: request.lastName || "",
-        BirthDate: request.dateOfBirth || "",
+        BirthDate: formatDate(request.dateOfBirth) || "",
         Sex: request.sex || "",
         MobileNumber: request.mobileNum || "",
         Email: request.email || "",
         StudentID: request.studentID || "",
-        RequestDate: request.created || "",
+        RequestDate: formatDate(request.created) || "",
         Classification: request.classification || "",
         SchoolYearAttended: request.schoolYearAttended || "",
         YearLevel: request.yearLevel || "",
@@ -107,7 +113,9 @@ const RequestedDocumentsDownload = ({
       // Generate Excel file and trigger download
       XLSX.writeFile(
         workbook,
-        `Requested_Documents_${startDate}_${endDate}.xlsx`
+        `Requested_Documents_${formatDate(startDate)}-${formatDate(
+          endDate
+        )}.xlsx`
       );
     } catch (err) {
       console.error("Error downloading Excel file:", err);
@@ -124,7 +132,7 @@ const RequestedDocumentsDownload = ({
       {isDownloading ? (
         <>
           <i className="bx bxs-analyse bx-spin"></i>
-          <p className="d-none d-sm-block m-0">Preparing...</p>
+          <p className="d-none d-sm-block m-0">Preparing</p>
         </>
       ) : (
         <>

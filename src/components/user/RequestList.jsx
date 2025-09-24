@@ -60,7 +60,7 @@ const RequestList = ({ status, filteredRequests, isLoading }) => {
                 style={{ height: "70%" }}
               >
                 <Spinner animation="border" variant="primary" size="sm" />
-                <p className="m-0">Loading request...</p>
+                <p className="m-0">Loading </p>
               </div>
             </>
           ) : (

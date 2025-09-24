@@ -670,7 +670,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
               documentDetails.feedbackType === "external"
                 ? `Feedback (External)`
                 : documentDetails.feedbackType === ""
-                ? `Feedback (completed)`
+                ? `Feedback`
                 : `Feedback`}
             </p>
           </>
@@ -701,7 +701,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
               documentDetails.feedbackType === "external"
                 ? `Feedback (ext.)`
                 : documentDetails.feedbackType === ""
-                ? `Feedback (completed)`
+                ? `Feedback`
                 : `Feedback`}
             </p>
           </>
