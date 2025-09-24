@@ -96,7 +96,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading, detecting }) => {
               style={{ height: "70%" }}
             >
               <Spinner animation="border" variant="primary" size="sm" />
-              <p className="m-0">Loading requested documents...</p>
+              <p className="m-0">Loading requested documents</p>
             </div>
           </>
         ) : (

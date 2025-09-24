@@ -261,7 +261,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
           {documentDetails.responded
             ? "Feedback(Internal)"
             : documentDetails.feedbackType === ""
-            ? `Feedback(None)`
+            ? ``
             : `Feedback`}
         </p>
       </button>
@@ -281,7 +281,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
           {documentDetails.responded
             ? "Feedback (int.)"
             : documentDetails.feedbackType === ""
-            ? `Feedback(None)`
+            ? `Feedback`
             : `Feedback`}
         </p>
       </button>
