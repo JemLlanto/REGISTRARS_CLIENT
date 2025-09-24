@@ -223,7 +223,7 @@ const PurposeInput = ({ purpose }) => {
                   <>
                     <tr>
                       <td className="text-center" colSpan={2}>
-                        <p className="m-0">Loading required questions...</p>
+                        <p className="m-0">Loading required questions</p>
                       </td>
                     </tr>
                   </>

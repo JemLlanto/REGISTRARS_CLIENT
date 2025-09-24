@@ -49,10 +49,10 @@ export default function About() {
             style={{ backgroundColor: "var(--main-color)" }}
           >
             <h2 className="text-center fw-bold text-warning">
-              CvSU-CCAT-R GOALS
+              CvSU-CCAT GOALS
             </h2>
             <p className="text-center mb-4">
-              CvSU Rosario Campus aims to produce productive graduates,
+              CvSU-CCAT Campus aims to produce productive graduates,
               professionals, and experts marked by global excellence and moral
               uprightness through the following:
             </p>

@@ -54,7 +54,7 @@ const RequestInfoModal = ({
         {isLoading ? (
           <>
             <Spinner animation="border" variant="light" size="sm" />
-            <p className="m-0 ">Submitting...</p>
+            <p className="m-0 ">Submitting</p>
           </>
         ) : (
           <p className="m-0 ">Submit</p>

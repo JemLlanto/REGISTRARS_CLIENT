@@ -225,7 +225,7 @@ const PurposeUpload = ({ purpose }) => {
                   <>
                     <tr>
                       <td className="text-center" colSpan={2}>
-                        <p className="m-0">Loading required files...</p>
+                        <p className="m-0">Loading required files</p>
                       </td>
                     </tr>
                   </>

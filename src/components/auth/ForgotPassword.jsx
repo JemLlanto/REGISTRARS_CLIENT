@@ -124,7 +124,8 @@ const ForgotPassword = () => {
       };
 
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/emailNotification/resetPassword`,
         otpData
       );
@@ -222,7 +223,8 @@ const ForgotPassword = () => {
       setIsLoading(true);
 
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
         }/api/auth/forgotPassword`,
         formData
       );
@@ -385,7 +387,7 @@ const ForgotPassword = () => {
               </button>
               <button className="btn primaryButton" onClick={verifyOTP}>
                 <p className="m-0">
-                  {isLoading ? <>Verifying...</> : <>Verify</>}
+                  {isLoading ? <>Verifying</> : <>Verify</>}
                 </p>
               </button>
             </>
@@ -403,7 +405,7 @@ const ForgotPassword = () => {
                 onClick={handleChangePassword}
               >
                 <p className="m-0">
-                  {isLoading ? <>Saving Changes...</> : <>Save Changes</>}
+                  {isLoading ? <>Saving Changes</> : <>Save Changes</>}
                 </p>
               </button>
             </>
