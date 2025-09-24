@@ -307,11 +307,12 @@ const RequestDetails = () => {
                 }}
               >
                 <h5 className="m-0 my-2 ms-2">Document requested</h5>
-                <div className="d-flex align-items-center gap-2 p-2">
-                  <i className="bx bxs-file-pdf fs-5 me-1"></i>
-                  <h6 className="m-0">
-                    {documentTypes.map((type) => type.documentType).join(", ")}
-                  </h6>
+                <div className="d-flex flex-column align-items-start gap-2 p-2">
+                  {documentTypes.map((type, index) => (
+                    <h6 key={index} className="m-0">
+                      - {type.documentType}
+                    </h6>
+                  ))}
                 </div>
               </div>
             )}
@@ -323,28 +324,20 @@ const RequestDetails = () => {
                   boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
                 }}
               >
-                <table className="table">
-                  <thead>
-                    <tr>
-                      {documentInputs.map((input, index) => (
-                        <th key={index} scope="col">
-                          <h6 className="m-0 fw-bold">
-                            {input.inputDescription}
-                          </h6>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      {documentInputValues.map((inputValue, index) => (
-                        <td key={index}>
-                          <p className="m-0">{inputValue.inputValue}</p>
-                        </td>
-                      ))}
-                    </tr>
-                  </tbody>
-                </table>
+                <div className="d-flex flex-column align-items-start gap-2 p-2">
+                  {documentInputs.map((input, index) => (
+                    <div key={index} className="d-flex flex-column">
+                      <h6 className="m-0 fw-bold">{input.inputDescription}</h6>
+
+                      {/* Get value at the same index, if it exists */}
+                      {documentInputValues[index] && (
+                        <p className="m-0">
+                          Answer: {documentInputValues[index].inputValue}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
             {documentFiles.length > 0 && (
