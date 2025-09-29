@@ -74,7 +74,7 @@ const ScheduleSlipDownload = ({
     }
   };
   const handleDownloadScheduleSlip = () => {
-    // console.log("USER ADMIN: ", user.isAdmin);
+    // console.log("USER ADMIN: ", user);
 
     if (documentDetails.responded || user.isAdmin) {
       fetchScheduleSlipData();
