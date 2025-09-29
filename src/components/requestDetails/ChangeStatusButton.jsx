@@ -58,6 +58,10 @@ const ChangeStatusButton = ({
     setShowChangeStatusModal(false);
   };
 
+  // useEffect(() => {
+  //   console.log("formData changed:", formData);
+  // }, [formData]);
+
   const handleChangeStatusRequest = async () => {
     try {
       setIsLoading(true);

@@ -6,7 +6,11 @@ import Swal from "sweetalert2";
 import InternalFeedbackTemplate from "../requestDetails/InternalFeedback/InternalFeedbackTemplate";
 import ExternalFeedbackTemplate from "../requestDetails/ExternalFeedback/ExternalFeedbackTemplate";
 
-const ScheduleSlipDownload = ({ documentDetails, fetchDocumentDetails }) => {
+const ScheduleSlipDownload = ({
+  user,
+  documentDetails,
+  fetchDocumentDetails,
+}) => {
   const [scheduleSlipDetails, setScheduleSlipDetails] = useState([]);
   const [scheduleSlipDocTypes, setScheduleSlipDocTypes] = useState([]);
   const [scheduleSlipRequirements, setScheduleSlipRequirements] = useState([]);
@@ -69,12 +73,13 @@ const ScheduleSlipDownload = ({ documentDetails, fetchDocumentDetails }) => {
       return String(dateString); // fallback to original string if parsing fails
     }
   };
-
   const handleDownloadScheduleSlip = () => {
-    if (documentDetails.responded) {
+    // console.log("USER ADMIN: ", user.isAdmin);
+
+    if (documentDetails.responded || user.isAdmin) {
       fetchScheduleSlipData();
     } else {
-      if (documentDetails.feedbackType === "") {
+      if (documentDetails.feedbackType === "" || user.isAdmin) {
         fetchScheduleSlipData();
       } else {
         Swal.fire({
