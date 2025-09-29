@@ -50,7 +50,7 @@ const ChangeStatusButtonMobile = ({
         adminDetails: adminDetails,
       });
     }
-  }, [documentDetails]);
+  }, [documentDetails, adminDetails]);
 
   const handleChangeStatusRequest = async () => {
     try {

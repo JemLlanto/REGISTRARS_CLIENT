@@ -89,6 +89,7 @@ const RequestDetailsHeader = ({
             <div className="d-none d-md-flex d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
               <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
                 <ScheduleSlipDownload
+                  user={user}
                   documentDetails={documentDetails}
                   fetchDocumentDetails={fetchDocumentDetails}
                 />
@@ -112,6 +113,7 @@ const RequestDetailsHeader = ({
                 <>
                   <Dropdown.Item className="text-dark bg-white py-0 my-1">
                     <ScheduleSlipDownload
+                      user={user}
                       documentDetails={documentDetails}
                       fetchDocumentDetails={fetchDocumentDetails}
                     />

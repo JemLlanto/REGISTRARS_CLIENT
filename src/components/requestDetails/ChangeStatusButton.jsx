@@ -49,7 +49,7 @@ const ChangeStatusButton = ({
         adminDetails: adminDetails,
       });
     }
-  }, [documentDetails]);
+  }, [documentDetails, adminDetails]);
 
   const handleShowChangeStatusModal = () => {
     setShowChangeStatusModal(true);
@@ -57,6 +57,10 @@ const ChangeStatusButton = ({
   const handleCloseChangeStatusModal = () => {
     setShowChangeStatusModal(false);
   };
+
+  // useEffect(() => {
+  //   console.log("formData changed:", formData);
+  // }, [formData]);
 
   const handleChangeStatusRequest = async () => {
     try {
