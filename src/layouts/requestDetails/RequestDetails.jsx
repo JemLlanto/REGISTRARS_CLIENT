@@ -11,6 +11,9 @@ const RequestDetails = () => {
   const { user } = useOutletContext();
   const { requestID } = useParams();
   const [adminDetails, setAdminDetails] = useState(null);
+  const [admins, setAdmins] = useState([]);
+  const [programAdmins, setProgramAdmins] = useState([]);
+  const [purposeAdmins, setPurposeAdmins] = useState([]);
   const [documentDetails, setDocumentDetails] = useState([]);
   const [documentTypes, setDocumentTypes] = useState([]);
   const [documentInputValues, setDocumentInputValues] = useState([]);
@@ -20,24 +23,88 @@ const RequestDetails = () => {
   const [isAuthorized, setIsAuthorized] = useState(true);
   const navigate = useNavigate();
 
-  const fetchAdminDetails = async (adminID) => {
-    try {
-      const res = await axios.get(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/fetchingDocuments/fetchAdminDetails/${adminID}`
+  const findAssignedAdmin = (documentDetails, programAdmins, purposeAdmins) => {
+    // console.log("Finding Assigned admin.", purposeAdmins, programAdmins);
+    if (!documentDetails?.purpose) {
+      console.log("No purpose found in documentDetails.");
+      return;
+    }
+
+    // Find matching purpose admin
+    const matchingPurposeAdmin = purposeAdmins.find(
+      (admin) => admin.purposeName === documentDetails.purpose
+    );
+
+    if (!matchingPurposeAdmin) {
+      // console.log("No matching purpose admin found.");
+      return;
+    }
+
+    if (matchingPurposeAdmin.adminID > 0) {
+      // console.log("Purpose admin match found:", matchingPurposeAdmin);
+      setAdminDetails(matchingPurposeAdmin);
+    } else {
+      // console.log("Purpose admin match not found (searching by program).");
+      // Find matching program admin
+      const matchingProgramAdmin = programAdmins.find(
+        (admin) => admin.programName === documentDetails.program
       );
 
-      if (res.status === 200) {
-        // console.log("Admin details fetched: ", res.data.data);
-        setAdminDetails(res.data.data);
-      } else if (res.data.Message) {
-        // Handle any specific message from the response
-        console.log("Error: ", res.data.Message);
+      if (!matchingProgramAdmin) {
+        // console.log("No matching program admin found.");
+        return;
       }
-    } catch (err) {
-      console.log("Error fetching details: ", err);
+
+      if (matchingProgramAdmin.adminID > 0) {
+        // console.log("Program admin match found:", matchingProgramAdmin);
+        setAdminDetails(matchingProgramAdmin);
+      } else {
+        // console.log(
+        //   "Program admin match not found (no admin is assigned on this request)."
+        // );
+      }
     }
+  };
+
+  useEffect(() => {
+    if (documentDetails && programAdmins.length > 0 && purposeAdmins.length > 0)
+      findAssignedAdmin(documentDetails, programAdmins, purposeAdmins);
+  }, [documentDetails, programAdmins, purposeAdmins]);
+
+  const fetchAllAdmins = () => {
+    const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
+
+    const programAdminsRequest = axios.get(
+      `${baseUrl}/api/manageAdmin/fetchProgramAdmins`
+    );
+
+    const purposeAdminsRequest = axios.get(
+      `${baseUrl}/api/manageAdmin/fetchPurposeAdmins`
+    );
+
+    const adminsRequest = axios.get(`${baseUrl}/api/manageAdmin/fetchAdmin`);
+
+    Promise.all([programAdminsRequest, purposeAdminsRequest, adminsRequest])
+      .then(([programAdminsRes, purposeAdminsRes, adminsRes]) => {
+        if (programAdminsRes.data.Status === "Success") {
+          setProgramAdmins(programAdminsRes.data.result);
+          // console.log("Program Admins: ", programAdminsRes.data.result);
+        }
+        if (purposeAdminsRes.data.Status === "Success") {
+          setPurposeAdmins(purposeAdminsRes.data.result);
+          // console.log("Purpose Admins: ", purposeAdminsRes.data.result);
+        }
+        if (adminsRes.data.Status === "Success") {
+          setAdmins(adminsRes.data.data);
+          // console.log("Admins: ", adminsRes.data.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching data: ", err);
+      })
+      .finally(() => {
+        // setIsLoading(false);
+      });
   };
 
   const fetchDocumentDetails = async () => {
@@ -51,9 +118,8 @@ const RequestDetails = () => {
 
       if (res.data.Status === "Success") {
         setIsAuthorized(true);
-        await fetchAdminDetails(res.data.data.adminAssigned);
+        await fetchAllAdmins();
         setDocumentDetails(res.data.data);
-        // console.log("Document details: ", res.data.data);
         if (!user.isAdmin) {
           if (res.data.data.userID !== user.userID) {
             setIsAuthorized(false);
