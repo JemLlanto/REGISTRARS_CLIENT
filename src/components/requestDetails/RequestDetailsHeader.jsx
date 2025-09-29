@@ -52,6 +52,7 @@ const RequestDetailsHeader = ({
             {documentDetails.status === "ready to pickup" ||
             documentDetails.status === "completed" ? (
               <ScheduleSlipDownload
+                user={user}
                 documentDetails={documentDetails}
                 fetchDocumentDetails={fetchDocumentDetails}
               />
@@ -170,6 +171,7 @@ const RequestDetailsHeader = ({
                 <>
                   <Dropdown.Item className="text-dark bg-white py-0">
                     <ScheduleSlipDownload
+                      user={user}
                       documentDetails={documentDetails}
                       fetchDocumentDetails={fetchDocumentDetails}
                     />
