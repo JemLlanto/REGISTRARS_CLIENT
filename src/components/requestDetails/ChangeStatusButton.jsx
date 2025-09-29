@@ -49,7 +49,7 @@ const ChangeStatusButton = ({
         adminDetails: adminDetails,
       });
     }
-  }, [documentDetails]);
+  }, [documentDetails, adminDetails]);
 
   const handleShowChangeStatusModal = () => {
     setShowChangeStatusModal(true);
