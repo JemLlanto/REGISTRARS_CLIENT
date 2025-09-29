@@ -187,17 +187,6 @@ const ScheduleSlipForm = ({
     setRequirements((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  const isInvalidDocTypes =
-    Array.isArray(documentTypes) &&
-    documentTypes.length > 0 &&
-    documentTypes.some(
-      (doc) =>
-        !doc.page ||
-        Number(doc.page) <= 0 ||
-        !doc.amount ||
-        Number(doc.amount) <= 0
-    );
-
   const isInvalidFormData =
     !formData.controlNum?.trim() ||
     !formData.name?.trim() ||
@@ -612,7 +601,7 @@ const ScheduleSlipForm = ({
               <button
                 className="btn primaryButton d-flex align-items-center justify-content-center gap-1"
                 onClick={handleSubmit}
-                disabled={isLoading || isInvalidDocTypes || isInvalidFormData}
+                disabled={isLoading || isInvalidFormData}
               >
                 {isLoading ? (
                   <>
