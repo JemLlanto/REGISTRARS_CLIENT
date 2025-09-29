@@ -6,6 +6,7 @@ import {
   Form,
   Button,
   Spinner,
+  InputGroup,
 } from "react-bootstrap";
 import Swal from "sweetalert2";
 
@@ -285,24 +286,26 @@ const Step3 = ({
                 <h5 className="m-0 mt-2 fw-bold">Complete all fields:</h5>
                 {inputs.map((input, index) => {
                   return (
-                    <FloatingLabel
-                      key={index}
-                      controlId={`floatinginput${input.inputID}`}
-                      label={input.inputDescription}
-                    >
-                      <Form.Control
-                        className={`${
-                          formData[`inputValue${index + 1}`] === ""
-                            ? "border-danger"
-                            : ""
-                        }`}
-                        type="text"
-                        placeholder={input.inputDescription}
-                        name={`inputValue${index + 1}`}
-                        value={formData[`inputValue${index + 1}`] || ""} // Correctly reference formData
-                        onChange={handleChange}
-                      />
-                    </FloatingLabel>
+                    <>
+                      <p className="m-0 ">{input.inputDescription}</p>
+                      <InputGroup
+                        key={index}
+                        controlId={`floatinginput${input.inputID}`}
+                      >
+                        <Form.Control
+                          type="text"
+                          className={`${
+                            formData[`inputValue${index + 1}`] === ""
+                              ? "border-danger"
+                              : ""
+                          }`}
+                          // placeholder={input.inputDescription}
+                          name={`inputValue${index + 1}`}
+                          value={formData[`inputValue${index + 1}`] || ""} // Correctly reference formData
+                          onChange={handleChange}
+                        />
+                      </InputGroup>
+                    </>
                   );
                 })}
               </div>
