@@ -49,6 +49,13 @@ const RequestDetailsHeader = ({
         <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
           <div className="d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
             {/* FOR DOWNLOAD BUTTONS */}
+            {documentDetails.status === "ready to pickup" ||
+            documentDetails.status === "completed" ? (
+              <ScheduleSlipDownload
+                documentDetails={documentDetails}
+                fetchDocumentDetails={fetchDocumentDetails}
+              />
+            ) : null}
             {documentDetails.feedbackType === "internal" ? (
               <InternalFeedbackDownload
                 user={user}
@@ -103,6 +110,12 @@ const RequestDetailsHeader = ({
             <Dropdown.Menu className="text-center ">
               {user.isAdmin ? (
                 <>
+                  <Dropdown.Item className="text-dark bg-white py-0 my-1">
+                    <ScheduleSlipDownload
+                      documentDetails={documentDetails}
+                      fetchDocumentDetails={fetchDocumentDetails}
+                    />
+                  </Dropdown.Item>
                   <Dropdown.Item className="text-dark bg-white py-0 my-1">
                     {documentDetails.feedbackType === "internal" ? (
                       <InternalFeedbackDownload
