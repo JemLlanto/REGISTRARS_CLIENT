@@ -295,7 +295,7 @@ const FormButtons = ({
 
         Swal.update({ text: "Finalizing..." });
         Swal.showLoading();
-        await sendEmail();
+        sendEmail();
 
         Swal.update({ text: "Email sent..." });
         Swal.showLoading();
