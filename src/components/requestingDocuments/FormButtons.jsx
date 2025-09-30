@@ -296,6 +296,7 @@ const FormButtons = ({
         Swal.update({ text: "Finalizing..." });
         Swal.showLoading();
         sendEmail();
+        await new Promise((resolve) => setTimeout(resolve, 3000));
 
         Swal.update({ text: "Email sent..." });
         Swal.showLoading();
