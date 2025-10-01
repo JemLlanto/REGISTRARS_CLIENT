@@ -89,10 +89,10 @@ const ChangeStatusButton = ({
 
           if (emailRes.status === 200) {
             console.log("Email sent successfully");
-            console.log(emailRes.data.Message);
+            console.log(emailRes.data.message);
           } else {
             console.log("Failed to send email");
-            console.log(emailRes.data.Message);
+            console.log(emailRes.data.message);
           }
         } catch (emailErr) {
           console.log("An error occurred while sending email: ", emailErr);
