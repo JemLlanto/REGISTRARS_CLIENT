@@ -246,7 +246,7 @@ const RequestDetails = () => {
         <>
           <div className="d-flex flex-column align-items-center justify-content-center gap-2 w-100 h-100">
             <Spinner animation="border" variant="dark" size="lg" />
-            <p className="m-0">Loading request details... </p>
+            <p className="m-0">Loading request details</p>
           </div>
         </>
       ) : (

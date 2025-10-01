@@ -63,7 +63,7 @@ const NavBar = ({ user }) => {
                       className="m-0 d-none d-md-block"
                       style={{ color: "var(--secondMain-color)" }}
                     >
-                      Loading...
+                      Loading
                     </p>
                     <span className="">
                       <Spinner animation="border" variant="white" size="sm" />
@@ -85,10 +85,13 @@ const NavBar = ({ user }) => {
                 </>
               )}
             </Dropdown.Toggle>
-            <Dropdown.Menu className="text-center " style={{
-              transform: "translateX(-50%)",
-              animation: "fadeIn 0.2s ease-in-out",
-            }}>
+            <Dropdown.Menu
+              className="text-center "
+              style={{
+                transform: "translateX(-50%)",
+                animation: "fadeIn 0.2s ease-in-out",
+              }}
+            >
               {!user ? (
                 <>
                   <div className="justify-content-center d-flex align-items-center gap-2 text-black">
