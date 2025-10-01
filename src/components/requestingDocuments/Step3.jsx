@@ -32,7 +32,7 @@ const Step3 = ({
   const [uploads, setUploads] = useState([]);
   const [uploadsState, setUploadsState] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [loadingMessage, setLoadingMessage] = useState("Loading...");
+  const [loadingMessage, setLoadingMessage] = useState("Loading");
 
   // Handle selection change
   const handleSelectionChange = (value) => {
@@ -84,7 +84,7 @@ const Step3 = ({
       try {
         setIsLoading(true);
 
-        setLoadingMessage("Loading document types...");
+        setLoadingMessage("Loading document types");
         const selectionsRes = await axios.get(
           `${
             import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
@@ -92,7 +92,7 @@ const Step3 = ({
           { params: { purposeID } }
         );
 
-        setLoadingMessage("Loading input fields...");
+        setLoadingMessage("Loading input fields");
         const inputsRes = await axios.get(
           `${
             import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
@@ -100,7 +100,7 @@ const Step3 = ({
           { params: { purposeID } }
         );
 
-        setLoadingMessage("Loading file uploads...");
+        setLoadingMessage("Loading file ");
         const uploadsRes = await axios.get(
           `${
             import.meta.env.VITE_REACT_APP_BACKEND_BASEURL

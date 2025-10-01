@@ -32,8 +32,8 @@ const ScheduleSlipForm = ({
     dateRequested: "",
     purpose: "",
     timeRelease: "",
-    timeReleaseStart: "",
-    timeReleaseEnd: "",
+    timeReleaseStart: "14:00",
+    timeReleaseEnd: "17:00",
     processedBy: "",
     selectedDocs: [],
   });
@@ -250,8 +250,8 @@ const ScheduleSlipForm = ({
       setIsLoading(true);
 
       Swal.fire({
-        title: "Uploading...",
-        text: "Sending schedule slip details...",
+        title: "Uploading",
+        text: "Sending schedule slip details",
         allowOutsideClick: false,
         didOpen: () => {
           Swal.showLoading();
@@ -269,7 +269,7 @@ const ScheduleSlipForm = ({
 
       if (documentTypes.length > 0) {
         Swal.getPopup().querySelector("div.swal2-html-container").textContent =
-          "Uploading document types...";
+          "Uploading document types";
 
         // Upload document types
         try {
@@ -280,11 +280,15 @@ const ScheduleSlipForm = ({
       }
 
       Swal.getPopup().querySelector("div.swal2-html-container").textContent =
-        "Uploading requirements...";
+        "Uploading requirements";
 
       // Upload requirements
       try {
-        await uploadRequirements();
+        if (requirements.length > 0) {
+          await uploadRequirements();
+        } else {
+          console.log("No requirements to upload.");
+        }
       } catch (error) {
         throw new Error("Failed to upload requirements.");
       }
@@ -601,7 +605,9 @@ const ScheduleSlipForm = ({
               <button
                 className="btn primaryButton d-flex align-items-center justify-content-center gap-1"
                 onClick={handleSubmit}
-                disabled={isLoading || isInvalidFormData}
+                disabled={
+                  isLoading || isInvalidFormData || documentTypes.length === 0
+                }
               >
                 {isLoading ? (
                   <>

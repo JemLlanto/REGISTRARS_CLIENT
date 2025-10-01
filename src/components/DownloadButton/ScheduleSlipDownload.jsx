@@ -263,9 +263,15 @@ const ScheduleSlipDownload = ({
       doc.setFont("helvetica", "bold");
       doc.text("Please bring the following Requirements:", left + 1, reqY + 4);
       doc.setFont("helvetica", "normal");
-      requirements.forEach((req, i) => {
-        doc.text(` ${req.description}`, left + 2, reqY + 8 + (i + 1) * 3);
-      });
+      if (requirements.length > 0) {
+        requirements.forEach((req, i) => {
+          doc.text(` ${req.description}`, left + 2, reqY + 8 + (i + 1) * 3);
+        });
+      } else {
+        // Optionally, you could write something like:
+        doc.text("No requirements needed.", left + 2, reqY + 6 + 1 * 3);
+      }
+
       reqY += reqBoxHeight + 2;
 
       // Notes
