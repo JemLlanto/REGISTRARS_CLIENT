@@ -65,6 +65,7 @@ const ChangeStatusButton = ({
   const handleChangeStatusRequest = async () => {
     try {
       setIsLoading(true);
+      console.log("Submitting formData");
       const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
@@ -77,6 +78,8 @@ const ChangeStatusButton = ({
 
       if (res.data.Status === "Success") {
         try {
+          console.log("Status changed successfully, Sending email");
+
           const emailRes = await axios.post(
             `${
               import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
@@ -85,6 +88,7 @@ const ChangeStatusButton = ({
           );
 
           if (emailRes.status === 200) {
+            console.log("Email sent successfully");
             console.log(emailRes.data.Message);
           } else {
             console.log(emailRes.data.Message);

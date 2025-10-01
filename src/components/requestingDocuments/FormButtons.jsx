@@ -258,7 +258,7 @@ const FormButtons = ({
       setIsLoading(true);
 
       Swal.fire({
-        title: "Submitting...",
+        title: "Submitting",
         text: "Please wait while we process your request.",
         allowOutsideClick: false,
         allowEscapeKey: false,
@@ -277,28 +277,28 @@ const FormButtons = ({
       if (response.data.Status === "Success") {
         if (inputsLength > 0) {
           Swal.update({
-            text: "Submitting answers...",
+            text: "Submitting answers",
           });
           Swal.showLoading();
           await insertInputs();
         }
         if (docType) {
-          Swal.update({ text: "Submitting document types..." });
+          Swal.update({ text: "Submitting document types" });
           Swal.showLoading();
           await insertDocTypes();
         }
         if (file) {
-          Swal.update({ text: "Uploading files..." });
+          Swal.update({ text: "Uploading files" });
           Swal.showLoading();
           await uploadAllFiles();
         }
 
-        Swal.update({ text: "Finalizing..." });
+        Swal.update({ text: "Finalizing" });
         Swal.showLoading();
         sendEmail();
         await new Promise((resolve) => setTimeout(resolve, 3000));
 
-        Swal.update({ text: "Email sent..." });
+        Swal.update({ text: "Email sent" });
         Swal.showLoading();
 
         Swal.fire({

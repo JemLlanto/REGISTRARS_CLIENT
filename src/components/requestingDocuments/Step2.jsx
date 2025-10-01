@@ -106,7 +106,7 @@ const Step2 = ({ formData, handleChange }) => {
           <option value="">Choose...</option>
           {isProgramLoading ? (
             <option value="" disabled>
-              Loading...
+              Loading
             </option>
           ) : (
             programs.map((program) => (
@@ -153,7 +153,7 @@ const Step2 = ({ formData, handleChange }) => {
             <option value="">Choose...</option>
             {isYearGraduatedLoading ? (
               <option value="" disabled>
-                Loading...
+                Loading
               </option>
             ) : (
               yearGraduated.map((year, index) => (
@@ -215,7 +215,7 @@ const Step2 = ({ formData, handleChange }) => {
           <option value="">Choose...</option>
           {isPurposeLoading ? (
             <option value="" disabled>
-              Loading...
+              Loading
             </option>
           ) : (
             purposes.map((purpose, index) => (
