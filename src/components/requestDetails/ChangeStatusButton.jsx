@@ -78,7 +78,7 @@ const ChangeStatusButton = ({
 
       if (res.data.Status === "Success") {
         try {
-          console.log("Status changed successfully, Sending email: ", formData);
+          console.log("Status changed successfully, Sending email");
 
           const emailRes = await axios.post(
             `${
