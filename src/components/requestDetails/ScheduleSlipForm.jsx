@@ -32,8 +32,8 @@ const ScheduleSlipForm = ({
     dateRequested: "",
     purpose: "",
     timeRelease: "",
-    timeReleaseStart: "14:00",
-    timeReleaseEnd: "17:00",
+    timeReleaseStart: "",
+    timeReleaseEnd: "",
     processedBy: "",
     selectedDocs: [],
   });
@@ -86,6 +86,9 @@ const ScheduleSlipForm = ({
       courseMajor: documentDetails.program,
       studentNum: documentDetails.studentID,
       dateRequested: formattedDate,
+      timeRelease: "02:00 PM - 05:00 PM",
+      timeReleaseStart: "14:00",
+      timeReleaseEnd: "17:00",
       purpose: documentDetails.purpose,
       processedBy: user.firstName + " " + user.middleName + " " + user.lastName,
     });
