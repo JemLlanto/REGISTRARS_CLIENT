@@ -377,7 +377,7 @@ const RequestDetails = () => {
                 <div className="d-flex flex-column align-items-start gap-2 p-2">
                   {documentTypes.map((type, index) => (
                     <h6 key={index} className="m-0">
-                      - {type.documentType}
+                      {index + 1}. {type.documentType}
                     </h6>
                   ))}
                 </div>

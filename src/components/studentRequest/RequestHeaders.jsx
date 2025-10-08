@@ -110,7 +110,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading, detecting }) => {
                   style={{ animationDelay: `${index * 0.2}s` }}
                 >
                   <div className="row text-center mx-auto g-2 p-3">
-                    <div className="col-12 col-sm d-flex align-items-center justify-content-center">
+                    <div className="col-12 col-sm d-flex align-items-start justify-content-center">
                       <h5 className="m-0 text-muted me-1 d-block d-sm-none">
                         Name:
                       </h5>
@@ -124,7 +124,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading, detecting }) => {
                       style={{ height: "1px" }}
                     ></div>
 
-                    <div className="col-12 col-sm d-flex align-items-center justify-content-center">
+                    <div className="col-12 col-sm d-flex align-items-start justify-content-center">
                       <h5 className="m-0 text-muted me-1 d-block d-sm-none">
                         Purpose:
                       </h5>
@@ -136,7 +136,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading, detecting }) => {
                       style={{ height: "1px" }}
                     ></div>
 
-                    <div className="col-12 col-sm d-flex align-items-center justify-content-center">
+                    <div className="col-12 col-sm d-flex align-items-start justify-content-center">
                       <h5 className="m-0 text-muted me-1 d-block d-sm-none">
                         Request Date:
                       </h5>
@@ -183,7 +183,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading, detecting }) => {
                       style={{ height: "1px" }}
                     ></div>
 
-                    <div className="col-12 col-sm d-flex align-items-center justify-content-center">
+                    <div className="col-12 col-sm d-flex align-items-start justify-content-center">
                       <h5 className="m-0 text-muted me-1 d-block d-sm-none">
                         Status:
                       </h5>
