@@ -62,10 +62,13 @@ const DocumentFileModal = ({ documentFiles, documentDetails, user }) => {
     <>
       <div className="d-flex flex-column gap-3 py-4 py-md-2">
         {documentFiles.map((file, index) => (
-          <div key={index} className="">
-            <h5 className="m-0 text-secondary">
+          <div
+            key={index}
+            className="d-flex flex-column align-items-center gap-2"
+          >
+            <h6 className="m-0 text-secondary text-center">
               {file.fileName ? file.fileName : "Untitled Document"}
-            </h5>
+            </h6>
             <div
               key={index}
               className="d-flex align-items-center justify-content-center gap-3"

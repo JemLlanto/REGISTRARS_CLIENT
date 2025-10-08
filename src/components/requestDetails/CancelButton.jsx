@@ -88,7 +88,8 @@ const CancelButton = ({ documentDetails, fetchDocumentDetails }) => {
         onClick={handleShowCancelModal}
         disabled={
           documentDetails.status === "cancelled" ||
-          documentDetails.status !== "pending"
+          (documentDetails.status !== "pending" &&
+            documentDetails.status !== "unclaimed")
         }
       >
         <p className="m-0">Cancel</p>
