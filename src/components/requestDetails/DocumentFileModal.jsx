@@ -60,7 +60,7 @@ const DocumentFileModal = ({ documentFiles, documentDetails, user }) => {
   };
   return (
     <>
-      <div className="d-flex flex-column gap-3 py-4 py-md-2">
+      <div className="d-flex flex-column gap-3 py-2">
         {documentFiles.map((file, index) => (
           <div
             key={index}
