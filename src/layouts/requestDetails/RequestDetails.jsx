@@ -148,6 +148,12 @@ const RequestDetails = () => {
 
   // FETCHING DOCUMENT DETAILS
   useEffect(() => {
+    // TO RESET ALL STATES IF NEW REQUEST IS BEING VIEWED
+    setDocumentTypes([]);
+    setDocumentInputValues([]);
+    setDocumentFiles([]);
+    setDocumentDetails([]);
+
     if (requestID && user) {
       fetchDocumentDetails();
     }
