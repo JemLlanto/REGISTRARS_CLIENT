@@ -45,7 +45,7 @@ const ChangeStatusButton = ({
               "en-CA"
             )
           : "",
-        feedbackType: "",
+        feedbackType: documentDetails.feedbackType,
         adminDetails: adminDetails,
       });
     }
