@@ -306,7 +306,13 @@ const ScheduleSlipDownload = ({
       <button
         className="btn btn-warning position-relative"
         onClick={handleDownloadScheduleSlip}
-        disabled={isLoading || documentDetails.status != "ready to pickup"}
+        disabled={
+          isLoading ||
+          !(
+            documentDetails.status === "completed" ||
+            documentDetails.status === "ready to pickup"
+          )
+        }
       >
         <p className={`m-0 ${isLoading ? "opacity-0" : ""}`}>
           Download Schedule Slip

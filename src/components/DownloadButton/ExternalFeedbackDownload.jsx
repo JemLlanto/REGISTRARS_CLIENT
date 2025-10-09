@@ -640,7 +640,9 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
       });
     }
   };
-  const isAbleToDownload = documentDetails.status === "ready to pickup";
+  const isAbleToDownload =
+    documentDetails.status === "ready to pickup" ||
+    documentDetails.status === "completed";
   return (
     <>
       <button
