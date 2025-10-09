@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import jsPDF from "jspdf";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { Dropdown, Modal, Button } from "react-bootstrap";
 
 const defaultRequirements = [
   "Original Form 137/SF10 with remark 'Copy for CVSU-CCAT Campus'.",
@@ -161,10 +160,10 @@ const ScheduleSlipForm = ({
       )
     );
   };
-  const handleAddDocType = () => {
+  const handleAddDocType = (type) => {
     setDocumentTypes((prev) => [
       ...prev,
-      { documentType: "New Document", amount: 0, page: 1 },
+      { documentType: type, amount: 0, page: 1 },
     ]);
   };
   const handleRemoveDocType = (idx) => {
@@ -465,14 +464,84 @@ const ScheduleSlipForm = ({
             <div className="mb-2">
               <div className="d-flex justify-content-start align-items-center gap-2 mb-2">
                 <h6 className="m-0">Types of documents requested:</h6>
-                <Button
-                  variant="primary"
-                  size="sm"
-                  className="d-flex align-items-center gap-2"
-                  onClick={handleAddDocType}
-                >
-                  + <span className="d-none d-sm-block">Add Document Type</span>
-                </Button>
+                <Dropdown>
+                  <Dropdown.Toggle
+                    variant="primary"
+                    size="sm"
+                    className="d-flex align-items-center gap-2"
+                  >
+                    +{" "}
+                    <span className="d-none d-sm-block">Add Document Type</span>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      onClick={() =>
+                        handleAddDocType("Transcript of Records(TOR)")
+                      }
+                    >
+                      Transcript of Records(TOR)
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() =>
+                        handleAddDocType("Certified of Transfer(COT)")
+                      }
+                    >
+                      Certified of Transfer(COT)
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => handleAddDocType(" Earned Units")}
+                    >
+                      Earned Units
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() =>
+                        handleAddDocType("Certificate of Grades(COG)")
+                      }
+                    >
+                      Certificate of Grades(COG)
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => handleAddDocType("Grad. Cert")}
+                    >
+                      Grad. Cert.
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => handleAddDocType("GWA Certificate")}
+                    >
+                      GWA Certificate
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() =>
+                        handleAddDocType("English Proficiency Cert.")
+                      }
+                    >
+                      English Proficiency Cert.
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleAddDocType("CGMRC")}>
+                      CGMRC
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() =>
+                        handleAddDocType("Others: GWA & Earned Units Cert.")
+                      }
+                    >
+                      Others: GWA & Earned Units Cert.
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() =>
+                        handleAddDocType("Certified True Copy(CTC)")
+                      }
+                    >
+                      Certified True Copy(CTC)
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => handleAddDocType("Documentary Stamp")}
+                    >
+                      Documentary Stamp
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               </div>
               {documentTypes.length > 0 ? (
                 <>
@@ -585,7 +654,9 @@ const ScheduleSlipForm = ({
         >
           <Modal.Title className="text-white">Schedule Slip Form</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{renderStep()}</Modal.Body>
+        <Modal.Body style={{ height: "clamp(100px, 60vh, 400px)" }}>
+          {renderStep()}
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             <p className="m-0">Close</p>
