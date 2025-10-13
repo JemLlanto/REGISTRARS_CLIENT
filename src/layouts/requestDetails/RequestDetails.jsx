@@ -148,12 +148,6 @@ const RequestDetails = () => {
 
   // FETCHING DOCUMENT DETAILS
   useEffect(() => {
-    // TO RESET ALL STATES IF NEW REQUEST IS BEING VIEWED
-    setDocumentTypes([]);
-    setDocumentInputValues([]);
-    setDocumentFiles([]);
-    setDocumentDetails([]);
-
     if (requestID && user) {
       fetchDocumentDetails();
     }
@@ -172,6 +166,7 @@ const RequestDetails = () => {
           // // console.log(res.data.data);
           setDocumentTypes(res.data.data);
         } else if (res.data.Message) {
+          setDocumentTypes([]);
           // // console.log("Error: ", res.data.Message);
         }
       })
@@ -192,6 +187,7 @@ const RequestDetails = () => {
           setDocumentFiles(res.data.data);
           // console.log("Document files: ", res.data.data);
         } else if (res.data.Message) {
+          setDocumentFiles([]);
           // // console.log("Error: ", res.data.Message);s
         }
       })
@@ -213,6 +209,7 @@ const RequestDetails = () => {
           // // console.log(res.data.data);
           setDocumentInputValues(res.data.data);
         } else if (res.data.Message) {
+          setDocumentInputValues([]);
           // // console.log("Error: ", res.data.Message);
         }
       })
