@@ -217,9 +217,14 @@ const ScheduleSlipDownload = ({
 
           doc.text(docType.documentName || "", left + 3, rowY);
           doc.text(String(docType.page), left + 110, rowY, { align: "right" });
-          doc.text((docType.price || 0).toFixed(2), left + 175, rowY, {
-            align: "right",
-          });
+          doc.text(
+            (docType.price * docType.page || 0).toFixed(2),
+            left + 175,
+            rowY,
+            {
+              align: "right",
+            }
+          );
           rowY += 4;
         });
       } else {
