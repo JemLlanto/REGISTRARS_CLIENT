@@ -247,6 +247,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
     documentDetails.status === "completed";
   return (
     <>
+      {/* BUTTON FOR WEB */}
       <button
         type="button"
         className="btn btn-warning d-none d-md-block"
@@ -267,6 +268,7 @@ const InternalFeedbackDownload = ({ user, documentDetails }) => {
         </p>
       </button>
 
+      {/* BUTTON FOR MOBILE */}
       <button
         type="button"
         className="w-100 btn btn-warning d-block d-md-none"
