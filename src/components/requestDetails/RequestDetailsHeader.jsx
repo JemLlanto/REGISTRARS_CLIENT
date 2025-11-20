@@ -33,9 +33,9 @@ const RequestDetailsHeader = ({
         className="fade-in m-0 p-2"
         style={{ color: "var(--secondMain-color)" }}
       >
-        Request ID: {documentDetails.requestID}
+        Request ID: {documentDetails.requestID} {documentDetails.feedbackType}
       </h5>
-
+      {/* MODAL FOR CHANGING STATUS */}
       <ChangeStatusButtonMobile
         user={user}
         adminDetails={adminDetails}
@@ -44,13 +44,13 @@ const RequestDetailsHeader = ({
         documentDetails={documentDetails}
         fetchDocumentDetails={fetchDocumentDetails}
       />
-
       {user.isAdmin ? (
         <div className="d-none d-md-block d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
           <div className="d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
             {/* FOR DOWNLOAD BUTTONS */}
             {documentDetails.status === "ready to pickup" ||
-            documentDetails.status === "completed" ? (
+            documentDetails.status === "completed" ||
+            documentDetails.status === "unclaimed" ? (
               <ScheduleSlipDownload
                 user={user}
                 documentDetails={documentDetails}
@@ -100,6 +100,7 @@ const RequestDetailsHeader = ({
         </>
       )}
 
+      {/* FOR MOBILE DROPDOWN MENU */}
       <div className="d-block d-md-none rounded-3 mx-0">
         <div className="col-12 text-center">
           <Dropdown align="end">

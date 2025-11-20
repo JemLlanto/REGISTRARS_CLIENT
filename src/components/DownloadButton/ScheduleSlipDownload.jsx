@@ -315,7 +315,8 @@ const ScheduleSlipDownload = ({
           isLoading ||
           !(
             documentDetails.status === "completed" ||
-            documentDetails.status === "ready to pickup"
+            documentDetails.status === "ready to pickup" ||
+            documentDetails.status === "unclaimed"
           )
         }
       >

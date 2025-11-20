@@ -642,9 +642,11 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
   };
   const isAbleToDownload =
     documentDetails.status === "ready to pickup" ||
-    documentDetails.status === "completed";
+    documentDetails.status === "completed" ||
+    documentDetails.status === "unclaimed";
   return (
     <>
+      {/* BUTTON FOR WEB */}
       <button
         type="button"
         className="btn btn-warning d-flex d-none d-md-block"
@@ -679,6 +681,7 @@ const ExternalFeedbackDownload = ({ user, documentDetails }) => {
         )}
       </button>
 
+      {/* BUTTON FOR WEB */}
       <button
         type="button"
         className="btn btn-warning w-100 d-flex justify-content-center align-items-center d-block d-md-none"
