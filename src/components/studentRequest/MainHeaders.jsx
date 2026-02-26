@@ -40,8 +40,12 @@ const MainHeaders = ({ status, handleSelect }) => {
                 {status ? (
                   <>
                     (
-                    {String(status).charAt(0).toUpperCase() +
-                      String(status).slice(1)}
+                    {String(status === "pending" ? "received" : status)
+                      .charAt(0)
+                      .toUpperCase() +
+                      String(status === "pending" ? "received" : status).slice(
+                        1,
+                      )}
                     )
                   </>
                 ) : null}
@@ -53,7 +57,7 @@ const MainHeaders = ({ status, handleSelect }) => {
                 All
               </Dropdown.Item>
               <Dropdown.Item onClick={() => handleSelect("pending")}>
-                Pending
+                Received
               </Dropdown.Item>
               <Dropdown.Item onClick={() => handleSelect("processing")}>
                 Processing

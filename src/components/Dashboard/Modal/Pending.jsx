@@ -37,7 +37,7 @@ const Pending = ({ totalRequest, pendingRequests, CountUp }) => {
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex align-items-center justify-content-start">
               <p className="text-light m-0">
-                Pending(
+                Received(
                 <span className="m-0">
                   <CountUp end={percentage.toFixed(0)} duration={1.5} />%
                 </span>
