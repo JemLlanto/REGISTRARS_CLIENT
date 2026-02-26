@@ -31,7 +31,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading, detecting }) => {
   const indexOfFirstRequest = indexOfLastRequest - requestsPerPage;
   const currentRequests = filteredRequests?.slice(
     indexOfFirstRequest,
-    indexOfLastRequest
+    indexOfLastRequest,
   );
 
   const totalPages = Math.ceil(filteredRequests?.length / requestsPerPage);
@@ -165,10 +165,10 @@ const RequestHeaders = ({ status, filteredRequests, isLoading, detecting }) => {
                                 remainingDays(request?.created) <= 3
                                   ? "#009900"
                                   : remainingDays(request?.created) <= 6
-                                  ? "#e6b800"
-                                  : remainingDays(request?.created) <= 10
-                                  ? "#ff8000"
-                                  : "#cc2900",
+                                    ? "#e6b800"
+                                    : remainingDays(request?.created) <= 10
+                                      ? "#ff8000"
+                                      : "#cc2900",
                             }}
                             onClick={(e) => {
                               e.stopPropagation;
@@ -188,8 +188,18 @@ const RequestHeaders = ({ status, filteredRequests, isLoading, detecting }) => {
                         Status:
                       </h5>
                       <h5 className={`m-0 ${getStatusColor(request.status)}`}>
-                        {String(request.status).charAt(0).toUpperCase() +
-                          String(request.status).slice(1)}
+                        {String(
+                          request.status === "pending"
+                            ? "received"
+                            : request.status,
+                        )
+                          .charAt(0)
+                          .toUpperCase() +
+                          String(
+                            request.status === "pending"
+                              ? "received"
+                              : request.status,
+                          ).slice(1)}
                       </h5>
                     </div>
                   </div>
