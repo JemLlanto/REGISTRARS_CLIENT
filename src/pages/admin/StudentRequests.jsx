@@ -29,7 +29,7 @@ export default function StudentRequests() {
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const navigate = useNavigate();
   const [selectedPeriod, setSelectedPeriod] = useState(
-    timeFiltersData ? timeFiltersData?.period : "month"
+    timeFiltersData ? timeFiltersData?.period : "month",
   );
   const [startDate, setStartDate] = useState(timeFiltersData?.start || "");
   const [endDate, setEndDate] = useState(timeFiltersData?.end || "");
@@ -60,7 +60,7 @@ export default function StudentRequests() {
         import.meta.env.VITE_REACT_APP_BACKEND_BASEURL,
         setRequestedDocuments,
         setFilteredRequests,
-        setIsLoading
+        setIsLoading,
       );
     }
   }, [startDate, endDate, user]);
@@ -89,7 +89,7 @@ export default function StudentRequests() {
         unclaimedDocs,
         {
           headers: { "Content-Type": "application/json" },
-        }
+        },
       );
 
       if (res.data.Status === "Success") {
@@ -100,7 +100,7 @@ export default function StudentRequests() {
               `${
                 import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
               }/api/emailNotification/sendStatusUpdate`,
-              doc // Send each doc individually
+              doc, // Send each doc individually
             );
 
             if (emailRes.status === 200) {

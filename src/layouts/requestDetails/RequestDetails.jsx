@@ -32,7 +32,7 @@ const RequestDetails = () => {
 
     // Find matching purpose admin
     const matchingPurposeAdmin = purposeAdmins.find(
-      (admin) => admin.purposeName === documentDetails.purpose
+      (admin) => admin.purposeName === documentDetails.purpose,
     );
 
     if (!matchingPurposeAdmin) {
@@ -47,7 +47,7 @@ const RequestDetails = () => {
       // console.log("Purpose admin match not found (searching by program).");
       // Find matching program admin
       const matchingProgramAdmin = programAdmins.find(
-        (admin) => admin.programName === documentDetails.program
+        (admin) => admin.programName === documentDetails.program,
       );
 
       if (!matchingProgramAdmin) {
@@ -75,11 +75,11 @@ const RequestDetails = () => {
     const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
 
     const programAdminsRequest = axios.get(
-      `${baseUrl}/api/manageAdmin/fetchProgramAdmins`
+      `${baseUrl}/api/manageAdmin/fetchProgramAdmins`,
     );
 
     const purposeAdminsRequest = axios.get(
-      `${baseUrl}/api/manageAdmin/fetchPurposeAdmins`
+      `${baseUrl}/api/manageAdmin/fetchPurposeAdmins`,
     );
 
     const adminsRequest = axios.get(`${baseUrl}/api/manageAdmin/fetchAdmin`);
@@ -113,7 +113,7 @@ const RequestDetails = () => {
       const res = await axios.get(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/fetchingDocuments/fetchRequestedDocumentsDetails/${requestID}`
+        }/api/fetchingDocuments/fetchRequestedDocumentsDetails/${requestID}`,
       );
 
       if (res.data.Status === "Success") {
@@ -159,7 +159,7 @@ const RequestDetails = () => {
       .get(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/fetchingDocuments/fetchRequestedDocumentTypes/${requestID}`
+        }/api/fetchingDocuments/fetchRequestedDocumentTypes/${requestID}`,
       )
       .then((res) => {
         if (res.data.Status === "Success") {
@@ -180,7 +180,7 @@ const RequestDetails = () => {
       .get(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/fetchingDocuments/fetchRequestedDocumentFiles/${requestID}`
+        }/api/fetchingDocuments/fetchRequestedDocumentFiles/${requestID}`,
       )
       .then((res) => {
         if (res.data.Status === "Success") {
@@ -202,7 +202,7 @@ const RequestDetails = () => {
       .get(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/fetchingDocuments/fetchRequestedDocumentInputs/${requestID}`
+        }/api/fetchingDocuments/fetchRequestedDocumentInputs/${requestID}`,
       )
       .then((res) => {
         if (res.data.Status === "Success") {
@@ -226,7 +226,7 @@ const RequestDetails = () => {
         }/api/fetchingDocuments/fetchInputs`,
         {
           params: { purposeID: documentDetails.purposeID },
-        }
+        },
       )
       .then((res) => {
         if (res.data.Status === "Success") {
@@ -291,21 +291,25 @@ const RequestDetails = () => {
                         status === "pending"
                           ? "text-warning"
                           : status === "processing"
-                          ? "text-primary"
-                          : status === "ready to pickup"
-                          ? "text-info"
-                          : status === "completed"
-                          ? "text-success"
-                          : status === "cancelled"
-                          ? "text-danger"
-                          : status === "unclaimed"
-                          ? "text-secondary"
-                          : null
+                            ? "text-primary"
+                            : status === "ready to pickup"
+                              ? "text-info"
+                              : status === "completed"
+                                ? "text-success"
+                                : status === "cancelled"
+                                  ? "text-danger"
+                                  : status === "unclaimed"
+                                    ? "text-secondary"
+                                    : null
                       } `}
                     >
                       (
-                      {String(status).charAt(0).toUpperCase() +
-                        String(status).slice(1)}
+                      {String(status === "pending" ? "received" : status)
+                        .charAt(0)
+                        .toUpperCase() +
+                        String(
+                          status === "pending" ? "received" : status,
+                        ).slice(1)}
                       )
                     </span>
                     <span
@@ -323,16 +327,16 @@ const RequestDetails = () => {
                               {documentDetails.status === "pending"
                                 ? "Your request has been received and is awaiting further updates."
                                 : documentDetails.status === "processing"
-                                ? "Your request is currently being processed. Please wait for further updates."
-                                : documentDetails.status === "ready to pickup"
-                                ? "Your request is ready for pick-up. Please download your schedule slip and present it at the office."
-                                : documentDetails.status === "completed"
-                                ? "Your request has been successfully completed."
-                                : documentDetails.status === "cancelled"
-                                ? "Your request has been cancelled. Please review the details below."
-                                : documentDetails.status === "unclaimed"
-                                ? "Your request has been marked as unclaimed. Please ensure that you claim your requested document within the scheduled timeframe to avoid it being marked as unclaimed."
-                                : null}
+                                  ? "Your request is currently being processed. Please wait for further updates."
+                                  : documentDetails.status === "ready to pickup"
+                                    ? "Your request is ready for pick-up. Please download your schedule slip and present it at the office."
+                                    : documentDetails.status === "completed"
+                                      ? "Your request has been successfully completed."
+                                      : documentDetails.status === "cancelled"
+                                        ? "Your request has been cancelled. Please review the details below."
+                                        : documentDetails.status === "unclaimed"
+                                          ? "Your request has been marked as unclaimed. Please ensure that you claim your requested document within the scheduled timeframe to avoid it being marked as unclaimed."
+                                          : null}
                             </Tooltip>
                           }
                         >
