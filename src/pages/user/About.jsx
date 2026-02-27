@@ -107,6 +107,30 @@ export default function About() {
               </p>
             </div>
           </div>
+
+          {/* Creators */}
+          <div
+            className=" mt-2 p-4  rounded text-white"
+            style={{ backgroundColor: "var(--main-color)" }}
+          >
+            <h2 className="text-center fw-bold text-warning">DEVELOPERS</h2>
+            <div className="d-flex flex-column gap-2-md">
+              <div>
+                <h6 className="fw-bold mb-0">Lead Developer:</h6>
+                <a
+                  href="https://dev-jem-digital-solutions.onrender.com/"
+                  target="_blank"
+                  className="text-light"
+                >
+                  <p>Jan Eraseo Mari A. Llanto</p>
+                </a>
+              </div>
+              <div>
+                <h6 className="fw-bold mb-0">Frontend Developer:</h6>
+                <p>John Mark Sallao</p>
+              </div>
+            </div>
+          </div>
         </>
       )}
     </div>
