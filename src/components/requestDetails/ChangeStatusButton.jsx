@@ -65,7 +65,7 @@ const ChangeStatusButton = ({
   const handleChangeStatusRequest = async () => {
     try {
       setIsLoading(true);
-      console.log("Submitting formData");
+      // console.log("Submitting formData");
       const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
