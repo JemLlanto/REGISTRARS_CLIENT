@@ -3,7 +3,7 @@ import { Button, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import RequestTableTemplate from "../RequestTableTemplate";
 
-const Pending = ({ totalRequest, pendingRequests, CountUp }) => {
+const ForRelease = ({ totalRequest, readyToPickupRequests, CountUp }) => {
   const [showPendingModal, setShowPendingModal] = useState(false);
   const [percentage, setPercentage] = useState(0);
 
@@ -11,10 +11,10 @@ const Pending = ({ totalRequest, pendingRequests, CountUp }) => {
     if (totalRequest === 0) {
       setPercentage(0);
     } else {
-      const percent = (pendingRequests.length / totalRequest) * 100;
+      const percent = (readyToPickupRequests.length / totalRequest) * 100;
       setPercentage(percent);
     }
-  }, [pendingRequests, totalRequest]);
+  }, [readyToPickupRequests, totalRequest]);
 
   const handleShowModal = () => {
     setShowPendingModal(true);
@@ -28,16 +28,11 @@ const Pending = ({ totalRequest, pendingRequests, CountUp }) => {
         className="border-0 bg-transparent w-100 p-1"
         onClick={handleShowModal}
       >
-        <div
-          className="card-hover shadow-sm rounded p-3 h-100"
-          style={{
-            backgroundColor: "var(--main-color)",
-          }}
-        >
+        <div className="card-hover shadow-sm rounded p-3 h-100 bg-white">
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex align-items-center justify-content-start">
-              <p className="text-light m-0">
-                Received(
+              <p className="text-dark m-0">
+                For Release(
                 <span className="m-0">
                   <CountUp end={percentage.toFixed(0)} duration={1.5} />%
                 </span>
@@ -49,19 +44,19 @@ const Pending = ({ totalRequest, pendingRequests, CountUp }) => {
               style={{
                 width: "clamp(2rem, 5dvh, 5rem)",
                 height: "clamp(2rem, 5dvh, 5rem)",
-                backgroundColor: "var(--secondMain-color)",
+                // backgroundColor: "var(--main-color)",
                 color: "var(--main-color)",
               }}
             >
               <h4 className="m-0 d-flex justify-content-center align-items-center">
-                <i className="bx bxs-timer rounded-circle"></i>
+                <i className="bx bx-archive-out"></i>
               </h4>
             </div>
           </div>
 
           <div className="text-start mt-2">
-            <h4 className="text-warning m-0">
-              <CountUp end={pendingRequests.length} duration={1.5} />
+            <h4 className="text-info m-0">
+              <CountUp end={readyToPickupRequests.length} duration={1.5} />
             </h4>
           </div>
         </div>
@@ -79,20 +74,18 @@ const Pending = ({ totalRequest, pendingRequests, CountUp }) => {
         >
           <Modal.Title>
             <h5 className="m-0 text-white">
-              Pending ({pendingRequests.length})
+              For Release ({readyToPickupRequests.length})
             </h5>
           </Modal.Title>
         </Modal.Header>
-        {/* RequestTableTemplate */}
-        <RequestTableTemplate Requests={pendingRequests} />
-
+        <RequestTableTemplate Requests={readyToPickupRequests} />
         <Modal.Footer>
           <Button
             className="border-0"
             variant="secondary"
             onClick={handleCloseModal}
           >
-            <p className="m-0"> Close</p>
+            <p className="m-0">Close</p>
           </Button>
           <Button
             className="border-0"
@@ -100,7 +93,7 @@ const Pending = ({ totalRequest, pendingRequests, CountUp }) => {
           >
             <Link
               className="text-decoration-none text-white"
-              to="/admin/student-requests?status=pending"
+              to="/admin/student-requests?status=ready%20to%20pickup"
             >
               <p className="m-0">View All</p>
             </Link>
@@ -111,4 +104,4 @@ const Pending = ({ totalRequest, pendingRequests, CountUp }) => {
   );
 };
 
-export default Pending;
+export default ForRelease;

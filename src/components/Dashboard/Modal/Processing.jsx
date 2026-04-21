@@ -3,7 +3,7 @@ import { Button, Modal, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import RequestTableTemplate from "../RequestTableTemplate";
 
-const Processing = ({ totalRequest, processingRequests, CountUp }) => {
+const Processing = ({ totalRequest, pendingRequests, CountUp }) => {
   const [showPendingModal, setShowPendingModal] = useState(false);
   const [percentage, setPercentage] = useState(0);
 
@@ -11,10 +11,10 @@ const Processing = ({ totalRequest, processingRequests, CountUp }) => {
     if (totalRequest === 0) {
       setPercentage(0);
     } else {
-      const percent = (processingRequests.length / totalRequest) * 100;
+      const percent = (pendingRequests.length / totalRequest) * 100;
       setPercentage(percent);
     }
-  }, [processingRequests, totalRequest]);
+  }, [pendingRequests, totalRequest]);
 
   const handleShowModal = () => {
     setShowPendingModal(true);
@@ -28,10 +28,15 @@ const Processing = ({ totalRequest, processingRequests, CountUp }) => {
         className="border-0 bg-transparent w-100 p-1"
         onClick={handleShowModal}
       >
-        <div className="card-hover shadow-sm rounded p-3 h-100 bg-white">
+        <div
+          className="card-hover shadow-sm rounded p-3 h-100"
+          style={{
+            backgroundColor: "var(--main-color)",
+          }}
+        >
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex align-items-center justify-content-start">
-              <p className="text-dark m-0">
+              <p className="text-light m-0">
                 Processing(
                 <span className="m-0">
                   <CountUp end={percentage.toFixed(0)} duration={1.5} />%
@@ -44,19 +49,19 @@ const Processing = ({ totalRequest, processingRequests, CountUp }) => {
               style={{
                 width: "clamp(2rem, 5dvh, 5rem)",
                 height: "clamp(2rem, 5dvh, 5rem)",
-                // backgroundColor: "var(--main-color)",
+                backgroundColor: "var(--secondMain-color)",
                 color: "var(--main-color)",
               }}
             >
               <h4 className="m-0 d-flex justify-content-center align-items-center">
-                <i className="bx bxs-analyse"></i>
+                <i className="bx bxs-timer rounded-circle"></i>
               </h4>
             </div>
           </div>
 
           <div className="text-start mt-2">
-            <h4 className="text-primary m-0">
-              <CountUp end={processingRequests.length} duration={1.5} />
+            <h4 className="text-warning m-0">
+              <CountUp end={pendingRequests.length} duration={1.5} />
             </h4>
           </div>
         </div>
@@ -74,18 +79,20 @@ const Processing = ({ totalRequest, processingRequests, CountUp }) => {
         >
           <Modal.Title>
             <h5 className="m-0 text-white">
-              Processing ({processingRequests.length})
+              Processing ({pendingRequests.length})
             </h5>
           </Modal.Title>
         </Modal.Header>
-        <RequestTableTemplate Requests={processingRequests} />
+        {/* RequestTableTemplate */}
+        <RequestTableTemplate Requests={pendingRequests} />
+
         <Modal.Footer>
           <Button
             className="border-0"
             variant="secondary"
             onClick={handleCloseModal}
           >
-            <p className="m-0">Close</p>
+            <p className="m-0"> Close</p>
           </Button>
           <Button
             className="border-0"
@@ -93,7 +100,7 @@ const Processing = ({ totalRequest, processingRequests, CountUp }) => {
           >
             <Link
               className="text-decoration-none text-white"
-              to="/admin/student-requests?status=processing"
+              to="/admin/student-requests?status=pending"
             >
               <p className="m-0">View All</p>
             </Link>
