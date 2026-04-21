@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import CancelButton from "../../components/requestDetails/CancelButton";
 import ChangeStatusButton from "../../components/requestDetails/ChangeStatusButton";
-import ViewScheduleSlip from "../../components/requestDetails/ViewScheduleSlip";
 import InternalFeedbackDownload from "../../components/DownloadButton/InternalFeedbackDownload";
 import ExternalFeedbackDownload from "../../components/DownloadButton/ExternalFeedbackDownload";
 import { Dropdown } from "react-bootstrap";
@@ -157,9 +156,9 @@ const RequestDetailsHeader = ({
                         >
                           <p className="m-0">
                             {documentDetails.status === "pending"
-                              ? "Processing"
+                              ? "Preparing"
                               : documentDetails.status === "processing"
-                                ? "Ready to Pickup"
+                                ? "For Release"
                                 : documentDetails.status === "ready to pickup"
                                   ? "Completed"
                                   : documentDetails.status === "cancelled"

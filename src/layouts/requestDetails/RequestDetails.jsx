@@ -6,6 +6,7 @@ import RequestInfo from "../../components/requestDetails/RequestInfo";
 import DocumentFileModal from "../../components/requestDetails/DocumentFileModal";
 import { OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 import RequestDetailsHeader from "../../components/requestDetails/RequestDetailsHeader";
+import { newStatusLabel } from "../../utils/Document.helper";
 
 const RequestDetails = () => {
   const { user } = useOutletContext();
@@ -303,14 +304,7 @@ const RequestDetails = () => {
                                     : null
                       } `}
                     >
-                      (
-                      {String(status === "pending" ? "received" : status)
-                        .charAt(0)
-                        .toUpperCase() +
-                        String(
-                          status === "pending" ? "received" : status,
-                        ).slice(1)}
-                      )
+                      ({newStatusLabel(status)})
                     </span>
                     <span
                       className=""
@@ -325,11 +319,11 @@ const RequestDetails = () => {
                           overlay={
                             <Tooltip>
                               {documentDetails.status === "pending"
-                                ? "Your request has been received and is awaiting further updates."
+                                ? "Your request is being processed. Please wait for further updates."
                                 : documentDetails.status === "processing"
-                                  ? "Your request is currently being processed. Please wait for further updates."
+                                  ? "Your request is currently being prepared. Please wait for further updates."
                                   : documentDetails.status === "ready to pickup"
-                                    ? "Your request is ready for pick-up. Please download your schedule slip and present it at the office."
+                                    ? "Your request is ready for release. Please download your schedule slip and present it at the office."
                                     : documentDetails.status === "completed"
                                       ? "Your request has been successfully completed."
                                       : documentDetails.status === "cancelled"
