@@ -21,7 +21,7 @@ const ScheduleSlipDownload = ({
     const res = await axios.get(
       `${
         import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-      }/api/scheduleSlip/fetchScheduleSlipDetails/${documentDetails.requestID}`
+      }/api/scheduleSlip/fetchScheduleSlipDetails/${documentDetails.requestID}`,
     );
     if (res.status === 200) {
       // console.log(res.data.result);
@@ -34,7 +34,7 @@ const ScheduleSlipDownload = ({
     const res = await axios.get(
       `${
         import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-      }/api/scheduleSlip/fetchScheduleSlipDocTypes/${documentDetails.requestID}`
+      }/api/scheduleSlip/fetchScheduleSlipDocTypes/${documentDetails.requestID}`,
     );
     if (res.status === 200) {
       // console.log(res.data.result);
@@ -49,7 +49,7 @@ const ScheduleSlipDownload = ({
         import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
       }/api/scheduleSlip/fetchScheduleSlipRequirements/${
         documentDetails.requestID
-      }`
+      }`,
     );
     if (res.status === 200) {
       // console.log(res.data.result);
@@ -148,7 +148,7 @@ const ScheduleSlipDownload = ({
         "(Formerly Cavite College of Arts and Trades)",
         pageWidth / 2,
         y + 17,
-        { align: "center" }
+        { align: "center" },
       );
       doc.text("Rosario, Cavite", pageWidth / 2, y + 21, { align: "center" });
       doc.setFontSize(10);
@@ -223,7 +223,7 @@ const ScheduleSlipDownload = ({
             rowY,
             {
               align: "right",
-            }
+            },
           );
           rowY += 4;
         });
@@ -284,11 +284,16 @@ const ScheduleSlipDownload = ({
       doc.text("Note:", left, reqY + 4);
       doc.setFont("helvetica", "normal");
       const notes = [
-        "As a proof of request the clients must have a copy of schedule slip either in printed copy or in an electronic copy (screenshot copy).",
-        "Strictly follow the scheduled date & and time to avoid inconvenience. We will not entertain those who are not on their schedule.",
-        "In the event that the client cannot claim personally, he/she must provide an AUTHORIZATION LETTER and a photocopy of I.D. to his/her authorized person, in pursuant to the Republic Act 10173 - Data Privacy Act of 2012 in addition on the above requirements.",
-        "Please claim your request at the CVSU-CCAT Registrar's Office.",
-        "If the scheduled date does not fit into your schedule due to valid reasons, kindly email us your preferred schedule.",
+        "Clients must present a copy of this schedule slip (either printed or a screenshot) as proof of request.",
+        "Please strictly follow your assigned date and time to avoid inconvenience. The office will not entertain clients outside of their scheduled slot.",
+        "Please pay the amount first at the Cashier's Office before going to the Registrar's Office.",
+        `In the event that the client cannot claim the documents personally, the following must be provided pursuant to Republic Act 10173 (Data Privacy Act of 2012):
+      -A photocopy of the client's valid I.D..
+      -A photocopy of the representative's valid I.D.
+      -For Immediate Family: A standard Authorization Letter signed by the client.
+      -For Non-Immediate Family: A Notarized Authorization Letter is strictly required.`,
+        "Please claim your requested documents at the CvSU-CCAT Registrar’s Office.",
+        "If you cannot make it on the scheduled date for valid reasons, please email the office to coordinate your preferred schedule.",
       ];
 
       let currentY = reqY + 10;

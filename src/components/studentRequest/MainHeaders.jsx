@@ -1,5 +1,5 @@
-import React from "react";
 import { Dropdown } from "react-bootstrap";
+import { newStatusLabel } from "../../utils/Document.helper";
 
 const MainHeaders = ({ status, handleSelect }) => {
   return (
@@ -23,6 +23,7 @@ const MainHeaders = ({ status, handleSelect }) => {
         </div>
         {/* Column: Status Dropdown */}
         <div className="col-md-3 d-flex align-items-center justify-content-center">
+          {/* SORTING BY STATUS */}
           <Dropdown>
             <Dropdown.Toggle
               className="d-flex align-items-center text-white"
@@ -37,18 +38,7 @@ const MainHeaders = ({ status, handleSelect }) => {
             >
               <p className="m-0">
                 Status
-                {status ? (
-                  <>
-                    (
-                    {String(status === "pending" ? "received" : status)
-                      .charAt(0)
-                      .toUpperCase() +
-                      String(status === "pending" ? "received" : status).slice(
-                        1,
-                      )}
-                    )
-                  </>
-                ) : null}
+                {status ? <>({newStatusLabel(status)})</> : null}
               </p>
             </Dropdown.Toggle>
 
@@ -57,13 +47,13 @@ const MainHeaders = ({ status, handleSelect }) => {
                 All
               </Dropdown.Item>
               <Dropdown.Item onClick={() => handleSelect("pending")}>
-                Received
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => handleSelect("processing")}>
                 Processing
               </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleSelect("processing")}>
+                Preparing
+              </Dropdown.Item>
               <Dropdown.Item onClick={() => handleSelect("ready to pickup")}>
-                For Pickup
+                For Release
               </Dropdown.Item>
               <Dropdown.Item onClick={() => handleSelect("completed")}>
                 Completed
@@ -79,7 +69,7 @@ const MainHeaders = ({ status, handleSelect }) => {
         </div>
       </div>
 
-      {/* Mobile View */}
+      {/* Mobile View Status Sorting Dropdown*/}
       <div className="d-block d-md-none bg-warning rounded">
         <Dropdown>
           <Dropdown.Toggle
@@ -95,14 +85,7 @@ const MainHeaders = ({ status, handleSelect }) => {
           >
             <p className="m-0 text-dark">
               Status
-              {status ? (
-                <>
-                  (
-                  {String(status).charAt(0).toUpperCase() +
-                    String(status).slice(1)}
-                  )
-                </>
-              ) : null}
+              {status ? <>({newStatusLabel(status)})</> : null}
             </p>
           </Dropdown.Toggle>
 
@@ -111,13 +94,13 @@ const MainHeaders = ({ status, handleSelect }) => {
               All
             </Dropdown.Item>
             <Dropdown.Item onClick={() => handleSelect("pending")}>
-              Pending
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleSelect("processing")}>
               Processing
             </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleSelect("processing")}>
+              Preparing
+            </Dropdown.Item>
             <Dropdown.Item onClick={() => handleSelect("ready to pickup")}>
-              For Pickup
+              For Release
             </Dropdown.Item>
             <Dropdown.Item onClick={() => handleSelect("completed")}>
               Completed

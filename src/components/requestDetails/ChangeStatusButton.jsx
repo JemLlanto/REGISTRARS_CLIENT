@@ -32,17 +32,17 @@ const ChangeStatusButton = ({
           documentDetails.status === "pending"
             ? "processing"
             : documentDetails.status === "processing"
-            ? "ready to pickup"
-            : documentDetails.status === "ready to pickup"
-            ? "completed"
-            : documentDetails.status === "unclaimed"
-            ? "completed"
-            : null,
+              ? "ready to pickup"
+              : documentDetails.status === "ready to pickup"
+                ? "completed"
+                : documentDetails.status === "unclaimed"
+                  ? "completed"
+                  : null,
         userID: documentDetails.userID,
         receiverEmail: documentDetails.email,
         dateRelease: documentDetails.readyToReleaseDate
           ? new Date(documentDetails.readyToReleaseDate).toLocaleDateString(
-              "en-CA"
+              "en-CA",
             )
           : "",
         feedbackType: documentDetails.feedbackType,
@@ -65,7 +65,7 @@ const ChangeStatusButton = ({
   const handleChangeStatusRequest = async () => {
     try {
       setIsLoading(true);
-      console.log("Submitting formData");
+      // console.log("Submitting formData");
       const res = await axios.post(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
@@ -73,7 +73,7 @@ const ChangeStatusButton = ({
         formData,
         {
           headers: { "Content-Type": "application/json" },
-        }
+        },
       );
 
       if (res.data.Status === "Success") {
@@ -84,7 +84,7 @@ const ChangeStatusButton = ({
             `${
               import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
             }/api/emailNotification/sendStatusUpdate`,
-            formData
+            formData,
           );
 
           if (emailRes.status === 200) {
@@ -145,16 +145,16 @@ const ChangeStatusButton = ({
       >
         <p className="m-0">
           {documentDetails.status === "pending"
-            ? "Processing"
+            ? "Preparing"
             : documentDetails.status === "processing"
-            ? "Ready to Pickup"
-            : documentDetails.status === "ready to pickup"
-            ? "Completed"
-            : documentDetails.status === "cancelled"
-            ? "Cancelled"
-            : documentDetails.status === "unclaimed"
-            ? "Completed"
-            : "Claimed"}
+              ? "For Release"
+              : documentDetails.status === "ready to pickup"
+                ? "Completed"
+                : documentDetails.status === "cancelled"
+                  ? "Cancelled"
+                  : documentDetails.status === "unclaimed"
+                    ? "Completed"
+                    : "Claimed"}
         </p>
       </button>
 
@@ -250,9 +250,9 @@ const ChangeStatusButton = ({
               <p className="m-0">
                 Are you sure you want to mark this request as{" "}
                 {documentDetails.status === "pending" ? (
-                  <>being processed</>
+                  <>being prepared</>
                 ) : documentDetails.status === "processing" ? (
-                  <>ready to pickup</>
+                  <>for release</>
                 ) : documentDetails.status === "ready to pickup" ? (
                   <>completed</>
                 ) : documentDetails.status === "unclaimed" ? (

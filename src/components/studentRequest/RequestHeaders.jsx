@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Spinner, Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { renderPaginationItems } from "../../utils/requestServices";
+import { newStatusLabel } from "../../utils/Document.helper";
 
 const getStatusColor = (status) => {
   switch (status.toLowerCase()) {
@@ -188,18 +189,7 @@ const RequestHeaders = ({ status, filteredRequests, isLoading, detecting }) => {
                         Status:
                       </h5>
                       <h5 className={`m-0 ${getStatusColor(request.status)}`}>
-                        {String(
-                          request.status === "pending"
-                            ? "received"
-                            : request.status,
-                        )
-                          .charAt(0)
-                          .toUpperCase() +
-                          String(
-                            request.status === "pending"
-                              ? "received"
-                              : request.status,
-                          ).slice(1)}
+                        {newStatusLabel(request.status)}
                       </h5>
                     </div>
                   </div>

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import CancelButton from "../../components/requestDetails/CancelButton";
 import ChangeStatusButton from "../../components/requestDetails/ChangeStatusButton";
-import ViewScheduleSlip from "../../components/requestDetails/ViewScheduleSlip";
 import InternalFeedbackDownload from "../../components/DownloadButton/InternalFeedbackDownload";
 import ExternalFeedbackDownload from "../../components/DownloadButton/ExternalFeedbackDownload";
 import { Dropdown } from "react-bootstrap";
@@ -86,7 +85,8 @@ const RequestDetailsHeader = ({
       ) : (
         <>
           {documentDetails.status === "ready to pickup" ||
-          documentDetails.status === "completed" ? (
+          documentDetails.status === "completed" ||
+          documentDetails.status === "unclaimed" ? (
             <div className="d-md-flex d-flex align-items-center justify-content-between rounded-3 p-1 mx-0">
               <div className="col-12 col-md-auto d-flex flex-column flex-md-row gap-2 ms-md-auto text-center">
                 <ScheduleSlipDownload
@@ -156,9 +156,9 @@ const RequestDetailsHeader = ({
                         >
                           <p className="m-0">
                             {documentDetails.status === "pending"
-                              ? "Processing"
+                              ? "Preparing"
                               : documentDetails.status === "processing"
-                                ? "Ready to Pickup"
+                                ? "For Release"
                                 : documentDetails.status === "ready to pickup"
                                   ? "Completed"
                                   : documentDetails.status === "cancelled"
